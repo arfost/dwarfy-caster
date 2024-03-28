@@ -215,7 +215,7 @@ export class Renderer {
         var drawStartY = -spriteHeight / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
   
         var spriteScreenX = Math.floor(this.resolution/2) * (1 + transformX / transformY);
-        var spriteWidth = Math.abs(Math.floor(this.height / transformY));
+        var spriteWidth = Math.abs(Math.floor(this.resolution / transformY));
         var drawStartX = Math.floor(-spriteWidth / 2 + spriteScreenX);
         var drawEndX = drawStartX + spriteWidth;
         
@@ -259,7 +259,7 @@ export class Renderer {
           }
           this.ctx.save();
           this.ctx.imageSmoothingEnabled = false;
-          this.ctx.drawImage(placeableSprite.image, drawXStart, 0, drawXEnd, placeableSprite.height, clipStartX, drawStartY, drawWidth, spriteHeight);
+          this.ctx.drawImage(placeableSprite.image, drawXStart*this.spacing, 0, drawXEnd, placeableSprite.height, clipStartX*this.spacing, drawStartY, drawWidth*this.spacing, spriteHeight);
           this.ctx.restore();
         }
       }

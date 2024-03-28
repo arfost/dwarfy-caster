@@ -13,7 +13,7 @@ async function initGame(){
   const player = new Player({x:11, y:7, z:5}, Math.PI * 0.3);
   const map = new GameMap(10);
   const controls = new Controls();
-  const renderer = new Renderer(display, 640);
+  const renderer = new Renderer(display, 320);
   await renderer.initTextures();
   const raycaster = new Raycaster(20);
 
