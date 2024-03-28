@@ -16,7 +16,7 @@ export class Game {
     var seconds = (time - this.lastTime) / 1000;
     this.lastTime = time;
     this.callback(seconds, this.ctx);
-    this.ctx.fillStyle = '#000';
+    this.ctx.fillStyle = '#ff6600';
     this.ctx.fillText(Math.round(1 / seconds) + ' fps', 10, 26);
     requestAnimationFrame(this.frame);
   };

@@ -74,9 +74,9 @@ const DEMO_MAP2 = [
   [
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    4, 0, 1, 0, 2, 0, 3, 0,
+    4, 0, 0, 1, 0, 0, 0, 0,
+    5, 0, 0, 0, 0, 0, 0, 0,
+    4, 0, 1, 5, 5, 1, 3, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0
@@ -92,7 +92,14 @@ export class GameMap {
     for (let z = 0; z < this.heigthModifier; z++) {
       this.map.push(...DEMO_MAP2);
     }
-    this.size = { x: 32, y: 32, z: DEMO_MAP.length * this.heigthModifier };
+    this.size = { x: 8, y: 8, z: DEMO_MAP2.length * this.heigthModifier };
+
+    this.placeables = [];
+    for(let i = 0; i < this.size.z; i++) {
+      this.placeables.push([]);
+    }
+
+    this.placeables[0].push({type: 0, x: 3.5, y: 3.5});
 
     this.cellProperties = [
       false,
@@ -106,14 +113,24 @@ export class GameMap {
         heightRatio: 0.5
       },
       {
-        texture: "wall_construction",
+        texture: "floor_default",
         heightRatio: 0.25
       },
       {
-        texture: "wall_soil",
+        texture: "floor_default",
         heightRatio: 0.05
+      },
+      {
+        texture: "sprite_door",
+        heightRatio: 1,
+        stopView: true,
+        thinWall: true
       }
     ]
+
+    this.placeableProperties = [{
+      sprite: "sprite_coffer",
+    }];
   }
 
   get wallGrids() {
@@ -129,6 +146,10 @@ export class GameMap {
 
   getCellProperties(type) {
     return this.cellProperties[type];
+  }
+
+  getPlaceableProperties(type) {
+    return this.placeableProperties[type];
   }
 
 }

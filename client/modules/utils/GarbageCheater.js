@@ -20,7 +20,7 @@ export class GarbageCheater{
   }
 
   has(index){
-    return this.currentIndex >= index;
+    return this.currentIndex > index;
   }
 
   get length(){
