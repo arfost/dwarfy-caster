@@ -212,11 +212,11 @@ export class Renderer {
   
       if (transformY > 0) { //No need for the rest if the sprite is behind the player
   
-        var spriteHeight = Math.abs(Math.floor(this.height/transformY));
-        var drawStartY = -spriteHeight / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
+        var spriteHeight = Math.abs(Math.floor(this.height/2/transformY));
+        var drawStartY = -(spriteHeight/2) / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
   
         var spriteScreenX = Math.floor(this.resolution/2) * (1 + transformX / transformY);
-        var spriteWidth = Math.abs(Math.floor(this.resolution / transformY));
+        var spriteWidth = Math.abs(Math.floor(this.resolution/2 / transformY));
         var drawStartX = Math.floor(-spriteWidth / 2 + spriteScreenX);
         var drawEndX = drawStartX + spriteWidth;
         
