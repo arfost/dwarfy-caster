@@ -157,13 +157,14 @@ export class Renderer {
   }
 
   drawRay(rayResult, x, player, zOffset = 0) {
-    if(zOffset === 0 && rayResult.length > 0){
-      this.zBuffer[x] = rayResult.read(rayResult.length - 1).distance;
-    }
     for (let i = rayResult.length - 1; i >= 0; i--) {
       //console.log("drawRay", rayResult[i], x, player);
       let hit = rayResult.read(i);
       if (hit.cellInfos === false || hit.distance === 0) continue;
+
+      if(zOffset === 0 && hit.cellInfos.stopView){
+        this.zBuffer[x] = hit.distance;
+      }
 
       let height = this.height / Math.abs(hit.distance);
       let top = (((this.height + height) / 2) - height * hit.cellInfos.heightRatio) + (height * -zOffset) + (height * player.zRest);
