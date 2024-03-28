@@ -39,14 +39,39 @@ const COLORS = {
 }
 
 const textures = {
-  "wall_default": "assets/textures/wall_default.png",
-  "wall_soil": "assets/textures/wall_soil.png",
+  "branch_default": "assets/textures/branch_default.png",
+  "door_default": "assets/textures/door_default.png",
+  "feuillage_default": "assets/textures/feuillage_default.png",
   "floor_default": "assets/textures/floor_default.png",
-  "sprite_door": "assets/textures/sprite_door.png",
+  "fortification_default": "assets/textures/fortification_default.png",
+  "slope_construction": "assets/textures/slope_construction.png",
+  "slope_smooth_stone": "assets/textures/slope_smooth_stone.png",
+  "slope_soil": "assets/textures/slope_soil.png",
+  "slope_stone_rough": "assets/textures/slope_stone_rough.png",
+  "slope_wood": "assets/textures/slope_wood.png",
+  "stairs_construction": "assets/textures/stairs_construction.png",
+  "stairs_smooth_stone": "assets/textures/stairs_smooth_stone.png",
+  "stairs_soil": "assets/textures/stairs_soil.png",
+  "stairs_stone_rough": "assets/textures/stairs_stone_rough.png",
+  "stairs_wood": "assets/textures/stairs_wood.png",
+  "wall_construction": "assets/textures/wall_construction.png",
+  "wall_default": "assets/textures/wall_default.png",
+  "wall_smooth_stone": "assets/textures/wall_smooth_stone.png",
+  "wall_soil": "assets/textures/wall_soil.png",
+  "wall_stone_rough": "assets/textures/wall_stone_rough.png",
+  "wall_wood": "assets/textures/wall_wood.png",
+  "wallbar_default": "assets/textures/wallbar_default.png",
 }
 
 const sprites = {
+  "sprite_altar": "assets/sprites/sprite_altar.png",
+  "sprite_bed": "assets/sprites/sprite_bed.png",
+  "sprite_cabinet": "assets/sprites/sprite_cabinet.png",
+  "sprite_chair": "assets/sprites/sprite_chair.png",
   "sprite_coffer": "assets/sprites/sprite_coffer.png",
+  "sprite_statue": "assets/sprites/sprite_statue.png",
+  "sprite_table": "assets/sprites/sprite_table.png",
+  "sprite_door": "assets/sprites/sprite_statue.png",
 }
 
 export class Renderer {
@@ -86,6 +111,9 @@ export class Renderer {
     for (let key in this.textures) {
       await this.textures[key].imageLoaded;
     }
+    for (let key in this.sprites) {
+      await this.sprites[key].imageLoaded;
+    }
   }
 
   adjustBrightness(color, amount) {
@@ -99,8 +127,6 @@ export class Renderer {
   }
 
   render(player, map, raycaster) {
-    this.callToPixels = 0;
-    this.drawnPixels = 0;
 
     this.ctx.fillStyle = '#000';
     this.ctx.globalAlpha = 1;
@@ -130,12 +156,6 @@ export class Renderer {
 
   _drawTexturedColumn(x, top, height, distance, image, offset, side) {
     let texX = Math.abs(Math.floor(offset * image.width));
-
-    // let pixels = image.bandes[texX][side];
-
-    // //this.ctx.putImageData(pixels, x * this.spacing, Math.floor(top));
-
-    // this.ctx.drawImage(pixels, x * this.spacing, top, this.spacing, height);
     
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x*this.spacing, top, this.spacing, height);
     if(side === 0){
@@ -187,8 +207,11 @@ export class Renderer {
         }
       }
 
-      this._drawTexturedColumn(x, top, height * hit.cellInfos.heightRatio, hit.distance, this.textures[hit.cellInfos.texture], hit.offset, hit.side);
-      // this._drawWireframeColumn(x, top, height*hit.cellInfos.heightRatio, hit.distance, COLORS.red, hit.side);
+      if(hit.cellInfos.texture){
+        this._drawTexturedColumn(x, top, height * hit.cellInfos.heightRatio, hit.distance, this.textures[hit.cellInfos.texture], hit.offset, hit.side);
+      }else{
+        this._drawWireframeColumn(x, top, height*hit.cellInfos.heightRatio, hit.distance, COLORS.red, hit.side);
+      }
     }
   }
 

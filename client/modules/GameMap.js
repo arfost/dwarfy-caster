@@ -70,90 +70,42 @@ const DEMO_MAP =
     ]
   ]
 
-const DEMO_MAP2 = [
-  [
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    4, 0, 0, 1, 0, 0, 0, 0,
-    5, 0, 0, 0, 0, 0, 0, 0,
-    4, 0, 1, 5, 5, 1, 3, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0
-  ]
-]
-
 export class GameMap {
 
-  constructor(heigthModifier) {
-    this.heigthModifier = heigthModifier;
+  constructor(mapLoader, startCoord) {
+    this.mapLoader = mapLoader;
+    this.size = mapLoader.mapInfos.size;
+    this.light = 3;
 
-    this.map = [];
-    for (let z = 0; z < this.heigthModifier; z++) {
-      this.map.push(...DEMO_MAP);
+    const chunkCoord = this.playerCoordToMapCoord(startCoord);
+    this.ready = this.mapLoader.loadChunk(chunkCoord.x-mapLoader.CHUNK_SIZE, chunkCoord.y-mapLoader.CHUNK_SIZE, chunkCoord.z-mapLoader.CHUNK_SIZE, mapLoader.CHUNK_SIZE*2+1);
+
+    const chunkLength = mapLoader.BLOCK_SIZE * (mapLoader.CHUNK_SIZE);
+    const chunkLengthZ = mapLoader.BLOCK_SIZE_Z * (mapLoader.CHUNK_SIZE);
+
+    this.nextChunks = {
+      xMin: startCoord.x - chunkLength/2,
+      xMax: startCoord.x + chunkLength/2,
+      yMin: startCoord.y - chunkLength/2,
+      yMax: startCoord.y + chunkLength/2,
+      zMin: startCoord.z - chunkLengthZ/2,
+      zMax: startCoord.z + chunkLengthZ/2,
+      chunkLength,
+      chunkLengthZ
     }
-    this.size = { x: 32, y: 32, z: DEMO_MAP.length * this.heigthModifier };
+    console.log("chunks init", this.nextChunks);
 
-    this.placeables = [];
-    for (let i = 0; i < this.size.z; i++) {
-      this.placeables.push([]);
-    }
-
-    this.placeables[0].push(
-      { type: 0, x: 6.5, y: 6 }, 
-      { type: 0, x: 6.5, y: 8 }, 
-      { type: 0, x: 6.5, y: 10 }, 
-      { type: 0, x: 6.5, y: 12 }, 
-      { type: 0, x: 6.5, y: 14 }, 
-      { type: 0, x: 6.5, y: 16 }, 
-      { type: 0, x: 6.5, y: 18 }, 
-      { type: 0, x: 6.5, y: 20 }, 
-      { type: 0, x: 8.5, y: 6 }, 
-      { type: 0, x: 8.5, y: 8 }
-    );
-
-    this.cellProperties = [
-      false,
-      {
-        texture: "wall_default",
-        heightRatio: 1,
-        stopView: true
-      },
-      {
-        texture: "wall_soil",
-        heightRatio: 0.5
-      },
-      {
-        texture: "floor_default",
-        heightRatio: 0.25
-      },
-      {
-        texture: "floor_default",
-        heightRatio: 0.05
-      },
-      {
-        texture: "sprite_door",
-        heightRatio: 1,
-        stopView: true,
-        thinWall: true
-      }
-    ]
-
-    this.placeableProperties = [{
-      sprite: "sprite_coffer",
-    }];
+    this.cellProperties = mapLoader.cellProperties.cellDefinitions;
+    this.placeableProperties = mapLoader.placeableProperties.placeableDefinitions;
   }
 
-  get wallGrids() {
-    return this.map;
+  get placeables() {
+    return this.mapLoader.placeables;
   }
 
-  getWall(x, y, z) {
-    x = Math.floor(x);
-    y = Math.floor(y);
-    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
-    return this.wallGrids[z][y * this.size.x + x];
-  };
+  get wallGrids(){
+    return this.mapLoader.map;
+  }
 
   getCellProperties(type) {
     return this.cellProperties[type];
@@ -163,4 +115,72 @@ export class GameMap {
     return this.placeableProperties[type];
   }
 
+  getWall(x, y, z) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
+    return this.wallGrids[z][y * this.size.x + x];
+  };
+
+  playerCoordToMapCoord(player) {
+    return {
+      x: Math.floor(player.x / this.mapLoader.BLOCK_SIZE),
+      y: Math.floor(player.y / this.mapLoader.BLOCK_SIZE),
+      z: Math.floor(player.z / this.mapLoader.BLOCK_SIZE_Z)
+    }
+  }
+
+  getNextChunks(direction, player) {
+    const chunkCoord = this.playerCoordToMapCoord(player);
+    switch (direction) {
+      case "up":
+        chunkCoord.z += this.mapLoader.CHUNK_SIZE*2;
+        this.nextChunks.zMax += this.nextChunks.chunkLengthZ;
+        break;
+      case "down":
+        chunkCoord.z -= this.mapLoader.CHUNK_SIZE*2;
+        this.nextChunks.zMin -= this.nextChunks.chunkLengthZ;
+        break;
+      case "forward":
+        chunkCoord.x += this.mapLoader.CHUNK_SIZE*2;
+        this.nextChunks.xMax += this.nextChunks.chunkLength;
+        break;
+      case "backward":
+        chunkCoord.x -= this.mapLoader.CHUNK_SIZE*2;
+        this.nextChunks.xMin -= this.nextChunks.chunkLength;
+        break;
+      case "left":
+        chunkCoord.y += this.mapLoader.CHUNK_SIZE*2;
+        this.nextChunks.yMax += this.nextChunks.chunkLength;
+        break;
+      case "right":
+        chunkCoord.y -= this.mapLoader.CHUNK_SIZE*2;
+        this.nextChunks.yMin -= this.nextChunks.chunkLength;
+        break;
+    }
+    this.mapLoader.loadChunk(chunkCoord.x-this.mapLoader.CHUNK_SIZE, chunkCoord.y-this.mapLoader.CHUNK_SIZE, chunkCoord.z-this.mapLoader.CHUNK_SIZE, this.mapLoader.CHUNK_SIZE*2+1);
+    
+  }
+
+  update(seconds, player) {
+    if(player.y> this.nextChunks.yMax){
+      this.getNextChunks("left", player);
+    }
+    if(player.y< this.nextChunks.yMin){
+      this.getNextChunks("right", player);
+    }
+    if(player.x> this.nextChunks.xMax){
+      this.getNextChunks("forward", player);
+    }
+    if(player.x< this.nextChunks.xMin){
+      this.getNextChunks("backward", player);
+    }
+    if(player.z> this.nextChunks.zMax){
+      this.getNextChunks("up", player);
+    }
+    if(player.z< this.nextChunks.zMin){
+      this.getNextChunks("down", player);
+    }
+  }
 }
+

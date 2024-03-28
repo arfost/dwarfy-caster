@@ -14,7 +14,7 @@ export class Raycaster {
         offset: 0,
         side: 0,
         z: 0
-      }}, 200, 50);
+      }}, 100, 50);
   }
 
   cast(player, cameraX, map, zLevel = 0) {
