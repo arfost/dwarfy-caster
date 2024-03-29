@@ -1,4 +1,4 @@
-import { prepareCellDefinitions, preparePlaceableDefinitions } from "./ObjectDefinitions.js";
+import { prepareDefinitions } from "./ObjectDefinitions.js";
 
 const DEFAULT_MAP = [
   [
@@ -6,7 +6,7 @@ const DEFAULT_MAP = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 23, 23, 23, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 2, 23, 3, 23, 4, 0, 5, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 15, 0, 16, 0, 17,
+    0, 2, 23, 3, 23, 4, 0, 5, 0, 6, 0, 7, 29, 8, 0, 9, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 15, 0, 16, 0, 17,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -94,9 +94,9 @@ export class DefaultMapLoader {
 
   async initMap() {
 
-    this.cellProperties = prepareCellDefinitions();
-    this.placeableProperties = preparePlaceableDefinitions();
-    console.log("object Properties", this.cellProperties, this.placeableProperties);
+    this.definitions = prepareDefinitions();
+    console.log("blockProperties", this.definitions);
+
     this.map = [];
     for (let z = 0; z < this.heigthModifier; z++) {
       this.map.push(...DEFAULT_MAP);
@@ -139,9 +139,8 @@ export class DfMapLoader {
 
   async initMap() {
 
-    this.cellProperties = prepareCellDefinitions();
-    this.placeableProperties = preparePlaceableDefinitions();
-    console.log("blockProperties", this.cellProperties);
+    this.definitions = prepareDefinitions();
+    console.log("blockProperties", this.definitions);
 
     await this.ready();
 
@@ -162,9 +161,9 @@ export class DfMapLoader {
     console.log(tileTypeList);
 
     return {
-      x: 48,
-      y: 123,
-      z: 152
+      x: 46,
+      y: 120,
+      z: 154
     }
   }
 
@@ -195,47 +194,67 @@ export class DfMapLoader {
             console.log("Tile type not found for", block.tiles[index]);
             continue;
           }
-          this.map[basePosition.z][((basePosition.y + y) * this.mapInfos.size.x) + basePosition.x + x] = this._mapDFInfosToBlock(tileType.shape, tileType.material, tileType.special, this.cellProperties.correspondances);
+          this._correspondanceResultToMapInfos(this._mapDFTileInfosToCell(tileType.shape, tileType.material, tileType.special), basePosition.x + x, basePosition.y + y, basePosition.z);
         }
       }
       for (let building of block.buildings || []) {
-        if (building.buildingType && this.placeableProperties.correspondances[building.buildingType.buildingType]) {
-          this.placeables[building.posZMin].push({
-            x: building.posXMin + 0.5,
-            y: building.posYMin + 0.5,
-            type: this.placeableProperties.correspondances[building.buildingType.buildingType]
-          });
+        if (building.buildingType && this.definitions.buildingCorrespondances[building.buildingType.buildingType]) {
+          this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[building.buildingType.buildingType], building.posXMin, building.posYMin, building.posZMin);
         }
       }
     }
     console.log("Block groub loaded", blocks);
   }
 
-  _mapDFInfosToBlock(shape, material, special) {
+  _correspondanceResultToMapInfos(correspondanceResult, posX, posY, posZ) {
+    if(!correspondanceResult){
+      return;
+    }
+    if(correspondanceResult.cell){
+      if(correspondanceResult.cell === 29){
+        console.log("found a door", posX, posY, posZ, "at", this.map[posZ][posY * this.mapInfos.size.x + posX], "replacing by 29");
+      }
+      if(this.map[posZ][posY * this.mapInfos.size.x + posX] === 0){
+        this.map[posZ][posY * this.mapInfos.size.x + posX] = correspondanceResult.cell;
+      }
+    }
+    if(correspondanceResult.placeable){
+      this.placeables[posZ].push({
+        x: posX + 0.5,
+        y: posY + 0.5,
+        type: correspondanceResult.placeable
+      });
+    }
+  }
+
+
+  _mapDFTileInfosToCell(shape, material, special) {
     if (shape == -1 || shape == 0) {
-      return 0;
+      return;
     }
     let key = `${shape},${material},${special}`;
 
-    if (this.cellProperties.correspondances[key] !== undefined) {
-      return this.cellProperties.correspondances[key];
+    if (this.definitions.tileCorrespondances[key] !== undefined) {
+      return this.definitions.tileCorrespondances[key];
     }
 
     key = `${shape},${material},-1`;
 
-    if (this.cellProperties.correspondances[key] !== undefined) {
-      return this.cellProperties.correspondances[key];
+    if (this.definitions.tileCorrespondances[key] !== undefined) {
+      return this.definitions.tileCorrespondances[key];
     }
 
     key = `${shape},-1,-1`;
 
-    if (this.cellProperties.correspondances[key] !== undefined) {
-      return this.cellProperties.correspondances[key];
+    if (this.definitions.tileCorrespondances[key] !== undefined) {
+      return this.definitions.tileCorrespondances[key];
     }
 
     console.log("no last correspondance for", key, shape, material, special);
 
-    return 1;
+    return {
+      cell: 1
+    };
   }
 }
 

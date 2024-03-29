@@ -20,13 +20,15 @@ async function initGame(){
   const controls = new Controls();
   const renderer = new Renderer(display, 320);
   await renderer.initTextures();
-  const raycaster = new Raycaster(20);
+  const raycaster = new Raycaster(15);
 
   const game = new Game(display);
-  game.start((seconds) => {
+  game.start((seconds, ctx) => {
     map.update(seconds, player);
     player.update(controls.states, map, seconds);
     renderer.render(player, map, raycaster);
+    ctx.fillStyle = '#ff6600';
+    ctx.fillText(`x:${player.x}, y:${player.y}, z:${player.z}`, 10, 50);
   });
 }
 

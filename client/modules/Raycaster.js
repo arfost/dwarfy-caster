@@ -47,7 +47,7 @@ export class Raycaster {
       sideDistX = (player.x - mapX) * deltaDistX;
     }else {
       stepX = 1;
-      sideDistX = (mapX + 1.0 - player.x) * deltaDistX;
+      sideDistX = (mapX + 1 - player.x) * deltaDistX;
     }
 
     if (rayDirY < 0) {
@@ -55,7 +55,7 @@ export class Raycaster {
       sideDistY = (player.y - mapY) * deltaDistY;
     }else {
       stepY = 1;
-      sideDistY = (mapY + 1.0 - player.y) * deltaDistY;
+      sideDistY = (mapY + 1 - player.y) * deltaDistY;
     }
 
     //perform DDA

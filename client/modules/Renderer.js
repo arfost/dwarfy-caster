@@ -26,7 +26,7 @@ function combSort(order, dist, amount) {
 const COLORS = {
   white: [255, 255, 255, 255],
   black: [0, 0, 0, 255],
-  red: [255, 0, 0, 255],
+  red: [255, 0, 0, 128],
   green: [0, 255, 0, 128],
   blue: [0, 0, 255, 128],
   yellow: [255, 255, 0, 255],
@@ -71,7 +71,7 @@ const sprites = {
   "sprite_coffer": "assets/sprites/sprite_coffer.png",
   "sprite_statue": "assets/sprites/sprite_statue.png",
   "sprite_table": "assets/sprites/sprite_table.png",
-  "sprite_door": "assets/sprites/sprite_statue.png",
+  "sprite_stairs": "assets/sprites/sprite_chair.png",
 }
 
 export class Renderer {
@@ -133,14 +133,14 @@ export class Renderer {
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     let playerZ = Math.floor(player.z);
-    for (let offset = 3; offset > 0; offset--) {
-      if (map.wallGrids[playerZ - offset]) {
-        this.renderColumn(raycaster, player, map, -offset);
-      }
-      if (map.wallGrids[playerZ + offset]) {
-        this.renderColumn(raycaster, player, map, offset);
-      }
-    }
+    // for (let offset = 3; offset > 0; offset--) {
+    //   if (map.wallGrids[playerZ - offset]) {
+    //     this.renderColumn(raycaster, player, map, -offset);
+    //   }
+    //   if (map.wallGrids[playerZ + offset]) {
+    //     this.renderColumn(raycaster, player, map, offset);
+    //   }
+    // }
     this.renderColumn(raycaster, player, map);
     this.drawSprites(player, map.placeables[playerZ], map);
   }
@@ -158,10 +158,10 @@ export class Renderer {
     let texX = Math.abs(Math.floor(offset * image.width));
     
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x*this.spacing, top, this.spacing, height);
-    if(side === 0){
-      this.ctx.fillStyle = 'rgba(0,0,0,0.5)';
-      this.ctx.fillRect(x*this.spacing, top, this.spacing, height);
-    }
+    // if(side === 0){
+    //   this.ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    //   this.ctx.fillRect(x*this.spacing, top, this.spacing, height);
+    // }
       
   }
 
@@ -206,7 +206,7 @@ export class Renderer {
           this._drawWireframeColumn(x, top + height*hit.cellInfos.heightRatio, backTop + backHeight*hit.cellInfos.heightRatio - top - height*hit.cellInfos.heightRatio, backHit.distance, COLORS.darkGray, 0);
         }
       }
-
+      
       if(hit.cellInfos.texture){
         this._drawTexturedColumn(x, top, height * hit.cellInfos.heightRatio, hit.distance, this.textures[hit.cellInfos.texture], hit.offset, hit.side);
       }else{

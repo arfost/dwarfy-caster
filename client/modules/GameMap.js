@@ -95,8 +95,8 @@ export class GameMap {
     }
     console.log("chunks init", this.nextChunks);
 
-    this.cellProperties = mapLoader.cellProperties.cellDefinitions;
-    this.placeableProperties = mapLoader.placeableProperties.placeableDefinitions;
+    this.cellProperties = mapLoader.definitions.cellDefinitions;
+    this.placeableProperties = mapLoader.definitions.placeableDefinitions;
   }
 
   get placeables() {
