@@ -148,8 +148,8 @@ export class Renderer {
   renderColumn(raycaster, player, map, offset = 0) {
     for (let i = 0; i < this.resolution; i++) {
       let cameraX = 2 * i / this.resolution - 1; //x-coordinate in camera space
-
-      let rayResult = raycaster.cast(player, cameraX, map);
+      let layerZ = Math.floor(player.z) + offset;
+      let rayResult = raycaster.cast(player, cameraX, map, layerZ);
       this.drawRay(rayResult, i, player, offset);
     }
   }
