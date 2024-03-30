@@ -20,7 +20,7 @@ async function initGame(){
   const controls = new Controls();
   const renderer = new Renderer(display, 320);
   await renderer.initTextures();
-  const raycaster = new Raycaster(15);
+  const raycaster = new Raycaster(25);
 
   const game = new Game(display);
   game.start((seconds, ctx) => {

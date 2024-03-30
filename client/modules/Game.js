@@ -13,7 +13,7 @@ export class Game {
   };
 
   frame(time) {
-    var seconds = (time - this.lastTime) / 1000;
+    const seconds = (time - this.lastTime) / 1000;
     this.lastTime = time;
     this.callback(seconds, this.ctx);
     this.ctx.fillStyle = '#ff6600';

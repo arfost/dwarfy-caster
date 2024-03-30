@@ -10,7 +10,7 @@ export class Controls {
   }
 
   onKey(val, e) {
-    var state = this.codes[e.keyCode];
+    const state = this.codes[e.keyCode];
     if (typeof state === 'undefined') return;
     this.states[state] = val;
     e.preventDefault && e.preventDefault();

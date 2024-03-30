@@ -3,23 +3,27 @@ import { GarbageCheater } from "./utils/GarbageCheater.js";
 export class Raycaster {
 
   constructor(range) {
-    
+
     this.range = range;
 
     this.stepArray = new GarbageCheater(() => {
       return {
         step: 0,
+        backDistance: 0,
+        backOffset: 0,
+        backSide: 0,
         distance: 0,
-        cellInfos: null,
         offset: 0,
         side: 0,
-        z: 0
-      }}, 100, 50);
+        cellInfos: null,
+        ceiling: null,
+      }
+    }, 100, 50);
   }
 
   cast(player, cameraX, map, zLevel = 0) {
     this.stepArray.reset();
-    
+
     let rayDirX = player.dirX + player.planeX * cameraX;
     let rayDirY = player.dirY + player.planeY * cameraX;
 
@@ -31,7 +35,7 @@ export class Raycaster {
     let sideDistX;
     let sideDistY;
 
-     //length of ray from one x or y-side to next x or y-side
+    //length of ray from one x or y-side to next x or y-side
     let deltaDistX = (1 / Math.abs(rayDirX));
     let deltaDistY = (1 / Math.abs(rayDirY));
 
@@ -45,7 +49,7 @@ export class Raycaster {
     if (rayDirX < 0) {
       stepX = -1;
       sideDistX = (player.x - mapX) * deltaDistX;
-    }else {
+    } else {
       stepX = 1;
       sideDistX = (mapX + 1 - player.x) * deltaDistX;
     }
@@ -53,7 +57,7 @@ export class Raycaster {
     if (rayDirY < 0) {
       stepY = -1;
       sideDistY = (player.y - mapY) * deltaDistY;
-    }else {
+    } else {
       stepY = 1;
       sideDistY = (mapY + 1 - player.y) * deltaDistY;
     }
@@ -61,90 +65,145 @@ export class Raycaster {
     //perform DDA
     let step = 0;
     let registerBackWall = false;
+
     while (step <= this.range) {
+
       step++;
       //jump to next map square, either in x-direction, or in y-direction
       if (sideDistX < sideDistY) {
         sideDistX += deltaDistX;
         mapX += stepX;
         side = 0;
-      }else {
+      } else {
         sideDistY += deltaDistY;
         mapY += stepY;
         side = 1;
       }
 
+      if (registerBackWall) {
+        this._backWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY);
+      }
+      const mapCell = map.getWall(mapX, mapY, zLevel);
       //Check if ray has hit a wall
-      if (registerBackWall || map.getWall(mapX, mapY, zLevel) > 0) {
+      if (mapCell > 0) {
         //console.log("here is a wall");
-        let cellInfos = map.getCellProperties(map.getWall(mapX, mapY, zLevel)) || false;
+        let cellInfos = map.getCellProperties(mapCell);
 
+        if (cellInfos.thinWall) {
+          registerBackWall = this._thinWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY, cellInfos, stepX, stepY, mapX, mapY);
+        } else {
+          registerBackWall = this._normalWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY, cellInfos);
+        }
+
+        if (!registerBackWall) {
+          break;
+        }
+      } else if (mapCell === 0) {
+        //console.log("no wall", mapX, mapY, zLevel, mapCell);
         let perpWallDist;
         let wallX; //where exactly the wall was hit
-
-        if(cellInfos && cellInfos.thinWall) {
-          if (side == 1) {
-            let wallYOffset = 0.5 * stepY;
-            perpWallDist = (mapY - player.y + wallYOffset + (1 - stepY) / 2) / rayDirY;
-            wallX = player.x + perpWallDist * rayDirX;
-            wallX -= Math.floor(wallX);
-            if (sideDistY - (deltaDistY/2) < sideDistX) { //If ray hits offset wall
-              let stepInfos = this.stepArray.getCurrent();
-              stepInfos.distance = perpWallDist;
-              stepInfos.cellInfos = cellInfos;
-              stepInfos.offset = wallX;
-              stepInfos.side = side;
-
-              step = cellInfos && cellInfos.stopView ? this.range : step;
-              registerBackWall = false;
-              continue;
-            }else{
-              registerBackWall = true;
-              continue;
-            }
-          } else { //side == 0
-            let wallXOffset = 0.5 * stepX;
-            perpWallDist  = (mapX - player.x + wallXOffset + (1 - stepX) / 2) / rayDirX;
-            wallX = player.y + perpWallDist * rayDirY;
-            wallX -= Math.floor(wallX);
-            if (sideDistX - (deltaDistX/2) < sideDistY) {
-              let stepInfos = this.stepArray.getCurrent();
-              stepInfos.distance = perpWallDist;
-              stepInfos.cellInfos = cellInfos;
-              stepInfos.offset = wallX;
-              stepInfos.side = side;
-
-              step = cellInfos && cellInfos.stopView ? this.range : step;
-              
-              registerBackWall = false;
-              continue;
-            }else{
-              registerBackWall = true;
-              continue;
-            }
-          }
-        }
-        
-        registerBackWall = cellInfos ? true : false;
-        if(side == 0) {
+        if (side == 0) {
           perpWallDist = (sideDistX - deltaDistX);
           wallX = player.y + perpWallDist * rayDirY;
-        }else {
+        } else {
           perpWallDist = (sideDistY - deltaDistY);
           wallX = player.x + perpWallDist * rayDirX;
         };
-        
-        wallX -= Math.floor(wallX);
-        let stepInfos = this.stepArray.getCurrent();
+        const stepInfos = this.stepArray.getCurrent();
         stepInfos.distance = perpWallDist;
-        stepInfos.cellInfos = cellInfos;
-        stepInfos.offset = wallX;
+        stepInfos.cellInfos = false;
+        stepInfos.offset = wallX - Math.floor(wallX);;
         stepInfos.side = side;
+      }
 
-        step = cellInfos && cellInfos.stopView ? this.range : step;
+      const mapCellZ = map.getWall(mapX, mapY, zLevel + 1);
+      if (mapCellZ > 0 && this.stepArray.length > 0) {
+        let cellInfos = map.getCellProperties(mapCellZ);
+        let stepInfos = this.stepArray.read(this.stepArray.length - 1);
+        stepInfos.ceiling = cellInfos;
       }
     }
     return this.stepArray;
+  }
+
+
+
+  _backWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY) {
+    if (this.stepArray.length === 0) return;
+    let perpWallDist;
+    let wallX; //where exactly the wall was hit
+    if (side == 0) {
+      perpWallDist = (sideDistX - deltaDistX);
+      wallX = player.y + perpWallDist * rayDirY;
+    } else {
+      perpWallDist = (sideDistY - deltaDistY);
+      wallX = player.x + perpWallDist * rayDirX;
+    };
+    let stepInfos = this.stepArray.read(this.stepArray.length - 1);
+    stepInfos.backDistance = perpWallDist;
+    stepInfos.backOffset = wallX - Math.floor(wallX);
+    stepInfos.backSide = side;
+  }
+
+
+  _thinWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY, cellInfos, stepX, stepY, mapX, mapY) {
+    let perpWallDist;
+    let wallX; //where exactly the wall was hit
+    if (side == 1) {
+      let wallYOffset = 0.5 * stepY;
+      perpWallDist = (mapY - player.y + wallYOffset + (1 - stepY) / 2) / rayDirY;
+      wallX = player.x + perpWallDist * rayDirX;
+      if (sideDistY - (deltaDistY / 2) < sideDistX) { //If ray hits offset wall
+        let stepInfos = this.stepArray.getCurrent();
+        stepInfos.distance = perpWallDist;
+        stepInfos.cellInfos = cellInfos;
+        stepInfos.offset = wallX - Math.floor(wallX);;
+        stepInfos.side = side;
+
+        stepInfos.backDistance = 0;
+
+        return !(!!cellInfos.stopView);
+      } else {
+        return true;
+      }
+    } else { //side == 0
+      let wallXOffset = 0.5 * stepX;
+      perpWallDist = (mapX - player.x + wallXOffset + (1 - stepX) / 2) / rayDirX;
+      wallX = player.y + perpWallDist * rayDirY;
+      if (sideDistX - (deltaDistX / 2) < sideDistY) {
+        let stepInfos = this.stepArray.getCurrent();
+        stepInfos.distance = perpWallDist;
+        stepInfos.cellInfos = cellInfos;
+        stepInfos.offset = wallX - Math.floor(wallX);
+        stepInfos.side = side;
+
+        stepInfos.backDistance = 0;
+
+        return !(!!cellInfos.stopView);
+      } else {
+        return true;
+      }
+    }
+  }
+
+  _normalWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY, cellInfos) {
+    let perpWallDist;
+    let wallX; //where exactly the wall was hit
+    if (side == 0) {
+      perpWallDist = (sideDistX - deltaDistX);
+      wallX = player.y + perpWallDist * rayDirY;
+    } else {
+      perpWallDist = (sideDistY - deltaDistY);
+      wallX = player.x + perpWallDist * rayDirX;
+    };
+
+    let stepInfos = this.stepArray.getCurrent();
+    stepInfos.distance = perpWallDist;
+    stepInfos.cellInfos = cellInfos;
+    stepInfos.offset = wallX - Math.floor(wallX);
+    stepInfos.side = side;
+    stepInfos.backDistance = 0;
+    return !(!!cellInfos.stopView);
   }
 
 }

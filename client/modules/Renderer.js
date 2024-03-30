@@ -1,26 +1,28 @@
 import { Bitmap } from "./Bitmap.js";
 
+const randomTint = () => Math.floor(Math.random() * 256);
+
 function combSort(order, dist, amount) {
-	var gap = amount;
-	var swapped = false;
-	while(gap > 1 || swapped) {
-		gap = Math.floor((gap * 10) / 13);
-		if (gap == 9 || gap == 10) {
-			gap = 11;
-		}
-		if (gap < 1) {
-			gap = 1;
-		}
-		swapped = false;
-		for (var i=0; i<amount - gap; i++) {
-			var j = i + gap;
-			if (dist[i] < dist[j]) {
-				[dist[i], dist[j]] = [dist[j], dist[i]]; //Swap distances
-				[order[i], order[j]] = [order[j], order[i]]; //Swap sort order
-				swapped = true;
-			}
-		}
-	}
+  let gap = amount;
+  let swapped = false;
+  while (gap > 1 || swapped) {
+    gap = Math.floor((gap * 10) / 13);
+    if (gap == 9 || gap == 10) {
+      gap = 11;
+    }
+    if (gap < 1) {
+      gap = 1;
+    }
+    swapped = false;
+    for (let i = 0; i < amount - gap; i++) {
+      const j = i + gap;
+      if (dist[i] < dist[j]) {
+        [dist[i], dist[j]] = [dist[j], dist[i]]; //Swap distances
+        [order[i], order[j]] = [order[j], order[i]]; //Swap sort order
+        swapped = true;
+      }
+    }
+  }
 }
 
 const COLORS = {
@@ -128,12 +130,12 @@ export class Renderer {
 
   render(player, map, raycaster) {
 
-    this.ctx.fillStyle = '#000';
+    this.ctx.fillStyle = '#0066ff';
     this.ctx.globalAlpha = 1;
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     let playerZ = Math.floor(player.z);
-    // for (let offset = 3; offset > 0; offset--) {
+    // for (let offset = 4; offset > 0; offset--) {
     //   if (map.wallGrids[playerZ - offset]) {
     //     this.renderColumn(raycaster, player, map, -offset);
     //   }
@@ -156,13 +158,13 @@ export class Renderer {
 
   _drawTexturedColumn(x, top, height, distance, image, offset, side) {
     let texX = Math.abs(Math.floor(offset * image.width));
-    
-    this.ctx.drawImage(image.image, texX, 0, 1, image.height, x*this.spacing, top, this.spacing, height);
-    // if(side === 0){
-    //   this.ctx.fillStyle = 'rgba(0,0,0,0.5)';
-    //   this.ctx.fillRect(x*this.spacing, top, this.spacing, height);
-    // }
-      
+
+    this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
+    if (side === 0) {
+      this.ctx.fillStyle = `rgba(0,0,0,0.5)`;
+      this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    }
+
   }
 
   _drawWireframeColumn(x, top, height, distance, color, side) {
@@ -177,41 +179,75 @@ export class Renderer {
   }
 
   drawRay(rayResult, x, player, zOffset = 0) {
+    if (rayResult.length === 0) return;
+    this.zBuffer[x] = rayResult.read(rayResult.length - 1).backDistance || rayResult.read(rayResult.length - 1).distance;
     for (let i = rayResult.length - 1; i >= 0; i--) {
       //console.log("drawRay", rayResult[i], x, player);
-      let hit = rayResult.read(i);
-      if (hit.cellInfos === false || hit.distance === 0) continue;
+      const hit = rayResult.read(i);
 
-      if(zOffset === 0 && hit.cellInfos.stopView){
-        this.zBuffer[x] = hit.distance;
+      const cellHeight = this.height / Math.abs(hit.distance);
+      const cellTop = (((this.height + cellHeight) / 2) - cellHeight) + (cellHeight * -zOffset) + (cellHeight * player.zRest);
+
+      if (hit.cellInfos) {
+        
+        //draw wall
+        if (hit.cellInfos.wallTexture) {
+          const blockHeight = cellHeight * hit.cellInfos.heightRatio;
+          const blockTop = cellTop + (cellHeight - blockHeight);
+          this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side);
+        }
+
+        // draw floor
+        if (hit.backDistance !== 0 && hit.cellInfos.floorTexture && (!hit.cellInfos.wallTexture || hit.cellInfos.thinWall)) {
+          const backCellHeight = this.height / Math.abs(hit.backDistance);
+          const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
+
+          this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.backDistance, COLORS.gray, 0);
+          // this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.backDistance, this.textures[hit.cellInfos.floorTexture], hit.offset, 1);
+        }
+
+        // draw cell top
+        if (hit.cellInfos.heightRatio < 1) {
+          const blockHeight = cellHeight * hit.cellInfos.heightRatio;
+          const blockTop = cellTop + (cellHeight - blockHeight);
+
+          const backCellHeight = this.height / Math.abs(hit.backDistance);
+          const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
+          const backBlockHeight = backCellHeight * hit.cellInfos.heightRatio;
+          const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
+
+          this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.backDistance, COLORS.gray, 0);
+        }
       }
-
-      let height = this.height / Math.abs(hit.distance);
-      let top = (((this.height + height) / 2) - height * hit.cellInfos.heightRatio) + (height * -zOffset) + (height * player.zRest);
+      // draw ceiling
+      if (hit.ceiling) {
+        const backCellHeight = this.height / Math.abs(hit.backDistance);
+        const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
+        this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.backDistance, COLORS.gray, 0);
+      }
 
       //console.log("drawRay", x, top, height, hit.distance, hit.cellInfos.heightRatio, height*hit.cellInfos.heightRatio, hit.side);
-      if (rayResult.has(i + 1)) {
-        let backHit = rayResult.read(i + 1);
+      // if (hit.backDistance) {
 
-        let backHeight = this.height / Math.abs(backHit.distance);
-        let backTop = (((this.height + backHeight) / 2) - backHeight * hit.cellInfos.heightRatio) + (backHeight * -zOffset) + (backHeight * player.zRest);
+      //   let backHeight = this.height / Math.abs(hit.backDistance);
+      //   let backTop = (((this.height + backHeight) / 2) - backHeight * hit.cellInfos.heightRatio) + (backHeight * -zOffset) + (backHeight * player.zRest);
 
-        if (backTop < top) {
-          // this._drawTexturedColumn(x, backTop, top - backTop, backHit.distance, this.textures[hit.cellInfos.texture], hit.offset, 0);
-          this._drawWireframeColumn(x, backTop, top - backTop, backHit.distance, COLORS.gray, 0);
-        }
+      //   if (backTop < top) {
+      //     // this._drawTexturedColumn(x, backTop, top - backTop, backHit.distance, this.textures[hit.cellInfos.texture], hit.offset, 0);
+      //     this._drawWireframeColumn(x, backTop, top - backTop, backHit.distance, COLORS.gray, 0);
+      //   }
 
-        if (backTop + backHeight * hit.cellInfos.heightRatio > top + height * hit.cellInfos.heightRatio) {
-          // this._drawTexturedColumn(x, top + height * hit.cellInfos.heightRatio, backTop + backHeight * hit.cellInfos.heightRatio - top - height * hit.cellInfos.heightRatio, backHit.distance, this.textures[hit.cellInfos.texture], hit.offset, 0);
-          this._drawWireframeColumn(x, top + height*hit.cellInfos.heightRatio, backTop + backHeight*hit.cellInfos.heightRatio - top - height*hit.cellInfos.heightRatio, backHit.distance, COLORS.darkGray, 0);
-        }
-      }
-      
-      if(hit.cellInfos.texture){
-        this._drawTexturedColumn(x, top, height * hit.cellInfos.heightRatio, hit.distance, this.textures[hit.cellInfos.texture], hit.offset, hit.side);
-      }else{
-        this._drawWireframeColumn(x, top, height*hit.cellInfos.heightRatio, hit.distance, COLORS.red, hit.side);
-      }
+      //   if (backTop + backHeight * hit.cellInfos.heightRatio > top + height * hit.cellInfos.heightRatio) {
+      //     // this._drawTexturedColumn(x, top + height * hit.cellInfos.heightRatio, backTop + backHeight * hit.cellInfos.heightRatio - top - height * hit.cellInfos.heightRatio, backHit.distance, this.textures[hit.cellInfos.texture], hit.offset, 0);
+      //     this._drawWireframeColumn(x, top + height*hit.cellInfos.heightRatio, backTop + backHeight*hit.cellInfos.heightRatio - top - height*hit.cellInfos.heightRatio, backHit.distance, COLORS.darkGray, 0);
+      //   }
+      // }
+
+      // if(hit.cellInfos.wallTexture){
+      //   this._drawTexturedColumn(x, top, height * hit.cellInfos.heightRatio, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side);
+      // }else{
+      //   this._drawWireframeColumn(x, top, height*hit.cellInfos.heightRatio, hit.distance, COLORS.red, hit.side);
+      // }
     }
   }
 
@@ -219,41 +255,41 @@ export class Renderer {
     let placeableOrders = [];
     let spriteDistance = [];
     //SPRITE CASTING
-    for (var i=0; i<placeables.length; i++) { //Calculate sprite distances and reset order
+    for (let i = 0; i < placeables.length; i++) { //Calculate sprite distances and reset order
       placeableOrders[i] = i;
       spriteDistance[i] = ((player.x - placeables[i].x) * (player.x - placeables[i].x)) + ((player.y - placeables[i].y) * (player.y - placeables[i].y));
     }
     combSort(placeableOrders, spriteDistance, placeables.length); //Sort placeables by distance from the camera
 
-    for (var i=0; i<placeables.length; i++) {
-      var spriteX = placeables[placeableOrders[i]].x - player.x;
-      var spriteY = placeables[placeableOrders[i]].y - player.y;
-      
-      var invDet = 1.0 / (player.planeX * player.dirY - player.dirX * player.planeY);
-      var transformX = invDet * (player.dirY * spriteX - player.dirX * spriteY);
-      var transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
-  
+    for (let i = 0; i < placeables.length; i++) {
+      const spriteX = placeables[placeableOrders[i]].x - player.x;
+      const spriteY = placeables[placeableOrders[i]].y - player.y;
+
+      const invDet = 1.0 / (player.planeX * player.dirY - player.dirX * player.planeY);
+      const transformX = invDet * (player.dirY * spriteX - player.dirX * spriteY);
+      const transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
+
       if (transformY > 0) { //No need for the rest if the sprite is behind the player
-  
-        var spriteHeight = Math.abs(Math.floor(this.height/2/transformY));
-        var drawStartY = -(spriteHeight/2) / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
-  
-        var spriteScreenX = Math.floor(this.resolution/2) * (1 + transformX / transformY);
-        var spriteWidth = Math.abs(Math.floor(this.resolution/2 / transformY));
-        var drawStartX = Math.floor(-spriteWidth / 2 + spriteScreenX);
-        var drawEndX = drawStartX + spriteWidth;
-        
-        var clipStartX = drawStartX;
-        var clipEndX = drawEndX;
-  
+
+        const spriteHeight = Math.abs(Math.floor(this.height / 2 / transformY));
+        const drawStartY = -(spriteHeight / 2) / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
+
+        const spriteScreenX = Math.floor(this.resolution / 2) * (1 + transformX / transformY);
+        const spriteWidth = Math.abs(Math.floor(this.resolution / 2 / transformY));
+        let drawStartX = Math.floor(-spriteWidth / 2 + spriteScreenX);
+        let drawEndX = drawStartX + spriteWidth;
+
+        let clipStartX = drawStartX;
+        let clipEndX = drawEndX;
+
         if (drawStartX < -spriteWidth) {
           drawStartX = -spriteWidth;
         }
         if (drawEndX > this.resolution + spriteWidth) {
           drawEndX = this.resolution + spriteWidth;
         }
-  
-        for (var stripe=drawStartX; stripe<=drawEndX; stripe++) {
+
+        for (let stripe = drawStartX; stripe <= drawEndX; stripe++) {
           if (transformY > this.zBuffer[stripe]) {
             if (stripe - clipStartX <= 1) { //Detect leftmost obstruction
               clipStartX = stripe;
@@ -261,29 +297,29 @@ export class Renderer {
               clipEndX = stripe; //Detect rightmost obstruction
               break;
             }
-          }	
+          }
         }
-        
+
         let placeableInfos = map.getPlaceableProperties(placeables[placeableOrders[i]].type);
         let placeableSprite = this.sprites[placeableInfos.sprite];
 
         if (clipStartX != clipEndX && clipStartX < this.resolution && clipEndX > 0) { //Make sure the sprite is not fully obstructed or off screen
-          var scaleDelta = placeableSprite.width / spriteWidth;
-          var drawXStart = Math.floor((clipStartX - drawStartX) * scaleDelta);
+          const scaleDelta = placeableSprite.width / spriteWidth;
+          let drawXStart = Math.floor((clipStartX - drawStartX) * scaleDelta);
           if (drawXStart < 0) {
             drawXStart = 0;
           }
-          var drawXEnd = Math.floor((clipEndX - clipStartX) * scaleDelta) + 1;
+          const drawXEnd = Math.floor((clipEndX - clipStartX) * scaleDelta) + 1;
           if (drawXEnd > placeableSprite.width) {
             drawEndX = placeableSprite.width;
           }
-          var drawWidth = clipEndX - clipStartX;
+          let drawWidth = clipEndX - clipStartX;
           if (drawWidth < 0) {
             drawWidth = 0;
           }
           this.ctx.save();
           this.ctx.imageSmoothingEnabled = false;
-          this.ctx.drawImage(placeableSprite.image, drawXStart*this.spacing, 0, drawXEnd, placeableSprite.height, clipStartX*this.spacing, drawStartY, drawWidth*this.spacing, spriteHeight);
+          this.ctx.drawImage(placeableSprite.image, drawXStart * this.spacing, 0, drawXEnd, placeableSprite.height, clipStartX * this.spacing, drawStartY, drawWidth * this.spacing, spriteHeight);
           this.ctx.restore();
         }
       }

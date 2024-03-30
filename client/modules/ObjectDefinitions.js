@@ -6,12 +6,13 @@ const tileCombinaisons = [
     cell: {
       heightRatio: 1,
       stopView: true,
-      walkable: true,
-      texture: "wall_default",
+      wallTexture: "wall_default",
+      floorTexture: "floor_default",
     },
     variants: [{
       cell: {
-        texture: "wall_wood",
+        floorTexture: "floor_default",
+        wallTexture: "wall_wood",
       },
       signature: [
         "4,23,-1",
@@ -19,7 +20,8 @@ const tileCombinaisons = [
       ],
     }, {
       cell: {
-        texture: "wall_stone_rough",
+        wallTexture: "wall_stone_rough",
+        floorTexture: "floor_default",
       },
       signature: [
         "4,2,-1",
@@ -31,14 +33,16 @@ const tileCombinaisons = [
       ],
     }, {
       cell: {
-        texture: "wall_soil",
+        wallTexture: "wall_soil",
+        floorTexture: "floor_default",
       },
       signature: [
         "4,1,-1"
       ],
     }, {
       cell: {
-        texture: "wall_construction",
+        wallTexture: "wall_construction",
+        floorTexture: "floor_default",
       },
       signature: [
         "4,7,-1",
@@ -46,7 +50,8 @@ const tileCombinaisons = [
       ],
     }, {
       cell: {
-        texture: "wall_smooth_stone",
+        wallTexture: "wall_smooth_stone",
+        floorTexture: "floor_default",
       },
       signature: [
         "4,2,3",
@@ -58,20 +63,22 @@ const tileCombinaisons = [
     //slope
     cell: {
       heightRatio: 0.5,
-      passable: true,
-      texture: "slope_stone_rough",
+      wallTexture: "slope_stone_rough",
+      floorTexture: "floor_default",
     },
     signature: [
       "9,-1,-1"
     ],
     variants: [{
-      texture: "slope_wood",
+      wallTexture: "slope_wood",
+      floorTexture: "floor_default",
       signature: [
         "9,23,-1"
       ],
     }, {
       cell: {
-        texture: "slope_stone_rough",
+        wallTexture: "slope_stone_rough",
+        floorTexture: "floor_default",
       },
       signature: [
         "9,2,-1",
@@ -81,14 +88,16 @@ const tileCombinaisons = [
       ],
     }, {
       cell: {
-        texture: "slope_soil",
+        wallTexture: "slope_soil",
+        floorTexture: "floor_default",
       },
       signature: [
         "9,1,-1"
       ],
     }, {
       cell: {
-        texture: "slope_construction",
+        wallTexture: "slope_construction",
+        floorTexture: "floor_default",
       },
       signature: [
         "9,7,-1",
@@ -96,7 +105,8 @@ const tileCombinaisons = [
       ],
     }, {
       cell: {
-        texture: "slope_smooth_stone",
+        wallTexture: "slope_smooth_stone",
+        floorTexture: "floor_default",
       },
       signature: [
         "9,2,3"
@@ -106,10 +116,9 @@ const tileCombinaisons = [
   {
     //stairs
     cell: {
-      heightRatio: 0.5,
-      climbable: true,
-      passable: true,
-      texture: "stairs_stone_rough",
+      heightRatio: 0.3,
+      wallTexture: "stairs_stone_rough",
+      floorTexture: "floor_default",
     },
     signature: [
       "6,-1,-1",
@@ -118,7 +127,8 @@ const tileCombinaisons = [
     ],
     variants: [{
       cell: {
-        texture: "stairs_wood",
+        wallTexture: "stairs_wood",
+        floorTexture: "floor_default",
       },
       signature: [
         "6,23,-1",
@@ -136,7 +146,8 @@ const tileCombinaisons = [
       ],
     }, {
       cell: {
-        texture: "stairs_stone_rough",
+        wallTexture: "stairs_stone_rough",
+        floorTexture: "floor_default",
       },
       signature: [
         "6,2,-1",
@@ -154,7 +165,8 @@ const tileCombinaisons = [
       ],
     }, {
       cell: {
-        texture: "stairs_soil",
+        wallTexture: "stairs_soil",
+        floorTexture: "floor_default",
       },
       signature: [
         "6,1,-1",
@@ -163,7 +175,8 @@ const tileCombinaisons = [
       ],
     }, {
       cell: {
-        texture: "stairs_construction",
+        wallTexture: "stairs_construction",
+        floorTexture: "floor_default",
       },
       signature: [
         "6,7,-1",
@@ -175,7 +188,8 @@ const tileCombinaisons = [
       ],
     }, {
       cell: {
-        texture: "stairs_smooth_stone",
+        wallTexture: "stairs_smooth_stone",
+        floorTexture: "floor_default",
       },
       signature: [
         "6,2,3",
@@ -191,8 +205,8 @@ const tileCombinaisons = [
     //fortification
     cell: {
       heightRatio: 1,
-      walkable: true,
-      texture: "fortification_default",
+      wallTexture: "fortification_default",
+      floorTexture: "floor_default",
     },
     signature: [
       "5,-1,-1"
@@ -201,9 +215,7 @@ const tileCombinaisons = [
   {
     //floor
     cell: {
-      heightRatio: 0.1,
-      passable: true,
-      texture: "floor_default",
+      floorTexture: "floor_default",
       tint: '#ffffff',
     },
     signature: [
@@ -282,9 +294,8 @@ const tileCombinaisons = [
   }, {
     cell: {
       heightRatio: 1,
-      passable: true,
-      alpha: 0.5,
-      texture: "feuillage_default",
+      wallTexture: "feuillage_default",
+      floorTexture: "feuillage_default",
     },
     //feuillage
     signature: [
@@ -312,8 +323,8 @@ const tileCombinaisons = [
     //branches
     cell: {
       heightRatio: 1,
-      walkable: true,
-      texture: "branch_default",
+      wallTexture: "branch_default",
+      floorTexture: "branch_default",
     },
     signature: [
       "18,23,-1",
@@ -355,15 +366,16 @@ const buildingCombinaisons = [{
   cell: {
     heightRatio: 1,
     thinWall: true,
-    stopView: true,
-    texture: "door_default",
+    wallTexture: "door_default",
+    floorTexture: "floor_default",
   },
   signature: [8],
 }, {
   cell: {
     heightRatio: 1,
     thinWall: true,
-    texture: "wallbar_default",
+    wallTexture: "wallbar_default",
+    floorTexture: "floor_default",
   },
   signature: [36, 38],
 }]
