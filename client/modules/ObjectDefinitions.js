@@ -333,32 +333,38 @@ const tileCombinaisons = [
 
 const buildingCombinaisons = [{
   placeable: {
+    heightRatio: 1,
     sprite: "sprite_bed",
   },
   signature: [1],
 }, {
   placeable: {
+    heightRatio: 1,
     sprite: "sprite_chair",
   },
   signature: [0],
 }, {
   placeable: {
+    heightRatio: 1,
     sprite: "sprite_table",
   },
   signature: [2],
 }, {
   placeable: {
+    heightRatio: 1,
     sprite: "sprite_coffer",
   },
   signature: [10],
 }, {
   placeable: {
+    heightRatio: 2,
     sprite: "sprite_cabinet",
   },
   heightRatio: 1,
   signature: [14],
 }, {
   placeable: {
+    heightRatio: 2,
     sprite: "sprite_statue",
   },
   signature: [15],
@@ -459,3 +465,67 @@ export function prepareDefinitions(){
     buildingCorrespondances
   }
 }
+
+
+// to placeable
+// Chair = 0,
+// Bed = 1,
+// Table = 2,
+// Coffin = 3,
+// Box = 10,
+// Weaponrack = 11,
+// Armorstand = 12,
+// Cabinet = 14,
+// Statue = 15,
+// Well = 18,
+// Trap = 23,
+// AnimalTrap = 24,
+// ArcheryTarget = 26,
+// Chain = 27,
+// Cage = 28,
+// Wagon = 32,
+// TractionBench = 45,
+// Slab = 46,
+// Nest = 47,
+// NestBox = 48,
+// Hive = 49,
+// Instrument = 51,
+// Bookcase = 52,
+
+// to cell
+// FarmPlot = 4,
+// Door = 8,
+// Floodgate = 9,
+// WindowGlass = 16,
+// WindowGem = 17,
+// GrateWall = 36,
+// BarsVertical = 38,
+
+
+// to later
+// Furnace = 5,
+// TradeDepot = 6,
+// Shop = 7,
+// Workshop = 13,
+// Bridge = 19,
+// RoadDirt = 20,
+// RoadPaved = 21,
+// SiegeEngine = 22,
+// Support = 25,
+// Stockpile = 29,
+// Civzone = 30,
+// Weapon = 31,
+// ScrewPump = 33,
+// Construction = 34,
+// Hatch = 35,
+// GrateFloor = 37,
+// BarsFloor = 39,
+// GearAssembly = 40,
+// AxleHorizontal = 41,
+// AxleVertical = 42,
+// WaterWheel = 43,
+// Windmill = 44,
+// Rollers = 50,
+
+
+

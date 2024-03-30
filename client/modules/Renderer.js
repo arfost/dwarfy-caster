@@ -135,14 +135,14 @@ export class Renderer {
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     let playerZ = Math.floor(player.z);
-    for (let offset = 1; offset > 0; offset--) {
-      if (map.wallGrids[playerZ - offset]) {
-        this.renderColumn(raycaster, player, map, -offset);
-      }
-      if (map.wallGrids[playerZ + offset]) {
-        this.renderColumn(raycaster, player, map, offset);
-      }
-    }
+    // for (let offset = 1; offset > 0; offset--) {
+    //   if (map.wallGrids[playerZ - offset]) {
+    //     this.renderColumn(raycaster, player, map, -offset);
+    //   }
+    //   if (map.wallGrids[playerZ + offset]) {
+    //     this.renderColumn(raycaster, player, map, offset);
+    //   }
+    // }
     this.renderColumn(raycaster, player, map);
     this.drawSprites(player, map.placeables[playerZ], map);
   }
@@ -213,8 +213,8 @@ export class Renderer {
           const backCellHeight = this.height / Math.abs(hit.backDistance);
           const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
 
-          this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.backDistance, COLORS.gray, 0);
-          // this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.backDistance, this.textures[hit.cellInfos.floorTexture], hit.offset, 1);
+          // this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, COLORS.gray, 0);
+          this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.backDistance, this.textures[hit.cellInfos.floorTexture], hit.offset, 1);
         }
 
         // draw cell top
@@ -227,14 +227,14 @@ export class Renderer {
           const backBlockHeight = backCellHeight * hit.cellInfos.heightRatio;
           const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
 
-          this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.backDistance, COLORS.gray, 0);
+          this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
         }
       }
       // draw ceiling
       if (hit.ceiling) {
         const backCellHeight = this.height / Math.abs(hit.backDistance);
         const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
-        this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.backDistance, COLORS.gray, 0);
+        this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.distance, COLORS.gray, 0);
       }
     }
   }
@@ -250,6 +250,7 @@ export class Renderer {
     combSort(placeableOrders, spriteDistance, placeables.length); //Sort placeables by distance from the camera
 
     for (let i = 0; i < placeables.length; i++) {
+      
       const spriteX = placeables[placeableOrders[i]].x - player.x;
       const spriteY = placeables[placeableOrders[i]].y - player.y;
 
@@ -258,9 +259,8 @@ export class Renderer {
       const transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
 
       if (transformY > 0) { //No need for the rest if the sprite is behind the player
-
         const spriteHeight = Math.abs(Math.floor(this.height / 2 / transformY));
-        const drawStartY = -(spriteHeight / 2) / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
+        const drawStartY = (spriteHeight / 2) / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
 
         const spriteScreenX = Math.floor(this.resolution / 2) * (1 + transformX / transformY);
         const spriteWidth = Math.abs(Math.floor(this.resolution / 2 / transformY));
@@ -307,7 +307,7 @@ export class Renderer {
           }
           this.ctx.save();
           this.ctx.imageSmoothingEnabled = false;
-          this.ctx.drawImage(placeableSprite.image, drawXStart * this.spacing, 0, drawXEnd, placeableSprite.height, clipStartX * this.spacing, drawStartY, drawWidth * this.spacing, spriteHeight);
+          this.ctx.drawImage(placeableSprite.image, drawXStart * this.spacing, 0, drawXEnd, placeableSprite.height*placeableInfos.heightRatio, clipStartX * this.spacing, drawStartY, drawWidth * this.spacing, spriteHeight);
           this.ctx.restore();
         }
       }
