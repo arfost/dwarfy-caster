@@ -130,19 +130,19 @@ export class Renderer {
 
   render(player, map, raycaster) {
 
-    this.ctx.fillStyle = '#0066ff';
+    this.ctx.fillStyle = '#000';
     this.ctx.globalAlpha = 1;
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     let playerZ = Math.floor(player.z);
-    // for (let offset = 4; offset > 0; offset--) {
-    //   if (map.wallGrids[playerZ - offset]) {
-    //     this.renderColumn(raycaster, player, map, -offset);
-    //   }
-    //   if (map.wallGrids[playerZ + offset]) {
-    //     this.renderColumn(raycaster, player, map, offset);
-    //   }
-    // }
+    for (let offset = 1; offset > 0; offset--) {
+      if (map.wallGrids[playerZ - offset]) {
+        this.renderColumn(raycaster, player, map, -offset);
+      }
+      if (map.wallGrids[playerZ + offset]) {
+        this.renderColumn(raycaster, player, map, offset);
+      }
+    }
     this.renderColumn(raycaster, player, map);
     this.drawSprites(player, map.placeables[playerZ], map);
   }
@@ -160,27 +160,37 @@ export class Renderer {
     let texX = Math.abs(Math.floor(offset * image.width));
 
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
+
+    //shading
+    let shade = 0;
     if (side === 0) {
-      this.ctx.fillStyle = `rgba(0,0,0,0.5)`;
-      this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+      shade = 0.3;
     }
+    shade = Math.max(0, Math.min(1, distance / 10));
+    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
+    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
 
   }
 
   _drawWireframeColumn(x, top, height, distance, color, side) {
     //console.log("drawWireframeColumn", x, top, height, distance, color, side);
 
-    if (side === 1) color = this.adjustBrightness(color, -30);
-    // this.writeColumn(x, top, height, color);
-
     this.ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`;
     this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
 
+    //shading
+    let shade = 0;
+    if (side === 0) {
+      shade = 0.3;
+    }
+    shade = Math.max(0, Math.min(1, distance / 10));
+    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
+    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
   }
 
   drawRay(rayResult, x, player, zOffset = 0) {
     if (rayResult.length === 0) return;
-    this.zBuffer[x] = rayResult.read(rayResult.length - 1).backDistance || rayResult.read(rayResult.length - 1).distance;
+   
     for (let i = rayResult.length - 1; i >= 0; i--) {
       //console.log("drawRay", rayResult[i], x, player);
       const hit = rayResult.read(i);
@@ -192,6 +202,7 @@ export class Renderer {
         
         //draw wall
         if (hit.cellInfos.wallTexture) {
+          this.zBuffer[x] = hit.distance;
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
           this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side);
