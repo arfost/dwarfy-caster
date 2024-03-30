@@ -135,14 +135,14 @@ export class Renderer {
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     let playerZ = Math.floor(player.z);
-    // for (let offset = 1; offset > 0; offset--) {
-    //   if (map.wallGrids[playerZ - offset]) {
-    //     this.renderColumn(raycaster, player, map, -offset);
-    //   }
-    //   if (map.wallGrids[playerZ + offset]) {
-    //     this.renderColumn(raycaster, player, map, offset);
-    //   }
-    // }
+    for (let offset = 1; offset > 0; offset--) {
+      if (map.wallGrids[playerZ - offset]) {
+        this.renderColumn(raycaster, player, map, -offset);
+      }
+      if (map.wallGrids[playerZ + offset]) {
+        this.renderColumn(raycaster, player, map, offset);
+      }
+    }
     this.renderColumn(raycaster, player, map);
     this.drawSprites(player, map.placeables[playerZ], map);
   }
@@ -197,11 +197,16 @@ export class Renderer {
 
       const cellHeight = this.height / Math.abs(hit.distance);
       const cellTop = (((this.height + cellHeight) / 2) - cellHeight) + (cellHeight * -zOffset) + (cellHeight * player.zRest);
-
+// draw ceiling
+      if (hit.ceiling && hit.backDistance) {
+        const backCellHeight = this.height / Math.abs(hit.backDistance);
+        const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
+        this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.distance, COLORS.gray, 0);
+      }
       if (hit.cellInfos) {
         
         //draw wall
-        if (hit.cellInfos.wallTexture) {
+        if (hit.cellInfos.wallTexture && !hit.cellInfos.thinWall) {
           this.zBuffer[x] = hit.distance;
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
@@ -209,12 +214,12 @@ export class Renderer {
         }
 
         // draw floor
-        if (hit.backDistance !== 0 && hit.cellInfos.floorTexture && (!hit.cellInfos.wallTexture || hit.cellInfos.thinWall)) {
+        if (hit.cellInfos.floorTexture && !(hit.cellInfos.wallTexture && !hit.cellInfos.thinWall)) {
           const backCellHeight = this.height / Math.abs(hit.backDistance);
           const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
 
-          // this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, COLORS.gray, 0);
-          this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.backDistance, this.textures[hit.cellInfos.floorTexture], hit.offset, 1);
+          this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, COLORS.gray, 0);
+          // this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.backDistance, this.textures[hit.cellInfos.floorTexture], hit.offset, 1);
         }
 
         // draw cell top
@@ -229,13 +234,17 @@ export class Renderer {
 
           this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
         }
+
+        if (hit.thinDistance && hit.cellInfos.wallTexture) {
+          this.zBuffer[x] = hit.thinDistance;
+          const cellThinHeight = this.height / Math.abs(hit.thinDistance);
+          const cellThinTop = (((this.height + cellThinHeight) / 2) - cellThinHeight) + (cellThinHeight * -zOffset) + (cellThinHeight * player.zRest);
+          const blockHeight = cellThinHeight * hit.cellInfos.heightRatio;
+          const blockTop = cellThinTop + (cellThinHeight - blockHeight);
+          this._drawTexturedColumn(x, blockTop, blockHeight, hit.thinDistance, this.textures[hit.cellInfos.wallTexture], hit.thinOffset, hit.thinSide);
+        }
       }
-      // draw ceiling
-      if (hit.ceiling) {
-        const backCellHeight = this.height / Math.abs(hit.backDistance);
-        const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
-        this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.distance, COLORS.gray, 0);
-      }
+      
     }
   }
 
