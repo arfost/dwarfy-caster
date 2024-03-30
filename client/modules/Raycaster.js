@@ -24,8 +24,8 @@ export class Raycaster {
   cast(player, cameraX, map, zLevel = 0) {
     this.stepArray.reset();
 
-    let rayDirX = player.dirX + player.planeX * cameraX;
-    let rayDirY = player.dirY + player.planeY * cameraX;
+    const rayDirX = player.dirX + player.planeX * cameraX;
+    const rayDirY = player.dirY + player.planeY * cameraX;
 
     //which box of the map we're in
     let mapX = Math.floor(player.x);
@@ -36,8 +36,8 @@ export class Raycaster {
     let sideDistY;
 
     //length of ray from one x or y-side to next x or y-side
-    let deltaDistX = (1 / Math.abs(rayDirX));
-    let deltaDistY = (1 / Math.abs(rayDirY));
+    const deltaDistX = (1 / Math.abs(rayDirX));
+    const deltaDistY = (1 / Math.abs(rayDirY));
 
     //what direction to step in x or y-direction (either +1 or -1)
     let stepX;

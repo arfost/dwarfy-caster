@@ -225,29 +225,6 @@ export class Renderer {
         const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
         this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.backDistance, COLORS.gray, 0);
       }
-
-      //console.log("drawRay", x, top, height, hit.distance, hit.cellInfos.heightRatio, height*hit.cellInfos.heightRatio, hit.side);
-      // if (hit.backDistance) {
-
-      //   let backHeight = this.height / Math.abs(hit.backDistance);
-      //   let backTop = (((this.height + backHeight) / 2) - backHeight * hit.cellInfos.heightRatio) + (backHeight * -zOffset) + (backHeight * player.zRest);
-
-      //   if (backTop < top) {
-      //     // this._drawTexturedColumn(x, backTop, top - backTop, backHit.distance, this.textures[hit.cellInfos.texture], hit.offset, 0);
-      //     this._drawWireframeColumn(x, backTop, top - backTop, backHit.distance, COLORS.gray, 0);
-      //   }
-
-      //   if (backTop + backHeight * hit.cellInfos.heightRatio > top + height * hit.cellInfos.heightRatio) {
-      //     // this._drawTexturedColumn(x, top + height * hit.cellInfos.heightRatio, backTop + backHeight * hit.cellInfos.heightRatio - top - height * hit.cellInfos.heightRatio, backHit.distance, this.textures[hit.cellInfos.texture], hit.offset, 0);
-      //     this._drawWireframeColumn(x, top + height*hit.cellInfos.heightRatio, backTop + backHeight*hit.cellInfos.heightRatio - top - height*hit.cellInfos.heightRatio, backHit.distance, COLORS.darkGray, 0);
-      //   }
-      // }
-
-      // if(hit.cellInfos.wallTexture){
-      //   this._drawTexturedColumn(x, top, height * hit.cellInfos.heightRatio, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side);
-      // }else{
-      //   this._drawWireframeColumn(x, top, height*hit.cellInfos.heightRatio, hit.distance, COLORS.red, hit.side);
-      // }
     }
   }
 
