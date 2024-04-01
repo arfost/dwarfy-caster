@@ -66,6 +66,22 @@ export class Player {
     this.paces += distance;
   };
 
+  physique(seconds, map) {
+    const currentBlock = map.getCellProperties(map.getWall(Math.floor(this.x), Math.floor(this.y), Math.floor(this.z)));
+    if (currentBlock && currentBlock.stopView) {
+      this.x = this.lastValidPosition.x;
+      this.y = this.lastValidPosition.y;
+      this.z = this.lastValidPosition.z;
+      return;
+    }
+    if(this.zRest > 0.1) {
+      this.z -= 0.5*seconds;
+    }
+    this.lastValidPosition.x = this.x;
+    this.lastValidPosition.y = this.y;
+    this.lastValidPosition.z = this.z;
+  }
+
   update(controls, map, seconds) {
     if (controls.left) {
       this.strafe(-MOVE_SPEED*2 * seconds, map)
@@ -75,11 +91,11 @@ export class Player {
     };
 
     if (controls.look) {
-      this.rotateZ(controls.look * seconds * 0.5);
+      this.rotateZ(controls.look  * Math.PI * seconds * 0.5);
       controls.look = 0;
     };
     if (controls.turn) {
-      this.rotate(controls.turn * seconds * 0.5);
+      this.rotate(controls.turn  * Math.PI * seconds * 0.5);
       controls.turn = 0;
     };
 
@@ -96,6 +112,6 @@ export class Player {
     if (controls.backward) { 
       this.walk(-MOVE_SPEED * seconds, map);
     }
-    //this.physique(seconds, map);
+    this.physique(seconds, map);
   };
 }
