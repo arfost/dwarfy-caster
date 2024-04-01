@@ -13,7 +13,7 @@ There is no packed release yet, you just have to download the projet and launch 
 Get the last node version from [[nodeJS](https://nodejs.org/en)] and their instructions. 
 When node is working just use command line to go in the repository and launch
 
-node .\server.js
+``node .\server.js``
 
 when the server is running use DFhack to launch Dwarf Fortress and load your game then open
 http://localhost:8080/index.html?pos=x,y,z
