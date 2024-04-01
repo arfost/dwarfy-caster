@@ -19,8 +19,7 @@ when the server is running use DFhack to launch Dwarf Fortress and load your gam
 http://localhost:8080/index.html?pos=x,y,z
 in your browser it should load your fortress.
 x,y and z are your starts coordonates in the DF map. 
-For now just try to find a good location (open with room around) and count the tiles from the top and left sides of the map for x/y,
-and take the lowest level in your fort it's the 0 (even if it read -1XX) then count until the level you want, that's your z
+You can find them by entering mining mode (m), enabling the keyboard cursor (Alt-k if it's not already visible), moving the cursor to where you want, then running the `position` command from DFhack
 
 In game you can use ZQSD to move around, A and E to go down and up and click on the canvas to capture mouse.
 
