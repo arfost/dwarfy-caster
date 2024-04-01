@@ -135,14 +135,14 @@ export class Renderer {
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     let playerZ = Math.floor(player.z);
-    for (let offset = 1; offset > 0; offset--) {
-      if (map.wallGrids[playerZ - offset]) {
-        this.renderColumn(raycaster, player, map, -offset);
-      }
-      if (map.wallGrids[playerZ + offset]) {
-        this.renderColumn(raycaster, player, map, offset);
-      }
-    }
+    // for (let offset = 1; offset > 0; offset--) {
+    //   if (map.wallGrids[playerZ - offset]) {
+    //     this.renderColumn(raycaster, player, map, -offset);
+    //   }
+    //   if (map.wallGrids[playerZ + offset]) {
+    //     this.renderColumn(raycaster, player, map, offset);
+    //   }
+    // }
     this.renderColumn(raycaster, player, map);
     this.drawSprites(player, map.placeables[playerZ], map);
   }
