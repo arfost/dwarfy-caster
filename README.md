@@ -24,10 +24,15 @@ After it's done launch the server with
 when the server is running use DFhack to launch Dwarf Fortress and load your game then open
 http://localhost:8080/index.html?pos=x,y,z
 in your browser it should load your fortress.
+
 x,y and z are your starts coordonates in the DF map. 
-You can find them by entering mining mode (m), enabling the keyboard cursor (Alt-k if it's not already visible), moving the cursor to where you want, then running the `position` command from DFhack
+
+You can find them by entering mining mode (m), enabling the keyboard cursor (Alt-k if it's not already visible), moving the cursor to where you want, then running the `position` command from DFhack.
+
 
 In game you can use ZQSD to move around, A and E to go down and up and click on the canvas to capture mouse.
+The P key switch to QWERTY control scheme.
+
 
 ## Technical considerations
 

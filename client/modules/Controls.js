@@ -1,6 +1,28 @@
+const AZERTY = {
+  81:'left',
+  68:'right',
+  90:'forward',
+  83:'backward',
+  69:'up',
+  65:'down'
+};
+
+const QWERTY = {
+  65:'left',
+  68:'right',
+  87:'forward',
+  83:'backward',
+  69:'up',
+  81:'down' 
+};
+
 export class Controls {
   constructor() {
-    this.codes = { 81: 'left', 68: 'right', 90: 'forward', 83: 'backward', 69: 'up', 65: 'down'};
+    this.specialKeys = {
+      80: this._changeControlScheme.bind(this),
+
+    }
+    this.codes = AZERTY;
     this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false, 'up': false, 'down': false};
     document.addEventListener('keydown', this.onKey.bind(this, true), false);
     document.addEventListener('keyup', this.onKey.bind(this, false), false);
@@ -9,7 +31,21 @@ export class Controls {
 
   }
 
+  _changeControlScheme() {
+    if(this.codes === AZERTY) {
+      console.log("Switching to QWERTY");
+      this.codes = QWERTY;
+    }else{
+      console.log("Switching to AZERTY");
+      this.codes = AZERTY;
+    }
+  }
+
   onKey(val, e) {
+    if(this.specialKeys[e.keyCode] && val){
+      this.specialKeys[e.keyCode]();
+      return;
+    }
     const state = this.codes[e.keyCode];
     if (typeof state === 'undefined') return;
     this.states[state] = val;
