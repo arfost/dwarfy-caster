@@ -37,7 +37,8 @@ The P key switch to QWERTY control scheme.
 ## Technical considerations
 
 ### Raycasting and render
-The raycasting part is mostly inspired from lodev tutorials [[lodev](https://lodev.org/cgtutor/raycasting.html)] and reading various raycasting projects.
+I discovered the principe of raycasting thanks to this video https://www.youtube.com/watch?v=HEb2akswCcw
+then implemented it with help from lodev tutorials [[lodev](https://lodev.org/cgtutor/raycasting.html)] and reading various raycasting projects on github.
 
 I tried to add multi level rendering but it's not really ready now and it's deactivated on master to save FPS. I will continue to look into it.
 
