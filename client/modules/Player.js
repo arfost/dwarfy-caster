@@ -112,6 +112,11 @@ export class Player {
     if (controls.backward) { 
       this.walk(-MOVE_SPEED * seconds, map);
     }
+
+    if(controls.teleport) {
+      controls.teleport = false;
+      map.teleportToCursor(this);
+    }
     this.physique(seconds, map);
   };
 }

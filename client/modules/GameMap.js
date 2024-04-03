@@ -35,6 +35,32 @@ export class GameMap {
     return this.mapLoader.map;
   }
 
+  async teleportToCursor(player) {
+    const cursor = await this.mapLoader.getCursorPosition();
+
+    const chunkCoord = this.playerCoordToMapCoord(cursor);
+    await this.mapLoader.loadChunk(chunkCoord.x-this.mapLoader.CHUNK_SIZE, chunkCoord.y-this.mapLoader.CHUNK_SIZE, chunkCoord.z-this.mapLoader.CHUNK_SIZE, this.mapLoader.CHUNK_SIZE*2+1);
+
+    const chunkLength = this.mapLoader.BLOCK_SIZE * (this.mapLoader.CHUNK_SIZE);
+    const chunkLengthZ = this.mapLoader.BLOCK_SIZE_Z * (this.mapLoader.CHUNK_SIZE);
+
+    this.nextChunks = {
+      xMin: cursor.x - chunkLength/2,
+      xMax: cursor.x + chunkLength/2,
+      yMin: cursor.y - chunkLength/2,
+      yMax: cursor.y + chunkLength/2,
+      zMin: cursor.z - chunkLengthZ/2,
+      zMax: cursor.z + chunkLengthZ/2,
+      chunkLength,
+      chunkLengthZ
+    }
+    console.log("chunks init", this.nextChunks);
+
+    player.x = cursor.x;
+    player.y = cursor.y;
+    player.z = cursor.z;
+  }
+
   getCellProperties(type) {
     return this.cellProperties[type];
   }

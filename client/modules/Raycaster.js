@@ -2,10 +2,10 @@ import { GarbageCheater } from "./utils/GarbageCheater.js";
 
 export class Raycaster {
 
-  constructor(range) {
+  constructor(params) {
 
-    this.range = range;
-    this.zRange = 5;
+    this.range = params[0];
+    this.zRange = params[1];
 
     this.stepArray = new GarbageCheater(() => {
       return {

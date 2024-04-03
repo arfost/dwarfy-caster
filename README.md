@@ -3,8 +3,13 @@
 This project is the result of two weeks of tests with raycasting and dwarf fortress.
 It's a very early, buggy, result.
 
+I didn't take time to work on assets and representation, still mostly working on the renderer so their is many issues, assets are a bundle of sprites generated with chatGPT and some free textures.
+
+
 For now it allows you to walk in a mostly correct representation of overall shape of the world, plus a few buildings.
-It show the world layer by layer so it work best inside.
+
+Perf outdoor are still low and colors are mostly random, trees are gray, floor have no textures many things are missing but it will improve hopefully.
+
 
 ## How to test
 
@@ -22,15 +27,18 @@ After it's done launch the server with
 
 
 when the server is running use DFhack to launch Dwarf Fortress and load your game then open
-http://localhost:8080/index.html?pos=x,y,z
+http://localhost:8080/index.html?cast=10,5
 in your browser it should load your fortress.
 
-x,y and z are your starts coordonates in the DF map. 
+The 10,5 parameters are the rendering distance in tiles for horizontal and height view, if fps are low you can reduce them (especially the second to reduce it)
 
-You can find them by entering mining mode (m), enabling the keyboard cursor (Alt-k if it's not already visible), moving the cursor to where you want, then running the `position` command from DFhack.
+Your start position will be either the center of your game view or the position of the keyboard cursor, after that if you move them in your game, you can teleport to it by pressing "x" in the viewer.
+
+To enable the keyboard cursor, enter mining mode and press (Alt-k)
 
 
 In game you can use ZQSD to move around, A and E to go down and up and click on the canvas to capture mouse.
+
 The P key switch to QWERTY control scheme.
 
 
@@ -47,13 +55,16 @@ The raycasting part is really standard and it return the list of hits to the ren
 ### DF connection and read
 This part is done thanks to the formidable DFhack [[DFhack](https://docs.dfhack.org/en/stable/)] and this project [[dfhack-remote](https://github.com/alexchandel/dfhack-remote)] 
 
+
 ## Futur plan
 I will try to improve multi level render to allow real representation of exteriors and big constructions, and after that find more assets to support all buildings and tiles.
 
 When it's done I will start to think of the real futur of the entier project.
 
+
 ## Contributions and such
 If you want to contribute to the project, all PR, ideas and remark are welcome.
+
 
 ## Avertissement
 This is an experiment released as is, there is no warranty of anything but I hope it will work for you.

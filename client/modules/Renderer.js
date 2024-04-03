@@ -86,7 +86,7 @@ export class Renderer {
     // this.height = display.height = Math.floor(window.innerHeight*0.5);
 
     this.width = display.width = 640;
-    this.height = display.height = 480;
+    this.height = display.height = 360;
 
     this.resolution = resolution;
     this.spacing = Math.floor(this.width / resolution);
