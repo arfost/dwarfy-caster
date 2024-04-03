@@ -109,25 +109,6 @@ export class Renderer {
 
   };
 
-  async initTextures() {
-    for (let key in this.textures) {
-      await this.textures[key].imageLoaded;
-    }
-    for (let key in this.sprites) {
-      await this.sprites[key].imageLoaded;
-    }
-  }
-
-  adjustBrightness(color, amount) {
-    return color.map((component, i) => {
-      if (i < 3) { // Ne pas ajuster l'alpha
-        return Math.max(0, Math.min(255, component + amount));
-      } else {
-        return component; // Laisser l'alpha inchangé
-      }
-    });
-  }
-
   render(player, map, raycaster) {
 
     this.ctx.fillStyle = '#000';
@@ -145,6 +126,25 @@ export class Renderer {
     // }
     this.renderColumn(raycaster, player, map);
     this.drawSprites(player, map.placeables[playerZ], map);
+  }
+
+  async initTextures() {
+    for (let key in this.textures) {
+      await this.textures[key].imageLoaded;
+    }
+    for (let key in this.sprites) {
+      await this.sprites[key].imageLoaded;
+    }
+  }
+
+  adjustBrightness(color, amount) {
+    return color.map((component, i) => {
+      if (i < 3) { // Ne pas ajuster l'alpha
+        return Math.max(0, Math.min(255, component + amount));
+      } else {
+        return component; // Laisser l'alpha inchangé
+      }
+    });
   }
 
   renderColumn(raycaster, player, map, offset = 0) {

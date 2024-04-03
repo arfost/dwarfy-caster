@@ -5,6 +5,7 @@ export class Raycaster {
   constructor(range) {
 
     this.range = range;
+    this.zRange = 5;
 
     this.stepArray = new GarbageCheater(() => {
       return {
@@ -182,14 +183,15 @@ export class Raycaster {
       sideDistY = (mapY + 1 - player.y) * deltaDistY;
     }
     
-    return this._startRay(player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel, map, this.range);
+    return this._startRay(player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel, map, 0);
   }
 
-  _startRay(player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel, map, range, step = 0) {
+  _startRay(player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel, map, zOffset, step = 0) {
     let registerBackWall = -1;
     let alreadyLookedDown = false;
     let alreadyLookedUp = false;
-    while (step <= range) {
+    const delayedRay = [];
+    while (step <= this.range) {
 
       step++;
       //jump to next map square, either in x-direction, or in y-direction
@@ -257,9 +259,10 @@ export class Raycaster {
           registerBackWall =  this.stepArray.length-1;
           alreadyLookedDown = false;
         }else{
-          if(!alreadyLookedDown){
+          if(zOffset <=0 && zOffset> -this.zRange && !alreadyLookedDown){
             registerBackWall = this.stepArray.length-1;
-            this._startRay(player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel-1, map, this.range, step)
+            delayedRay.push([player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel-1, map, zOffset-1, step]);
+            // this._startRay(player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel-1, map, this.range, step)
             alreadyLookedDown = true;
           }
         }
@@ -272,13 +275,18 @@ export class Raycaster {
         registerBackWall = this.stepArray.length-1;
         alreadyLookedUp = false;
       }else{
-        if(!alreadyLookedUp){
+        if(zOffset >=0 && zOffset < this.zRange && !alreadyLookedUp){
           registerBackWall = this.stepArray.length-1;
-          this._startRay(player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel+1, map, this.range, step)
+          delayedRay.push([player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel+1, map, zOffset+1, step]);
+          // this._startRay(player, mapX, mapY, sideDistX, sideDistY, deltaDistX, deltaDistY, stepX, stepY, side, rayDirX, rayDirY, zLevel+1, map, this.range, step)
           alreadyLookedUp = true;
         }
       }
     }
+
+    delayedRay.forEach((params)=>{
+      this._startRay(...params)
+    });
     return this.stepArray;
   }
 
