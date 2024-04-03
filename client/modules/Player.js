@@ -91,11 +91,11 @@ export class Player {
     };
 
     if (controls.look) {
-      this.rotateZ(controls.look  * Math.PI * seconds * 0.5);
+      this.rotateZ(controls.look  * Math.PI * seconds * 0.1);
       controls.look = 0;
     };
     if (controls.turn) {
-      this.rotate(controls.turn  * Math.PI * seconds * 0.5);
+      this.rotate(controls.turn  * Math.PI * seconds * 0.1);
       controls.turn = 0;
     };
 
@@ -111,6 +111,11 @@ export class Player {
     } 
     if (controls.backward) { 
       this.walk(-MOVE_SPEED * seconds, map);
+    }
+
+    if(controls.teleport) {
+      controls.teleport = false;
+      map.teleportToCursor(this);
     }
     this.physique(seconds, map);
   };

@@ -9,15 +9,17 @@ import { Renderer } from './modules/Renderer.js';
 
 async function initGame() {
 
-  let paramStartPos = undefined;
+  let paramCast = undefined;
   const params = window.location.search.split("=")[1];
   console.log(params);
   if(params){
     try{
-      const [x, y, z] = params.split(",").map(Number);
-      paramStartPos = {x, y, z};
+      paramCast = params.split(",").map(Number);
+      if(paramCast.length !== 2){
+        throw new Error("Invalid view params");
+      }
     }catch(e){
-      console.log("Error parsing start position");
+      console.log("Error parsing view params");
       return;
     }
   }
@@ -35,20 +37,18 @@ async function initGame() {
     }
   });
 
-  const player = new Player(paramStartPos ? paramStartPos : startPos, Math.PI * 0.3);
-  const map = new GameMap(mapLoader, paramStartPos ? paramStartPos : startPos);
+  const player = new Player(startPos, Math.PI * 0.3);
+  const map = new GameMap(mapLoader, startPos);
   const controls = new Controls();
   const renderer = new Renderer(display, 320);
   await renderer.initTextures();
-  const raycaster = new Raycaster(20);
+  const raycaster = new Raycaster(paramCast ? paramCast : [15, 5]);
 
   const game = new Game(display);
   game.start((seconds, ctx) => {
     map.update(seconds, player);
     player.update(controls.states, map, seconds);
     renderer.render(player, map, raycaster);
-    ctx.fillStyle = '#ff6600';
-    ctx.fillText(`x:${player.x}, y:${player.y}, z:${player.z}`, 10, 50);
   });
 }
 

@@ -37,8 +37,8 @@ const DEFAULT_MAP =   [
   [
     23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
     23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
-    23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
-    23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+    23, 23, 23, 23, 23, 23, 23, 23, 0, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+    23, 23, 23, 23, 23, 23, 23, 23, 0, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
     23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
     23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
     23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 0, 23, 23, 23, 0, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
@@ -130,6 +130,11 @@ export class DefaultMapLoader {
       this.placeables.push(...DEFAULT_PLACEABLES);
     }
 
+    const cursor = await this.getCursorPosition();
+    return cursor;
+  }
+
+  async getCursorPosition(){
     return {
       x: 16,
       y: 0,
@@ -183,10 +188,25 @@ export class DfMapLoader {
     this.tileTypeList = tileTypeList.tiletypeList;
     console.log(tileTypeList);
 
-    return {
-      x: 46,
-      y: 120,
-      z: 154
+    const cursor = await this.getCursorPosition();
+    return cursor;
+  }
+
+  async getCursorPosition(){
+    let viewInfos = await this.client.GetViewInfo();
+    console.log("viewInfos", viewInfos);
+    if(viewInfos.cursorPosX === -30000){
+      return {
+        x: viewInfos.viewPosX + viewInfos.viewSizeX / 2,
+        y: viewInfos.viewPosY + viewInfos.viewSizeY / 2,
+        z: viewInfos.viewPosZ
+      }
+    }else{
+      return {
+        x: viewInfos.cursorPosX,
+        y: viewInfos.cursorPosY,
+        z: viewInfos.cursorPosZ
+      }
     }
   }
 

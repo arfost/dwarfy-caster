@@ -86,7 +86,7 @@ export class Renderer {
     // this.height = display.height = Math.floor(window.innerHeight*0.5);
 
     this.width = display.width = 640;
-    this.height = display.height = 480;
+    this.height = display.height = 360;
 
     this.resolution = resolution;
     this.spacing = Math.floor(this.width / resolution);
@@ -109,25 +109,6 @@ export class Renderer {
 
   };
 
-  async initTextures() {
-    for (let key in this.textures) {
-      await this.textures[key].imageLoaded;
-    }
-    for (let key in this.sprites) {
-      await this.sprites[key].imageLoaded;
-    }
-  }
-
-  adjustBrightness(color, amount) {
-    return color.map((component, i) => {
-      if (i < 3) { // Ne pas ajuster l'alpha
-        return Math.max(0, Math.min(255, component + amount));
-      } else {
-        return component; // Laisser l'alpha inchangé
-      }
-    });
-  }
-
   render(player, map, raycaster) {
 
     this.ctx.fillStyle = '#000';
@@ -147,11 +128,30 @@ export class Renderer {
     this.drawSprites(player, map.placeables[playerZ], map);
   }
 
+  async initTextures() {
+    for (let key in this.textures) {
+      await this.textures[key].imageLoaded;
+    }
+    for (let key in this.sprites) {
+      await this.sprites[key].imageLoaded;
+    }
+  }
+
+  adjustBrightness(color, amount) {
+    return color.map((component, i) => {
+      if (i < 3) { // Ne pas ajuster l'alpha
+        return Math.max(0, Math.min(255, component + amount));
+      } else {
+        return component; // Laisser l'alpha inchangé
+      }
+    });
+  }
+
   renderColumn(raycaster, player, map, offset = 0) {
     for (let i = 0; i < this.resolution; i++) {
       let cameraX = 2 * i / this.resolution - 1; //x-coordinate in camera space
       let layerZ = Math.floor(player.z) + offset;
-      let rayResult = raycaster.cast(player, cameraX, map, layerZ);
+      let rayResult = raycaster.completeCast(player, cameraX, map, layerZ);
       this.drawRay(rayResult, i, player, offset);
     }
   }
@@ -189,24 +189,29 @@ export class Renderer {
   }
 
   drawRay(rayResult, x, player, zOffset = 0) {
+    let playerZ = Math.floor(player.z);
     if (rayResult.length === 0) return;
    
     for (let i = rayResult.length - 1; i >= 0; i--) {
+    // for (let i = 0; i <= rayResult.length - 1; i++) {
       //console.log("drawRay", rayResult[i], x, player);
       const hit = rayResult.read(i);
 
+      const zOffset = hit.zLevel - playerZ;
+
       const cellHeight = this.height / Math.abs(hit.distance);
       const cellTop = (((this.height + cellHeight) / 2) - cellHeight) + (cellHeight * -zOffset) + (cellHeight * player.zRest);
-// draw ceiling
-      if (hit.ceiling && hit.backDistance) {
+      
+      // draw ceiling
+      if (zOffset >=0 && hit.ceiling && hit.backDistance) {
         const backCellHeight = this.height / Math.abs(hit.backDistance);
         const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
         this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.distance, COLORS.gray, 0);
       }
       if (hit.cellInfos) {
         
-        //draw wall
-        if (hit.cellInfos.wallTexture && !hit.cellInfos.thinWall) {
+        //draw normal wall
+        if (hit.cellInfos.wallTexture && !hit.cellInfos.thinWall && !hit.floorOnly) {
           this.zBuffer[x] = hit.distance;
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
@@ -214,7 +219,7 @@ export class Renderer {
         }
 
         // draw floor
-        if (hit.cellInfos.floorTexture && !(hit.cellInfos.wallTexture && !hit.cellInfos.thinWall)) {
+        if (zOffset <=0 && hit.cellInfos.floorTexture && (hit.floorOnly || !(hit.cellInfos.wallTexture && !hit.cellInfos.thinWall))) {
           const backCellHeight = this.height / Math.abs(hit.backDistance);
           const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
 
@@ -235,6 +240,7 @@ export class Renderer {
           this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
         }
 
+        //draw thin wall
         if (hit.thinDistance && hit.cellInfos.wallTexture) {
           this.zBuffer[x] = hit.thinDistance;
           const cellThinHeight = this.height / Math.abs(hit.thinDistance);
