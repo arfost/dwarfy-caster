@@ -141,11 +141,11 @@ export class Renderer {
           const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
 
           // this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, COLORS.gray, 0);
-          this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.backDistance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+          this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
         }
 
         // draw cell top
-        if (hit.cellInfos.heightRatio < 1) {
+        if (zOffset <=0 && hit.cellInfos.heightRatio < 1) {
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
 
@@ -189,7 +189,7 @@ export class Renderer {
     if (side === 0) {
       shade = 0.3;
     }
-    shade = Math.max(0, Math.min(1, distance / 10));
+    shade += Math.max(0, Math.min(1, (distance) / 10));
     this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
     this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
 

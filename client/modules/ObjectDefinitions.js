@@ -437,7 +437,6 @@ const wall = {
       },
       signature:[
         "WALL-MINERAL-NORMAL",
-        "WALL-MINERAL-SMOOTH",
         "WALL-MINERAL-WORN_1",
         "WALL-MINERAL-WORN_2",
         "WALL-MINERAL-WORN_3",
@@ -472,6 +471,7 @@ const wall = {
       },
       signature:[
         "WALL-STONE-SMOOTH",
+        "WALL-MINERAL-SMOOTH",
       ]
     },
     {

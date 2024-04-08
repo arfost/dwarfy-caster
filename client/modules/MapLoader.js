@@ -132,13 +132,13 @@ export class DefaultMapLoader {
 
     this.additionnalInfos = new Map();
     this.additionnalInfos.set("7,8,1", {
-      tint: "yellow"
+      tint: [255, 123, 0]
     });
     this.additionnalInfos.set("10,10,1", {
-      tint: "blue"
+      tint: [123, 255, 0]
     });
     this.additionnalInfos.set("12,10,1", {
-      tint: "red"
+      tint: [0, 255, 123]
     });
 
     const cursor = await this.getCursorPosition();
@@ -210,6 +210,10 @@ export class DfMapLoader {
     const materialList = await this.client.GetMaterialList();
 
     this.materialList = materialList.materialList;
+    this.preparedMaterialList = new Map();
+    for (let material of this.materialList) {
+      this.preparedMaterialList.set(`${material.matPair.matIndex},${material.matPair.matType}`, material);
+    }
     console.log(materialList);
 
     const cursor = await this.getCursorPosition();
@@ -247,7 +251,10 @@ export class DfMapLoader {
   }
 
   _processDfBlocks(blocks) {
-    const aggregatedTileInfos = [];
+    // const aggregatedTileInfos = [];
+    if(blocks.length === 0){
+      return;
+    }
     for (let block of blocks) {
       let basePosition = {
         x: block.mapX,
@@ -257,44 +264,45 @@ export class DfMapLoader {
       for (let x = 0; x < 16; x++) {
         for (let y = 0; y < 16; y++) {
           let index = y * 16 + x;
-          const aggregatedTile = {
-            id: block.tiles[index],
-            tileInfos: this.tileTypeList.find(t => t.id === block.tiles[index]),
-            materials: this.materialList.find(m => m.matPair.matIndex === block.materials[index].matIndex && m.matPair.matType === block.materials[index].matType),
-            aquifer: block.aquifer[index],
-            baseMaterials: this.materialList.find(m => m.matPair.matIndex === block.baseMaterials[index].matIndex && m.matPair.matType === block.materials[index].matType),
-            constructionItems: this.materialList.find(m => m.matPair.matIndex === block.constructionItems[index].matIndex && m.matPair.matType === block.materials[index].matType),
-            grassPercent: block.grassPercent[index],
-            hidden: block.hidden[index],
-            layerMaterials: this.materialList.find(m => m.matPair.matIndex === block.layerMaterials[index].matIndex && m.matPair.matType === block.materials[index].matType),
-            light: block.light[index],
-            magma: block.magma[index],
-            mapX: basePosition.x + x,
-            mapY: basePosition.y + y,
-            mapZ: basePosition.z,
-            outside: block.outside[index],
-            spatterPile: block.spatterPile[index],
-            subterranean: block.subterranean[index],
-            tileDigDesignation: block.tileDigDesignation[index],
-            tileDigDesignationAuto: block.tileDigDesignationAuto[index],
-            tileDigDesignationMarker: block.tileDigDesignationMarker[index],
-            treePercent: block.treePercent[index],
-            treeX: block.treeX[index],
-            treeY: block.treeY[index],
-            treeZ: block.treeZ[index],
-            veinMaterials: this.materialList.find(m => m.matPair.matIndex === block.veinMaterials[index].matIndex && m.matPair.matType === block.materials[index].matType),
-            water: block.water[index],
-            waterSalt: block.waterSalt[index],
-            waterStagnant: block.waterStagnant[index],
-          }
-          aggregatedTileInfos.push(aggregatedTile);
+          // const aggregatedTile = {
+          //   id: block.tiles[index],
+          //   tileInfos: this.tileTypeList.find(t => t.id === block.tiles[index]),
+          //   materials: this.materialList.find(m => m.matPair.matIndex === block.materials[index].matIndex && m.matPair.matType === block.materials[index].matType),
+          //   aquifer: block.aquifer[index],
+          //   baseMaterials: this.materialList.find(m => m.matPair.matIndex === block.baseMaterials[index].matIndex && m.matPair.matType === block.materials[index].matType),
+          //   constructionItems: this.materialList.find(m => m.matPair.matIndex === block.constructionItems[index].matIndex && m.matPair.matType === block.materials[index].matType),
+          //   grassPercent: block.grassPercent[index],
+          //   hidden: block.hidden[index],
+          //   layerMaterials: this.materialList.find(m => m.matPair.matIndex === block.layerMaterials[index].matIndex && m.matPair.matType === block.materials[index].matType),
+          //   light: block.light[index],
+          //   magma: block.magma[index],
+          //   mapX: basePosition.x + x,
+          //   mapY: basePosition.y + y,
+          //   mapZ: basePosition.z,
+          //   outside: block.outside[index],
+          //   spatterPile: block.spatterPile[index],
+          //   subterranean: block.subterranean[index],
+          //   tileDigDesignation: block.tileDigDesignation[index],
+          //   tileDigDesignationAuto: block.tileDigDesignationAuto[index],
+          //   tileDigDesignationMarker: block.tileDigDesignationMarker[index],
+          //   treePercent: block.treePercent[index],
+          //   treeX: block.treeX[index],
+          //   treeY: block.treeY[index],
+          //   treeZ: block.treeZ[index],
+          //   veinMaterials: this.materialList.find(m => m.matPair.matIndex === block.veinMaterials[index].matIndex && m.matPair.matType === block.materials[index].matType),
+          //   water: block.water[index],
+          //   waterSalt: block.waterSalt[index],
+          //   waterStagnant: block.waterStagnant[index],
+          // }
+          // aggregatedTileInfos.push(aggregatedTile);
           let tileType = this.tileTypeList.find(t => t.id === block.tiles[index]);
           if (!tileType) {
             console.log("Tile type not found for", block.tiles[index]);
             continue;
           }
           const corres = this._mapDFTileInfosToCell(tileType.shape, tileType.material, tileType.special);
-          const material = this.materialList.find(m => m.matPair.matIndex === block.materials[index].matIndex && m.matPair.matType === block.materials[index].matType);
+          const material = this.preparedMaterialList.get(`${block.materials[index].matIndex},${block.materials[index].matType}`);
+          //const material = this.materialList.find(m => m.matPair.matIndex === block.materials[index].matIndex && m.matPair.matType === block.materials[index].matType);
           this.additionnalInfos.set(`${basePosition.x + x},${basePosition.y + y},${basePosition.z}`, {
             tint: material ? [material.stateColor.red, material.stateColor.green, material.stateColor.blue] : false
           });
@@ -308,7 +316,7 @@ export class DfMapLoader {
         this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[building.buildingType.buildingType], building.posXMin, building.posYMin, building.posZMin);
       }
     }
-    console.log("Block groub loaded", aggregatedTileInfos);
+    // console.log("Block groub loaded", aggregatedTileInfos);
   }
 
   _correspondanceResultToMapInfos(correspondanceResult, posX, posY, posZ) {
