@@ -19,129 +19,20 @@ export class Raycaster {
         distance: 0,
         offset: 0,
         side: 0,
+        cellAdditionnalInfos: null,
         cellInfos: null,
         ceiling: null,
+        ceilingAdditionnalInfos: null,
         floorOnly: false,
         zLevel: 0
       }
     }, 100, 50);
   }
 
-  completeCast(player, cameraX, map, zLevel = 0) {
+  cast(player, cameraX, map, zLevel = 0) {
     
     this.stepArray.reset();
     return this._prepareCastValues(player, cameraX, map, zLevel);
-  }
-
-  cast(player, cameraX, map, zLevel = 0) {
-    this.stepArray.reset();
-
-    const rayDirX = player.dirX + player.planeX * cameraX;
-    const rayDirY = player.dirY + player.planeY * cameraX;
-
-    //which box of the map we're in
-    let mapX = Math.floor(player.x);
-    let mapY = Math.floor(player.y);
-
-    //length of ray from current position to next x or y-side
-    let sideDistX;
-    let sideDistY;
-
-    //length of ray from one x or y-side to next x or y-side
-    const deltaDistX = (1 / Math.abs(rayDirX));
-    const deltaDistY = (1 / Math.abs(rayDirY));
-
-    //what direction to step in x or y-direction (either +1 or -1)
-    let stepX;
-    let stepY;
-
-    let side; //was a NS or a EW wall hit?
-
-    //calculate step and initial sideDist
-    if (rayDirX < 0) {
-      stepX = -1;
-      sideDistX = (player.x - mapX) * deltaDistX;
-    } else {
-      stepX = 1;
-      sideDistX = (mapX + 1 - player.x) * deltaDistX;
-    }
-
-    if (rayDirY < 0) {
-      stepY = -1;
-      sideDistY = (player.y - mapY) * deltaDistY;
-    } else {
-      stepY = 1;
-      sideDistY = (mapY + 1 - player.y) * deltaDistY;
-    }
-
-    //perform DDA
-    let step = 0;
-    let registerBackWall = false;
-
-    while (step <= this.range) {
-
-      step++;
-      //jump to next map square, either in x-direction, or in y-direction
-      if (sideDistX < sideDistY) {
-        sideDistX += deltaDistX;
-        mapX += stepX;
-        side = 0;
-      } else {
-        sideDistY += deltaDistY;
-        mapY += stepY;
-        side = 1;
-      }
-
-      if (registerBackWall) {
-        this._backWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY);
-        registerBackWall = false;
-      }
-
-      const stepInfos = this.stepArray.getCurrent();
-      this._resetStepInfos(stepInfos);
-
-      let perpWallDist;
-      let wallX; //where exactly the wall was hit
-      if (side == 0) {
-        perpWallDist = (sideDistX - deltaDistX);
-        wallX = player.y + perpWallDist * rayDirY;
-      } else {
-        perpWallDist = (sideDistY - deltaDistY);
-        wallX = player.x + perpWallDist * rayDirX;
-      };
-      stepInfos.distance = perpWallDist;
-      stepInfos.cellInfos = false;
-      stepInfos.offset = wallX - Math.floor(wallX);;
-      stepInfos.side = side;
-
-      const mapCell = map.getWall(mapX, mapY, zLevel);
-      //Check if ray has hit a wall
-      if (mapCell > 0) {
-        //console.log("here is a wall");
-        stepInfos.cellInfos = map.getCellProperties(mapCell);
-
-        if (stepInfos.cellInfos.thinWall) {
-          this._thinWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY, stepX, stepY, mapX, mapY);
-        } 
-
-        if (stepInfos.cellInfos.floorTexture) {
-          registerBackWall = true;
-        }
-
-        if(stepInfos.cellInfos.stopView) {
-          break;
-        }
-        
-      } 
-
-      const mapCellZ = map.getWall(mapX, mapY, zLevel + 1);
-      if (mapCellZ > 0 && this.stepArray.length > 0) {
-        let cellInfos = map.getCellProperties(mapCellZ);
-        stepInfos.ceiling = cellInfos;
-        registerBackWall = true;
-      }
-    }
-    return this.stepArray;
   }
 
   _prepareCastValues(player, cameraX, map, zLevel) {
@@ -236,6 +127,7 @@ export class Raycaster {
       if (mapCell > 0) {
         //console.log("here is a wall");
         stepInfos.cellInfos = map.getCellProperties(mapCell);
+        stepInfos.cellAdditionnalInfos = map.getWallAdditionnalInfos(mapX, mapY, zLevel);
 
         if (stepInfos.cellInfos.thinWall) {
           this._thinWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY, stepX, stepY, mapX, mapY);
@@ -272,6 +164,7 @@ export class Raycaster {
       if (mapCellZ > 0) {
         let cellInfos = map.getCellProperties(mapCellZ);
         stepInfos.ceiling = cellInfos;
+        stepInfos.ceilingAdditionnalInfos = map.getWallAdditionnalInfos(mapX, mapY, zLevel + 1);
         registerBackWall = this.stepArray.length-1;
         alreadyLookedUp = false;
       }else{
@@ -303,6 +196,8 @@ export class Raycaster {
     stepInfos.side = 0;
     stepInfos.cellInfos = null;
     stepInfos.ceiling = null;
+    stepInfos.cellAdditionnalInfos = null,
+    stepInfos.ceilingAdditionnalInfos = null,
     stepInfos.floorOnly = false;
     stepInfos.zLevel = 0;
   }

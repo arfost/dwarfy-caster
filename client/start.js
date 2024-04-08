@@ -37,18 +37,20 @@ async function initGame() {
     }
   });
 
-  const player = new Player(startPos, Math.PI * 0.3);
+  const player = new Player(startPos);
   const map = new GameMap(mapLoader, startPos);
   const controls = new Controls();
   const renderer = new Renderer(display, 320);
-  await renderer.initTextures();
-  const raycaster = new Raycaster(paramCast ? paramCast : [15, 5]);
+  await renderer.initTextures(mapLoader.definitions.assetNames);
+  const raycaster = new Raycaster(paramCast ? paramCast : [10, 5]);
 
   const game = new Game(display);
   game.start((seconds, ctx) => {
     map.update(seconds, player);
     player.update(controls.states, map, seconds);
     renderer.render(player, map, raycaster);
+    ctx.fillStyle = 'white';
+    ctx.fillText(`pos: ${player.x}, ${player.y}, ${player.z}`, 10, 10);
   });
 }
 

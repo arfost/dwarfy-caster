@@ -26,54 +26,18 @@ function combSort(order, dist, amount) {
 }
 
 const COLORS = {
-  white: [255, 255, 255, 255],
-  black: [0, 0, 0, 255],
-  red: [255, 0, 0, 128],
-  green: [0, 255, 0, 128],
-  blue: [0, 0, 255, 128],
-  yellow: [255, 255, 0, 255],
-  cyan: [0, 255, 255, 255],
-  magenta: [255, 0, 255, 255],
-  gray: [128, 128, 128, 255],
-  darkGray: [64, 64, 64, 255],
-  lightGray: [192, 192, 192, 255],
-  orange: [255, 200, 0, 255],
-}
-
-const textures = {
-  "branch_default": "assets/textures/branch_default.png",
-  "door_default": "assets/textures/door_default.png",
-  "feuillage_default": "assets/textures/feuillage_default.png",
-  "floor_default": "assets/textures/floor_default.png",
-  "fortification_default": "assets/textures/fortification_default.png",
-  "slope_construction": "assets/textures/slope_construction.png",
-  "slope_smooth_stone": "assets/textures/slope_smooth_stone.png",
-  "slope_soil": "assets/textures/slope_soil.png",
-  "slope_stone_rough": "assets/textures/slope_stone_rough.png",
-  "slope_wood": "assets/textures/slope_wood.png",
-  "stairs_construction": "assets/textures/stairs_construction.png",
-  "stairs_smooth_stone": "assets/textures/stairs_smooth_stone.png",
-  "stairs_soil": "assets/textures/stairs_soil.png",
-  "stairs_stone_rough": "assets/textures/stairs_stone_rough.png",
-  "stairs_wood": "assets/textures/stairs_wood.png",
-  "wall_construction": "assets/textures/wall_construction.png",
-  "wall_default": "assets/textures/wall_default.png",
-  "wall_smooth_stone": "assets/textures/wall_smooth_stone.png",
-  "wall_soil": "assets/textures/wall_soil.png",
-  "wall_stone_rough": "assets/textures/wall_stone_rough.png",
-  "wall_wood": "assets/textures/wall_wood.png",
-  "wallbar_default": "assets/textures/wallbar_default.png",
-}
-
-const sprites = {
-  "sprite_altar": "assets/sprites/sprite_altar.png",
-  "sprite_bed": "assets/sprites/sprite_bed.png",
-  "sprite_cabinet": "assets/sprites/sprite_cabinet.png",
-  "sprite_chair": "assets/sprites/sprite_chair.png",
-  "sprite_coffer": "assets/sprites/sprite_coffer.png",
-  "sprite_statue": "assets/sprites/sprite_statue.png",
-  "sprite_table": "assets/sprites/sprite_table.png",
-  "sprite_stairs": "assets/sprites/sprite_chair.png",
+  white: [255, 255, 255, 0.5],
+  black: [0, 0, 0, 0.5],
+  red: [255, 0, 0, 0.5],
+  green: [0, 255, 0, 0.5],
+  blue: [0, 0, 255, 0.5],
+  yellow: [255, 255, 0, 0.5],
+  cyan: [0, 255, 255, 0.5],
+  magenta: [255, 0, 255, 0.5],
+  gray: [128, 128, 128, 0.5],
+  darkGray: [64, 64, 64, 0.5],
+  lightGray: [192, 192, 192, 0.5],
+  orange: [255, 200, 0, 0.5],
 }
 
 export class Renderer {
@@ -89,84 +53,146 @@ export class Renderer {
     this.height = display.height = 360;
 
     this.resolution = resolution;
-    this.spacing = Math.floor(this.width / resolution);
+    this.spacing = this.width / resolution;
 
-    this.textures = {};
-    for (let key in textures) {
-      let texture = new Bitmap(textures[key], 256, 256);
-      this.textures[key] = texture;
-    }
+    this.cameraX = []
 
-    this.sprites = {};
-    for (let key in sprites) {
-      let sprite = new Bitmap(sprites[key], 64, 64);
-      this.sprites[key] = sprite;
+    for (let i = 0; i < this.resolution; i++) {
+      this.cameraX[i] = 2 * i / this.resolution - 1; //x-coordinate in camera space
     }
 
     this.zBuffer = new Array(this.resolution).fill(0);
 
-    // this.pixelsData = this.ctx.createImageData(this.width, this.height);
-
   };
 
-  render(player, map, raycaster) {
+  async initTextures(assetNames) {
 
+    this.textures = {};
+
+    await Promise.all(assetNames.textures.map(async (textureName) => {
+      let texture = new Bitmap(`assets/textures/${textureName}.png`, 256, 256);
+      this.textures[textureName] = texture;
+      return texture.imageLoaded;
+    }));
+
+    this.sprites = {};
+
+    await Promise.all(assetNames.sprites.map(async (spriteName) => {
+      let sprite = new Bitmap(`assets/sprites/${spriteName}.png`, 64, 64);
+      this.sprites[spriteName] = sprite;
+      return sprite.imageLoaded;
+    }));
+  }
+
+  render(player, map, raycaster) {
+    this.zBuffer = new Array(this.resolution).fill(99);
+    
     this.ctx.fillStyle = '#000';
-    this.ctx.globalAlpha = 1;
     this.ctx.fillRect(0, 0, this.width, this.height);
 
     let playerZ = Math.floor(player.z);
-    // for (let offset = 1; offset > 0; offset--) {
-    //   if (map.wallGrids[playerZ - offset]) {
-    //     this.renderColumn(raycaster, player, map, -offset);
-    //   }
-    //   if (map.wallGrids[playerZ + offset]) {
-    //     this.renderColumn(raycaster, player, map, offset);
-    //   }
-    // }
-    this.renderColumn(raycaster, player, map);
-    this.drawSprites(player, map.placeables[playerZ], map);
+
+    this._renderColumn(raycaster, player, map, playerZ);
+    this._drawSprites(player, map.placeables[playerZ], map, playerZ);
   }
 
-  async initTextures() {
-    for (let key in this.textures) {
-      await this.textures[key].imageLoaded;
-    }
-    for (let key in this.sprites) {
-      await this.sprites[key].imageLoaded;
-    }
-  }
-
-  adjustBrightness(color, amount) {
-    return color.map((component, i) => {
-      if (i < 3) { // Ne pas ajuster l'alpha
-        return Math.max(0, Math.min(255, component + amount));
-      } else {
-        return component; // Laisser l'alpha inchangé
-      }
-    });
-  }
-
-  renderColumn(raycaster, player, map, offset = 0) {
+  _renderColumn(raycaster, player, map, layerZ) {
     for (let i = 0; i < this.resolution; i++) {
-      let cameraX = 2 * i / this.resolution - 1; //x-coordinate in camera space
-      let layerZ = Math.floor(player.z) + offset;
-      let rayResult = raycaster.completeCast(player, cameraX, map, layerZ);
-      this.drawRay(rayResult, i, player, offset);
+       //x-coordinate in camera space
+      //let layerZ = Math.floor(player.z) + offset;
+      let rayResult = raycaster.cast(player, this.cameraX[i], map, layerZ);
+      this._drawRay(rayResult, i, player);
     }
   }
 
-  _drawTexturedColumn(x, top, height, distance, image, offset, side) {
-    let texX = Math.abs(Math.floor(offset * image.width));
+  _drawRay(rayResult, x, player) {
+    let playerZ = Math.floor(player.z);
+    if (rayResult.length === 0) return;
+   
+    for (let i = rayResult.length - 1; i >= 0; i--) {
+    // for (let i = 0; i <= rayResult.length - 1; i++) {
+      //console.log("drawRay", rayResult[i], x, player);
+      const hit = rayResult.read(i);
+
+      const zOffset = hit.zLevel - playerZ;
+      const zRest = player.zRest;
+
+      const verticalAdjustement = this.height * Math.tan(player.upDirection);
+
+      const cellHeight = this.height / Math.abs(hit.distance);
+      const cellTop = (((this.height + cellHeight) / 2) - cellHeight) + (cellHeight * -zOffset) + (cellHeight * zRest) + verticalAdjustement;
+      
+      // draw ceiling
+      if (zOffset >=0 && hit.ceiling && hit.backDistance) {
+        const backCellHeight = this.height / Math.abs(hit.backDistance);
+        const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;;
+        // this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.distance, COLORS.gray, 0);
+        this._drawTexturedColumn(x,  backCellTop, cellTop - backCellTop, hit.distance, this.textures[hit.ceiling.floorTexture], hit.offset, 1, hit.ceilingAdditionnalInfos ? hit.ceilingAdditionnalInfos.tint : false);
+      }
+      if (hit.cellInfos) {
+        //draw normal wall
+        if (hit.cellInfos.wallTexture && !hit.cellInfos.thinWall && !hit.floorOnly) {
+          this.zBuffer[x] = hit.distance;
+          const blockHeight = cellHeight * hit.cellInfos.heightRatio;
+          const blockTop = cellTop + (cellHeight - blockHeight);
+          this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+        }
+
+        // draw floor
+        if (zOffset <=0 && hit.cellInfos.floorTexture && (hit.floorOnly || !(hit.cellInfos.wallTexture && !hit.cellInfos.thinWall))) {
+          const backCellHeight = this.height / Math.abs(hit.backDistance);
+          const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;;
+
+          // this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, COLORS.gray, 0);
+          this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+        }
+
+        // draw cell top
+        if (zOffset <=0 && hit.cellInfos.heightRatio < 1) {
+          const blockHeight = cellHeight * hit.cellInfos.heightRatio;
+          const blockTop = cellTop + (cellHeight - blockHeight);
+
+          const backCellHeight = this.height / Math.abs(hit.backDistance);
+          const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;
+          const backBlockHeight = backCellHeight * hit.cellInfos.heightRatio;
+          const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
+
+          // this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
+          this._drawTexturedColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+        }
+
+        //draw thin wall
+        if (hit.thinDistance && hit.cellInfos.wallTexture) {
+          this.zBuffer[x] = hit.thinDistance;
+          const cellThinHeight = this.height / Math.abs(hit.thinDistance);
+          const cellThinTop = (((this.height + cellThinHeight) / 2) - cellThinHeight) + (cellThinHeight * -zOffset) + (cellThinHeight * zRest) + verticalAdjustement;
+          const blockHeight = cellThinHeight * hit.cellInfos.heightRatio;
+          const blockTop = cellThinTop + (cellThinHeight - blockHeight);
+          this._drawTexturedColumn(x, blockTop, blockHeight, hit.thinDistance, this.textures[hit.cellInfos.wallTexture], hit.thinOffset, hit.thinSide, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+        }
+      }
+      
+    }
+  }
+
+  _drawTexturedColumn(x, top, height, distance, image, texOffset, side, tint) {
+    let texX = Math.floor(texOffset * image.width);
 
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
 
-    //shading
+    //tinting
+    if (tint) {
+      this.ctx.fillStyle = `rgba(${tint[0]}, ${tint[1]}, ${tint[2]}, 0.3)`;
+      this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    }
+    
+
+    // shading
     let shade = 0;
     if (side === 0) {
       shade = 0.3;
     }
-    shade = Math.max(0, Math.min(1, distance / 10));
+    shade += Math.max(0, Math.min(1, (distance) / 10));
     this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
     this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
 
@@ -188,73 +214,9 @@ export class Renderer {
     this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
   }
 
-  drawRay(rayResult, x, player, zOffset = 0) {
-    let playerZ = Math.floor(player.z);
-    if (rayResult.length === 0) return;
-   
-    for (let i = rayResult.length - 1; i >= 0; i--) {
-    // for (let i = 0; i <= rayResult.length - 1; i++) {
-      //console.log("drawRay", rayResult[i], x, player);
-      const hit = rayResult.read(i);
-
-      const zOffset = hit.zLevel - playerZ;
-
-      const cellHeight = this.height / Math.abs(hit.distance);
-      const cellTop = (((this.height + cellHeight) / 2) - cellHeight) + (cellHeight * -zOffset) + (cellHeight * player.zRest);
-      
-      // draw ceiling
-      if (zOffset >=0 && hit.ceiling && hit.backDistance) {
-        const backCellHeight = this.height / Math.abs(hit.backDistance);
-        const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
-        this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.distance, COLORS.gray, 0);
-      }
-      if (hit.cellInfos) {
-        
-        //draw normal wall
-        if (hit.cellInfos.wallTexture && !hit.cellInfos.thinWall && !hit.floorOnly) {
-          this.zBuffer[x] = hit.distance;
-          const blockHeight = cellHeight * hit.cellInfos.heightRatio;
-          const blockTop = cellTop + (cellHeight - blockHeight);
-          this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side);
-        }
-
-        // draw floor
-        if (zOffset <=0 && hit.cellInfos.floorTexture && (hit.floorOnly || !(hit.cellInfos.wallTexture && !hit.cellInfos.thinWall))) {
-          const backCellHeight = this.height / Math.abs(hit.backDistance);
-          const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
-
-          this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, COLORS.gray, 0);
-          // this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.backDistance, this.textures[hit.cellInfos.floorTexture], hit.offset, 1);
-        }
-
-        // draw cell top
-        if (hit.cellInfos.heightRatio < 1) {
-          const blockHeight = cellHeight * hit.cellInfos.heightRatio;
-          const blockTop = cellTop + (cellHeight - blockHeight);
-
-          const backCellHeight = this.height / Math.abs(hit.backDistance);
-          const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * player.zRest);
-          const backBlockHeight = backCellHeight * hit.cellInfos.heightRatio;
-          const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
-
-          this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
-        }
-
-        //draw thin wall
-        if (hit.thinDistance && hit.cellInfos.wallTexture) {
-          this.zBuffer[x] = hit.thinDistance;
-          const cellThinHeight = this.height / Math.abs(hit.thinDistance);
-          const cellThinTop = (((this.height + cellThinHeight) / 2) - cellThinHeight) + (cellThinHeight * -zOffset) + (cellThinHeight * player.zRest);
-          const blockHeight = cellThinHeight * hit.cellInfos.heightRatio;
-          const blockTop = cellThinTop + (cellThinHeight - blockHeight);
-          this._drawTexturedColumn(x, blockTop, blockHeight, hit.thinDistance, this.textures[hit.cellInfos.wallTexture], hit.thinOffset, hit.thinSide);
-        }
-      }
-      
-    }
-  }
-
-  drawSprites(player, placeables, map) {
+  _drawSprites(player, placeables, map) {
+    
+    const verticalAdjustement = this.height * Math.tan(player.upDirection);
     let placeableOrders = [];
     let spriteDistance = [];
     //SPRITE CASTING
@@ -273,7 +235,7 @@ export class Renderer {
       const transformX = invDet * (player.dirY * spriteX - player.dirX * spriteY);
       const transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
 
-      if (transformY > 0) { //No need for the rest if the sprite is behind the player
+      if (transformY > 0 && transformY < 10) { //No need for the rest if the sprite is behind the player
         const spriteHeight = Math.abs(Math.floor(this.height / 2 / transformY));
         const drawStartY = (spriteHeight / 2) / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
 
@@ -320,10 +282,7 @@ export class Renderer {
           if (drawWidth < 0) {
             drawWidth = 0;
           }
-          this.ctx.save();
-          this.ctx.imageSmoothingEnabled = false;
-          this.ctx.drawImage(placeableSprite.image, drawXStart * this.spacing, 0, drawXEnd, placeableSprite.height*placeableInfos.heightRatio, clipStartX * this.spacing, drawStartY, drawWidth * this.spacing, spriteHeight);
-          this.ctx.restore();
+          this.ctx.drawImage(placeableSprite.image, drawXStart * this.spacing, 0, drawXEnd, placeableSprite.height*placeableInfos.heightRatio, clipStartX * this.spacing, drawStartY+ verticalAdjustement, drawWidth * this.spacing, spriteHeight);
         }
       }
     }//End of spriteList for loop

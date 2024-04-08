@@ -1,0 +1,2027 @@
+[
+    {
+        "shape": "NO_SHAPE",
+        "special": "NO_SPECIAL",
+        "material": "NO_MATERIAL",
+        "name": [
+            "Void",
+            "Unused999",
+            "Unused9999",
+            "Unused99999",
+            "Unused999999",
+            "Unused888",
+            "Unused8888",
+            "Unused88888",
+            "Unused888888",
+            "Unused245",
+            "Unused246",
+            "Unused247",
+            "Unused248",
+            "Unused249",
+            "Unused250",
+            "Unused251",
+            "Unused252",
+            "Unused253",
+            "Unused264",
+            "Unused381",
+            "Unused382",
+            "Unused387",
+            "Unused473",
+            "Unused474",
+            "Unused475",
+            "Unused476",
+            "Unused477",
+            "Unused478",
+            "Unused479",
+            "Unused480",
+            "Unused481",
+            "Unused482",
+            "Unused483",
+            "Unused484",
+            "Unused485",
+            "Unused486",
+            "Unused487",
+            "Unused488",
+            "Unused695",
+            "Unused696"
+        ],
+        "key": "-1,-1,-1"
+    },
+    {
+        "shape": "RAMP_TOP",
+        "special": "NO_SPECIAL",
+        "material": "AIR",
+        "name": [
+            "RampTop"
+        ],
+        "key": "10,0,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "POOL",
+        "name": [
+            "MurkyPool"
+        ],
+        "key": "1,19,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "POOL",
+        "name": [
+            "MurkyPoolRamp"
+        ],
+        "key": "9,19,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "UNDERWORLD_GATE",
+        "name": [
+            "UnderworldGateStairU"
+        ],
+        "key": "6,25,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "UNDERWORLD_GATE",
+        "name": [
+            "UnderworldGateStairD"
+        ],
+        "key": "7,25,-1"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "UNDERWORLD_GATE",
+        "name": [
+            "UnderworldGateStairUD"
+        ],
+        "key": "8,25,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH",
+        "material": "MUSHROOM",
+        "name": [
+            "TreeCapInterior",
+            "TreeCapWallThickSW",
+            "TreeCapWallThickSE",
+            "TreeCapWallThickNW",
+            "TreeCapWallThickNE",
+            "TreeCapWallThickN",
+            "TreeCapWallThickS",
+            "TreeCapWallThickW",
+            "TreeCapWallThickE",
+            "TreeCapWallNSWE",
+            "TreeCapWallNSW",
+            "TreeCapWallNSE",
+            "TreeCapWallNWE",
+            "TreeCapWallSWE",
+            "TreeCapWallNS",
+            "TreeCapWallWE",
+            "TreeCapPillar"
+        ],
+        "key": "4,24,3"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "DRIFTWOOD",
+        "name": [
+            "Driftwood"
+        ],
+        "key": "1,18,-1"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenStairUD"
+        ],
+        "key": "8,6,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenStairD"
+        ],
+        "key": "7,6,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenStairU"
+        ],
+        "key": "6,6,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH_DEAD",
+        "material": "MUSHROOM",
+        "name": [
+            "TreeDeadCapInterior",
+            "TreeDeadCapWallThickSW",
+            "TreeDeadCapWallThickSE",
+            "TreeDeadCapWallThickNW",
+            "TreeDeadCapWallThickNE",
+            "TreeDeadCapWallThickN",
+            "TreeDeadCapWallThickS",
+            "TreeDeadCapWallThickW",
+            "TreeDeadCapWallThickE",
+            "TreeDeadCapWallNSWE",
+            "TreeDeadCapWallNSW",
+            "TreeDeadCapWallNSE",
+            "TreeDeadCapWallNWE",
+            "TreeDeadCapWallSWE",
+            "TreeDeadCapPillar",
+            "TreeDeadCapWallNS",
+            "TreeDeadCapPillarWE"
+        ],
+        "key": "4,24,11"
+    },
+    {
+        "shape": "EMPTY",
+        "special": "NO_SPECIAL",
+        "material": "AIR",
+        "name": [
+            "OpenSpace",
+            "Chasm"
+        ],
+        "key": "0,0,-1"
+    },
+    {
+        "shape": "SHRUB",
+        "special": "NORMAL",
+        "material": "PLANT",
+        "name": [
+            "Shrub"
+        ],
+        "key": "15,12,0"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaStairUD"
+        ],
+        "key": "8,4,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaStairD"
+        ],
+        "key": "7,4,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaStairU"
+        ],
+        "key": "6,4,-1"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "SOIL",
+        "name": [
+            "SoilStairUD"
+        ],
+        "key": "8,1,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "SOIL",
+        "name": [
+            "SoilStairD"
+        ],
+        "key": "7,1,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "SOIL",
+        "name": [
+            "SoilStairU"
+        ],
+        "key": "6,1,-1"
+    },
+    {
+        "shape": "EMPTY",
+        "special": "NO_SPECIAL",
+        "material": "HFS",
+        "name": [
+            "EeriePit"
+        ],
+        "key": "0,13,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "SMOOTH",
+        "material": "STONE",
+        "name": [
+            "StoneFloorSmooth"
+        ],
+        "key": "1,2,3"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "SMOOTH",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaFloorSmooth"
+        ],
+        "key": "1,4,3"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "SMOOTH",
+        "material": "FEATURE",
+        "name": [
+            "FeatureFloorSmooth"
+        ],
+        "key": "1,3,3"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "SMOOTH",
+        "material": "MINERAL",
+        "name": [
+            "MineralFloorSmooth"
+        ],
+        "key": "1,5,3"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "SMOOTH",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenFloorSmooth"
+        ],
+        "key": "1,6,3"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_LIGHT",
+        "name": [
+            "Grass1StairUD"
+        ],
+        "key": "8,8,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_LIGHT",
+        "name": [
+            "Grass1StairD"
+        ],
+        "key": "7,8,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_LIGHT",
+        "name": [
+            "Grass1StairU"
+        ],
+        "key": "6,8,-1"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_DARK",
+        "name": [
+            "Grass2StairUD"
+        ],
+        "key": "8,9,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_DARK",
+        "name": [
+            "Grass2StairD"
+        ],
+        "key": "7,9,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_DARK",
+        "name": [
+            "Grass2StairU"
+        ],
+        "key": "6,9,-1"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "STONE",
+        "name": [
+            "StoneStairUD"
+        ],
+        "key": "8,2,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "STONE",
+        "name": [
+            "StoneStairD"
+        ],
+        "key": "7,2,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "STONE",
+        "name": [
+            "StoneStairU"
+        ],
+        "key": "6,2,-1"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "MINERAL",
+        "name": [
+            "MineralStairUD"
+        ],
+        "key": "8,5,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "MINERAL",
+        "name": [
+            "MineralStairD"
+        ],
+        "key": "7,5,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "MINERAL",
+        "name": [
+            "MineralStairU"
+        ],
+        "key": "6,5,-1"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "FEATURE",
+        "name": [
+            "FeatureStairUD"
+        ],
+        "key": "8,3,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "FEATURE",
+        "name": [
+            "FeatureStairD"
+        ],
+        "key": "7,3,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "FEATURE",
+        "name": [
+            "FeatureStairU"
+        ],
+        "key": "6,3,-1"
+    },
+    {
+        "shape": "FORTIFICATION",
+        "special": "NO_SPECIAL",
+        "material": "STONE",
+        "name": [
+            "StoneFortification"
+        ],
+        "key": "5,2,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "CAMPFIRE",
+        "name": [
+            "Campfire"
+        ],
+        "key": "1,14,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "FIRE",
+        "name": [
+            "Fire",
+            "BurningTreeCapFloor"
+        ],
+        "key": "1,15,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "NO_SPECIAL",
+        "material": "FIRE",
+        "name": [
+            "BurningTreeTrunk",
+            "BurningTreeCapWall"
+        ],
+        "key": "4,15,-1"
+    },
+    {
+        "shape": "BRANCH",
+        "special": "NO_SPECIAL",
+        "material": "FIRE",
+        "name": [
+            "BurningTreeBranches"
+        ],
+        "key": "17,15,-1"
+    },
+    {
+        "shape": "TWIG",
+        "special": "NO_SPECIAL",
+        "material": "FIRE",
+        "name": [
+            "BurningTreeTwigs"
+        ],
+        "key": "19,15,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "FIRE",
+        "name": [
+            "BurningTreeCapRamp"
+        ],
+        "key": "9,15,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH",
+        "material": "STONE",
+        "name": [
+            "StonePillar",
+            "StoneWallSmoothRD2",
+            "StoneWallSmoothR2D",
+            "StoneWallSmoothR2U",
+            "StoneWallSmoothRU2",
+            "StoneWallSmoothL2U",
+            "StoneWallSmoothLU2",
+            "StoneWallSmoothL2D",
+            "StoneWallSmoothLD2",
+            "StoneWallSmoothLRUD",
+            "StoneWallSmoothRUD",
+            "StoneWallSmoothLRD",
+            "StoneWallSmoothLRU",
+            "StoneWallSmoothLUD",
+            "StoneWallSmoothRD",
+            "StoneWallSmoothRU",
+            "StoneWallSmoothLU",
+            "StoneWallSmoothLD",
+            "StoneWallSmoothUD",
+            "StoneWallSmoothLR"
+        ],
+        "key": "4,2,3"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaPillar",
+            "LavaWallSmoothRD2",
+            "LavaWallSmoothR2D",
+            "LavaWallSmoothR2U",
+            "LavaWallSmoothRU2",
+            "LavaWallSmoothL2U",
+            "LavaWallSmoothLU2",
+            "LavaWallSmoothL2D",
+            "LavaWallSmoothLD2",
+            "LavaWallSmoothLRUD",
+            "LavaWallSmoothRUD",
+            "LavaWallSmoothLRD",
+            "LavaWallSmoothLRU",
+            "LavaWallSmoothLUD",
+            "LavaWallSmoothRD",
+            "LavaWallSmoothRU",
+            "LavaWallSmoothLU",
+            "LavaWallSmoothLD",
+            "LavaWallSmoothUD",
+            "LavaWallSmoothLR"
+        ],
+        "key": "4,4,3"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH",
+        "material": "FEATURE",
+        "name": [
+            "FeaturePillar",
+            "FeatureWallSmoothRD2",
+            "FeatureWallSmoothR2D",
+            "FeatureWallSmoothR2U",
+            "FeatureWallSmoothRU2",
+            "FeatureWallSmoothL2U",
+            "FeatureWallSmoothLU2",
+            "FeatureWallSmoothL2D",
+            "FeatureWallSmoothLD2",
+            "FeatureWallSmoothLRUD",
+            "FeatureWallSmoothRUD",
+            "FeatureWallSmoothLRD",
+            "FeatureWallSmoothLRU",
+            "FeatureWallSmoothLUD",
+            "FeatureWallSmoothRD",
+            "FeatureWallSmoothRU",
+            "FeatureWallSmoothLU",
+            "FeatureWallSmoothLD",
+            "FeatureWallSmoothUD",
+            "FeatureWallSmoothLR"
+        ],
+        "key": "4,3,3"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH",
+        "material": "MINERAL",
+        "name": [
+            "MineralPillar",
+            "MineralWallSmoothRD2",
+            "MineralWallSmoothR2D",
+            "MineralWallSmoothR2U",
+            "MineralWallSmoothRU2",
+            "MineralWallSmoothL2U",
+            "MineralWallSmoothLU2",
+            "MineralWallSmoothL2D",
+            "MineralWallSmoothLD2",
+            "MineralWallSmoothLRUD",
+            "MineralWallSmoothRUD",
+            "MineralWallSmoothLRD",
+            "MineralWallSmoothLRU",
+            "MineralWallSmoothLUD",
+            "MineralWallSmoothRD",
+            "MineralWallSmoothRU",
+            "MineralWallSmoothLU",
+            "MineralWallSmoothLD",
+            "MineralWallSmoothUD",
+            "MineralWallSmoothLR"
+        ],
+        "key": "4,5,3"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenPillar",
+            "FrozenWallSmoothRD2",
+            "FrozenWallSmoothR2D",
+            "FrozenWallSmoothR2U",
+            "FrozenWallSmoothRU2",
+            "FrozenWallSmoothL2U",
+            "FrozenWallSmoothLU2",
+            "FrozenWallSmoothL2D",
+            "FrozenWallSmoothLD2",
+            "FrozenWallSmoothLRUD",
+            "FrozenWallSmoothRUD",
+            "FrozenWallSmoothLRD",
+            "FrozenWallSmoothLRU",
+            "FrozenWallSmoothLUD",
+            "FrozenWallSmoothRD",
+            "FrozenWallSmoothRU",
+            "FrozenWallSmoothLU",
+            "FrozenWallSmoothLD",
+            "FrozenWallSmoothUD",
+            "FrozenWallSmoothLR"
+        ],
+        "key": "4,6,3"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "WATERFALL",
+        "material": "RIVER",
+        "name": [
+            "Waterfall"
+        ],
+        "key": "1,21,2"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "RIVER_SOURCE",
+        "material": "RIVER",
+        "name": [
+            "RiverSource"
+        ],
+        "key": "1,21,1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "ROOT",
+        "name": [
+            "TreeRootSloping"
+        ],
+        "key": "9,22,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "NO_SPECIAL",
+        "material": "ROOT",
+        "name": [
+            "TreeRoots"
+        ],
+        "key": "4,22,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeTrunkPillar"
+        ],
+        "key": "4,23,3"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeTrunkSloping"
+        ],
+        "key": "9,23,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "NO_SPECIAL",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeTrunkThickN",
+            "TreeTrunkThickS",
+            "TreeTrunkThickE",
+            "TreeTrunkThickW",
+            "TreeTrunkThickNW",
+            "TreeTrunkThickNE",
+            "TreeTrunkThickSW",
+            "TreeTrunkThickSE",
+            "TreeTrunkNSE",
+            "TreeTrunkNSW",
+            "TreeTrunkNEW",
+            "TreeTrunkSEW",
+            "TreeTrunkNS",
+            "TreeTrunkEW",
+            "TreeTrunkNSEW",
+            "TreeTrunkInterior",
+            "TreeTrunkNW",
+            "TreeTrunkNE",
+            "TreeTrunkSW",
+            "TreeTrunkSE",
+            "TreeTrunkN",
+            "TreeTrunkS",
+            "TreeTrunkW",
+            "TreeTrunkE"
+        ],
+        "key": "4,23,-1"
+    },
+    {
+        "shape": "TRUNK_BRANCH",
+        "special": "NO_SPECIAL",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeTrunkBranchN",
+            "TreeTrunkBranchS",
+            "TreeTrunkBranchE",
+            "TreeTrunkBranchW"
+        ],
+        "key": "18,23,-1"
+    },
+    {
+        "shape": "BRANCH",
+        "special": "NO_SPECIAL",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeBranchNS",
+            "TreeBranchEW",
+            "TreeBranchNW",
+            "TreeBranchNE",
+            "TreeBranchSW",
+            "TreeBranchSE",
+            "TreeBranches",
+            "TreeBranch",
+            "TreeBranchNSE",
+            "TreeBranchNSW",
+            "TreeBranchNEW",
+            "TreeBranchSEW",
+            "TreeBranchNSEW",
+            "TreeBranchS",
+            "TreeBranchN",
+            "TreeBranchW",
+            "TreeBranchE"
+        ],
+        "key": "17,23,-1"
+    },
+    {
+        "shape": "BRANCH",
+        "special": "SMOOTH",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeBranchesSmooth"
+        ],
+        "key": "17,23,3"
+    },
+    {
+        "shape": "BRANCH",
+        "special": "SMOOTH_DEAD",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeDeadBranchesSmooth"
+        ],
+        "key": "17,23,11"
+    },
+    {
+        "shape": "TWIG",
+        "special": "NO_SPECIAL",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeTwigs"
+        ],
+        "key": "19,23,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "MUSHROOM",
+        "name": [
+            "TreeCapRamp"
+        ],
+        "key": "9,24,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "NO_SPECIAL",
+        "material": "MUSHROOM",
+        "name": [
+            "TreeCapWallN",
+            "TreeCapWallS",
+            "TreeCapWallE",
+            "TreeCapWallW",
+            "TreeCapWallNW",
+            "TreeCapWallNE",
+            "TreeCapWallSW",
+            "TreeCapWallSE"
+        ],
+        "key": "4,24,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "MUSHROOM",
+        "name": [
+            "TreeCapFloor1",
+            "TreeCapFloor2",
+            "TreeCapFloor3",
+            "TreeCapFloor4"
+        ],
+        "key": "1,24,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "DEAD",
+        "material": "ROOT",
+        "name": [
+            "TreeDeadRootSloping"
+        ],
+        "key": "9,22,6"
+    },
+    {
+        "shape": "WALL",
+        "special": "DEAD",
+        "material": "ROOT",
+        "name": [
+            "TreeDeadRoots"
+        ],
+        "key": "4,22,6"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH_DEAD",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeDeadTrunkPillar"
+        ],
+        "key": "4,23,11"
+    },
+    {
+        "shape": "RAMP",
+        "special": "DEAD",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeDeadTrunkSloping"
+        ],
+        "key": "9,23,6"
+    },
+    {
+        "shape": "WALL",
+        "special": "DEAD",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeDeadTrunkThickN",
+            "TreeDeadTrunkThickS",
+            "TreeDeadTrunkThickE",
+            "TreeDeadTrunkThickW",
+            "TreeDeadTrunkThickNW",
+            "TreeDeadTrunkThickNE",
+            "TreeDeadTrunkThickSW",
+            "TreeDeadTrunkThickSE",
+            "TreeDeadTrunkNSE",
+            "TreeDeadTrunkNSW",
+            "TreeDeadTrunkNEW",
+            "TreeDeadTrunkSEW",
+            "TreeDeadTrunkNS",
+            "TreeDeadTrunkEW",
+            "TreeDeadTrunkNSEW",
+            "TreeDeadTrunkInterior",
+            "TreeDeadTrunkNW",
+            "TreeDeadTrunkNE",
+            "TreeDeadTrunkSW",
+            "TreeDeadTrunkSE",
+            "TreeDeadTrunkN",
+            "TreeDeadTrunkS",
+            "TreeDeadTrunkW",
+            "TreeDeadTrunkE"
+        ],
+        "key": "4,23,6"
+    },
+    {
+        "shape": "TRUNK_BRANCH",
+        "special": "DEAD",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeDeadTrunkBranchN",
+            "TreeDeadTrunkBranchS",
+            "TreeDeadTrunkBranchE",
+            "TreeDeadTrunkBranchW"
+        ],
+        "key": "18,23,6"
+    },
+    {
+        "shape": "BRANCH",
+        "special": "DEAD",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeDeadBranchNS",
+            "TreeDeadBranchEW",
+            "TreeDeadBranch",
+            "TreeDeadBranchNW",
+            "TreeDeadBranchNE",
+            "TreeDeadBranchSW",
+            "TreeDeadBranchSE",
+            "TreeDeadBranches",
+            "TreeDeadBranchNSE",
+            "TreeDeadBranchNSW",
+            "TreeDeadBranchNEW",
+            "TreeDeadBranchSEW",
+            "TreeDeadBranchNSEW",
+            "TreeDeadBranchS",
+            "TreeDeadBranchN",
+            "TreeDeadBranchW",
+            "TreeDeadBranchE"
+        ],
+        "key": "17,23,6"
+    },
+    {
+        "shape": "TWIG",
+        "special": "DEAD",
+        "material": "TREE_MATERIAL",
+        "name": [
+            "TreeDeadTwigs"
+        ],
+        "key": "19,23,6"
+    },
+    {
+        "shape": "RAMP",
+        "special": "DEAD",
+        "material": "MUSHROOM",
+        "name": [
+            "TreeDeadCapRamp"
+        ],
+        "key": "9,24,6"
+    },
+    {
+        "shape": "WALL",
+        "special": "DEAD",
+        "material": "MUSHROOM",
+        "name": [
+            "TreeDeadCapWallN",
+            "TreeDeadCapWallS",
+            "TreeDeadCapWallE",
+            "TreeDeadCapWallW",
+            "TreeDeadCapWallNW",
+            "TreeDeadCapWallNE",
+            "TreeDeadCapWallSW",
+            "TreeDeadCapWallSE"
+        ],
+        "key": "4,24,6"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "DEAD",
+        "material": "MUSHROOM",
+        "name": [
+            "TreeDeadCapFloor1",
+            "TreeDeadCapFloor2",
+            "TreeDeadCapFloor3",
+            "TreeDeadCapFloor4"
+        ],
+        "key": "1,24,6"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_1",
+        "material": "STONE",
+        "name": [
+            "StoneWallWorn1"
+        ],
+        "key": "4,2,7"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_2",
+        "material": "STONE",
+        "name": [
+            "StoneWallWorn2"
+        ],
+        "key": "4,2,8"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_3",
+        "material": "STONE",
+        "name": [
+            "StoneWallWorn3"
+        ],
+        "key": "4,2,9"
+    },
+    {
+        "shape": "WALL",
+        "special": "NORMAL",
+        "material": "STONE",
+        "name": [
+            "StoneWall"
+        ],
+        "key": "4,2,0"
+    },
+    {
+        "shape": "SAPLING",
+        "special": "NORMAL",
+        "material": "PLANT",
+        "name": [
+            "Sapling"
+        ],
+        "key": "14,12,0"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_DRY",
+        "name": [
+            "GrassDryRamp"
+        ],
+        "key": "9,10,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_DEAD",
+        "name": [
+            "GrassDeadRamp"
+        ],
+        "key": "9,11,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_LIGHT",
+        "name": [
+            "GrassLightRamp"
+        ],
+        "key": "9,8,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_DARK",
+        "name": [
+            "GrassDarkRamp"
+        ],
+        "key": "9,9,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "STONE",
+        "name": [
+            "StoneRamp"
+        ],
+        "key": "9,2,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaRamp"
+        ],
+        "key": "9,4,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "FEATURE",
+        "name": [
+            "FeatureRamp"
+        ],
+        "key": "9,3,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "MINERAL",
+        "name": [
+            "MineralRamp"
+        ],
+        "key": "9,5,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "SOIL",
+        "name": [
+            "SoilRamp"
+        ],
+        "key": "9,1,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "ASHES",
+        "name": [
+            "Ashes1",
+            "Ashes2",
+            "Ashes3"
+        ],
+        "key": "1,16,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenRamp"
+        ],
+        "key": "9,6,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NORMAL",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenFloor2",
+            "FrozenFloor3",
+            "FrozenFloor4",
+            "FrozenFloor1"
+        ],
+        "key": "1,6,0"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "FURROWED",
+        "material": "SOIL",
+        "name": [
+            "FurrowedSoil"
+        ],
+        "key": "1,1,4"
+    },
+    {
+        "shape": "WALL",
+        "special": "NO_SPECIAL",
+        "material": "MAGMA",
+        "name": [
+            "SemiMoltenRock"
+        ],
+        "key": "4,17,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "MAGMA",
+        "name": [
+            "MagmaFlow"
+        ],
+        "key": "1,17,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "NO_SPECIAL",
+        "material": "SOIL",
+        "name": [
+            "SoilWall"
+        ],
+        "key": "4,1,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "NO_SPECIAL",
+        "material": "HFS",
+        "name": [
+            "GlowingBarrier"
+        ],
+        "key": "4,13,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "HFS",
+        "name": [
+            "GlowingFloor"
+        ],
+        "key": "1,13,-1"
+    },
+    {
+        "shape": "FORTIFICATION",
+        "special": "NO_SPECIAL",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaFortification"
+        ],
+        "key": "5,4,-1"
+    },
+    {
+        "shape": "FORTIFICATION",
+        "special": "NO_SPECIAL",
+        "material": "FEATURE",
+        "name": [
+            "FeatureFortification"
+        ],
+        "key": "5,3,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_1",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaWallWorn1"
+        ],
+        "key": "4,4,7"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_2",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaWallWorn2"
+        ],
+        "key": "4,4,8"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_3",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaWallWorn3"
+        ],
+        "key": "4,4,9"
+    },
+    {
+        "shape": "WALL",
+        "special": "NORMAL",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaWall"
+        ],
+        "key": "4,4,0"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_1",
+        "material": "FEATURE",
+        "name": [
+            "FeatureWallWorn1"
+        ],
+        "key": "4,3,7"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_2",
+        "material": "FEATURE",
+        "name": [
+            "FeatureWallWorn2"
+        ],
+        "key": "4,3,8"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_3",
+        "material": "FEATURE",
+        "name": [
+            "FeatureWallWorn3"
+        ],
+        "key": "4,3,9"
+    },
+    {
+        "shape": "WALL",
+        "special": "NORMAL",
+        "material": "FEATURE",
+        "name": [
+            "FeatureWall"
+        ],
+        "key": "4,3,0"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NORMAL",
+        "material": "STONE",
+        "name": [
+            "StoneFloor1",
+            "StoneFloor2",
+            "StoneFloor3",
+            "StoneFloor4"
+        ],
+        "key": "1,2,0"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NORMAL",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaFloor1",
+            "LavaFloor2",
+            "LavaFloor3",
+            "LavaFloor4"
+        ],
+        "key": "1,4,0"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NORMAL",
+        "material": "FEATURE",
+        "name": [
+            "FeatureFloor1",
+            "FeatureFloor2",
+            "FeatureFloor3",
+            "FeatureFloor4"
+        ],
+        "key": "1,3,0"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_DARK",
+        "name": [
+            "GrassDarkFloor1",
+            "GrassDarkFloor2",
+            "GrassDarkFloor3",
+            "GrassDarkFloor4"
+        ],
+        "key": "1,9,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NORMAL",
+        "material": "SOIL",
+        "name": [
+            "SoilFloor1",
+            "SoilFloor2",
+            "SoilFloor3",
+            "SoilFloor4"
+        ],
+        "key": "1,1,0"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "WET",
+        "material": "SOIL",
+        "name": [
+            "SoilWetFloor1",
+            "SoilWetFloor2",
+            "SoilWetFloor3",
+            "SoilWetFloor4"
+        ],
+        "key": "1,1,5"
+    },
+    {
+        "shape": "FORTIFICATION",
+        "special": "NO_SPECIAL",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenFortification"
+        ],
+        "key": "5,6,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_1",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenWallWorn1"
+        ],
+        "key": "4,6,7"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_2",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenWallWorn2"
+        ],
+        "key": "4,6,8"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_3",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenWallWorn3"
+        ],
+        "key": "4,6,9"
+    },
+    {
+        "shape": "WALL",
+        "special": "NORMAL",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenWall"
+        ],
+        "key": "4,6,0"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NORMAL",
+        "material": "RIVER",
+        "name": [
+            "RiverN",
+            "RiverS",
+            "RiverE",
+            "RiverW",
+            "RiverNW",
+            "RiverNE",
+            "RiverSW",
+            "RiverSE"
+        ],
+        "key": "1,21,0"
+    },
+    {
+        "shape": "BROOK_BED",
+        "special": "NO_SPECIAL",
+        "material": "BROOK",
+        "name": [
+            "BrookN",
+            "BrookS",
+            "BrookE",
+            "BrookW",
+            "BrookNW",
+            "BrookNE",
+            "BrookSW",
+            "BrookSE"
+        ],
+        "key": "11,20,-1"
+    },
+    {
+        "shape": "BROOK_TOP",
+        "special": "NO_SPECIAL",
+        "material": "BROOK",
+        "name": [
+            "BrookTop1",
+            "BrookTop2",
+            "BrookTop3",
+            "BrookTop4"
+        ],
+        "key": "12,20,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_DRY",
+        "name": [
+            "GrassDryFloor1",
+            "GrassDryFloor2",
+            "GrassDryFloor3",
+            "GrassDryFloor4"
+        ],
+        "key": "1,10,-1"
+    },
+    {
+        "shape": "SAPLING",
+        "special": "DEAD",
+        "material": "PLANT",
+        "name": [
+            "SaplingDead"
+        ],
+        "key": "14,12,6"
+    },
+    {
+        "shape": "SHRUB",
+        "special": "DEAD",
+        "material": "PLANT",
+        "name": [
+            "ShrubDead"
+        ],
+        "key": "15,12,6"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_DEAD",
+        "name": [
+            "GrassDeadFloor1",
+            "GrassDeadFloor2",
+            "GrassDeadFloor3",
+            "GrassDeadFloor4"
+        ],
+        "key": "1,11,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NO_SPECIAL",
+        "material": "GRASS_LIGHT",
+        "name": [
+            "GrassLightFloor1",
+            "GrassLightFloor2",
+            "GrassLightFloor3",
+            "GrassLightFloor4"
+        ],
+        "key": "1,8,-1"
+    },
+    {
+        "shape": "BOULDER",
+        "special": "NO_SPECIAL",
+        "material": "STONE",
+        "name": [
+            "StoneBoulder"
+        ],
+        "key": "2,2,-1"
+    },
+    {
+        "shape": "BOULDER",
+        "special": "NO_SPECIAL",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaBoulder"
+        ],
+        "key": "2,4,-1"
+    },
+    {
+        "shape": "BOULDER",
+        "special": "NO_SPECIAL",
+        "material": "FEATURE",
+        "name": [
+            "FeatureBoulder"
+        ],
+        "key": "2,3,-1"
+    },
+    {
+        "shape": "PEBBLES",
+        "special": "NO_SPECIAL",
+        "material": "STONE",
+        "name": [
+            "StonePebbles1",
+            "StonePebbles2",
+            "StonePebbles3",
+            "StonePebbles4"
+        ],
+        "key": "3,2,-1"
+    },
+    {
+        "shape": "PEBBLES",
+        "special": "NO_SPECIAL",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaPebbles1",
+            "LavaPebbles2",
+            "LavaPebbles3",
+            "LavaPebbles4"
+        ],
+        "key": "3,4,-1"
+    },
+    {
+        "shape": "PEBBLES",
+        "special": "NO_SPECIAL",
+        "material": "FEATURE",
+        "name": [
+            "FeaturePebbles1",
+            "FeaturePebbles2",
+            "FeaturePebbles3",
+            "FeaturePebbles4"
+        ],
+        "key": "3,3,-1"
+    },
+    {
+        "shape": "FORTIFICATION",
+        "special": "NO_SPECIAL",
+        "material": "MINERAL",
+        "name": [
+            "MineralFortification"
+        ],
+        "key": "5,5,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_1",
+        "material": "MINERAL",
+        "name": [
+            "MineralWallWorn1"
+        ],
+        "key": "4,5,7"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_2",
+        "material": "MINERAL",
+        "name": [
+            "MineralWallWorn2"
+        ],
+        "key": "4,5,8"
+    },
+    {
+        "shape": "WALL",
+        "special": "WORN_3",
+        "material": "MINERAL",
+        "name": [
+            "MineralWallWorn3"
+        ],
+        "key": "4,5,9"
+    },
+    {
+        "shape": "WALL",
+        "special": "NORMAL",
+        "material": "MINERAL",
+        "name": [
+            "MineralWall"
+        ],
+        "key": "4,5,0"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "NORMAL",
+        "material": "MINERAL",
+        "name": [
+            "MineralFloor1",
+            "MineralFloor2",
+            "MineralFloor3",
+            "MineralFloor4"
+        ],
+        "key": "1,5,0"
+    },
+    {
+        "shape": "BOULDER",
+        "special": "NO_SPECIAL",
+        "material": "MINERAL",
+        "name": [
+            "MineralBoulder"
+        ],
+        "key": "2,5,-1"
+    },
+    {
+        "shape": "PEBBLES",
+        "special": "NO_SPECIAL",
+        "material": "MINERAL",
+        "name": [
+            "MineralPebbles1",
+            "MineralPebbles2",
+            "MineralPebbles3",
+            "MineralPebbles4"
+        ],
+        "key": "3,5,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "RIVER",
+        "name": [
+            "RiverRampN",
+            "RiverRampS",
+            "RiverRampE",
+            "RiverRampW",
+            "RiverRampNW",
+            "RiverRampNE",
+            "RiverRampSW",
+            "RiverRampSE"
+        ],
+        "key": "9,21,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "SMOOTH",
+        "material": "CONSTRUCTION",
+        "name": [
+            "ConstructedFloor"
+        ],
+        "key": "1,7,3"
+    },
+    {
+        "shape": "FORTIFICATION",
+        "special": "NO_SPECIAL",
+        "material": "CONSTRUCTION",
+        "name": [
+            "ConstructedFortification"
+        ],
+        "key": "5,7,-1"
+    },
+    {
+        "shape": "WALL",
+        "special": "SMOOTH",
+        "material": "CONSTRUCTION",
+        "name": [
+            "ConstructedPillar",
+            "ConstructedWallRD2",
+            "ConstructedWallR2D",
+            "ConstructedWallR2U",
+            "ConstructedWallRU2",
+            "ConstructedWallL2U",
+            "ConstructedWallLU2",
+            "ConstructedWallL2D",
+            "ConstructedWallLD2",
+            "ConstructedWallLRUD",
+            "ConstructedWallRUD",
+            "ConstructedWallLRD",
+            "ConstructedWallLRU",
+            "ConstructedWallLUD",
+            "ConstructedWallRD",
+            "ConstructedWallRU",
+            "ConstructedWallLU",
+            "ConstructedWallLD",
+            "ConstructedWallUD",
+            "ConstructedWallLR"
+        ],
+        "key": "4,7,3"
+    },
+    {
+        "shape": "STAIR_UPDOWN",
+        "special": "NO_SPECIAL",
+        "material": "CONSTRUCTION",
+        "name": [
+            "ConstructedStairUD"
+        ],
+        "key": "8,7,-1"
+    },
+    {
+        "shape": "STAIR_DOWN",
+        "special": "NO_SPECIAL",
+        "material": "CONSTRUCTION",
+        "name": [
+            "ConstructedStairD"
+        ],
+        "key": "7,7,-1"
+    },
+    {
+        "shape": "STAIR_UP",
+        "special": "NO_SPECIAL",
+        "material": "CONSTRUCTION",
+        "name": [
+            "ConstructedStairU"
+        ],
+        "key": "6,7,-1"
+    },
+    {
+        "shape": "RAMP",
+        "special": "NO_SPECIAL",
+        "material": "CONSTRUCTION",
+        "name": [
+            "ConstructedRamp"
+        ],
+        "key": "9,7,-1"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "TRACK",
+        "material": "STONE",
+        "name": [
+            "StoneFloorTrackN",
+            "StoneFloorTrackS",
+            "StoneFloorTrackE",
+            "StoneFloorTrackW",
+            "StoneFloorTrackNS",
+            "StoneFloorTrackNE",
+            "StoneFloorTrackNW",
+            "StoneFloorTrackSE",
+            "StoneFloorTrackSW",
+            "StoneFloorTrackEW",
+            "StoneFloorTrackNSE",
+            "StoneFloorTrackNSW",
+            "StoneFloorTrackNEW",
+            "StoneFloorTrackSEW",
+            "StoneFloorTrackNSEW"
+        ],
+        "key": "1,2,10"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "TRACK",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaFloorTrackN",
+            "LavaFloorTrackS",
+            "LavaFloorTrackE",
+            "LavaFloorTrackW",
+            "LavaFloorTrackNS",
+            "LavaFloorTrackNE",
+            "LavaFloorTrackNW",
+            "LavaFloorTrackSE",
+            "LavaFloorTrackSW",
+            "LavaFloorTrackEW",
+            "LavaFloorTrackNSE",
+            "LavaFloorTrackNSW",
+            "LavaFloorTrackNEW",
+            "LavaFloorTrackSEW",
+            "LavaFloorTrackNSEW"
+        ],
+        "key": "1,4,10"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "TRACK",
+        "material": "FEATURE",
+        "name": [
+            "FeatureFloorTrackN",
+            "FeatureFloorTrackS",
+            "FeatureFloorTrackE",
+            "FeatureFloorTrackW",
+            "FeatureFloorTrackNS",
+            "FeatureFloorTrackNE",
+            "FeatureFloorTrackNW",
+            "FeatureFloorTrackSE",
+            "FeatureFloorTrackSW",
+            "FeatureFloorTrackEW",
+            "FeatureFloorTrackNSE",
+            "FeatureFloorTrackNSW",
+            "FeatureFloorTrackNEW",
+            "FeatureFloorTrackSEW",
+            "FeatureFloorTrackNSEW"
+        ],
+        "key": "1,3,10"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "TRACK",
+        "material": "MINERAL",
+        "name": [
+            "MineralFloorTrackN",
+            "MineralFloorTrackS",
+            "MineralFloorTrackE",
+            "MineralFloorTrackW",
+            "MineralFloorTrackNS",
+            "MineralFloorTrackNE",
+            "MineralFloorTrackNW",
+            "MineralFloorTrackSE",
+            "MineralFloorTrackSW",
+            "MineralFloorTrackEW",
+            "MineralFloorTrackNSE",
+            "MineralFloorTrackNSW",
+            "MineralFloorTrackNEW",
+            "MineralFloorTrackSEW",
+            "MineralFloorTrackNSEW"
+        ],
+        "key": "1,5,10"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "TRACK",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenFloorTrackN",
+            "FrozenFloorTrackS",
+            "FrozenFloorTrackE",
+            "FrozenFloorTrackW",
+            "FrozenFloorTrackNS",
+            "FrozenFloorTrackNE",
+            "FrozenFloorTrackNW",
+            "FrozenFloorTrackSE",
+            "FrozenFloorTrackSW",
+            "FrozenFloorTrackEW",
+            "FrozenFloorTrackNSE",
+            "FrozenFloorTrackNSW",
+            "FrozenFloorTrackNEW",
+            "FrozenFloorTrackSEW",
+            "FrozenFloorTrackNSEW"
+        ],
+        "key": "1,6,10"
+    },
+    {
+        "shape": "FLOOR",
+        "special": "TRACK",
+        "material": "CONSTRUCTION",
+        "name": [
+            "ConstructedFloorTrackN",
+            "ConstructedFloorTrackS",
+            "ConstructedFloorTrackE",
+            "ConstructedFloorTrackW",
+            "ConstructedFloorTrackNS",
+            "ConstructedFloorTrackNE",
+            "ConstructedFloorTrackNW",
+            "ConstructedFloorTrackSE",
+            "ConstructedFloorTrackSW",
+            "ConstructedFloorTrackEW",
+            "ConstructedFloorTrackNSE",
+            "ConstructedFloorTrackNSW",
+            "ConstructedFloorTrackNEW",
+            "ConstructedFloorTrackSEW",
+            "ConstructedFloorTrackNSEW"
+        ],
+        "key": "1,7,10"
+    },
+    {
+        "shape": "RAMP",
+        "special": "TRACK",
+        "material": "STONE",
+        "name": [
+            "StoneRampTrackN",
+            "StoneRampTrackS",
+            "StoneRampTrackE",
+            "StoneRampTrackW",
+            "StoneRampTrackNS",
+            "StoneRampTrackNE",
+            "StoneRampTrackNW",
+            "StoneRampTrackSE",
+            "StoneRampTrackSW",
+            "StoneRampTrackEW",
+            "StoneRampTrackNSE",
+            "StoneRampTrackNSW",
+            "StoneRampTrackNEW",
+            "StoneRampTrackSEW",
+            "StoneRampTrackNSEW"
+        ],
+        "key": "9,2,10"
+    },
+    {
+        "shape": "RAMP",
+        "special": "TRACK",
+        "material": "LAVA_STONE",
+        "name": [
+            "LavaRampTrackN",
+            "LavaRampTrackS",
+            "LavaRampTrackE",
+            "LavaRampTrackW",
+            "LavaRampTrackNS",
+            "LavaRampTrackNE",
+            "LavaRampTrackNW",
+            "LavaRampTrackSE",
+            "LavaRampTrackSW",
+            "LavaRampTrackEW",
+            "LavaRampTrackNSE",
+            "LavaRampTrackNSW",
+            "LavaRampTrackNEW",
+            "LavaRampTrackSEW",
+            "LavaRampTrackNSEW"
+        ],
+        "key": "9,4,10"
+    },
+    {
+        "shape": "RAMP",
+        "special": "TRACK",
+        "material": "FEATURE",
+        "name": [
+            "FeatureRampTrackN",
+            "FeatureRampTrackS",
+            "FeatureRampTrackE",
+            "FeatureRampTrackW",
+            "FeatureRampTrackNS",
+            "FeatureRampTrackNE",
+            "FeatureRampTrackNW",
+            "FeatureRampTrackSE",
+            "FeatureRampTrackSW",
+            "FeatureRampTrackEW",
+            "FeatureRampTrackNSE",
+            "FeatureRampTrackNSW",
+            "FeatureRampTrackNEW",
+            "FeatureRampTrackSEW",
+            "FeatureRampTrackNSEW"
+        ],
+        "key": "9,3,10"
+    },
+    {
+        "shape": "RAMP",
+        "special": "TRACK",
+        "material": "MINERAL",
+        "name": [
+            "MineralRampTrackN",
+            "MineralRampTrackS",
+            "MineralRampTrackE",
+            "MineralRampTrackW",
+            "MineralRampTrackNS",
+            "MineralRampTrackNE",
+            "MineralRampTrackNW",
+            "MineralRampTrackSE",
+            "MineralRampTrackSW",
+            "MineralRampTrackEW",
+            "MineralRampTrackNSE",
+            "MineralRampTrackNSW",
+            "MineralRampTrackNEW",
+            "MineralRampTrackSEW",
+            "MineralRampTrackNSEW"
+        ],
+        "key": "9,5,10"
+    },
+    {
+        "shape": "RAMP",
+        "special": "TRACK",
+        "material": "FROZEN_LIQUID",
+        "name": [
+            "FrozenRampTrackN",
+            "FrozenRampTrackS",
+            "FrozenRampTrackE",
+            "FrozenRampTrackW",
+            "FrozenRampTrackNS",
+            "FrozenRampTrackNE",
+            "FrozenRampTrackNW",
+            "FrozenRampTrackSE",
+            "FrozenRampTrackSW",
+            "FrozenRampTrackEW",
+            "FrozenRampTrackNSE",
+            "FrozenRampTrackNSW",
+            "FrozenRampTrackNEW",
+            "FrozenRampTrackSEW",
+            "FrozenRampTrackNSEW"
+        ],
+        "key": "9,6,10"
+    },
+    {
+        "shape": "RAMP",
+        "special": "TRACK",
+        "material": "CONSTRUCTION",
+        "name": [
+            "ConstructedRampTrackN",
+            "ConstructedRampTrackS",
+            "ConstructedRampTrackE",
+            "ConstructedRampTrackW",
+            "ConstructedRampTrackNS",
+            "ConstructedRampTrackNE",
+            "ConstructedRampTrackNW",
+            "ConstructedRampTrackSE",
+            "ConstructedRampTrackSW",
+            "ConstructedRampTrackEW",
+            "ConstructedRampTrackNSE",
+            "ConstructedRampTrackNSW",
+            "ConstructedRampTrackNEW",
+            "ConstructedRampTrackSEW",
+            "ConstructedRampTrackNSEW"
+        ],
+        "key": "9,7,10"
+    }
+]
