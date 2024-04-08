@@ -37,7 +37,7 @@ async function initGame() {
     }
   });
 
-  const player = new Player(startPos, Math.PI * 0.3);
+  const player = new Player(startPos);
   const map = new GameMap(mapLoader, startPos);
   const controls = new Controls();
   const renderer = new Renderer(display, 320);

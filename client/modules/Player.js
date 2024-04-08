@@ -31,7 +31,12 @@ export class Player {
   };
 
   rotateZ(angle) {
-    this.upDirection = (this.upDirection + angle + CIRCLE) % (CIRCLE);
+    //only if angle is not already 45 degrees
+
+    this.upDirection = this.upDirection + angle;
+    if(this.upDirection < -0.5 || this.upDirection > 0.5){
+      this.upDirection = this.upDirection - angle;
+    }
   };
 
   get zRest() {
