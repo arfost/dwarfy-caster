@@ -86,8 +86,11 @@ function initWsServer() {
   target_host = "127.0.0.1";
   target_port = parseInt("5000");
 
-  console.log("    - proxying from " + source_host + ":" + source_port +
-    " to " + target_host + ":" + target_port);
+  console.log("Starting WebSocket proxy server (source: " + source_host + ":" + source_port + ", target: " + target_host + ":" + target_port + ")");
+  console.log("You can see your fortress at http://localhost:" + source_port + "/index.html?cast=12,5");
+  console.log("Use zqsd to move around, a and e to go up and down. You can switch to qwerty mode with the 'p' key.");
+  console.log("You can also teleport to the in game view/keyboard cursor with the 'x' key.")
+  console.log("Press Ctrl+C to exit.");
 
   const app = express();
 
