@@ -577,6 +577,110 @@ const twig = {
 const tileCombinaisons = [empty, sapling, shrub, stair, trunk_branch, pebbles, ramp, fortification, floor, wall, branch, boulder, twig];
 
 const buildingCombinaisons = [{
+  cell: {
+    floorTexture: "floorbar_default",
+  },
+  signature: [37, 39],
+},{
+  cell: {
+    floorTexture: "farmplot_default",
+  },
+  signature: [4],
+},{
+  cell: {
+    heightRatio: 1,
+    thinWall: true,
+    wallTexture: "window_default",
+    floorTexture: "floor_neutral",
+  },
+  signature: [16, 17],
+},{
+  cell: {
+    heightRatio: 1,
+    thinWall: true,
+    wallTexture: "floodgate_default",
+    floorTexture: "floor_neutral",
+  },
+  signature: [9],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "bookcase",
+  },
+  signature: [52],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "instrument",
+  },
+  signature: [51],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "hive",
+  },
+  signature: [49],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "nestbox",
+  },
+  signature: [48],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "nest",
+  },
+  signature: [47],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "slab",
+  },
+  signature: [46],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "tractionbench",
+  },
+  signature: [45],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "wagon",
+  },
+  signature: [32],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "cage",
+  },
+  signature: [28],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "chain",
+  },
+  signature: [27],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "animaltrap",
+  },
+  signature: [24],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "archerytarget",
+  },
+  signature: [26],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "chair",
+  },
+  signature: [0],
+},{
   placeable: {
     heightRatio: 1,
     sprite: "bed",
@@ -585,15 +689,39 @@ const buildingCombinaisons = [{
 }, {
   placeable: {
     heightRatio: 1,
-    sprite: "chair",
-  },
-  signature: [0],
-}, {
-  placeable: {
-    heightRatio: 1,
     sprite: "table",
   },
   signature: [2],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "coffin",
+  },
+  signature: [3],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "armorstand",
+  },
+  signature: [12],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "well",
+  },
+  signature: [18],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "trap",
+  },
+  signature: [23],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "weaponrack",
+  },
+  signature: [11],
 }, {
   placeable: {
     heightRatio: 1,
@@ -742,39 +870,9 @@ export function prepareDefinitions(){
 }
 
 
-// to placeable
-// Chair = 0,
-// Bed = 1,
-// Table = 2,
-// Coffin = 3,
-// Box = 10,
-// Weaponrack = 11,
-// Armorstand = 12,
-// Cabinet = 14,
-// Statue = 15,
-// Well = 18,
-// Trap = 23,
-// AnimalTrap = 24,
-// ArcheryTarget = 26,
-// Chain = 27,
-// Cage = 28,
-// Wagon = 32,
-// TractionBench = 45,
-// Slab = 46,
-// Nest = 47,
-// NestBox = 48,
-// Hive = 49,
-// Instrument = 51,
-// Bookcase = 52,
 
-// to cell
-// FarmPlot = 4,
-// Door = 8,
-// Floodgate = 9,
-// WindowGlass = 16,
-// WindowGem = 17,
-// GrateWall = 36,
-// BarsVertical = 38,
+
+
 
 
 // to later
@@ -793,8 +891,6 @@ export function prepareDefinitions(){
 // ScrewPump = 33,
 // Construction = 34,
 // Hatch = 35,
-// GrateFloor = 37,
-// BarsFloor = 39,
 // GearAssembly = 40,
 // AxleHorizontal = 41,
 // AxleVertical = 42,
