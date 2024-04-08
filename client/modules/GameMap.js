@@ -30,6 +30,10 @@ export class GameMap {
   get placeables() {
     return this.mapLoader.placeables;
   }
+  
+  get wallAdditionnalInfos() {
+    return this.mapLoader.additionnalInfos;
+  }
 
   get wallGrids(){
     return this.mapLoader.map;
@@ -76,6 +80,13 @@ export class GameMap {
     return this.wallGrids[z][y * this.size.x + x];
   };
 
+  getWallAdditionnalInfos(x, y, z) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
+    return this.wallAdditionnalInfos.get(`${x},${y},${z}`);
+  };
+
   playerCoordToMapCoord(player) {
     return {
       x: Math.floor(player.x / this.mapLoader.BLOCK_SIZE),
@@ -117,6 +128,7 @@ export class GameMap {
   }
 
   update(seconds, player) {
+    if(this.mapLoader.CHUNK_SIZE<1) return;
     if(player.y> this.nextChunks.yMax){
       this.getNextChunks("left", player);
     }

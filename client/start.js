@@ -41,8 +41,8 @@ async function initGame() {
   const map = new GameMap(mapLoader, startPos);
   const controls = new Controls();
   const renderer = new Renderer(display, 320);
-  await renderer.initTextures();
-  const raycaster = new Raycaster(paramCast ? paramCast : [15, 5]);
+  await renderer.initTextures(mapLoader.definitions.assetNames);
+  const raycaster = new Raycaster(paramCast ? paramCast : [10, 5]);
 
   const game = new Game(display);
   game.start((seconds, ctx) => {
