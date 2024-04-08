@@ -235,7 +235,7 @@ export class Renderer {
       const transformX = invDet * (player.dirY * spriteX - player.dirX * spriteY);
       const transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
 
-      if (transformY > 0 || transformY > 10) { //No need for the rest if the sprite is behind the player
+      if (transformY > 0 && transformY < 10) { //No need for the rest if the sprite is behind the player
         const spriteHeight = Math.abs(Math.floor(this.height / 2 / transformY));
         const drawStartY = (spriteHeight / 2) / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
 
