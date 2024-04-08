@@ -12,30 +12,21 @@ Perf outdoor are still low and colors are mostly random, trees are gray, floor h
 
 
 ## How to test
+You can download one of the zip file in the release directory, extract it somewhere, and just run the file "server-xxx" (depending on your system) to launch it.
 
-There is no packed release yet, you just have to download the projet and launch it with nodeJS directly.
+The release was done quickly and is unsigned so antivirus and such will probably be upset. I will look into it later.
 
-Get the last node version from [[nodeJS](https://nodejs.org/en)] and their instructions. 
-When node is working just use command line to go in the repository 
+Alternatively you can install nodeJS, and run the project as a node project (npm install, node ./server.js)
 
-For the first launch you have to do 
-``npm install``
-
-
-After it's done launch the server with
-``node .\server.js``
-
-
-when the server is running use DFhack to launch Dwarf Fortress and load your game then open
+When the server is running use DFhack to launch Dwarf Fortress and load your game then open
 http://localhost:8080/index.html?cast=10,5
 in your browser it should load your fortress.
 
-The 10,5 parameters are the rendering distance in tiles for horizontal and height view, if fps are low you can reduce them (especially the second to reduce it)
+The 12,5 parameters are the rendering distance in tiles for horizontal and height view, if fps are low you can reduce them (especially the second to reduce it)
 
 Your start position will be either the center of your game view or the position of the keyboard cursor, after that if you move them in your game, you can teleport to it by pressing "x" in the viewer.
 
 To enable the keyboard cursor, enter mining mode and press (Alt-k)
-
 
 In game you can use ZQSD to move around, A and E to go down and up and click on the canvas to capture mouse.
 
