@@ -576,7 +576,45 @@ const twig = {
 
 const tileCombinaisons = [empty, sapling, shrub, stair, trunk_branch, pebbles, ramp, fortification, floor, wall, branch, boulder, twig];
 
+// Shop = 7,
+// Workshop = 13,
+// Bridge = 19,
+// RoadDirt = 20,
+// RoadPaved = 21,
+// SiegeEngine = 22,
+// Support = 25,
+// Stockpile = 29,
+// Civzone = 30,
+// Weapon = 31,
+// ScrewPump = 33,
+// Construction = 34,
+// Hatch = 35,
+// GearAssembly = 40,
+// AxleHorizontal = 41,
+// AxleVertical = 42,
+// WaterWheel = 43,
+// Windmill = 44,
+// Rollers = 50,
+
 const buildingCombinaisons = [{
+  placeable: {
+    heightRatio: 1,
+    sprite: "workshop",
+  },
+  signature: [13],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "trade_depot",
+  },
+  signature: [6],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "furnace",
+  },
+  signature: [5],
+},{
   cell: {
     floorTexture: "floorbar_default",
   },
@@ -868,35 +906,3 @@ export function prepareDefinitions(){
     assetNames
   }
 }
-
-
-
-
-
-
-
-// to later
-// Furnace = 5,
-// TradeDepot = 6,
-// Shop = 7,
-// Workshop = 13,
-// Bridge = 19,
-// RoadDirt = 20,
-// RoadPaved = 21,
-// SiegeEngine = 22,
-// Support = 25,
-// Stockpile = 29,
-// Civzone = 30,
-// Weapon = 31,
-// ScrewPump = 33,
-// Construction = 34,
-// Hatch = 35,
-// GearAssembly = 40,
-// AxleHorizontal = 41,
-// AxleVertical = 42,
-// WaterWheel = 43,
-// Windmill = 44,
-// Rollers = 50,
-
-
-

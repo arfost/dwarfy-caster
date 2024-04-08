@@ -313,7 +313,14 @@ export class DfMapLoader {
     }
     for (let building of blocks[0].buildings || []) {
       if (building.buildingType && this.definitions.buildingCorrespondances[building.buildingType.buildingType]) {
-        this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[building.buildingType.buildingType], building.posXMin, building.posYMin, building.posZMin);
+        //set each case of the building for posXMin-posXMax and posYMin-posYMax
+        for(let x = building.posXMin; x <= building.posXMax; x++){
+          for(let y = building.posYMin; y <= building.posYMax; y++){
+            this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[building.buildingType.buildingType], x, y, building.posZMin);
+          }
+        }
+
+        //this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[building.buildingType.buildingType], building.posXMin, building.posYMin, building.posZMin);
       }
     }
     // console.log("Block groub loaded", aggregatedTileInfos);
