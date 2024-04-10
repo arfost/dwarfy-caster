@@ -85,6 +85,8 @@ export class Renderer {
   }
 
   render(player, map, raycaster) {
+    //this.drawCallList = [];
+    //this.droppedCallList = [];
     this.zBuffer = new Array(this.resolution).fill(99);
     
     this.ctx.fillStyle = '#000';
@@ -94,6 +96,7 @@ export class Renderer {
 
     this._renderColumn(raycaster, player, map, playerZ);
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
+    //console.log("drawCallList", this.drawCallList, this.droppedCallList);
   }
 
   _renderColumn(raycaster, player, map, layerZ) {
@@ -176,6 +179,27 @@ export class Renderer {
   }
 
   _drawTexturedColumn(x, top, height, distance, image, texOffset, side, tint) {
+    let dropCall = false;
+    if(isNaN(height) || isNaN(top)) {
+      dropCall = "nan";
+    };
+    if(height > this.height*2 || top > this.height*2 || top < -this.height*2 || height < -this.height*2) {
+      dropCall = "big";
+    }
+    // if(height < 0 || top < 0) {
+    //   dropCall = "negative";
+    // }
+    if(height < 3 && height > -3) {
+      dropCall = "small";
+    }
+
+    
+    if(dropCall) {
+      //this.droppedCallList.push({dropCall, x, top, height, distance, imageName:image.name, texOffset, side, tint});
+      return;
+    }
+
+    //this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
     let texX = Math.floor(texOffset * image.width);
 
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
@@ -282,6 +306,7 @@ export class Renderer {
           if (drawWidth < 0) {
             drawWidth = 0;
           }
+          // this._drawTexturedColumn(clipStartX, drawStartY + verticalAdjustement, spriteHeight, transformY, placeableSprite, drawXStart, 0, placeableInfos.tint);
           this.ctx.drawImage(placeableSprite.image, drawXStart * this.spacing, 0, drawXEnd, placeableSprite.height*placeableInfos.heightRatio, clipStartX * this.spacing, drawStartY+ verticalAdjustement, drawWidth * this.spacing, spriteHeight);
         }
       }

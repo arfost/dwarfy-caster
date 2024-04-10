@@ -1,8 +1,8 @@
 import { Controls } from './modules/Controls.js';
 import { Game } from './modules/Game.js';
 import { GameMap } from './modules/GameMap.js';
-// import { DefaultMapLoader } from './modules/MapLoader.js';
-import { DfMapLoader } from './modules/MapLoader.js';
+import { DefaultMapLoader } from './modules/MapLoader.js';
+// import { DfMapLoader } from './modules/MapLoader.js';
 import { Player } from './modules/Player.js';
 import { Raycaster } from './modules/Raycaster.js';
 import { Renderer } from './modules/Renderer.js';
@@ -24,8 +24,8 @@ async function initGame() {
     }
   }
 
-  const mapLoader = new DfMapLoader();
-  // const mapLoader = new DefaultMapLoader(5);
+  // const mapLoader = new DfMapLoader();
+  const mapLoader = new DefaultMapLoader(5);
   const startPos = await mapLoader.initMap();
 
   const display = document.getElementById('display');
