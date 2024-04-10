@@ -135,12 +135,14 @@ export class Renderer {
           this._drawTexturedColumn(x,  backCellTop, cellTop - backCellTop, hit.distance, this.textures[hit.ceiling.floorTexture], hit.offset, 1, hit.ceilingAdditionnalInfos ? hit.ceilingAdditionnalInfos.tint : false);
         }
 
-        if (hit.cellInfos) {
-          if (zOffset <=0 && hit.cellInfos.floorTexture && (hit.floorOnly || !hit.cellInfos.stopView)) {
+        if (zOffset<=0 && hit.cellInfos ) {
+          //draw floor
+          if (hit.cellInfos.floorTexture && (hit.floorOnly || !hit.cellInfos.stopView)) {
             this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
           }
 
-          if (zOffset <=0 && hit.cellInfos.heightRatio < 1) {
+          //draw top face
+          if (hit.cellInfos.heightRatio < 1) {
             const blockHeight = cellHeight * hit.cellInfos.heightRatio;
             const blockTop = cellTop + (cellHeight - blockHeight);
   
@@ -156,14 +158,18 @@ export class Renderer {
       if (hit.cellInfos) {
         //draw normal wall
         if (hit.cellInfos.wallTexture && !hit.cellInfos.thinWall && !hit.floorOnly) {
-          this.zBuffer[x] = hit.distance;
+          if(zOffset === 0){
+            this.zBuffer[x] = hit.distance;
+          }
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
           this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
         }
         //draw thin wall
         if (hit.thinDistance && hit.cellInfos.wallTexture) {
-          this.zBuffer[x] = hit.thinDistance;
+          if(zOffset === 0){
+            this.zBuffer[x] = hit.thinDistance;
+          }
           const cellThinHeight = this.height / hit.thinDistance;
           const cellThinTop = (((this.height + cellThinHeight) / 2) - cellThinHeight) + (cellThinHeight * -zOffset) + (cellThinHeight * zRest) + verticalAdjustement;
           const blockHeight = cellThinHeight * hit.cellInfos.heightRatio;
@@ -181,8 +187,8 @@ export class Renderer {
     if(height < 3 && height > -3) {
       return;
     }
-    height = Math.floor(height);
-    top = Math.floor(top);
+    height = Math.ceil(height);
+    top = Math.ceil(top);
     //this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
     let texX = Math.floor(texOffset * image.width);
 
