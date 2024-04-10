@@ -49,8 +49,8 @@ export class DefaultMapLoader {
 
   async getCursorPosition() {
     return {
-      x: 2,
-      y: 2,
+      x: 6.15,
+      y: 13.89,
       z: 1
     }
   }

@@ -85,7 +85,7 @@ export class Renderer {
   }
 
   render(player, map, raycaster) {
-    //this.drawCallList = [];
+    this.drawCallList = [];
     //this.droppedCallList = [];
     this.zBuffer = new Array(this.resolution).fill(99);
     
@@ -96,7 +96,7 @@ export class Renderer {
 
     this._renderColumn(raycaster, player, map, playerZ);
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
-    //console.log("drawCallList", this.drawCallList, this.droppedCallList);
+    console.log("drawCallList", this.drawCallList);
   }
 
   _renderColumn(raycaster, player, map, layerZ) {
@@ -116,18 +116,19 @@ export class Renderer {
     // for (let i = 0; i <= rayResult.length - 1; i++) {
       //console.log("drawRay", rayResult[i], x, player);
       const hit = rayResult.read(i);
+      if(hit.distance === 0) continue;
 
       const zOffset = hit.zLevel - playerZ;
       const zRest = player.zRest;
 
       const verticalAdjustement = this.height * Math.tan(player.upDirection);
 
-      const cellHeight = this.height / Math.abs(hit.distance);
+      const cellHeight = this.height / hit.distance;
       const cellTop = (((this.height + cellHeight) / 2) - cellHeight) + (cellHeight * -zOffset) + (cellHeight * zRest) + verticalAdjustement;
       
       // draw ceiling
       if (zOffset >=0 && hit.ceiling && hit.backDistance) {
-        const backCellHeight = this.height / Math.abs(hit.backDistance);
+        const backCellHeight = this.height / hit.backDistance;
         const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;;
         // this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.distance, COLORS.gray, 0);
         this._drawTexturedColumn(x,  backCellTop, cellTop - backCellTop, hit.distance, this.textures[hit.ceiling.floorTexture], hit.offset, 1, hit.ceilingAdditionnalInfos ? hit.ceilingAdditionnalInfos.tint : false);
@@ -142,8 +143,8 @@ export class Renderer {
         }
 
         // draw floor
-        if (zOffset <=0 && hit.cellInfos.floorTexture && (hit.floorOnly || !(hit.cellInfos.wallTexture && !hit.cellInfos.thinWall))) {
-          const backCellHeight = this.height / Math.abs(hit.backDistance);
+        if (zOffset <=0 && hit.backDistance && hit.cellInfos.floorTexture && (hit.floorOnly || !(hit.cellInfos.wallTexture && !hit.cellInfos.thinWall))) {
+          const backCellHeight = this.height / hit.backDistance;
           const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;;
 
           // this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, COLORS.gray, 0);
@@ -151,11 +152,11 @@ export class Renderer {
         }
 
         // draw cell top
-        if (zOffset <=0 && hit.cellInfos.heightRatio < 1) {
+        if (zOffset <=0 && hit.backDistance && hit.cellInfos.heightRatio < 1) {
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
 
-          const backCellHeight = this.height / Math.abs(hit.backDistance);
+          const backCellHeight = this.height / hit.backDistance;
           const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;
           const backBlockHeight = backCellHeight * hit.cellInfos.heightRatio;
           const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
@@ -167,7 +168,7 @@ export class Renderer {
         //draw thin wall
         if (hit.thinDistance && hit.cellInfos.wallTexture) {
           this.zBuffer[x] = hit.thinDistance;
-          const cellThinHeight = this.height / Math.abs(hit.thinDistance);
+          const cellThinHeight = this.height / hit.thinDistance;
           const cellThinTop = (((this.height + cellThinHeight) / 2) - cellThinHeight) + (cellThinHeight * -zOffset) + (cellThinHeight * zRest) + verticalAdjustement;
           const blockHeight = cellThinHeight * hit.cellInfos.heightRatio;
           const blockTop = cellThinTop + (cellThinHeight - blockHeight);
@@ -179,27 +180,15 @@ export class Renderer {
   }
 
   _drawTexturedColumn(x, top, height, distance, image, texOffset, side, tint) {
-    let dropCall = false;
-    if(isNaN(height) || isNaN(top)) {
-      dropCall = "nan";
-    };
-    if(height > this.height*2 || top > this.height*2 || top < -this.height*2 || height < -this.height*2) {
-      dropCall = "big";
-    }
-    // if(height < 0 || top < 0) {
-    //   dropCall = "negative";
+    // if(height > this.height*2 || top > this.height*2 || top < -this.height*2 || height < -this.height*2) {
+    //   return;
     // }
     if(height < 3 && height > -3) {
-      dropCall = "small";
-    }
-
-    
-    if(dropCall) {
-      //this.droppedCallList.push({dropCall, x, top, height, distance, imageName:image.name, texOffset, side, tint});
       return;
     }
-
-    //this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
+    height = Math.floor(height);
+    top = Math.floor(top);
+    this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
     let texX = Math.floor(texOffset * image.width);
 
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
