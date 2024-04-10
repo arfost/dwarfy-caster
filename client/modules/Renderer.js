@@ -85,7 +85,7 @@ export class Renderer {
   }
 
   render(player, map, raycaster) {
-    this.drawCallList = [];
+    //this.drawCallList = [];
     //this.droppedCallList = [];
     this.zBuffer = new Array(this.resolution).fill(99);
     
@@ -96,7 +96,7 @@ export class Renderer {
 
     this._renderColumn(raycaster, player, map, playerZ);
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
-    console.log("drawCallList", this.drawCallList);
+    //console.log("drawCallList", this.drawCallList);
   }
 
   _renderColumn(raycaster, player, map, layerZ) {
@@ -125,14 +125,34 @@ export class Renderer {
 
       const cellHeight = this.height / hit.distance;
       const cellTop = (((this.height + cellHeight) / 2) - cellHeight) + (cellHeight * -zOffset) + (cellHeight * zRest) + verticalAdjustement;
-      
-      // draw ceiling
-      if (zOffset >=0 && hit.ceiling && hit.backDistance) {
+
+      if(hit.backDistance){
+        
         const backCellHeight = this.height / hit.backDistance;
-        const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;;
-        // this._drawWireframeColumn(x, backCellTop, cellTop - backCellTop, hit.distance, COLORS.gray, 0);
-        this._drawTexturedColumn(x,  backCellTop, cellTop - backCellTop, hit.distance, this.textures[hit.ceiling.floorTexture], hit.offset, 1, hit.ceilingAdditionnalInfos ? hit.ceilingAdditionnalInfos.tint : false);
+        const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;
+        
+        if (zOffset >=0 && hit.ceiling) {
+          this._drawTexturedColumn(x,  backCellTop, cellTop - backCellTop, hit.distance, this.textures[hit.ceiling.floorTexture], hit.offset, 1, hit.ceilingAdditionnalInfos ? hit.ceilingAdditionnalInfos.tint : false);
+        }
+
+        if (hit.cellInfos) {
+          if (zOffset <=0 && hit.cellInfos.floorTexture && (hit.floorOnly || !hit.cellInfos.stopView)) {
+            this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+          }
+
+          if (zOffset <=0 && hit.cellInfos.heightRatio < 1) {
+            const blockHeight = cellHeight * hit.cellInfos.heightRatio;
+            const blockTop = cellTop + (cellHeight - blockHeight);
+  
+            const backBlockHeight = backCellHeight * hit.cellInfos.heightRatio;
+            const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
+  
+            // this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
+            this._drawTexturedColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+          }
+        }
       }
+      
       if (hit.cellInfos) {
         //draw normal wall
         if (hit.cellInfos.wallTexture && !hit.cellInfos.thinWall && !hit.floorOnly) {
@@ -141,30 +161,6 @@ export class Renderer {
           const blockTop = cellTop + (cellHeight - blockHeight);
           this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
         }
-
-        // draw floor
-        if (zOffset <=0 && hit.backDistance && hit.cellInfos.floorTexture && (hit.floorOnly || !(hit.cellInfos.wallTexture && !hit.cellInfos.thinWall))) {
-          const backCellHeight = this.height / hit.backDistance;
-          const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;;
-
-          // this._drawWireframeColumn(x, cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, COLORS.gray, 0);
-          this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
-        }
-
-        // draw cell top
-        if (zOffset <=0 && hit.backDistance && hit.cellInfos.heightRatio < 1) {
-          const blockHeight = cellHeight * hit.cellInfos.heightRatio;
-          const blockTop = cellTop + (cellHeight - blockHeight);
-
-          const backCellHeight = this.height / hit.backDistance;
-          const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;
-          const backBlockHeight = backCellHeight * hit.cellInfos.heightRatio;
-          const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
-
-          // this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
-          this._drawTexturedColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
-        }
-
         //draw thin wall
         if (hit.thinDistance && hit.cellInfos.wallTexture) {
           this.zBuffer[x] = hit.thinDistance;
@@ -175,7 +171,6 @@ export class Renderer {
           this._drawTexturedColumn(x, blockTop, blockHeight, hit.thinDistance, this.textures[hit.cellInfos.wallTexture], hit.thinOffset, hit.thinSide, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
         }
       }
-      
     }
   }
 
@@ -188,7 +183,7 @@ export class Renderer {
     }
     height = Math.floor(height);
     top = Math.floor(top);
-    this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
+    //this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
     let texX = Math.floor(texOffset * image.width);
 
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
