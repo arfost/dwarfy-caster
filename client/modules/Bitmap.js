@@ -5,6 +5,7 @@ export class Bitmap {
     this.loaded = false;
 
     this.src = src;
+    this.name = src.split('/').pop();
 
     this.width = width;
     this.height = height;
@@ -39,10 +40,10 @@ export class Bitmap {
     ctx.fillRect(0, 0, this.width, this.height);
     // Ajoutez du texte ou d'autres éléments si nécessaire
 
-    const name = this.src.split('/').pop();
+    
     ctx.fillStyle = '#000'; // Couleur du texte
     ctx.font = '20px Arial';
-    ctx.fillText(name, 10, 50);
+    ctx.fillText(this.name, 10, 50);
 
     ctx.fillText("load error", 20, 90);
 

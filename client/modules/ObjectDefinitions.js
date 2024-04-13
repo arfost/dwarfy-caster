@@ -97,9 +97,11 @@ const sapling = {
 
 const shrub = {
   cell:{
-    heightRatio: 0.5,
-    floorTexture: "shrub_floor", // sol, terre/herbe
-    wallTexture: "shrub_wall", // branchage partiellement transparent
+    floorTexture: "shrub_floor",
+  },
+  placeable:{
+    heightRatio: 1,
+    sprite: "shrub",
   },
   signature:[
     "SHRUB-PLANT-DEAD",
