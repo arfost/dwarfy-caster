@@ -32,6 +32,8 @@ export class DefaultMapLoader {
       this.placeables.push(...DEFAULT_PLACEABLES);
     }
 
+    this.flows = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
+
     this.additionnalInfos = new Map();
     this.additionnalInfos.set("7,8,1", {
       tint: [255, 123, 0]
@@ -63,7 +65,7 @@ export class DefaultMapLoader {
 
 export class DfMapLoader {
 
-  CHUNK_SIZE = 0;
+  CHUNK_SIZE = 1;
 
   BLOCK_SIZE = 16;
   BLOCK_SIZE_Z = 1;
@@ -94,6 +96,7 @@ export class DfMapLoader {
     };
 
     this.map = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
+    this.flows = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
     this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => []);
     this.additionnalInfos = new Map();
 
@@ -170,6 +173,7 @@ export class DfMapLoader {
         for (let y = 0; y < 16; y++) {
           let index = y * 16 + x;
           this.tileMap(block, index, basePosition, x, y);
+          this.flows[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = block.water[index];
         }
       }
     }
@@ -184,9 +188,9 @@ export class DfMapLoader {
   async updateChunk(x, y, z, size, tick) {
     await this.ready();
     const params = { minX: x, minY: y, minZ: z, maxX: x + size, maxY: y + size, maxZ: z + size };
-    console.log("update chunk : ", params);
     try {
       let res = await this.client.GetBlockList(params);
+      // console.log("update chunk : ", res);
       this._processDfBlocksForDynamic(res.mapBlocks || [], tick);
     } catch (e) {
       console.log(e);
@@ -195,6 +199,14 @@ export class DfMapLoader {
 
   _processDfBlocksForDynamic(blocks, tick) {
     for(let block of blocks){
+      if(block.water){
+        for (let x = 0; x < 16; x++) {
+          for (let y = 0; y < 16; y++) {
+            let index = y * 16 + x;
+            this.flows[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.water[index];
+          }
+        }
+      }
       for(let flow of block.flows || []){
         this.flowMap(flow, tick);
       }

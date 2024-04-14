@@ -43,6 +43,10 @@ export class GameMap {
     return this.mapLoader.map;
   }
 
+  get flowGrids(){
+    return this.mapLoader.flows;
+  }
+
   async teleportToCursor(player) {
     const cursor = await this.mapLoader.getCursorPosition();
 
@@ -82,6 +86,13 @@ export class GameMap {
     y = Math.floor(y);
     if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
     return this.wallGrids[z][y * this.size.x + x];
+  };
+
+  getFlow(x, y, z) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
+    return this.flowGrids[z][y * this.size.x + x];
   };
 
   getWallAdditionnalInfos(x, y, z) {

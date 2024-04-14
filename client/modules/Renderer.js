@@ -151,6 +151,17 @@ export class Renderer {
             // this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
             this._drawTexturedColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
           }
+
+          
+        }
+        if(hit.flow){
+          //water front face
+          const blockHeight = cellHeight * (0.12*hit.flow);
+          const blockTop = cellTop + (cellHeight - blockHeight);
+
+          const backBlockHeight = backCellHeight * (0.12*hit.flow);
+          const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
+          this._drawWater(x, backBlockTop, blockTop - backBlockTop, hit.distance, hit.side);
         }
       }
       
@@ -163,6 +174,12 @@ export class Renderer {
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
           this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+        }
+        if(hit.flow){
+          //water front face
+          const blockHeight = cellHeight * (0.12*hit.flow);
+          const blockTop = cellTop + (cellHeight - blockHeight);
+          this._drawWater(x, blockTop, blockHeight, hit.distance, hit.side);
         }
         //draw thin wall
         if (hit.thinDistance && hit.cellInfos.wallTexture) {
@@ -209,6 +226,21 @@ export class Renderer {
     this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
     this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
 
+  }
+
+  _drawWater(x, top, height, distance, side) {
+    //console.log("drawWater", x, top, height, distance, side);
+    this.ctx.fillStyle = `rgba(0, 0, 255, 0.5)`;
+    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+
+    //shading
+    let shade = 0;
+    if (side === 0) {
+      shade = 0.3;
+    }
+    shade = Math.max(0, Math.min(1, distance / 10));
+    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
+    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
   }
 
   _drawWireframeColumn(x, top, height, distance, color, side) {
