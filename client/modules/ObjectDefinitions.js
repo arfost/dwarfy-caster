@@ -799,6 +799,14 @@ const buildingCombinaisons = [{
   signature: [36, 38],
 }]
 
+const flowCombinaisons = [{
+  placeable: {
+    heightRatio: 1,
+    sprite: "mist",
+  },
+  signature: [2],
+}]
+
 export function prepareDefinitions(){
   const assetNames  = {
     textures:["wall_error", "floor_error"],
@@ -806,6 +814,7 @@ export function prepareDefinitions(){
   };
   const tileCorrespondances = {};
   const buildingCorrespondances = {};
+  const flowCorrespondances = {};
   const cellDefinitions = [undefined, {
     heightRatio: 1,
     wallTexture: "wall_error",
@@ -883,6 +892,27 @@ export function prepareDefinitions(){
     }
   }
 
+  for (let base of flowCombinaisons) {
+    let correspondance = {}
+    if(base.placeable) {
+      const basePlaceable = {
+        ...base.placeable
+      }
+      placeableDefinitions.push(basePlaceable);
+      correspondance.placeable = placeableDefinitions.length - 1;
+    }
+    if(base.cell) {
+      const baseCell = {
+        ...base.cell
+      }
+      cellDefinitions.push(baseCell);
+      correspondance.cell = cellDefinitions.length - 1;
+    }
+    for (let signature of base.signature) {
+      flowCorrespondances[signature] = correspondance;
+    }
+  }
+
   for(let definition of cellDefinitions){
     if(definition){
       if(definition.wallTexture && !assetNames.textures.includes(definition.wallTexture)){
@@ -903,6 +933,7 @@ export function prepareDefinitions(){
   return {
     cellDefinitions,
     placeableDefinitions,
+    flowCorrespondances,
     tileCorrespondances,
     buildingCorrespondances,
     assetNames

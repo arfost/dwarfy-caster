@@ -5,6 +5,10 @@ export class GameMap {
     this.size = mapLoader.mapInfos.size;
     this.light = 3;
 
+    this.currentTime = 0;
+    this.nextTick = 0;
+    this.tick = 0;
+
     const chunkCoord = this.playerCoordToMapCoord(startCoord);
     this.ready = this.mapLoader.loadChunk(chunkCoord.x-mapLoader.CHUNK_SIZE, chunkCoord.y-mapLoader.CHUNK_SIZE, chunkCoord.z-mapLoader.CHUNK_SIZE, mapLoader.CHUNK_SIZE*2+1);
 
@@ -128,6 +132,21 @@ export class GameMap {
   }
 
   update(seconds, player) {
+    this.currentTime += seconds;
+    if(this.nextTick !== -1 && this.nextTick < this.currentTime){
+      const chunkCoord = this.playerCoordToMapCoord(player);
+      this.nextTick = -1;
+      this.tick++
+      this.mapLoader.updateChunk(chunkCoord.x-this.mapLoader.CHUNK_SIZE, chunkCoord.y-this.mapLoader.CHUNK_SIZE, chunkCoord.z-this.mapLoader.CHUNK_SIZE, this.mapLoader.CHUNK_SIZE*2+1, this.tick).then(() => {
+        //console.log("pouet");
+        const playerZ = Math.floor(player.z);
+        this.placeables[playerZ] = this.placeables[playerZ].filter(placeable => {
+          return !(placeable.tick && placeable.tick !== this.tick);
+        });
+        this.nextTick = this.currentTime + 0.5;
+      });
+    }
+
     if(this.mapLoader.CHUNK_SIZE<1) return;
     if(player.y> this.nextChunks.yMax){
       this.getNextChunks("left", player);
@@ -147,6 +166,9 @@ export class GameMap {
     if(player.z< this.nextChunks.zMin){
       this.getNextChunks("down", player);
     }
+
+    
   }
+
 }
 

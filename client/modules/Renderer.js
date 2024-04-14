@@ -92,7 +92,7 @@ export class Renderer {
     this.ctx.fillStyle = '#000';
     this.ctx.fillRect(0, 0, this.width, this.height);
 
-    let playerZ = Math.floor(player.z);
+    const playerZ = Math.floor(player.z);
 
     this._renderColumn(raycaster, player, map, playerZ);
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
@@ -103,13 +103,12 @@ export class Renderer {
     for (let i = 0; i < this.resolution; i++) {
        //x-coordinate in camera space
       //let layerZ = Math.floor(player.z) + offset;
-      let rayResult = raycaster.cast(player, this.cameraX[i], map, layerZ);
-      this._drawRay(rayResult, i, player);
+      const rayResult = raycaster.cast(player, this.cameraX[i], map, layerZ);
+      this._drawRay(rayResult, i, player, layerZ);
     }
   }
 
-  _drawRay(rayResult, x, player) {
-    let playerZ = Math.floor(player.z);
+  _drawRay(rayResult, x, player, playerZ) {
     if (rayResult.length === 0) return;
    
     for (let i = rayResult.length - 1; i >= 0; i--) {
@@ -184,13 +183,13 @@ export class Renderer {
     // if(height > this.height*2 || top > this.height*2 || top < -this.height*2 || height < -this.height*2) {
     //   return;
     // }
-    if(height < 3 && height > -3) {
-      return;
-    }
-    height = Math.ceil(height);
-    top = Math.ceil(top);
+    // if(height < 3 && height > -3) {
+    //   return;
+    // }
+    // height = Math.floor(height);
+    // top = Math.floor(top);
     //this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
-    let texX = Math.floor(texOffset * image.width);
+    const texX = Math.floor(texOffset * image.width);
 
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
 
@@ -231,8 +230,8 @@ export class Renderer {
   _drawSprites(player, placeables, map) {
     
     const verticalAdjustement = this.height * Math.tan(player.upDirection);
-    let placeableOrders = [];
-    let spriteDistance = [];
+    const placeableOrders = [];
+    const spriteDistance = [];
     //SPRITE CASTING
     for (let i = 0; i < placeables.length; i++) { //Calculate sprite distances and reset order
       placeableOrders[i] = i;
@@ -279,8 +278,8 @@ export class Renderer {
           }
         }
 
-        let placeableInfos = map.getPlaceableProperties(placeables[placeableOrders[i]].type);
-        let placeableSprite = this.sprites[placeableInfos.sprite];
+        const placeableInfos = map.getPlaceableProperties(placeables[placeableOrders[i]].type);
+        const placeableSprite = this.sprites[placeableInfos.sprite];
 
         if (clipStartX != clipEndX && clipStartX < this.resolution && clipEndX > 0) { //Make sure the sprite is not fully obstructed or off screen
           const scaleDelta = placeableSprite.width / spriteWidth;

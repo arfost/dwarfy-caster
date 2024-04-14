@@ -63,7 +63,7 @@ export class DefaultMapLoader {
 
 export class DfMapLoader {
 
-  CHUNK_SIZE = 2;
+  CHUNK_SIZE = 0;
 
   BLOCK_SIZE = 16;
   BLOCK_SIZE_Z = 1;
@@ -111,6 +111,10 @@ export class DfMapLoader {
 
     const materialList = await this.client.GetMaterialList();
 
+    const buildingDefList = await this.client.GetBuildingDefList();
+
+    this.buildingList = buildingDefList.buildingList;
+
     this.materialList = materialList.materialList;
     this.preparedMaterialList = new Map();
     for (let material of this.materialList) {
@@ -142,7 +146,7 @@ export class DfMapLoader {
 
   async loadChunk(x, y, z, size, forceReload = true) {
     await this.ready();
-    const params = { minX: x, minY: y, minZ: z, maxX: x + size + 1, maxY: y + size + 1, maxZ: z + size + 1, forceReload };
+    const params = { minX: x, minY: y, minZ: z, maxX: x + size, maxY: y + size, maxZ: z + size, forceReload };
     console.log("loading chunk : ", params);
     try {
       let res = await this.client.GetBlockList(params);
@@ -153,7 +157,6 @@ export class DfMapLoader {
   }
 
   _processDfBlocks(blocks) {
-    // const aggregatedTileInfos = [];
     if (blocks.length === 0) {
       return;
     }
@@ -166,69 +169,70 @@ export class DfMapLoader {
       for (let x = 0; x < 16; x++) {
         for (let y = 0; y < 16; y++) {
           let index = y * 16 + x;
-          // const aggregatedTile = {
-          //   id: block.tiles[index],
-          //   tileInfos: this.tileTypeList.find(t => t.id === block.tiles[index]),
-          //   materials: this.materialList.find(m => m.matPair.matIndex === block.materials[index].matIndex && m.matPair.matType === block.materials[index].matType),
-          //   aquifer: block.aquifer[index],
-          //   baseMaterials: this.materialList.find(m => m.matPair.matIndex === block.baseMaterials[index].matIndex && m.matPair.matType === block.materials[index].matType),
-          //   constructionItems: this.materialList.find(m => m.matPair.matIndex === block.constructionItems[index].matIndex && m.matPair.matType === block.materials[index].matType),
-          //   grassPercent: block.grassPercent[index],
-          //   hidden: block.hidden[index],
-          //   layerMaterials: this.materialList.find(m => m.matPair.matIndex === block.layerMaterials[index].matIndex && m.matPair.matType === block.materials[index].matType),
-          //   light: block.light[index],
-          //   magma: block.magma[index],
-          //   mapX: basePosition.x + x,
-          //   mapY: basePosition.y + y,
-          //   mapZ: basePosition.z,
-          //   outside: block.outside[index],
-          //   spatterPile: block.spatterPile[index],
-          //   subterranean: block.subterranean[index],
-          //   tileDigDesignation: block.tileDigDesignation[index],
-          //   tileDigDesignationAuto: block.tileDigDesignationAuto[index],
-          //   tileDigDesignationMarker: block.tileDigDesignationMarker[index],
-          //   treePercent: block.treePercent[index],
-          //   treeX: block.treeX[index],
-          //   treeY: block.treeY[index],
-          //   treeZ: block.treeZ[index],
-          //   veinMaterials: this.materialList.find(m => m.matPair.matIndex === block.veinMaterials[index].matIndex && m.matPair.matType === block.materials[index].matType),
-          //   water: block.water[index],
-          //   waterSalt: block.waterSalt[index],
-          //   waterStagnant: block.waterStagnant[index],
-          // }
-          // aggregatedTileInfos.push(aggregatedTile);
-          let tileType = this.tileTypeList.find(t => t.id === block.tiles[index]);
-          if (!tileType) {
-            console.log("Tile type not found for", block.tiles[index]);
-            continue;
-          }
-          const corres = this._mapDFTileInfosToCell(tileType.shape, tileType.material, tileType.special);
-          const material = this.preparedMaterialList.get(`${block.materials[index].matIndex},${block.materials[index].matType}`);
-          //const material = this.materialList.find(m => m.matPair.matIndex === block.materials[index].matIndex && m.matPair.matType === block.materials[index].matType);
-          this.additionnalInfos.set(`${basePosition.x + x},${basePosition.y + y},${basePosition.z}`, {
-            tint: material ? [material.stateColor.red, material.stateColor.green, material.stateColor.blue] : false
-          });
-          this._correspondanceResultToMapInfos(corres, basePosition.x + x, basePosition.y + y, basePosition.z);
-
+          this.tileMap(block, index, basePosition, x, y);
         }
       }
     }
     for (let building of blocks[0].buildings || []) {
-      if (building.buildingType && this.definitions.buildingCorrespondances[building.buildingType.buildingType]) {
-        //set each case of the building for posXMin-posXMax and posYMin-posYMax
-        for (let x = building.posXMin; x <= building.posXMax; x++) {
-          for (let y = building.posYMin; y <= building.posYMax; y++) {
-            this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[building.buildingType.buildingType], x, y, building.posZMin);
-          }
-        }
-
-        //this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[building.buildingType.buildingType], building.posXMin, building.posYMin, building.posZMin);
+      if (building.buildingType) {
+        this.buildingMap(building);
       }
     }
-    // console.log("Block groub loaded", aggregatedTileInfos);
+    console.log("Block groub loaded", (blocks[0].buildings || []).filter(b => b.buildingType));
   }
 
-  _correspondanceResultToMapInfos(correspondanceResult, posX, posY, posZ) {
+  async updateChunk(x, y, z, size, tick) {
+    await this.ready();
+    const params = { minX: x, minY: y, minZ: z, maxX: x + size, maxY: y + size, maxZ: z + size };
+    console.log("update chunk : ", params);
+    try {
+      let res = await this.client.GetBlockList(params);
+      this._processDfBlocksForDynamic(res.mapBlocks || [], tick);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  _processDfBlocksForDynamic(blocks, tick) {
+    for(let block of blocks){
+      for(let flow of block.flows || []){
+        this.flowMap(flow, tick);
+      }
+    }
+  }
+
+  buildingMap(building) {
+    if(this.definitions.buildingCorrespondances[building.buildingType.buildingType]){
+      for (let x = building.posXMin; x <= building.posXMax; x++) {
+        for (let y = building.posYMin; y <= building.posYMax; y++) {
+          this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[building.buildingType.buildingType], x, y, building.posZMin);
+        }
+      }
+    }
+  }
+
+  tileMap(block, index, basePosition, x, y) {
+    let tileType = this.tileTypeList.find(t => t.id === block.tiles[index]);
+    if (!tileType) {
+      console.log("Tile type not found for", block.tiles[index]);
+      return;
+    }
+    const corres = this._mapDFTileInfosToCell(tileType.shape, tileType.material, tileType.special);
+    const material = this.preparedMaterialList.get(`${block.materials[index].matIndex},${block.materials[index].matType}`);
+
+    this.additionnalInfos.set(`${basePosition.x + x},${basePosition.y + y},${basePosition.z}`, {
+      tint: material ? [material.stateColor.red, material.stateColor.green, material.stateColor.blue] : false
+    });
+    this._correspondanceResultToMapInfos(corres, basePosition.x + x, basePosition.y + y, basePosition.z);
+  }
+
+  flowMap(flow, tick) {
+    if(this.definitions.flowCorrespondances[flow.type]){
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type], flow.pos.x, flow.pos.y, flow.pos.z, tick);
+    }
+  }
+
+  _correspondanceResultToMapInfos(correspondanceResult, posX, posY, posZ, tick) {
     if (!correspondanceResult) {
       return;
     }
@@ -239,7 +243,8 @@ export class DfMapLoader {
       this.placeables[posZ].push({
         x: posX + 0.5,
         y: posY + 0.5,
-        type: correspondanceResult.placeable
+        type: correspondanceResult.placeable,
+        tick
       });
     }
   }
