@@ -154,8 +154,8 @@ export class Renderer {
 
           
         }
-        if(hit.flow){
-          //water front face
+        if(hit.flow && zOffset <= 0){
+          //water top face
           const blockHeight = cellHeight * (0.12*hit.flow);
           const blockTop = cellTop + (cellHeight - blockHeight);
 
@@ -175,7 +175,7 @@ export class Renderer {
           const blockTop = cellTop + (cellHeight - blockHeight);
           this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
         }
-        if(hit.flow){
+        if(hit.flow && zOffset >= 0){
           //water front face
           const blockHeight = cellHeight * (0.12*hit.flow);
           const blockTop = cellTop + (cellHeight - blockHeight);

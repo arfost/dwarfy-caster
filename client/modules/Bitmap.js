@@ -42,7 +42,7 @@ export class Bitmap {
 
     
     ctx.fillStyle = '#000'; // Couleur du texte
-    ctx.font = '20px Arial';
+    ctx.font = '12px Arial';
     ctx.fillText(this.name, 10, 50);
 
     ctx.fillText("load error", 20, 90);

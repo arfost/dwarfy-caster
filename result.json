@@ -1,0 +1,1002 @@
+[
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "NONE",
+            "sprite": "NONE"
+        },
+        "signature": [
+            "-1,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Chair",
+            "sprite": "Chair"
+        },
+        "signature": [
+            "0,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Bed",
+            "sprite": "Bed"
+        },
+        "signature": [
+            "1,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Table",
+            "sprite": "Table"
+        },
+        "signature": [
+            "2,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Coffin",
+            "sprite": "Coffin"
+        },
+        "signature": [
+            "3,-1,-1"
+        ]
+    },
+    {
+        "cell": {
+            "floorTexture": "FarmPlot"
+        },
+        "signature": [
+            "4,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Furnace",
+            "sprite": "Furnace"
+        },
+        "signature": [
+            "5,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Wood Furnace",
+            "sprite": "Furnace/WoodFurnace"
+        },
+        "signature": [
+            "5,0,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Smelter",
+            "sprite": "Furnace/Smelter"
+        },
+        "signature": [
+            "5,1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Glass Furnace",
+            "sprite": "Furnace/GlassFurnace"
+        },
+        "signature": [
+            "5,2,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Kiln",
+            "sprite": "Furnace/Kiln"
+        },
+        "signature": [
+            "5,3,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Magma Smelter",
+            "sprite": "Furnace/MagmaSmelter"
+        },
+        "signature": [
+            "5,4,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Magma Glass Furnace",
+            "sprite": "Furnace/MagmaGlassFurnace"
+        },
+        "signature": [
+            "5,5,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Magma Kiln",
+            "sprite": "Furnace/MagmaKiln"
+        },
+        "signature": [
+            "5,6,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Custom Furnace",
+            "sprite": "Furnace/Custom"
+        },
+        "signature": [
+            "5,7,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Trade Depot",
+            "sprite": "TradeDepot"
+        },
+        "signature": [
+            "6,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Shop",
+            "sprite": "Shop"
+        },
+        "signature": [
+            "7,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "GeneralStore",
+            "sprite": "Shop/GeneralStore"
+        },
+        "signature": [
+            "7,0,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "CraftsMarket",
+            "sprite": "Shop/CraftsMarket"
+        },
+        "signature": [
+            "7,1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "ClothingShop",
+            "sprite": "Shop/ClothingShop"
+        },
+        "signature": [
+            "7,2,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "ExoticClothingShop",
+            "sprite": "Shop/ExoticClothingShop"
+        },
+        "signature": [
+            "7,3,-1"
+        ]
+    },
+    {
+        "cell": {
+            "heightRatio": 1,
+            "thinWall": true,
+            "wallTexture": "Door",
+            "floorTexture": "floor_neutral"
+        },
+        "signature": [
+            "8,-1,-1"
+        ]
+    },
+    {
+        "cell": {
+            "heightRatio": 1,
+            "thinWall": true,
+            "wallTexture": "Floodgate",
+            "floorTexture": "floor_neutral"
+        },
+        "signature": [
+            "9,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Box",
+            "sprite": "Box"
+        },
+        "signature": [
+            "10,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Weapon Rack",
+            "sprite": "Weaponrack"
+        },
+        "signature": [
+            "11,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Armor Stand",
+            "sprite": "Armorstand"
+        },
+        "signature": [
+            "12,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Workshop",
+            "sprite": "Workshop"
+        },
+        "signature": [
+            "13,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Carpenter's Workshop",
+            "sprite": "Workshop/Carpenters"
+        },
+        "signature": [
+            "13,0,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Farmer's Workshop",
+            "sprite": "Workshop/Farmers"
+        },
+        "signature": [
+            "13,1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Mason's Workshop",
+            "sprite": "Workshop/Masons"
+        },
+        "signature": [
+            "13,2,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Craftsdwarf's Workshop",
+            "sprite": "Workshop/Craftsdwarfs"
+        },
+        "signature": [
+            "13,3,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Jeweler's Workshop",
+            "sprite": "Workshop/Jewelers"
+        },
+        "signature": [
+            "13,4,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Metalsmith's Forge",
+            "sprite": "Workshop/MetalsmithsForge"
+        },
+        "signature": [
+            "13,5,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Magma Forge",
+            "sprite": "Workshop/MagmaForge"
+        },
+        "signature": [
+            "13,6,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Bowyer's Workshop",
+            "sprite": "Workshop/Bowyers"
+        },
+        "signature": [
+            "13,7,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Mechanic's Workshop",
+            "sprite": "Workshop/Mechanics"
+        },
+        "signature": [
+            "13,8,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Siege Workshop",
+            "sprite": "Workshop/Siege"
+        },
+        "signature": [
+            "13,9,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Butcher's Shop",
+            "sprite": "Workshop/Butchers"
+        },
+        "signature": [
+            "13,10,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Leather Works",
+            "sprite": "Workshop/Leatherworks"
+        },
+        "signature": [
+            "13,11,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Tanner's Shop",
+            "sprite": "Workshop/Tanners"
+        },
+        "signature": [
+            "13,12,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Clothier's Shop",
+            "sprite": "Workshop/Clothiers"
+        },
+        "signature": [
+            "13,13,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Fishery",
+            "sprite": "Workshop/Fishery"
+        },
+        "signature": [
+            "13,14,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Still",
+            "sprite": "Workshop/Still"
+        },
+        "signature": [
+            "13,15,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Loom",
+            "sprite": "Workshop/Loom"
+        },
+        "signature": [
+            "13,16,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Quern",
+            "sprite": "Workshop/Quern"
+        },
+        "signature": [
+            "13,17,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Kennels",
+            "sprite": "Workshop/Kennels"
+        },
+        "signature": [
+            "13,18,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Kitchen",
+            "sprite": "Workshop/Kitchen"
+        },
+        "signature": [
+            "13,19,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Ashery",
+            "sprite": "Workshop/Ashery"
+        },
+        "signature": [
+            "13,20,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Dyer's Shop",
+            "sprite": "Workshop/Dyers"
+        },
+        "signature": [
+            "13,21,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Millstone",
+            "sprite": "Workshop/Millstone"
+        },
+        "signature": [
+            "13,22,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Custom Workshop",
+            "sprite": "Workshop/Custom"
+        },
+        "signature": [
+            "13,23,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Soap Maker's Workshop",
+            "sprite": "Workshop/SOAP_MAKER"
+        },
+        "signature": [
+            "13,23,0"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Screw Press",
+            "sprite": "Workshop/SCREW_PRESS"
+        },
+        "signature": [
+            "13,23,1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Tool",
+            "sprite": "Workshop/Tool"
+        },
+        "signature": [
+            "13,24,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Cabinet",
+            "sprite": "Cabinet"
+        },
+        "signature": [
+            "14,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Statue",
+            "sprite": "Statue"
+        },
+        "signature": [
+            "15,-1,-1"
+        ]
+    },
+    {
+        "cell": {
+            "heightRatio": 1,
+            "thinWall": true,
+            "wallTexture": "WindowGlass",
+            "floorTexture": "floor_neutral"
+        },
+        "signature": [
+            "16,-1,-1"
+        ]
+    },
+    {
+        "cell": {
+            "heightRatio": 1,
+            "thinWall": true,
+            "wallTexture": "WindowGem",
+            "floorTexture": "floor_neutral"
+        },
+        "signature": [
+            "17,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Well",
+            "sprite": "Well"
+        },
+        "signature": [
+            "18,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Bridge",
+            "sprite": "Bridge"
+        },
+        "signature": [
+            "19,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Dirt Road",
+            "sprite": "RoadDirt"
+        },
+        "signature": [
+            "20,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Paved Road",
+            "sprite": "RoadPaved"
+        },
+        "signature": [
+            "21,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Siege Engine",
+            "sprite": "SiegeEngine"
+        },
+        "signature": [
+            "22,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Catapult",
+            "sprite": "SiegeEngine/Catapult"
+        },
+        "signature": [
+            "22,0,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Ballista",
+            "sprite": "SiegeEngine/Ballista"
+        },
+        "signature": [
+            "22,1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Trap",
+            "sprite": "Trap"
+        },
+        "signature": [
+            "23,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Lever",
+            "sprite": "Trap/Lever"
+        },
+        "signature": [
+            "23,0,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "PressurePlate",
+            "sprite": "Trap/PressurePlate"
+        },
+        "signature": [
+            "23,1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "CageTrap",
+            "sprite": "Trap/CageTrap"
+        },
+        "signature": [
+            "23,2,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "StoneFallTrap",
+            "sprite": "Trap/StoneFallTrap"
+        },
+        "signature": [
+            "23,3,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "WeaponTrap",
+            "sprite": "Trap/WeaponTrap"
+        },
+        "signature": [
+            "23,4,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "TrackStop",
+            "sprite": "Trap/TrackStop"
+        },
+        "signature": [
+            "23,5,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Animal Trap",
+            "sprite": "AnimalTrap"
+        },
+        "signature": [
+            "24,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Support",
+            "sprite": "Support"
+        },
+        "signature": [
+            "25,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Archery Target",
+            "sprite": "ArcheryTarget"
+        },
+        "signature": [
+            "26,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Chain",
+            "sprite": "Chain"
+        },
+        "signature": [
+            "27,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Cage",
+            "sprite": "Cage"
+        },
+        "signature": [
+            "28,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Weapon",
+            "sprite": "Weapon"
+        },
+        "signature": [
+            "31,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Wagon",
+            "sprite": "Wagon"
+        },
+        "signature": [
+            "32,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Screw Pump",
+            "sprite": "ScrewPump"
+        },
+        "signature": [
+            "33,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Hatch",
+            "sprite": "Hatch"
+        },
+        "signature": [
+            "35,-1,-1"
+        ]
+    },
+    {
+        "cell": {
+            "heightRatio": 1,
+            "thinWall": true,
+            "wallTexture": "GrateWall",
+            "floorTexture": "floor_neutral"
+        },
+        "signature": [
+            "36,-1,-1"
+        ]
+    },
+    {
+        "cell": {
+            "floorTexture": "GrateFloor"
+        },
+        "signature": [
+            "37,-1,-1"
+        ]
+    },
+    {
+        "cell": {
+            "heightRatio": 1,
+            "thinWall": true,
+            "wallTexture": "BarsVertical",
+            "floorTexture": "floor_neutral"
+        },
+        "signature": [
+            "38,-1,-1"
+        ]
+    },
+    {
+        "cell": {
+            "floorTexture": "BarsFloor"
+        },
+        "signature": [
+            "39,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Gear Assembly",
+            "sprite": "GearAssembly"
+        },
+        "signature": [
+            "40,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Horizontal Axle",
+            "sprite": "AxleHorizontal"
+        },
+        "signature": [
+            "41,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Vertical Axle",
+            "sprite": "AxleVertical"
+        },
+        "signature": [
+            "42,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Water Wheel",
+            "sprite": "WaterWheel"
+        },
+        "signature": [
+            "43,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Windmill",
+            "sprite": "Windmill"
+        },
+        "signature": [
+            "44,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Traction Bench",
+            "sprite": "TractionBench"
+        },
+        "signature": [
+            "45,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Slab",
+            "sprite": "Slab"
+        },
+        "signature": [
+            "46,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Nest",
+            "sprite": "Nest"
+        },
+        "signature": [
+            "47,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Nest Box",
+            "sprite": "NestBox"
+        },
+        "signature": [
+            "48,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Hive",
+            "sprite": "Hive"
+        },
+        "signature": [
+            "49,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Rollers",
+            "sprite": "Rollers"
+        },
+        "signature": [
+            "50,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Instrument",
+            "sprite": "Instrument"
+        },
+        "signature": [
+            "51,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Bookcase",
+            "sprite": "Bookcase"
+        },
+        "signature": [
+            "52,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Display Furniture",
+            "sprite": "DisplayFurniture"
+        },
+        "signature": [
+            "53,-1,-1"
+        ]
+    },
+    {
+        "placeable": {
+            "heightRatio": 1,
+            "name": "Offering Place",
+            "sprite": "OfferingPlace"
+        },
+        "signature": [
+            "54,-1,-1"
+        ]
+    }
+]

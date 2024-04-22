@@ -32,7 +32,7 @@ export class DefaultMapLoader {
       this.placeables.push(...DEFAULT_PLACEABLES);
     }
 
-    this.flows = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
+    this.water = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
 
     this.additionnalInfos = new Map();
     this.additionnalInfos.set("7,8,1", {
@@ -65,7 +65,7 @@ export class DefaultMapLoader {
 
 export class DfMapLoader {
 
-  CHUNK_SIZE = 1;
+  CHUNK_SIZE = 2;
 
   BLOCK_SIZE = 16;
   BLOCK_SIZE_Z = 1;
@@ -96,7 +96,7 @@ export class DfMapLoader {
     };
 
     this.map = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
-    this.flows = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
+    this.water = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
     this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => []);
     this.additionnalInfos = new Map();
 
@@ -111,20 +111,14 @@ export class DfMapLoader {
     }, {});
 
     console.log(tileTypeList, categories);
-
+    
     const materialList = await this.client.GetMaterialList();
-
-    const buildingDefList = await this.client.GetBuildingDefList();
-
-    this.buildingList = buildingDefList.buildingList;
-
     this.materialList = materialList.materialList;
     this.preparedMaterialList = new Map();
     for (let material of this.materialList) {
       this.preparedMaterialList.set(`${material.matPair.matIndex},${material.matPair.matType}`, material);
     }
-    console.log(materialList);
-
+    
     const cursor = await this.getCursorPosition();
     return cursor;
   }
@@ -173,7 +167,7 @@ export class DfMapLoader {
         for (let y = 0; y < 16; y++) {
           let index = y * 16 + x;
           this.tileMap(block, index, basePosition, x, y);
-          this.flows[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = block.water[index];
+          this.water[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = block.water[index];
         }
       }
     }
@@ -195,6 +189,15 @@ export class DfMapLoader {
     } catch (e) {
       console.log(e);
     }
+    try {
+      let res = await this.client.GetUnitListInside(params);
+      // console.log("update chunk : ", res);
+      for(let crea of res.creatureList || []) {
+        this.creatureMap(crea, tick);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   _processDfBlocksForDynamic(blocks, tick) {
@@ -203,7 +206,7 @@ export class DfMapLoader {
         for (let x = 0; x < 16; x++) {
           for (let y = 0; y < 16; y++) {
             let index = y * 16 + x;
-            this.flows[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.water[index];
+            this.water[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.water[index];
           }
         }
       }
@@ -214,10 +217,11 @@ export class DfMapLoader {
   }
 
   buildingMap(building) {
-    if(this.definitions.buildingCorrespondances[building.buildingType.buildingType]){
+    let key = `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`;
+    if(this.definitions.buildingCorrespondances[key]){
       for (let x = building.posXMin; x <= building.posXMax; x++) {
         for (let y = building.posYMin; y <= building.posYMax; y++) {
-          this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[building.buildingType.buildingType], x, y, building.posZMin);
+          this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[key], x, y, building.posZMin);
         }
       }
     }
@@ -241,6 +245,13 @@ export class DfMapLoader {
   flowMap(flow, tick) {
     if(this.definitions.flowCorrespondances[flow.type]){
       this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type], flow.pos.x, flow.pos.y, flow.pos.z, tick);
+    }
+  }
+
+  creatureMap(unit, tick) {
+    let key = `${unit.race.matType},${unit.race.matIndex}`;
+    if(this.definitions.creatureCorrespondances[key]){
+      this._correspondanceResultToMapInfos(this.definitions.creatureCorrespondances[key], unit.posX, unit.posY, unit.posZ, tick);
     }
   }
 
