@@ -383,6 +383,14 @@ const floor = {
         "BROOK_TOP-BROOK-NO_SPECIAL",
         "FLOOR-POOL-NO_SPECIAL",
       ]
+    },
+    {
+      cell:{
+        floorTexture: "wall_floor_brook", // neutre
+      },
+      signature:[
+        "BROOK_BED-BROOK-NO_SPECIAL",
+      ]
     }
   ],
   signature:[
@@ -495,15 +503,6 @@ const wall = {
         "WALL-TREE_MATERIAL-NO_SPECIAL",
         "WALL-TREE_MATERIAL-SMOOTH",
         "WALL-TREE_MATERIAL-SMOOTH_DEAD"
-      ]
-    },
-    {
-      cell:{
-        floorTexture: "wall_floor_brook", // neutre
-        wallTexture: "wall_brook", // mur de pierre
-      },
-      signature:[
-        "BROOK_BED-BROOK-NO_SPECIAL",
       ]
     },
   ],

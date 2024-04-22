@@ -3,12 +3,10 @@
 This project is the result of two weeks of tests with raycasting and dwarf fortress.
 It's a very early, buggy, result.
 
-I didn't take time to work on assets and representation, still mostly working on the renderer so their is many issues, assets are a bundle of sprites generated with chatGPT and some free textures.
+I didn't take time to work on assets and representation, still mostly working on the renderer so their is many issues, assets are a bundle of sprites generated with chatGPT, some free textures and crudely done procedural placeholders.
 
 
-For now it allows you to walk in a mostly correct representation of overall shape of the world, plus a few buildings.
-
-Perf outdoor are still low and colors are mostly random, trees are gray, floor have no textures many things are missing but it will improve hopefully.
+For now it render the tile layout, buildings, and water, flow (like mist and miasma), dwarves in real time.
 
 
 ## How to test
@@ -32,6 +30,8 @@ In game you can use ZQSD to move around, A and E to go down and up and click on 
 
 The P key switch to QWERTY control scheme.
 
+Sometimes world chunk fail to load or load in the wrong place, you can reset the world around you with the 'C' key. It will also update the tiles around you if they have changed.
+
 
 ## Technical considerations
 
@@ -39,18 +39,14 @@ The P key switch to QWERTY control scheme.
 I discovered the principe of raycasting thanks to this video https://www.youtube.com/watch?v=HEb2akswCcw
 then implemented it with help from lodev tutorials [[lodev](https://lodev.org/cgtutor/raycasting.html)] and reading various raycasting projects on github.
 
-I tried to add multi level rendering but it's not really ready now and it's deactivated on master to save FPS. I will continue to look into it.
-
-The raycasting part is really standard and it return the list of hits to the renderer which will draw them in a simple JS canvas.
+I added a layer to render multilevel maps, it's not the most elegant things but seems to work mostly ok for now, beside that the raycasting part is really standard and it return the list of hits to the renderer which will draw them in a simple JS canvas.
 
 ### DF connection and read
 This part is done thanks to the formidable DFhack [[DFhack](https://docs.dfhack.org/en/stable/)] and this project [[dfhack-remote](https://github.com/alexchandel/dfhack-remote)] 
 
 
 ## Futur plan
-I will try to improve multi level render to allow real representation of exteriors and big constructions, and after that find more assets to support all buildings and tiles.
-
-When it's done I will start to think of the real futur of the entier project.
+It seems that i'm beginning to hit the max of what i'm able to get from JS in term of FPS. This project was intended as proof of concept and I will now look into more performant langage to reimplement it.
 
 
 ## Contributions and such

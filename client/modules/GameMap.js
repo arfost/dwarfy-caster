@@ -73,6 +73,27 @@ export class GameMap {
     player.z = cursor.z;
   }
 
+  async resetChunk(player) {
+
+    const chunkCoord = this.playerCoordToMapCoord(player);
+    await this.mapLoader.loadChunk(chunkCoord.x-this.mapLoader.CHUNK_SIZE, chunkCoord.y-this.mapLoader.CHUNK_SIZE, chunkCoord.z-this.mapLoader.CHUNK_SIZE, this.mapLoader.CHUNK_SIZE*2+1);
+
+    const chunkLength = this.mapLoader.BLOCK_SIZE * (this.mapLoader.CHUNK_SIZE);
+    const chunkLengthZ = this.mapLoader.BLOCK_SIZE_Z * (this.mapLoader.CHUNK_SIZE);
+
+    this.nextChunks = {
+      xMin: player.x - chunkLength/2,
+      xMax: player.x + chunkLength/2,
+      yMin: player.y - chunkLength/2,
+      yMax: player.y + chunkLength/2,
+      zMin: player.z - chunkLengthZ/2,
+      zMax: player.z + chunkLengthZ/2,
+      chunkLength,
+      chunkLengthZ
+    }
+    console.log("chunks init", this.nextChunks);
+  }
+
   getCellProperties(type) {
     return this.cellProperties[type];
   }
