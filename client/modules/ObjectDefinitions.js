@@ -1603,87 +1603,255 @@ const buildingCombinaisons = [
 const flowCombinaisons = [{
   placeable: {
     heightRatio: 1,
-    sprite: "miasma",
+    sprite: "miasma-light",
   },
-  signature: [0],
+  signature: ["0-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "steam",
+    sprite: "steam-light",
   },
-  signature: [1],
+  signature: ["1-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "mist",
+    sprite: "mist-light",
   },
-  signature: [2],
+  signature: ["2-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "materialDust",
+    sprite: "materialDust-light",
   },
-  signature: [3],
+  signature: ["3-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "magmaMist",
+    sprite: "magmaMist-light",
   },
-  signature: [4],
+  signature: ["4-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "smoke",
+    sprite: "smoke-light",
   },
-  signature: [5],
+  signature: ["5-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "dragonfire",
+    sprite: "dragonfire-light",
   },
-  signature: [6],
+  signature: ["6-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "fire",
+    sprite: "fire-light",
   },
-  signature: [7],
+  signature: ["7-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "web",
+    sprite: "web-light",
   },
-  signature: [8],
+  signature: ["8-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "materialGas",
+    sprite: "materialGas-light",
   },
-  signature: [9],
+  signature: ["9-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "materialVapor",
+    sprite: "materialVapor-light",
   },
-  signature: [10],
+  signature: ["10-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "oceanWave",
+    sprite: "oceanWave-light",
   },
-  signature: [11],
+  signature: ["11-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "seaFoam",
+    sprite: "seaFoam-light",
   },
-  signature: [12],
+  signature: ["12-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "itemCloud",
+    sprite: "itemCloud-light",
   },
-  signature: [13],
+  signature: ["13-light"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "miasma-medium",
+  },
+  signature: ["0-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "steam-medium",
+  },
+  signature: ["1-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "mist-medium",
+  },
+  signature: ["2-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "materialDust-medium",
+  },
+  signature: ["3-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "magmaMist-medium",
+  },
+  signature: ["4-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "smoke-medium",
+  },
+  signature: ["5-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "dragonfire-medium",
+  },
+  signature: ["6-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "fire-medium",
+  },
+  signature: ["7-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "web-medium",
+  },
+  signature: ["8-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "materialGas-medium",
+  },
+  signature: ["9-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "materialVapor-medium",
+  },
+  signature: ["10-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "oceanWave-medium",
+  },
+  signature: ["11-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "seaFoam-medium",
+  },
+  signature: ["12-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "itemCloud-medium",
+  },
+  signature: ["13-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "miasma-heavy",
+  },
+  signature: ["0-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "steam-heavy",
+  },
+  signature: ["1-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "mist-heavy",
+  },
+  signature: ["2-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "materialDust-heavy",
+  },
+  signature: ["3-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "magmaMist-heavy",
+  },
+  signature: ["4-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "smoke-heavy",
+  },
+  signature: ["5-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "dragonfire-heavy",
+  },
+  signature: ["6-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "fire-heavy",
+  },
+  signature: ["7-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "web-heavy",
+  },
+  signature: ["8-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "materialGas-heavy",
+  },
+  signature: ["9-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "materialVapor-heavy",
+  },
+  signature: ["10-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "oceanWave-heavy",
+  },
+  signature: ["11-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "seaFoam-heavy",
+  },
+  signature: ["12-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "itemCloud-heavy",
+  },
+  signature: ["13-heavy"],
 }]
 
 const creatureCombinaisons = [{
@@ -1691,13 +1859,13 @@ const creatureCombinaisons = [{
     heightRatio: 1,
     sprite: "dwarf_male",
   },
-  signature: ["572,0"],
+  signature: ["572,1"],
 },{
   placeable: {
     heightRatio: 1,
     sprite: "dwarf_female",
   },
-  signature: ["572,1"],
+  signature: ["572,0"],
 }]
 
 export function prepareDefinitions(){

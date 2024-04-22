@@ -184,14 +184,14 @@ export class DfMapLoader {
     const params = { minX: x, minY: y, minZ: z, maxX: x + size, maxY: y + size, maxZ: z + size };
     try {
       let res = await this.client.GetBlockList(params);
-      // console.log("update chunk : ", res);
+      // console.log("update chunk : ", res, tick);
       this._processDfBlocksForDynamic(res.mapBlocks || [], tick);
     } catch (e) {
       console.log(e);
     }
     try {
       let res = await this.client.GetUnitListInside(params);
-      // console.log("update chunk : ", res);
+      console.log("update chunk : ", res);
       for(let crea of res.creatureList || []) {
         this.creatureMap(crea, tick);
       }
@@ -210,6 +210,7 @@ export class DfMapLoader {
           }
         }
       }
+      // console.log("flows", block.flows, tick);
       for(let flow of block.flows || []){
         this.flowMap(flow, tick);
       }
@@ -243,12 +244,19 @@ export class DfMapLoader {
   }
 
   flowMap(flow, tick) {
-    if(this.definitions.flowCorrespondances[flow.type]){
-      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type], flow.pos.x, flow.pos.y, flow.pos.z, tick);
+    if(flow.density > 66){
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type+"-heavy"], flow.pos.x, flow.pos.y, flow.pos.z, tick);
+    }else if(flow.density > 33){
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type+"-medium"], flow.pos.x, flow.pos.y, flow.pos.z, tick);
+    }else if(flow.density > 0){
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type+"-light"], flow.pos.x, flow.pos.y, flow.pos.z, tick);
     }
   }
 
   creatureMap(unit, tick) {
+    if(!unit.inventory){
+      return;
+    }
     let key = `${unit.race.matType},${unit.race.matIndex}`;
     if(this.definitions.creatureCorrespondances[key]){
       this._correspondanceResultToMapInfos(this.definitions.creatureCorrespondances[key], unit.posX, unit.posY, unit.posZ, tick);

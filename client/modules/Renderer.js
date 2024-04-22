@@ -281,13 +281,13 @@ export class Renderer {
       const transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
 
       if (transformY > 0 && transformY < 10) { //No need for the rest if the sprite is behind the player
-        const spriteHeight = Math.abs(Math.floor(this.height / 2 / transformY));
-        const drawStartY = (spriteHeight / 2) / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
+        const spriteHeight = Math.abs(this.height / 2 / transformY);
+        const drawStartY = (this.height / 2)  + player.zRest * (spriteHeight);
 
-        const spriteScreenX = Math.floor(this.resolution / 2) * (1 + transformX / transformY);
-        const spriteWidth = Math.abs(Math.floor(this.resolution / 2 / transformY));
-        let drawStartX = Math.floor(-spriteWidth / 2 + spriteScreenX);
-        let drawEndX = drawStartX + spriteWidth;
+        const spriteScreenX = (this.resolution / 2) * (1 + transformX / transformY);
+        const spriteWidth = Math.abs((this.resolution / 2) / transformY);
+        let drawStartX = Math.floor(spriteScreenX - spriteWidth / 2);
+        let drawEndX = Math.floor(drawStartX + spriteWidth);
 
         let clipStartX = drawStartX;
         let clipEndX = drawEndX;
@@ -310,10 +310,11 @@ export class Renderer {
           }
         }
 
-        const placeableInfos = map.getPlaceableProperties(placeables[placeableOrders[i]].type);
-        const placeableSprite = this.sprites[placeableInfos.sprite];
-
         if (clipStartX != clipEndX && clipStartX < this.resolution && clipEndX > 0) { //Make sure the sprite is not fully obstructed or off screen
+          
+          const placeableInfos = map.getPlaceableProperties(placeables[placeableOrders[i]].type);
+          const placeableSprite = this.sprites[placeableInfos.sprite];
+
           const scaleDelta = placeableSprite.width / spriteWidth;
           let drawXStart = Math.floor((clipStartX - drawStartX) * scaleDelta);
           if (drawXStart < 0) {
@@ -328,7 +329,8 @@ export class Renderer {
             drawWidth = 0;
           }
           // this._drawTexturedColumn(clipStartX, drawStartY + verticalAdjustement, spriteHeight, transformY, placeableSprite, drawXStart, 0, placeableInfos.tint);
-          this.ctx.drawImage(placeableSprite.image, drawXStart * this.spacing, 0, drawXEnd, placeableSprite.height*placeableInfos.heightRatio, clipStartX * this.spacing, drawStartY+ verticalAdjustement, drawWidth * this.spacing, spriteHeight);
+          //console.log(placeableSprite.image, Math.round(drawXStart * this.spacing), 0, Math.round(drawXEnd, placeableSprite.height), Math.round(clipStartX * this.spacing), Math.round(drawStartY+ verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight))
+          this.ctx.drawImage(placeableSprite.image, drawXStart, 0, Math.round(drawXEnd), placeableSprite.height, Math.round(clipStartX * this.spacing), Math.round(drawStartY+ verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight));
         }
       }
     }//End of spriteList for loop
