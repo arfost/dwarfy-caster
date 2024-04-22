@@ -44,7 +44,7 @@ export class GameMap {
   }
 
   get flowGrids(){
-    return this.mapLoader.flows;
+    return this.mapLoader.water;
   }
 
   async teleportToCursor(player) {
