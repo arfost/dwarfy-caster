@@ -276,8 +276,8 @@ export class Renderer {
       const spriteX = placeables[placeableOrders[i]].x - player.x;
       const spriteY = placeables[placeableOrders[i]].y - player.y;
 
-      const invDet = 1.0 / (player.planeX * player.dirY - player.dirX * player.planeY);
-      const transformX = invDet * (player.dirY * spriteX - player.dirX * spriteY);
+      const invDet = 1.0 / (player.planeX * -player.dirY + player.dirX * player.planeY);
+      const transformX = invDet * (-player.dirY * spriteX + player.dirX * spriteY);
       const transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
 
       if (transformY > 0 && transformY < 10) { //No need for the rest if the sprite is behind the player

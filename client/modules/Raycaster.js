@@ -37,8 +37,8 @@ export class Raycaster {
   }
 
   _prepareCastValues(player, cameraX, map, zLevel) {
-    const rayDirX = player.dirX + player.planeX * cameraX;
-    const rayDirY = player.dirY + player.planeY * cameraX;
+    const rayDirX = -player.dirX + player.planeX * cameraX;
+    const rayDirY = -player.dirY + player.planeY * cameraX;
 
     //which box of the map we're in
     let mapX = Math.floor(player.x);
