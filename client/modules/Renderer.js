@@ -77,9 +77,9 @@ export class Renderer {
 
     this.sprites = {};
 
-    await Promise.all(assetNames.sprites.map(async (spriteName) => {
-      let sprite = new Bitmap(`assets/sprites/${spriteName}.png`, 64, 64);
-      this.sprites[spriteName] = sprite;
+    await Promise.all(assetNames.sprites.map(async (def) => {
+      let sprite = new Bitmap(`assets/sprites/${def.name}.png`, 64, 64*def.heightRatio);
+      this.sprites[def.name] = sprite;
       return sprite.imageLoaded;
     }));
   }
@@ -281,8 +281,8 @@ export class Renderer {
       const transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
 
       if (transformY > 0 && transformY < 10) { //No need for the rest if the sprite is behind the player
-        const spriteHeight = Math.abs(this.height / 2 / transformY);
-        const drawStartY = (this.height / 2)  + player.zRest * (spriteHeight);
+        const spriteHeight = Math.abs(this.height*0.75 / transformY);
+        const drawStartY = (-spriteHeight / 4 + this.height/2) + (player.zRest * (spriteHeight/2)*2);
 
         const spriteScreenX = (this.resolution / 2) * (1 + transformX / transformY);
         const spriteWidth = Math.abs((this.resolution / 2) / transformY);
@@ -328,9 +328,7 @@ export class Renderer {
           if (drawWidth < 0) {
             drawWidth = 0;
           }
-          // this._drawTexturedColumn(clipStartX, drawStartY + verticalAdjustement, spriteHeight, transformY, placeableSprite, drawXStart, 0, placeableInfos.tint);
-          //console.log(placeableSprite.image, Math.round(drawXStart * this.spacing), 0, Math.round(drawXEnd, placeableSprite.height), Math.round(clipStartX * this.spacing), Math.round(drawStartY+ verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight))
-          this.ctx.drawImage(placeableSprite.image, drawXStart, 0, Math.round(drawXEnd), placeableSprite.height, Math.round(clipStartX * this.spacing), Math.round(drawStartY+ verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight));
+          this.ctx.drawImage(placeableSprite.image, drawXStart, 0, Math.round(drawXEnd), placeableSprite.height, Math.round(clipStartX * this.spacing), Math.round(drawStartY + verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight));
         }
       }
     }//End of spriteList for loop

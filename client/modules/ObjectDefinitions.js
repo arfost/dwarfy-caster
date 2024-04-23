@@ -632,7 +632,7 @@ const buildingCombinaisons = [
       "placeable": {
           "heightRatio": 1,
           "name": "Table",
-          "sprite": "Table"
+          "sprite": "table"
       },
       "signature": [
           "2,-1,-1"
@@ -1150,7 +1150,7 @@ const buildingCombinaisons = [
   },
   {
       "placeable": {
-          "heightRatio": 1,
+          "heightRatio": 2,
           "name": "Statue",
           "sprite": "Statue"
       },
@@ -1186,36 +1186,35 @@ const buildingCombinaisons = [
           "name": "Well",
           "sprite": "Well"
       },
+      "cell": {
+        "floorTexture": "well_floor",
+    },
       "signature": [
           "18,-1,-1"
       ]
   },
   {
-      "placeable": {
-          "heightRatio": 1,
-          "name": "Bridge",
-          "sprite": "Bridge"
+      "cell": {
+          "heightRatio": 0.25,
+          "floorTexture": "bridge_floor",
+          "wallTexture": "bridge_wall"
       },
       "signature": [
           "19,-1,-1"
       ]
   },
   {
-      "placeable": {
-          "heightRatio": 1,
-          "name": "Dirt Road",
-          "sprite": "RoadDirt"
+      "cell": {
+        "floorTexture": "dirty_road",
       },
       "signature": [
           "20,-1,-1"
       ]
   },
   {
-      "placeable": {
-          "heightRatio": 1,
-          "name": "Paved Road",
-          "sprite": "RoadPaved"
-      },
+    "cell": {
+      "floorTexture": "paved_road",
+    },
       "signature": [
           "21,-1,-1"
       ]
@@ -2013,7 +2012,10 @@ export function prepareDefinitions(){
 
   for(let definition of placeableDefinitions){
     if(definition && definition.sprite && !assetNames.sprites.includes(definition.sprite)){
-      assetNames.sprites.push(definition.sprite);
+      assetNames.sprites.push({
+        name:definition.sprite,
+        heightRatio:definition.heightRatio
+      });
     }
   }
 

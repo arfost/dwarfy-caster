@@ -169,7 +169,6 @@ export class GameMap {
       const chunkCoord = this.playerCoordToMapCoord(player);
       this.nextTick = -1;
       this.tick++
-      console.log("pouet", this.tick);
       this.mapLoader.updateChunk(chunkCoord.x-this.mapLoader.CHUNK_SIZE, chunkCoord.y-this.mapLoader.CHUNK_SIZE, chunkCoord.z-this.mapLoader.CHUNK_SIZE, this.mapLoader.CHUNK_SIZE*2+1, this.tick).then(() => {
         const playerZ = Math.floor(player.z);
         this.placeables[playerZ] = this.placeables[playerZ].filter(placeable => {
@@ -198,8 +197,6 @@ export class GameMap {
     if(player.z< this.nextChunks.zMin){
       this.getNextChunks("down", player);
     }
-
-    
   }
 
 }

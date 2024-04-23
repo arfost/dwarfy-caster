@@ -61,6 +61,10 @@ export class DefaultMapLoader {
     console.log("loading chunk but for test map so do nothing : ", { x, y, z, size, forceReload });
   }
 
+  async updateChunk(x, y, z, size, forceReload = true) {
+    console.log("update chunk but for test map so do nothing : ", { x, y, z, size, forceReload });
+  }
+
 }
 
 export class DfMapLoader {
