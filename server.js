@@ -106,7 +106,7 @@ function initWsServer() {
       if (err) {
         console.log("File not found: " + uri);
         console.error(err);
-        return http_error(res, 500, err);
+        return http_error(res, 500, "nop");
       }
 
       res.setHeader('Content-type', mime.getType(path.parse(uri).ext));

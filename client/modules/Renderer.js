@@ -77,9 +77,9 @@ export class Renderer {
 
     this.sprites = {};
 
-    await Promise.all(assetNames.sprites.map(async (spriteName) => {
-      let sprite = new Bitmap(`assets/sprites/${spriteName}.png`, 64, 64);
-      this.sprites[spriteName] = sprite;
+    await Promise.all(assetNames.sprites.map(async (def) => {
+      let sprite = new Bitmap(`assets/sprites/${def.name}.png`, 64, 64*def.heightRatio);
+      this.sprites[def.name] = sprite;
       return sprite.imageLoaded;
     }));
   }
@@ -92,7 +92,7 @@ export class Renderer {
     this.ctx.fillStyle = '#000';
     this.ctx.fillRect(0, 0, this.width, this.height);
 
-    let playerZ = Math.floor(player.z);
+    const playerZ = Math.floor(player.z);
 
     this._renderColumn(raycaster, player, map, playerZ);
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
@@ -103,13 +103,12 @@ export class Renderer {
     for (let i = 0; i < this.resolution; i++) {
        //x-coordinate in camera space
       //let layerZ = Math.floor(player.z) + offset;
-      let rayResult = raycaster.cast(player, this.cameraX[i], map, layerZ);
-      this._drawRay(rayResult, i, player);
+      const rayResult = raycaster.cast(player, this.cameraX[i], map, layerZ);
+      this._drawRay(rayResult, i, player, layerZ);
     }
   }
 
-  _drawRay(rayResult, x, player) {
-    let playerZ = Math.floor(player.z);
+  _drawRay(rayResult, x, player, playerZ) {
     if (rayResult.length === 0) return;
    
     for (let i = rayResult.length - 1; i >= 0; i--) {
@@ -152,6 +151,17 @@ export class Renderer {
             // this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
             this._drawTexturedColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
           }
+
+          
+        }
+        if(hit.flow && zOffset <= 0){
+          //water top face
+          const blockHeight = cellHeight * (0.12*hit.flow);
+          const blockTop = cellTop + (cellHeight - blockHeight);
+
+          const backBlockHeight = backCellHeight * (0.12*hit.flow);
+          const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
+          this._drawWater(x, backBlockTop, blockTop - backBlockTop, hit.distance, hit.side);
         }
       }
       
@@ -164,6 +174,12 @@ export class Renderer {
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
           this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+        }
+        if(hit.flow && zOffset >= 0){
+          //water front face
+          const blockHeight = cellHeight * (0.12*hit.flow);
+          const blockTop = cellTop + (cellHeight - blockHeight);
+          this._drawWater(x, blockTop, blockHeight, hit.distance, hit.side);
         }
         //draw thin wall
         if (hit.thinDistance && hit.cellInfos.wallTexture) {
@@ -184,13 +200,13 @@ export class Renderer {
     // if(height > this.height*2 || top > this.height*2 || top < -this.height*2 || height < -this.height*2) {
     //   return;
     // }
-    if(height < 3 && height > -3) {
-      return;
-    }
-    height = Math.ceil(height);
-    top = Math.ceil(top);
+    // if(height < 3 && height > -3) {
+    //   return;
+    // }
+    // height = Math.floor(height);
+    // top = Math.floor(top);
     //this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
-    let texX = Math.floor(texOffset * image.width);
+    const texX = Math.floor(texOffset * image.width);
 
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
 
@@ -212,6 +228,21 @@ export class Renderer {
 
   }
 
+  _drawWater(x, top, height, distance, side) {
+    //console.log("drawWater", x, top, height, distance, side);
+    this.ctx.fillStyle = `rgba(0, 0, 255, 0.5)`;
+    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+
+    //shading
+    let shade = 0;
+    if (side === 0) {
+      shade = 0.3;
+    }
+    shade = Math.max(0, Math.min(1, distance / 10));
+    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
+    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+  }
+
   _drawWireframeColumn(x, top, height, distance, color, side) {
     //console.log("drawWireframeColumn", x, top, height, distance, color, side);
 
@@ -231,8 +262,8 @@ export class Renderer {
   _drawSprites(player, placeables, map) {
     
     const verticalAdjustement = this.height * Math.tan(player.upDirection);
-    let placeableOrders = [];
-    let spriteDistance = [];
+    const placeableOrders = [];
+    const spriteDistance = [];
     //SPRITE CASTING
     for (let i = 0; i < placeables.length; i++) { //Calculate sprite distances and reset order
       placeableOrders[i] = i;
@@ -245,18 +276,18 @@ export class Renderer {
       const spriteX = placeables[placeableOrders[i]].x - player.x;
       const spriteY = placeables[placeableOrders[i]].y - player.y;
 
-      const invDet = 1.0 / (player.planeX * player.dirY - player.dirX * player.planeY);
-      const transformX = invDet * (player.dirY * spriteX - player.dirX * spriteY);
+      const invDet = 1.0 / (player.planeX * -player.dirY + player.dirX * player.planeY);
+      const transformX = invDet * (-player.dirY * spriteX + player.dirX * spriteY);
       const transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
 
       if (transformY > 0 && transformY < 10) { //No need for the rest if the sprite is behind the player
-        const spriteHeight = Math.abs(Math.floor(this.height / 2 / transformY));
-        const drawStartY = (spriteHeight / 2) / 2 + Math.round(this.height / 2) + Math.round(player.zRest * this.height / transformY);
+        const spriteHeight = Math.abs(this.height*0.75 / transformY);
+        const drawStartY = (-spriteHeight / 4 + this.height/2) + (player.zRest * (spriteHeight/2)*2);
 
-        const spriteScreenX = Math.floor(this.resolution / 2) * (1 + transformX / transformY);
-        const spriteWidth = Math.abs(Math.floor(this.resolution / 2 / transformY));
-        let drawStartX = Math.floor(-spriteWidth / 2 + spriteScreenX);
-        let drawEndX = drawStartX + spriteWidth;
+        const spriteScreenX = (this.resolution / 2) * (1 + transformX / transformY);
+        const spriteWidth = Math.abs((this.resolution / 2) / transformY);
+        let drawStartX = Math.floor(spriteScreenX - spriteWidth / 2);
+        let drawEndX = Math.floor(drawStartX + spriteWidth);
 
         let clipStartX = drawStartX;
         let clipEndX = drawEndX;
@@ -279,10 +310,11 @@ export class Renderer {
           }
         }
 
-        let placeableInfos = map.getPlaceableProperties(placeables[placeableOrders[i]].type);
-        let placeableSprite = this.sprites[placeableInfos.sprite];
-
         if (clipStartX != clipEndX && clipStartX < this.resolution && clipEndX > 0) { //Make sure the sprite is not fully obstructed or off screen
+          
+          const placeableInfos = map.getPlaceableProperties(placeables[placeableOrders[i]].type);
+          const placeableSprite = this.sprites[placeableInfos.sprite];
+
           const scaleDelta = placeableSprite.width / spriteWidth;
           let drawXStart = Math.floor((clipStartX - drawStartX) * scaleDelta);
           if (drawXStart < 0) {
@@ -296,8 +328,7 @@ export class Renderer {
           if (drawWidth < 0) {
             drawWidth = 0;
           }
-          // this._drawTexturedColumn(clipStartX, drawStartY + verticalAdjustement, spriteHeight, transformY, placeableSprite, drawXStart, 0, placeableInfos.tint);
-          this.ctx.drawImage(placeableSprite.image, drawXStart * this.spacing, 0, drawXEnd, placeableSprite.height*placeableInfos.heightRatio, clipStartX * this.spacing, drawStartY+ verticalAdjustement, drawWidth * this.spacing, spriteHeight);
+          this.ctx.drawImage(placeableSprite.image, drawXStart, 0, Math.round(drawXEnd), placeableSprite.height, Math.round(clipStartX * this.spacing), Math.round(drawStartY + verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight));
         }
       }
     }//End of spriteList for loop

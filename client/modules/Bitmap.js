@@ -42,10 +42,10 @@ export class Bitmap {
 
     
     ctx.fillStyle = '#000'; // Couleur du texte
-    ctx.font = '20px Arial';
-    ctx.fillText(this.name, 10, 50);
+    ctx.font = this.width === 256 ? '18px Arial' : '8px Arial';
+    ctx.fillText(this.name, 10, 25);
 
-    ctx.fillText("load error", 20, 90);
+    ctx.fillText("load error", 20, 10);
 
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob) => {

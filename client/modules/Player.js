@@ -1,4 +1,4 @@
-const CIRCLE = Math.PI * 2;
+const CIRCLE = Math.PI /180;
 const MOVE_SPEED = 5;
 
 export class Player {
@@ -96,11 +96,11 @@ export class Player {
     };
 
     if (controls.look) {
-      this.rotateZ(controls.look  * Math.PI * seconds * 0.1);
+      this.rotateZ(controls.look  * CIRCLE * seconds * 5);
       controls.look = 0;
     };
     if (controls.turn) {
-      this.rotate(controls.turn  * Math.PI * seconds * 0.1);
+      this.rotate(-controls.turn  * CIRCLE * seconds * 5);
       controls.turn = 0;
     };
 
@@ -112,15 +112,20 @@ export class Player {
     } 
 
     if (controls.forward) { 
-      this.walk(MOVE_SPEED * seconds, map) 
+      this.walk(-MOVE_SPEED * seconds, map) 
     } 
     if (controls.backward) { 
-      this.walk(-MOVE_SPEED * seconds, map);
+      this.walk(MOVE_SPEED * seconds, map);
     }
 
     if(controls.teleport) {
       controls.teleport = false;
       map.teleportToCursor(this);
+    }
+    if(controls.resetChunk) {
+      console.log("reset chunk");
+      controls.resetChunk = false;
+      map.resetChunk(this);
     }
     this.physique(seconds, map);
   };

@@ -24,7 +24,8 @@ export class Raycaster {
         ceiling: null,
         ceilingAdditionnalInfos: null,
         floorOnly: false,
-        zLevel: 0
+        zLevel: 0,
+        flow: 0
       }
     }, 100, 50);
   }
@@ -36,8 +37,8 @@ export class Raycaster {
   }
 
   _prepareCastValues(player, cameraX, map, zLevel) {
-    const rayDirX = player.dirX + player.planeX * cameraX;
-    const rayDirY = player.dirY + player.planeY * cameraX;
+    const rayDirX = -player.dirX + player.planeX * cameraX;
+    const rayDirY = -player.dirY + player.planeY * cameraX;
 
     //which box of the map we're in
     let mapX = Math.floor(player.x);
@@ -129,6 +130,10 @@ export class Raycaster {
         stepInfos.cellInfos = map.getCellProperties(mapCell);
         stepInfos.cellAdditionnalInfos = map.getWallAdditionnalInfos(mapX, mapY, zLevel);
 
+        if(stepInfos.cellInfos.stopView) {
+          break;
+        }
+
         if (stepInfos.cellInfos.thinWall) {
           this._thinWall(side, sideDistX, sideDistY, deltaDistX, deltaDistY, player, rayDirX, rayDirY, stepX, stepY, mapX, mapY);
         } 
@@ -137,9 +142,7 @@ export class Raycaster {
           registerBackWall =  this.stepArray.length-1;;
         }
 
-        if(stepInfos.cellInfos.stopView) {
-          break;
-        }
+        stepInfos.flow = map.getFlow(mapX, mapY, zLevel);
         
       }else{
         const mapCellZ = map.getWall(mapX, mapY, zLevel - 1);
@@ -200,6 +203,7 @@ export class Raycaster {
     stepInfos.ceilingAdditionnalInfos = null,
     stepInfos.floorOnly = false;
     stepInfos.zLevel = 0;
+    stepInfos.flow = 0;
   }
 
 

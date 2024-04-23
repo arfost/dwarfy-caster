@@ -6,6 +6,7 @@ const AZERTY = {
   69:'up',
   65:'down',
   88:'teleport',
+  67: 'resetChunk'
 };
 
 const QWERTY = {
@@ -16,13 +17,13 @@ const QWERTY = {
   69:'up',
   81:'down',
   88:'teleport',
+  67: 'resetChunk',
 };
 
 export class Controls {
   constructor() {
     this.specialKeys = {
       80: this._changeControlScheme.bind(this),
-
     }
     this.codes = AZERTY;
     this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false, 'up': false, 'down': false, controls:false};
@@ -56,6 +57,7 @@ export class Controls {
   };
 
   onMouseMove(e) {
+    if(this.states['turn'] || this.states['look']) return;
     this.states['turn'] = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
     this.states['look'] = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
   };

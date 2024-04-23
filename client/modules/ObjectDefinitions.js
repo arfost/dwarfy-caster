@@ -383,6 +383,14 @@ const floor = {
         "BROOK_TOP-BROOK-NO_SPECIAL",
         "FLOOR-POOL-NO_SPECIAL",
       ]
+    },
+    {
+      cell:{
+        floorTexture: "wall_floor_brook", // neutre
+      },
+      signature:[
+        "BROOK_BED-BROOK-NO_SPECIAL",
+      ]
     }
   ],
   signature:[
@@ -497,15 +505,6 @@ const wall = {
         "WALL-TREE_MATERIAL-SMOOTH_DEAD"
       ]
     },
-    {
-      cell:{
-        floorTexture: "wall_floor_brook", // neutre
-        wallTexture: "wall_brook", // mur de pierre
-      },
-      signature:[
-        "BROOK_BED-BROOK-NO_SPECIAL",
-      ]
-    },
   ],
   signature:[
     
@@ -598,205 +597,1274 @@ const tileCombinaisons = [empty, sapling, shrub, stair, trunk_branch, pebbles, r
 // Windmill = 44,
 // Rollers = 50,
 
-const buildingCombinaisons = [{
+const buildingCombinaisons = [
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "NONE",
+          "sprite": "NONE"
+      },
+      "signature": [
+          "-1,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Chair",
+          "sprite": "Chair"
+      },
+      "signature": [
+          "0,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Bed",
+          "sprite": "Bed"
+      },
+      "signature": [
+          "1,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Table",
+          "sprite": "table"
+      },
+      "signature": [
+          "2,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Coffin",
+          "sprite": "Coffin"
+      },
+      "signature": [
+          "3,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+          "floorTexture": "FarmPlot"
+      },
+      "signature": [
+          "4,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Furnace",
+          "sprite": "Furnace"
+      },
+      "signature": [
+          "5,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Wood Furnace",
+          "sprite": "Furnace/WoodFurnace"
+      },
+      "signature": [
+          "5,0,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Smelter",
+          "sprite": "Furnace/Smelter"
+      },
+      "signature": [
+          "5,1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Glass Furnace",
+          "sprite": "Furnace/GlassFurnace"
+      },
+      "signature": [
+          "5,2,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Kiln",
+          "sprite": "Furnace/Kiln"
+      },
+      "signature": [
+          "5,3,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Magma Smelter",
+          "sprite": "Furnace/MagmaSmelter"
+      },
+      "signature": [
+          "5,4,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Magma Glass Furnace",
+          "sprite": "Furnace/MagmaGlassFurnace"
+      },
+      "signature": [
+          "5,5,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Magma Kiln",
+          "sprite": "Furnace/MagmaKiln"
+      },
+      "signature": [
+          "5,6,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Custom Furnace",
+          "sprite": "Furnace/Custom"
+      },
+      "signature": [
+          "5,7,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Trade Depot",
+          "sprite": "TradeDepot"
+      },
+      "signature": [
+          "6,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Shop",
+          "sprite": "Shop"
+      },
+      "signature": [
+          "7,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "GeneralStore",
+          "sprite": "Shop/GeneralStore"
+      },
+      "signature": [
+          "7,0,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "CraftsMarket",
+          "sprite": "Shop/CraftsMarket"
+      },
+      "signature": [
+          "7,1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "ClothingShop",
+          "sprite": "Shop/ClothingShop"
+      },
+      "signature": [
+          "7,2,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "ExoticClothingShop",
+          "sprite": "Shop/ExoticClothingShop"
+      },
+      "signature": [
+          "7,3,-1"
+      ]
+  },
+  {
+      "cell": {
+          "heightRatio": 1,
+          "thinWall": true,
+          "wallTexture": "Door",
+          "floorTexture": "floor_neutral"
+      },
+      "signature": [
+          "8,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+          "heightRatio": 1,
+          "thinWall": true,
+          "wallTexture": "Floodgate",
+          "floorTexture": "floor_neutral"
+      },
+      "signature": [
+          "9,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Box",
+          "sprite": "Box"
+      },
+      "signature": [
+          "10,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Weapon Rack",
+          "sprite": "Weaponrack"
+      },
+      "signature": [
+          "11,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Armor Stand",
+          "sprite": "Armorstand"
+      },
+      "signature": [
+          "12,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Workshop",
+          "sprite": "Workshop"
+      },
+      "signature": [
+          "13,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Carpenter's Workshop",
+          "sprite": "Workshop/Carpenters"
+      },
+      "signature": [
+          "13,0,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Farmer's Workshop",
+          "sprite": "Workshop/Farmers"
+      },
+      "signature": [
+          "13,1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Mason's Workshop",
+          "sprite": "Workshop/Masons"
+      },
+      "signature": [
+          "13,2,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Craftsdwarf's Workshop",
+          "sprite": "Workshop/Craftsdwarfs"
+      },
+      "signature": [
+          "13,3,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Jeweler's Workshop",
+          "sprite": "Workshop/Jewelers"
+      },
+      "signature": [
+          "13,4,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Metalsmith's Forge",
+          "sprite": "Workshop/MetalsmithsForge"
+      },
+      "signature": [
+          "13,5,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Magma Forge",
+          "sprite": "Workshop/MagmaForge"
+      },
+      "signature": [
+          "13,6,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Bowyer's Workshop",
+          "sprite": "Workshop/Bowyers"
+      },
+      "signature": [
+          "13,7,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Mechanic's Workshop",
+          "sprite": "Workshop/Mechanics"
+      },
+      "signature": [
+          "13,8,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Siege Workshop",
+          "sprite": "Workshop/Siege"
+      },
+      "signature": [
+          "13,9,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Butcher's Shop",
+          "sprite": "Workshop/Butchers"
+      },
+      "signature": [
+          "13,10,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Leather Works",
+          "sprite": "Workshop/Leatherworks"
+      },
+      "signature": [
+          "13,11,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Tanner's Shop",
+          "sprite": "Workshop/Tanners"
+      },
+      "signature": [
+          "13,12,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Clothier's Shop",
+          "sprite": "Workshop/Clothiers"
+      },
+      "signature": [
+          "13,13,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Fishery",
+          "sprite": "Workshop/Fishery"
+      },
+      "signature": [
+          "13,14,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Still",
+          "sprite": "Workshop/Still"
+      },
+      "signature": [
+          "13,15,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Loom",
+          "sprite": "Workshop/Loom"
+      },
+      "signature": [
+          "13,16,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Quern",
+          "sprite": "Workshop/Quern"
+      },
+      "signature": [
+          "13,17,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Kennels",
+          "sprite": "Workshop/Kennels"
+      },
+      "signature": [
+          "13,18,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Kitchen",
+          "sprite": "Workshop/Kitchen"
+      },
+      "signature": [
+          "13,19,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Ashery",
+          "sprite": "Workshop/Ashery"
+      },
+      "signature": [
+          "13,20,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Dyer's Shop",
+          "sprite": "Workshop/Dyers"
+      },
+      "signature": [
+          "13,21,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Millstone",
+          "sprite": "Workshop/Millstone"
+      },
+      "signature": [
+          "13,22,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Custom Workshop",
+          "sprite": "Workshop/Custom"
+      },
+      "signature": [
+          "13,23,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Soap Maker's Workshop",
+          "sprite": "Workshop/SOAP_MAKER"
+      },
+      "signature": [
+          "13,23,0"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Screw Press",
+          "sprite": "Workshop/SCREW_PRESS"
+      },
+      "signature": [
+          "13,23,1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Tool",
+          "sprite": "Workshop/Tool"
+      },
+      "signature": [
+          "13,24,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Cabinet",
+          "sprite": "Cabinet"
+      },
+      "signature": [
+          "14,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 2,
+          "name": "Statue",
+          "sprite": "Statue"
+      },
+      "signature": [
+          "15,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+          "heightRatio": 1,
+          "thinWall": true,
+          "wallTexture": "WindowGlass",
+          "floorTexture": "floor_neutral"
+      },
+      "signature": [
+          "16,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+          "heightRatio": 1,
+          "thinWall": true,
+          "wallTexture": "WindowGem",
+          "floorTexture": "floor_neutral"
+      },
+      "signature": [
+          "17,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Well",
+          "sprite": "Well"
+      },
+      "cell": {
+        "floorTexture": "well_floor",
+    },
+      "signature": [
+          "18,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+          "heightRatio": 0.25,
+          "floorTexture": "bridge_floor",
+          "wallTexture": "bridge_wall"
+      },
+      "signature": [
+          "19,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+        "floorTexture": "dirty_road",
+      },
+      "signature": [
+          "20,-1,-1"
+      ]
+  },
+  {
+    "cell": {
+      "floorTexture": "paved_road",
+    },
+      "signature": [
+          "21,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Siege Engine",
+          "sprite": "SiegeEngine"
+      },
+      "signature": [
+          "22,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Catapult",
+          "sprite": "SiegeEngine/Catapult"
+      },
+      "signature": [
+          "22,0,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Ballista",
+          "sprite": "SiegeEngine/Ballista"
+      },
+      "signature": [
+          "22,1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Trap",
+          "sprite": "Trap"
+      },
+      "signature": [
+          "23,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Lever",
+          "sprite": "Trap/Lever"
+      },
+      "signature": [
+          "23,0,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "PressurePlate",
+          "sprite": "Trap/PressurePlate"
+      },
+      "signature": [
+          "23,1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "CageTrap",
+          "sprite": "Trap/CageTrap"
+      },
+      "signature": [
+          "23,2,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "StoneFallTrap",
+          "sprite": "Trap/StoneFallTrap"
+      },
+      "signature": [
+          "23,3,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "WeaponTrap",
+          "sprite": "Trap/WeaponTrap"
+      },
+      "signature": [
+          "23,4,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "TrackStop",
+          "sprite": "Trap/TrackStop"
+      },
+      "signature": [
+          "23,5,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Animal Trap",
+          "sprite": "AnimalTrap"
+      },
+      "signature": [
+          "24,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Support",
+          "sprite": "Support"
+      },
+      "signature": [
+          "25,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Archery Target",
+          "sprite": "ArcheryTarget"
+      },
+      "signature": [
+          "26,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Chain",
+          "sprite": "Chain"
+      },
+      "signature": [
+          "27,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Cage",
+          "sprite": "Cage"
+      },
+      "signature": [
+          "28,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Weapon",
+          "sprite": "Weapon"
+      },
+      "signature": [
+          "31,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Wagon",
+          "sprite": "Wagon"
+      },
+      "signature": [
+          "32,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Screw Pump",
+          "sprite": "ScrewPump"
+      },
+      "signature": [
+          "33,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Hatch",
+          "sprite": "Hatch"
+      },
+      "signature": [
+          "35,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+          "heightRatio": 1,
+          "thinWall": true,
+          "wallTexture": "GrateWall",
+          "floorTexture": "floor_neutral"
+      },
+      "signature": [
+          "36,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+          "floorTexture": "GrateFloor"
+      },
+      "signature": [
+          "37,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+          "heightRatio": 1,
+          "thinWall": true,
+          "wallTexture": "BarsVertical",
+          "floorTexture": "floor_neutral"
+      },
+      "signature": [
+          "38,-1,-1"
+      ]
+  },
+  {
+      "cell": {
+          "floorTexture": "BarsFloor"
+      },
+      "signature": [
+          "39,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Gear Assembly",
+          "sprite": "GearAssembly"
+      },
+      "signature": [
+          "40,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Horizontal Axle",
+          "sprite": "AxleHorizontal"
+      },
+      "signature": [
+          "41,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Vertical Axle",
+          "sprite": "AxleVertical"
+      },
+      "signature": [
+          "42,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Water Wheel",
+          "sprite": "WaterWheel"
+      },
+      "signature": [
+          "43,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Windmill",
+          "sprite": "Windmill"
+      },
+      "signature": [
+          "44,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Traction Bench",
+          "sprite": "TractionBench"
+      },
+      "signature": [
+          "45,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Slab",
+          "sprite": "Slab"
+      },
+      "signature": [
+          "46,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Nest",
+          "sprite": "Nest"
+      },
+      "signature": [
+          "47,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Nest Box",
+          "sprite": "NestBox"
+      },
+      "signature": [
+          "48,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Hive",
+          "sprite": "Hive"
+      },
+      "signature": [
+          "49,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Rollers",
+          "sprite": "Rollers"
+      },
+      "signature": [
+          "50,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Instrument",
+          "sprite": "Instrument"
+      },
+      "signature": [
+          "51,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Bookcase",
+          "sprite": "Bookcase"
+      },
+      "signature": [
+          "52,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Display Furniture",
+          "sprite": "DisplayFurniture"
+      },
+      "signature": [
+          "53,-1,-1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "name": "Offering Place",
+          "sprite": "OfferingPlace"
+      },
+      "signature": [
+          "54,-1,-1"
+      ]
+  }
+]
+
+const flowCombinaisons = [{
   placeable: {
     heightRatio: 1,
-    sprite: "workshop",
+    sprite: "miasma-light",
   },
-  signature: [13],
+  signature: ["0-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "trade_depot",
+    sprite: "steam-light",
   },
-  signature: [6],
+  signature: ["1-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "furnace",
+    sprite: "mist-light",
   },
-  signature: [5],
-},{
-  cell: {
-    floorTexture: "floorbar_default",
-  },
-  signature: [37, 39],
-},{
-  cell: {
-    floorTexture: "farmplot_default",
-  },
-  signature: [4],
-},{
-  cell: {
-    heightRatio: 1,
-    thinWall: true,
-    wallTexture: "window_default",
-    floorTexture: "floor_neutral",
-  },
-  signature: [16, 17],
-},{
-  cell: {
-    heightRatio: 1,
-    thinWall: true,
-    wallTexture: "floodgate_default",
-    floorTexture: "floor_neutral",
-  },
-  signature: [9],
+  signature: ["2-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "bookcase",
+    sprite: "materialDust-light",
   },
-  signature: [52],
+  signature: ["3-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "instrument",
+    sprite: "magmaMist-light",
   },
-  signature: [51],
+  signature: ["4-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "hive",
+    sprite: "smoke-light",
   },
-  signature: [49],
+  signature: ["5-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "nestbox",
+    sprite: "dragonfire-light",
   },
-  signature: [48],
+  signature: ["6-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "nest",
+    sprite: "fire-light",
   },
-  signature: [47],
+  signature: ["7-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "slab",
+    sprite: "web-light",
   },
-  signature: [46],
+  signature: ["8-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "tractionbench",
+    sprite: "materialGas-light",
   },
-  signature: [45],
+  signature: ["9-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "wagon",
+    sprite: "materialVapor-light",
   },
-  signature: [32],
+  signature: ["10-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "cage",
+    sprite: "oceanWave-light",
   },
-  signature: [28],
+  signature: ["11-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "chain",
+    sprite: "seaFoam-light",
   },
-  signature: [27],
+  signature: ["12-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "animaltrap",
+    sprite: "itemCloud-light",
   },
-  signature: [24],
+  signature: ["13-light"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "archerytarget",
+    sprite: "miasma-medium",
   },
-  signature: [26],
+  signature: ["0-medium"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "chair",
+    sprite: "steam-medium",
   },
-  signature: [0],
+  signature: ["1-medium"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "bed",
+    sprite: "mist-medium",
   },
-  signature: [1],
-}, {
-  placeable: {
-    heightRatio: 1,
-    sprite: "table",
-  },
-  signature: [2],
+  signature: ["2-medium"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "coffin",
+    sprite: "materialDust-medium",
   },
-  signature: [3],
+  signature: ["3-medium"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "armorstand",
+    sprite: "magmaMist-medium",
   },
-  signature: [12],
+  signature: ["4-medium"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "well",
+    sprite: "smoke-medium",
   },
-  signature: [18],
+  signature: ["5-medium"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "trap",
+    sprite: "dragonfire-medium",
   },
-  signature: [23],
+  signature: ["6-medium"],
 },{
   placeable: {
     heightRatio: 1,
-    sprite: "weaponrack",
+    sprite: "fire-medium",
   },
-  signature: [11],
-}, {
+  signature: ["7-medium"],
+},{
   placeable: {
     heightRatio: 1,
-    sprite: "coffer",
+    sprite: "web-medium",
   },
-  signature: [10],
-}, {
+  signature: ["8-medium"],
+},{
   placeable: {
-    heightRatio: 2,
-    sprite: "cabinet",
+    heightRatio: 1,
+    sprite: "materialGas-medium",
   },
-  heightRatio: 1,
-  signature: [14],
-}, {
+  signature: ["9-medium"],
+},{
   placeable: {
-    heightRatio: 2,
-    sprite: "statue",
-  },
-  signature: [15],
-}, {
-  cell: {
     heightRatio: 1,
-    thinWall: true,
-    wallTexture: "door_default",
-    floorTexture: "floor_neutral",
+    sprite: "materialVapor-medium",
   },
-  signature: [8],
-}, {
-  cell: {
+  signature: ["10-medium"],
+},{
+  placeable: {
     heightRatio: 1,
-    thinWall: true,
-    wallTexture: "wallbar_default",
-    floorTexture: "floor_neutral",
+    sprite: "oceanWave-medium",
   },
-  signature: [36, 38],
+  signature: ["11-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "seaFoam-medium",
+  },
+  signature: ["12-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "itemCloud-medium",
+  },
+  signature: ["13-medium"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "miasma-heavy",
+  },
+  signature: ["0-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "steam-heavy",
+  },
+  signature: ["1-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "mist-heavy",
+  },
+  signature: ["2-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "materialDust-heavy",
+  },
+  signature: ["3-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "magmaMist-heavy",
+  },
+  signature: ["4-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "smoke-heavy",
+  },
+  signature: ["5-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "dragonfire-heavy",
+  },
+  signature: ["6-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "fire-heavy",
+  },
+  signature: ["7-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "web-heavy",
+  },
+  signature: ["8-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "materialGas-heavy",
+  },
+  signature: ["9-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "materialVapor-heavy",
+  },
+  signature: ["10-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "oceanWave-heavy",
+  },
+  signature: ["11-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "seaFoam-heavy",
+  },
+  signature: ["12-heavy"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "itemCloud-heavy",
+  },
+  signature: ["13-heavy"],
+}]
+
+const creatureCombinaisons = [{
+  placeable: {
+    heightRatio: 1,
+    sprite: "dwarf_male",
+  },
+  signature: ["572,1"],
+},{
+  placeable: {
+    heightRatio: 1,
+    sprite: "dwarf_female",
+  },
+  signature: ["572,0"],
 }]
 
 export function prepareDefinitions(){
@@ -804,8 +1872,7 @@ export function prepareDefinitions(){
     textures:["wall_error", "floor_error"],
     sprites:[],
   };
-  const tileCorrespondances = {};
-  const buildingCorrespondances = {};
+  
   const cellDefinitions = [undefined, {
     heightRatio: 1,
     wallTexture: "wall_error",
@@ -815,7 +1882,8 @@ export function prepareDefinitions(){
   const placeableDefinitions = [{
     heightRatio: 1,
   }];
-
+  
+  const tileCorrespondances = {};
   for (let base of tileCombinaisons) {
     let correspondance = {}
     if(base.cell) {
@@ -862,6 +1930,8 @@ export function prepareDefinitions(){
     }
   }
 
+  //prepare building definitions
+  const buildingCorrespondances = {};
   for (let base of buildingCombinaisons) {
     let correspondance = {}
     if(base.placeable) {
@@ -883,6 +1953,52 @@ export function prepareDefinitions(){
     }
   }
 
+  // prepare flow definitions
+  const flowCorrespondances = {};
+  for (let base of flowCombinaisons) {
+    let correspondance = {}
+    if(base.placeable) {
+      const basePlaceable = {
+        ...base.placeable
+      }
+      placeableDefinitions.push(basePlaceable);
+      correspondance.placeable = placeableDefinitions.length - 1;
+    }
+    if(base.cell) {
+      const baseCell = {
+        ...base.cell
+      }
+      cellDefinitions.push(baseCell);
+      correspondance.cell = cellDefinitions.length - 1;
+    }
+    for (let signature of base.signature) {
+      flowCorrespondances[signature] = correspondance;
+    }
+  }
+
+  //prepare creature definitions
+  const creatureCorrespondances = {};
+  for (let base of creatureCombinaisons) {
+    let correspondance = {}
+    if(base.placeable) {
+      const basePlaceable = {
+        ...base.placeable
+      }
+      placeableDefinitions.push(basePlaceable);
+      correspondance.placeable = placeableDefinitions.length - 1;
+    }
+    if(base.cell) {
+      const baseCell = {
+        ...base.cell
+      }
+      cellDefinitions.push(baseCell);
+      correspondance.cell = cellDefinitions.length - 1;
+    }
+    for (let signature of base.signature) {
+      creatureCorrespondances[signature] = correspondance;
+    }
+  }
+
   for(let definition of cellDefinitions){
     if(definition){
       if(definition.wallTexture && !assetNames.textures.includes(definition.wallTexture)){
@@ -896,15 +2012,20 @@ export function prepareDefinitions(){
 
   for(let definition of placeableDefinitions){
     if(definition && definition.sprite && !assetNames.sprites.includes(definition.sprite)){
-      assetNames.sprites.push(definition.sprite);
+      assetNames.sprites.push({
+        name:definition.sprite,
+        heightRatio:definition.heightRatio
+      });
     }
   }
 
   return {
     cellDefinitions,
     placeableDefinitions,
+    flowCorrespondances,
     tileCorrespondances,
     buildingCorrespondances,
+    creatureCorrespondances,
     assetNames
   }
 }
