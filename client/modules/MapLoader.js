@@ -33,6 +33,7 @@ export class DefaultMapLoader {
     }
 
     this.water = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
+    this.magma = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
 
     this.additionnalInfos = new Map();
     this.additionnalInfos.set("7,8,1", {
@@ -101,6 +102,7 @@ export class DfMapLoader {
 
     this.map = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
     this.water = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
+    this.magma = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
     this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => []);
     this.additionnalInfos = new Map();
 
@@ -172,6 +174,7 @@ export class DfMapLoader {
           let index = y * 16 + x;
           this.tileMap(block, index, basePosition, x, y);
           this.water[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = block.water[index];
+          this.magma[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = block.magma[index];
         }
       }
     }
@@ -181,6 +184,20 @@ export class DfMapLoader {
       }
     }
     console.log("Block groub loaded", (blocks[0].buildings || []).filter(b => b.buildingType));
+  }
+
+  async passKeyboardInput(input) {
+    await this.ready();
+    try {
+      let res = await this.client.PassKeyboardEvent(input);
+      console.log("passKeyboardInput", res);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async sendDfToPosition(x, y, z) {
+    console.log("sendDfToPosition", x, y, z);
   }
 
   async updateChunk(x, y, z, size, tick) {
@@ -195,7 +212,6 @@ export class DfMapLoader {
     }
     try {
       let res = await this.client.GetUnitListInside(params);
-      console.log("update chunk : ", res);
       for(let crea of res.creatureList || []) {
         this.creatureMap(crea, tick);
       }
@@ -258,7 +274,7 @@ export class DfMapLoader {
   }
 
   creatureMap(unit, tick) {
-    if(!unit.inventory){
+    if(unit.posZ === -30000){
       return;
     }
     let key = `${unit.race.matType},${unit.race.matIndex}`;

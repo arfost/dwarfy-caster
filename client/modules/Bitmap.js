@@ -1,3 +1,4 @@
+
 export class Bitmap {
   constructor(src, width, height) {
     this.image = new Image();
@@ -18,12 +19,10 @@ export class Bitmap {
     });
 
     this.image.onload = () => {
-      console.log("image loaded");
       this._available();
     };
 
     this.image.onerror = () => {
-      console.log("image load failed, setting default image");
       this.setDefaultImage().then(this._available).catch(this._unavailable);
     };
   }
@@ -43,9 +42,11 @@ export class Bitmap {
     
     ctx.fillStyle = '#000'; // Couleur du texte
     ctx.font = this.width === 256 ? '18px Arial' : '8px Arial';
-    ctx.fillText(this.name, 10, 25);
+    ctx.fillText(this.name, 10, 45);
 
-    ctx.fillText("load error", 20, 10);
+    this.name += '::default'
+
+    ctx.fillText("load error", 20, 20);
 
     return new Promise((resolve, reject) => {
       canvas.toBlob((blob) => {

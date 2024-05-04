@@ -6,7 +6,7 @@ It's a very early, buggy, result.
 I didn't take time to work on assets and representation, still mostly working on the renderer so their is many issues, assets are a bundle of sprites generated with chatGPT, some free textures and crudely done procedural placeholders.
 
 
-For now it render the tile layout, buildings, and water, flow (like mist and miasma), dwarves in real time.
+For now it render the tile layout, buildings, and water, magma, flow (like mist and miasma), and some creatures in real time.
 
 
 ## How to test
@@ -20,7 +20,7 @@ When the server is running use DFhack to launch Dwarf Fortress and load your gam
 http://localhost:8080/index.html?cast=10,5
 in your browser it should load your fortress.
 
-The 12,5 parameters are the rendering distance in tiles for horizontal and height view, if fps are low you can reduce them (especially the second to reduce it)
+The "10,5" parameters are the rendering distance in tiles for horizontal and height view, if fps are low you can reduce them (especially the second) to reduce it and if the FPS are high you can try to increase it.
 
 Your start position will be either the center of your game view or the position of the keyboard cursor, after that if you move them in your game, you can teleport to it by pressing "x" in the viewer.
 
@@ -28,9 +28,11 @@ To enable the keyboard cursor, enter mining mode and press (Alt-k)
 
 In game you can use ZQSD to move around, A and E to go down and up and click on the canvas to capture mouse.
 
+You can pause/unpause your DF game by pressing "space" in the viewer.
+
 The P key switch to QWERTY control scheme.
 
-Sometimes world chunk fail to load or load in the wrong place, you can reset the world around you with the 'C' key. It will also update the tiles around you if they have changed.
+Sometimes world chunk fail to load or load in the wrong place, you can reset the world around you with the 'C' key. It will also update the tiles around you if they have changed (digged or something else).
 
 
 ## Technical considerations
@@ -46,11 +48,12 @@ This part is done thanks to the formidable DFhack [[DFhack](https://docs.dfhack.
 
 
 ## Futur plan
-It seems that i'm beginning to hit the max of what i'm able to get from JS in term of FPS. This project was intended as proof of concept and I will now look into more performant langage to reimplement it.
+It seems that i'm beginning to hit the max of what i'm able to get from JS in term of FPS. Raycasting is not used in real software for a reason and it probably won't get very much further.
 
 
 ## Contributions and such
 If you want to contribute to the project, all PR, ideas and remark are welcome.
+An optimisation of the rendering could give a second life to this project, and replacing placeholders assets with real ones (or even existing ones with nicer version) can really improve apparence without hitting performance since they already technically exist.
 
 
 ## Avertissement

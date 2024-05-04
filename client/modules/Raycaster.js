@@ -25,7 +25,8 @@ export class Raycaster {
         ceilingAdditionnalInfos: null,
         floorOnly: false,
         zLevel: 0,
-        flow: 0
+        water: 0,
+        magma: 0
       }
     }, 100, 50);
   }
@@ -142,7 +143,8 @@ export class Raycaster {
           registerBackWall =  this.stepArray.length-1;;
         }
 
-        stepInfos.flow = map.getFlow(mapX, mapY, zLevel);
+        stepInfos.water = map.getCellWater(mapX, mapY, zLevel);
+        stepInfos.magma = map.getCellMagma(mapX, mapY, zLevel);
         
       }else{
         const mapCellZ = map.getWall(mapX, mapY, zLevel - 1);
@@ -203,7 +205,8 @@ export class Raycaster {
     stepInfos.ceilingAdditionnalInfos = null,
     stepInfos.floorOnly = false;
     stepInfos.zLevel = 0;
-    stepInfos.flow = 0;
+    stepInfos.water = 0;
+    stepInfos.magma = 0;
   }
 
 

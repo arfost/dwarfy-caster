@@ -43,8 +43,12 @@ export class GameMap {
     return this.mapLoader.map;
   }
 
-  get flowGrids(){
+  get waterGrids(){
     return this.mapLoader.water;
+  }
+
+  get magmaGrids(){
+    return this.mapLoader.magma;
   }
 
   async teleportToCursor(player) {
@@ -102,6 +106,14 @@ export class GameMap {
     return this.placeableProperties[type];
   }
 
+  togglePause(){
+    this.mapLoader.passKeyboardInput({type:768, state:1, mod:4096, scancode:44, sym:32 })
+  }
+
+  sendDfViewToPlayerPosition(player){
+    this.mapLoader.sendDfViewToPosition(Math.floor(player.x), Math.floor(player.y), Math.floor(player.z));
+  }
+
   getWall(x, y, z) {
     x = Math.floor(x);
     y = Math.floor(y);
@@ -109,11 +121,18 @@ export class GameMap {
     return this.wallGrids[z][y * this.size.x + x];
   };
 
-  getFlow(x, y, z) {
+  getCellWater(x, y, z) {
     x = Math.floor(x);
     y = Math.floor(y);
     if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
-    return this.flowGrids[z][y * this.size.x + x];
+    return this.waterGrids[z][y * this.size.x + x];
+  };
+
+  getCellMagma(x, y, z) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
+    return this.magmaGrids[z][y * this.size.x + x];
   };
 
   getWallAdditionnalInfos(x, y, z) {

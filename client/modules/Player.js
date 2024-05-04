@@ -127,6 +127,10 @@ export class Player {
       controls.resetChunk = false;
       map.resetChunk(this);
     }
+    if(controls.pause) {
+      map.togglePause();
+      controls.pause = false;
+    }
     this.physique(seconds, map);
   };
 }
