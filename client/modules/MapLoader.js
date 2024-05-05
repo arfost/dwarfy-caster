@@ -232,9 +232,11 @@ export class DfMapLoader {
           }
         }
       }
-      // console.log("flows", block.flows, tick);
       for(let flow of block.flows || []){
         this.flowMap(flow, tick);
+      }
+      for(let item of block.items || []){
+        this.itemgMap(item, tick);
       }
     }
   }
@@ -247,6 +249,14 @@ export class DfMapLoader {
           this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[key], x, y, building.posZMin);
         }
       }
+    }
+  }
+
+  itemgMap(item, tick) {
+    if(!item.pos) return;
+    let key = `${item.type.matType},-1`;
+    if(this.definitions.itemCorrespondances[key]){
+      this._correspondanceResultToMapInfos(this.definitions.itemCorrespondances[key], item.pos.x, item.pos.y, item.pos.z, tick);
     }
   }
 
