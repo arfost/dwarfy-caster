@@ -5294,7 +5294,7 @@ const itemCombinaisons = [
 
 export function prepareDefinitions(){
   const assetNames  = {
-    textures:["wall_error", "floor_error"],
+    textures:[],
     sprites:[],
   };
   
@@ -5449,21 +5449,30 @@ export function prepareDefinitions(){
 
   for(let definition of cellDefinitions){
     if(definition){
-      if(definition.wallTexture && !assetNames.textures.includes(definition.wallTexture)){
-        assetNames.textures.push(definition.wallTexture);
-      }
-      if(definition.floorTexture && !assetNames.textures.includes(definition.floorTexture)){
-        assetNames.textures.push(definition.floorTexture);
+      if(definition.wallTexture){
+        definition.wallTexture = definition.wallTexture.toUpperCase();
+        if(!assetNames.textures.includes(definition.wallTexture)){
+          assetNames.textures.push(definition.wallTexture);
+        }
+      } 
+      if(definition.floorTexture){
+        definition.floorTexture = definition.floorTexture.toUpperCase();
+        if(!assetNames.textures.includes(definition.floorTexture)){
+          assetNames.textures.push(definition.floorTexture);
+        }
       }
     }
   }
 
   for(let definition of placeableDefinitions){
-    if(definition && definition.sprite && !assetNames.sprites.includes(definition.sprite)){
-      assetNames.sprites.push({
-        name:definition.sprite,
-        heightRatio:definition.heightRatio
-      });
+    if(definition && definition.sprite){
+      definition.sprite = definition.sprite.toUpperCase();
+      if(!assetNames.sprites.some(def=>def.name === definition.sprite)){
+        assetNames.sprites.push({
+          name:definition.sprite,
+          heightRatio:definition.heightRatio
+        });
+      }
     }
   }
 
