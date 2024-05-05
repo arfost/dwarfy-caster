@@ -18,7 +18,6 @@ export class ObjectPool{
 
   _release(obj){
     this.elements.push(obj);
-    console.log("released");
     this.in++;
     this.out--;
   }
