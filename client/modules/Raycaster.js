@@ -1,4 +1,4 @@
-import { GarbageCheater } from "./utils/GarbageCheater.js";
+import { ObjectVector } from "./utils/ObjectVector.js";
 
 export class Raycaster {
 
@@ -7,7 +7,7 @@ export class Raycaster {
     this.range = params[0];
     this.zRange = params[1];
 
-    this.stepArray = new GarbageCheater(() => {
+    this.stepArray = new ObjectVector(() => {
       return {
         step: 0,
         backDistance: 0,

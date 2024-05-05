@@ -1,4 +1,4 @@
-export class GarbageCheater{
+export class ObjectVector{
   constructor(generator, baseSize, chunkSize){
     this.generator = generator;
     this.baseSize = baseSize;
@@ -14,7 +14,7 @@ export class GarbageCheater{
   getCurrent(){
     if(this.currentIndex >= this.elements.length){
       this.elements = this.elements.concat(new Array(this.chunkSize).fill(0).map(() => this.generator()));
-      console.log("garbage cheater extended to ", this.elements.length, this.elements[0]);
+      console.log("object vector extended to ", this.elements.length, this.elements[0]);
     }
     return this.elements[this.currentIndex++];
   }
