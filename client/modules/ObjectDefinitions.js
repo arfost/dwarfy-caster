@@ -1975,7 +1975,6 @@ const creatureCombinaisons = [
           "109,0",
           "112,0",
           "115,0",
-          "179,0",
           "181,0",
           "184,0",
           "188,0",
@@ -2035,7 +2034,6 @@ const creatureCombinaisons = [
           "109,1",
           "112,1",
           "115,1",
-          "179,1",
           "181,1",
           "184,1",
           "188,1",
@@ -2215,6 +2213,24 @@ const creatureCombinaisons = [
       },
       "signature": [
           "177,1"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "sprite": "BIRD_CHICKEN_FEMALE"
+      },
+      "signature": [
+          "179,0"
+      ]
+  },
+  {
+      "placeable": {
+          "heightRatio": 1,
+          "sprite": "BIRD_CHICKEN_MALE"
+      },
+      "signature": [
+          "179,1"
       ]
   },
   {
@@ -2457,7 +2473,6 @@ const creatureCombinaisons = [
       "signature": [
           "275,0",
           "278,0",
-          "308,0",
           "396,0",
           "428,0",
           "737,0"
@@ -2471,7 +2486,6 @@ const creatureCombinaisons = [
       "signature": [
           "275,1",
           "278,1",
-          "308,1",
           "396,1",
           "428,1",
           "737,1"
