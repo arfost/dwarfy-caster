@@ -148,7 +148,7 @@ export class DfMapLoader {
     try {
       let res = await this.client.GetBlockList(params);
       // console.log("update chunk : ", res, tick);
-      this._processDfBlocksForDynamic(res.mapBlocks || [], tick);
+      this._processDfBlocksForDynamic(res.mapBlocks || [], tick, currentZ);
     } catch (e) {
       console.log(e);
     }
@@ -174,7 +174,7 @@ export class DfMapLoader {
         }
       }
       for(let flow of block.flows || []){
-        this.flowMap(flow, tick);
+        this.flowMap(flow, tick, currentZ);
       }
       for(let item of block.items || []){
         this.itemMap(item, tick, currentZ);
@@ -194,7 +194,9 @@ export class DfMapLoader {
   }
 
   itemMap(item, tick, currentZ) {
-    if(!item.pos) return;
+    if(!item.pos || item.pos.z !== currentZ) {
+      return;
+    }
     let key = `${item.type.matType},-1`;
     if(this.definitions.itemCorrespondances[key]){
       this._correspondanceResultToMapInfos(this.definitions.itemCorrespondances[key], item.pos.x, item.pos.y, item.pos.z, tick);
@@ -212,7 +214,8 @@ export class DfMapLoader {
   }
 
   flowMap(flow, tick, currentZ) {
-    if(flow.density > 66, flow.pos.z !== currentZ){
+    if(flow.pos.z !== currentZ) return;
+    if(flow.density > 66){
       this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type+"-heavy"], flow.pos.x, flow.pos.y, flow.pos.z, tick);
     }else if(flow.density > 33){
       this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type+"-medium"], flow.pos.x, flow.pos.y, flow.pos.z, tick);
