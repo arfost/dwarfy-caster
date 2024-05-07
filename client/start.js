@@ -1,11 +1,6 @@
 import { Controls } from './modules/Controls.js';
 import { Game } from './modules/Game.js';
-import { GameMap } from './modules/GameMap.js';
-// import { DefaultMapLoader } from './modules/MapLoader.js';
-import { DfMapLoader } from './modules/MapLoader.js';
-import { Player } from './modules/Player.js';
-import { Raycaster } from './modules/Raycaster.js';
-import { Renderer } from './modules/Renderer.js';
+import { RendererCanvas } from './modules/RendererCanvas.js';
 
 async function initGame() {
 
@@ -24,10 +19,6 @@ async function initGame() {
     }
   }
 
-  const mapLoader = new DfMapLoader();
-  // const mapLoader = new DefaultMapLoader(5);
-  const startPos = await mapLoader.initMap();
-
   const display = document.getElementById('display');
   display.addEventListener("click", async () => {
     if (!document.pointerLockElement) {
@@ -37,21 +28,12 @@ async function initGame() {
     }
   });
 
-  const player = new Player(startPos);
-  const map = new GameMap(mapLoader, startPos);
   const controls = new Controls();
-  const renderer = new Renderer(display, 320);
-  await renderer.initTextures(mapLoader.definitions.assetNames);
-  const raycaster = new Raycaster(paramCast ? paramCast : [10, 5]);
+  const renderer = new RendererCanvas(display, 320);
 
-  const game = new Game(display);
-  game.start((seconds, ctx) => {
-    map.update(seconds, player);
-    player.update(controls.states, map, seconds);
-    renderer.render(player, map, raycaster);
-    ctx.fillStyle = 'white';
-    ctx.fillText(`pos: ${player.x}, ${player.y}, ${player.z}`, 10, 10);
-  });
+  const game = new Game(display, renderer, controls, {paramCast});
+  await game.ready;
+  game.start();
 }
 
 initGame();

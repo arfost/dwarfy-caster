@@ -1,4 +1,4 @@
-import { ObjectVector } from "./utils/ObjectVector.js";
+import { ObjectVector } from "../utils/ObjectVector.js";
 
 export class Raycaster {
 

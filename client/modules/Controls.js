@@ -46,6 +46,11 @@ export class Controls {
     }
   }
 
+  reset() {
+    this.states['turn'] = 0;
+    this.states['look'] = 0;
+  }
+
   onKey(val, e) {
     if(this.specialKeys[e.keyCode] && val){
       this.specialKeys[e.keyCode]();

@@ -1,18 +1,21 @@
-import { prepareDefinitions } from "./ObjectDefinitions.js";
-import { isBitOn } from "./functions.js";
-import { ObjectPool } from "./utils/ObjectPool.js";
+const { ObjectPool } = require('../utils/gcHelpers.js');
+const { prepareDefinitions } = require('./dfDefinitions/ObjectDefinitions.js');
 
-export class DfMapLoader {
+function isBitOn(number, index) {
+  return (number & (1 << index)) ? 1 : 0;
+}
+
+class DfMapLoader {
 
   CHUNK_SIZE = 2;
 
   BLOCK_SIZE = 16;
   BLOCK_SIZE_Z = 1;
 
-  constructor() {
+  constructor(dfClient) {
     this.map = [],
-      this.mapInfos = {}
-    this.client = new DwarfClient();
+    this.mapInfos = {}
+    this.client = dfClient;
     this.placeablePool = new ObjectPool(() => {
       return {
         x: 0,
@@ -21,21 +24,21 @@ export class DfMapLoader {
         tick: false
       }
     }, 1000, 500);
+
+    this.definitions = prepareDefinitions();
+
+    this._ready = this.initMap();
   }
 
   ready() {
-    return this.client ? this.client._initialized : false
+    return this._ready;
   }
 
   async initMap() {
 
-    this.definitions = prepareDefinitions();
-    console.log("blockProperties", this.definitions);
+    await this.client.ready;
 
-    await this.ready();
-
-    const dfMapInfos = await this.client.GetMapInfo();
-    console.log(dfMapInfos);
+    const dfMapInfos = await this.client.request("GetMapInfo");
     this.mapInfos.size = {
       x: dfMapInfos.blockSizeX * this.BLOCK_SIZE,
       y: dfMapInfos.blockSizeY * this.BLOCK_SIZE,
@@ -48,19 +51,17 @@ export class DfMapLoader {
     this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => []);
     this.additionnalInfos = new Map();
 
-    const tileTypeList = await this.client.GetTiletypeList();
+    const tileTypeList = await this.client.request("GetTiletypeList");
 
     this.tileTypeList = tileTypeList.tiletypeList;
 
-    const categories = this.tileTypeList.reduce((acc, tileType) => {
-      acc[`${tileType.shape},${tileType.material},${tileType.special}`] = acc[`${tileType.shape},${tileType.material},${tileType.special}`] || [];
-      acc[`${tileType.shape},${tileType.material},${tileType.special}`].push(tileType.name);
-      return acc;
-    }, {});
-
-    console.log(tileTypeList, categories);
+    // const categories = this.tileTypeList.reduce((acc, tileType) => {
+    //   acc[`${tileType.shape},${tileType.material},${tileType.special}`] = acc[`${tileType.shape},${tileType.material},${tileType.special}`] || [];
+    //   acc[`${tileType.shape},${tileType.material},${tileType.special}`].push(tileType.name);
+    //   return acc;
+    // }, {});
     
-    const materialList = await this.client.GetMaterialList();
+    const materialList = await this.client.request("GetMaterialList");
     this.materialList = materialList.materialList;
     this.preparedMaterialList = new Map();
     for (let material of this.materialList) {
@@ -72,8 +73,7 @@ export class DfMapLoader {
   }
 
   async getCursorPosition() {
-    let viewInfos = await this.client.GetViewInfo();
-    console.log("viewInfos", viewInfos);
+    let viewInfos = await this.client.request("GetViewInfo");
     if (viewInfos.cursorPosX === -30000) {
       return {
         x: viewInfos.viewPosX + viewInfos.viewSizeX / 2,
@@ -82,8 +82,8 @@ export class DfMapLoader {
       }
     } else {
       return {
-        x: viewInfos.cursorPosX,
-        y: viewInfos.cursorPosY,
+        x: viewInfos.cursorPosX+0.5,
+        y: viewInfos.cursorPosY+0.5,
         z: viewInfos.cursorPosZ
       }
     }
@@ -91,10 +91,10 @@ export class DfMapLoader {
 
   async loadChunk(x, y, z, size, forceReload = true) {
     await this.ready();
-    const params = { minX: x, minY: y, minZ: z, maxX: x + size, maxY: y + size, maxZ: z + size, forceReload };
+    const params = { minX: x, minY: y, minZ: z, maxX: x + size, maxY: y + size, maxZ: z + size*16, forceReload };
     console.log("loading chunk : ", params);
     try {
-      let res = await this.client.GetBlockList(params);
+      let res = await this.client.request("GetBlockList",params);
       this._processDfBlocks(res.mapBlocks || []);
     } catch (e) {
       console.log(e);
@@ -125,35 +125,20 @@ export class DfMapLoader {
         this.buildingMap(building);
       }
     }
-    console.log("Block groub loaded", (blocks[0].buildings || []).filter(b => b.buildingType));
-  }
-
-  async passKeyboardInput(input) {
-    await this.ready();
-    try {
-      let res = await this.client.PassKeyboardEvent(input);
-      console.log("passKeyboardInput", res);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  async sendDfToPosition(x, y, z) {
-    console.log("sendDfToPosition", x, y, z);
   }
 
   async updateChunk(x, y, z, size, tick, currentZ) {
     await this.ready();
     const params = { minX: x, minY: y, minZ: z, maxX: x + size, maxY: y + size, maxZ: z + size };
     try {
-      let res = await this.client.GetBlockList(params);
+      let res = await this.client.request("GetBlockList",params);
       // console.log("update chunk : ", res, tick);
       this._processDfBlocksForDynamic(res.mapBlocks || [], tick, currentZ);
     } catch (e) {
       console.log(e);
     }
     try {
-      let res = await this.client.GetUnitListInside(params);
+      let res = await this.client.request("GetUnitListInside",params);
       // console.log("update chunk : ", res, tick);
       for(let crea of res.creatureList || []) {
         this.creatureMap(crea, tick, currentZ);
@@ -271,3 +256,4 @@ export class DfMapLoader {
   }
 }
 
+module.exports = { DfMapLoader };

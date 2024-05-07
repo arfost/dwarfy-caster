@@ -34,6 +34,7 @@ const new_client = function (client, req) {
     }
   });
   target.on('data', function (data) {
+    console.log('got message from target: ', data);
     try {
       client.send(data);
     } catch (e) {
@@ -52,6 +53,7 @@ const new_client = function (client, req) {
   });
 
   client.on('message', function (msg) {
+    console.log('got message from client: ', msg);
     target.write(msg);
   });
   client.on('close', function (code, reason) {

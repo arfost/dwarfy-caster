@@ -1,7 +1,3 @@
-import { Bitmap } from "./Bitmap.js";
-
-const randomTint = () => Math.floor(Math.random() * 256);
-
 function combSort(order, dist, amount) {
   let gap = amount;
   let swapped = false;
@@ -25,32 +21,17 @@ function combSort(order, dist, amount) {
   }
 }
 
-const COLORS = {
-  white: [255, 255, 255, 0.5],
-  black: [0, 0, 0, 0.5],
-  red: [255, 0, 0, 0.5],
-  green: [0, 255, 0, 0.5],
-  blue: [0, 0, 255, 0.5],
-  yellow: [255, 255, 0, 0.5],
-  cyan: [0, 255, 255, 0.5],
-  magenta: [255, 0, 255, 0.5],
-  gray: [128, 128, 128, 0.5],
-  darkGray: [64, 64, 64, 0.5],
-  lightGray: [192, 192, 192, 0.5],
-  orange: [255, 200, 0, 0.5],
-}
-
-export class Renderer {
-  constructor(display, resolution) {
-
-    this.display = display;
-    this.ctx = display.getContext('2d');
+export class RendererWorker {
+  constructor({resolution, width, height}) {
 
     // this.width = display.width = Math.floor(window.innerWidth*0.5);
     // this.height = display.height = Math.floor(window.innerHeight*0.5);
 
-    this.width = display.width = 640;
-    this.height = display.height = 360;
+    this.width = width;
+    this.height = height;
+
+    this.textureSize = { width: 256, height: 256 };
+    this.spriteSize = { width: 64, height: 64 };
 
     this.resolution = resolution;
     this.spacing = this.width / resolution;
@@ -65,38 +46,18 @@ export class Renderer {
 
   };
 
-  async initTextures(assetNames) {
-
-    this.textures = {};
-
-    await Promise.all(assetNames.textures.map(async (textureName) => {
-      let texture = new Bitmap(`assets/textures/${textureName}.png`, 256, 256);
-      this.textures[textureName] = texture;
-      return texture.imageLoaded;
-    }));
-
-    this.sprites = {};
-
-    await Promise.all(assetNames.sprites.map(async (def) => {
-      let sprite = new Bitmap(`assets/sprites/${def.name}.png`, 64, 64*def.heightRatio);
-      this.sprites[def.name] = sprite;
-      return sprite.imageLoaded;
-    }));
-  }
-
   render(player, map, raycaster) {
-    //this.drawCallList = [];
-    //this.droppedCallList = [];
+    this.renderInstruction = [];
+
     this.zBuffer = new Array(this.resolution).fill(99);
     
-    this.ctx.fillStyle = '#000';
-    this.ctx.fillRect(0, 0, this.width, this.height);
-
     const playerZ = Math.floor(player.z);
 
     this._renderColumn(raycaster, player, map, playerZ);
-    this._drawSprites(player, map.placeables[playerZ], map, playerZ);
-    //console.log("drawCallList", this.drawCallList);
+    //this._drawSprites(player, map.placeables[playerZ], map, playerZ);
+
+    //console.log("renderInstruction", this.renderInstruction.length);
+    return this.renderInstruction;
   }
 
   _renderColumn(raycaster, player, map, layerZ) {
@@ -131,13 +92,13 @@ export class Renderer {
         const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;
         
         if (zOffset >=0 && hit.ceiling) {
-          this._drawTexturedColumn(x,  backCellTop, cellTop - backCellTop, hit.distance, this.textures[hit.ceiling.floorTexture], hit.offset, 1, hit.ceilingAdditionnalInfos ? hit.ceilingAdditionnalInfos.tint : false);
+          this._drawTexturedColumn(x,  backCellTop, cellTop - backCellTop, hit.distance, hit.ceiling.floorTexture, hit.offset, 1, hit.ceilingAdditionnalInfos ? hit.ceilingAdditionnalInfos.tint : false);
         }
 
         if (zOffset<=0 && hit.cellInfos ) {
           //draw floor
           if (hit.cellInfos.floorTexture && (hit.floorOnly || !hit.cellInfos.stopView)) {
-            this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+            this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, hit.cellInfos.floorTexture, hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
           }
 
           //draw top face
@@ -149,7 +110,7 @@ export class Renderer {
             const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
   
             // this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
-            this._drawTexturedColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+            this._drawTexturedColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, hit.cellInfos.floorTexture, hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
           }
         }
         
@@ -183,7 +144,7 @@ export class Renderer {
           }
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
-          this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+          this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, hit.cellInfos.wallTexture, hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
         }
         if(zOffset >= 0){
           //liquide front face
@@ -207,10 +168,18 @@ export class Renderer {
           const cellThinTop = (((this.height + cellThinHeight) / 2) - cellThinHeight) + (cellThinHeight * -zOffset) + (cellThinHeight * zRest) + verticalAdjustement;
           const blockHeight = cellThinHeight * hit.cellInfos.heightRatio;
           const blockTop = cellThinTop + (cellThinHeight - blockHeight);
-          this._drawTexturedColumn(x, blockTop, blockHeight, hit.thinDistance, this.textures[hit.cellInfos.wallTexture], hit.thinOffset, hit.thinSide, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+          this._drawTexturedColumn(x, blockTop, blockHeight, hit.thinDistance, hit.cellInfos.wallTexture, hit.thinOffset, hit.thinSide, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
         }
       }
     }
+  }
+
+  drawImage(image, texX, x, top, height, shade, tint){
+    this.renderInstruction.push([image, texX, x, top, height, shade, tint]);
+  }
+
+  fillRect(x, top, height, shade, tint){
+    this.renderInstruction.push([x, top, height, shade, tint]);
   }
 
   _drawTexturedColumn(x, top, height, distance, image, texOffset, side, tint) {
@@ -223,32 +192,21 @@ export class Renderer {
     // height = Math.floor(height);
     // top = Math.floor(top);
     //this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
-    const texX = Math.floor(texOffset * image.width);
-
-    this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
-
-    //tinting
-    if (tint) {
-      this.ctx.fillStyle = `rgba(${tint[0]}, ${tint[1]}, ${tint[2]}, 0.3)`;
-      this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
-    }
+    const texX = Math.floor(texOffset * this.textureSize.width);
     
-
     // shading
     let shade = 0;
     if (side === 0) {
       shade = 0.3;
     }
     shade += Math.max(0, Math.min(1, (distance) / 10));
-    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+
+    this.drawImage(image, texX, x* this.spacing, top, height, shade, tint);
 
   }
 
   _drawWater(x, top, height, distance, side) {
     //console.log("drawWater", x, top, height, distance, side);
-    this.ctx.fillStyle = `rgba(0, 0, 255, 0.5)`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
 
     //shading
     let shade = 0;
@@ -256,14 +214,12 @@ export class Renderer {
       shade = 0.3;
     }
     shade = Math.max(0, Math.min(1, distance / 10));
-    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+
+    this.fillRect(x * this.spacing, top, height, shade, [0, 0, 255]);
   }
 
   _drawMagma(x, top, height, distance, side) {
     //console.log("drawWater", x, top, height, distance, side);
-    this.ctx.fillStyle = `rgba(255, 0, 0, 0.5)`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
 
     //shading
     let shade = 0;
@@ -271,24 +227,8 @@ export class Renderer {
       shade = 0.3;
     }
     shade = Math.max(0, Math.min(1, distance / 10));
-    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
-  }
-
-  _drawWireframeColumn(x, top, height, distance, color, side) {
-    //console.log("drawWireframeColumn", x, top, height, distance, color, side);
-
-    this.ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
-
-    //shading
-    let shade = 0;
-    if (side === 0) {
-      shade = 0.3;
-    }
-    shade = Math.max(0, Math.min(1, distance / 10));
-    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    
+    this.fillRect(x * this.spacing, top, height, shade, [255, 0, 0]);
   }
 
   _drawSprites(player, placeables, map) {

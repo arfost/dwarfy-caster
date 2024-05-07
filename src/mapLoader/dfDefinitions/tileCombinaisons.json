@@ -1,0 +1,487 @@
+[
+  {
+    "cell": 0,
+    "signature": [
+      "EMPTY-AIR-NO_SPECIAL",
+      "EMPTY-HFS-NO_SPECIAL",
+      "NO_SHAPE-NO_MATERIAL-NO_SPECIAL",
+      "RAMP_TOP-AIR-NO_SPECIAL"
+    ]
+  },
+  {
+    "cell": {
+      "heightRatio": 0.3,
+      "floorTexture": "sapling_floor",
+      "wallTexture": "sapling_wall"
+    },
+    "signature": [
+      "SAPLING-PLANT-DEAD",
+      "SAPLING-PLANT-NORMAL"
+    ]
+  },
+  {
+    "cell": {
+      "floorTexture": "shrub_floor"
+    },
+    "placeable": {
+      "heightRatio": 1,
+      "sprite": "shrub"
+    },
+    "signature": [
+      "SHRUB-PLANT-DEAD",
+      "SHRUB-PLANT-NORMAL"
+    ]
+  },
+  {
+    "cell": {
+      "heightRatio": 0.5,
+      "floorTexture": "stairs_floor_neutral",
+      "wallTexture": "stairs_wall_neutral"
+    },
+    "variants": [
+      {
+        "cell": {
+          "floorTexture": "stairs_floor_construction",
+          "wallTexture": "stairs_wall_construction"
+        },
+        "signature": [
+          "STAIR_DOWN-CONSTRUCTION-NO_SPECIAL",
+          "STAIR_UP-CONSTRUCTION-NO_SPECIAL",
+          "STAIR_UPDOWN-CONSTRUCTION-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "stairs_floor_grass",
+          "wallTexture": "stairs_wall_grass"
+        },
+        "signature": [
+          "STAIR_DOWN-GRASS_DARK-NO_SPECIAL",
+          "STAIR_DOWN-GRASS_LIGHT-NO_SPECIAL",
+          "STAIR_UP-GRASS_DARK-NO_SPECIAL",
+          "STAIR_UP-GRASS_LIGHT-NO_SPECIAL",
+          "STAIR_UPDOWN-GRASS_DARK-NO_SPECIAL",
+          "STAIR_UPDOWN-GRASS_LIGHT-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "stairs_floor_stone",
+          "wallTexture": "stairs_wall_stone"
+        },
+        "signature": [
+          "STAIR_DOWN-STONE-NO_SPECIAL",
+          "STAIR_UP-STONE-NO_SPECIAL",
+          "STAIR_UPDOWN-STONE-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "stairs_floor_soil",
+          "wallTexture": "stairs_wall_soil"
+        },
+        "signature": [
+          "STAIR_UP-SOIL-NO_SPECIAL",
+          "STAIR_DOWN-SOIL-NO_SPECIAL",
+          "STAIR_UPDOWN-SOIL-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "stairs_floor_mineral",
+          "wallTexture": "stairs_wall_mineral"
+        },
+        "signature": [
+          "STAIR_DOWN-MINERAL-NO_SPECIAL",
+          "STAIR_UP-MINERAL-NO_SPECIAL",
+          "STAIR_UPDOWN-MINERAL-NO_SPECIAL"
+        ]
+      }
+    ],
+    "signature": [
+      "STAIR_DOWN-UNDERWORLD_GATE-NO_SPECIAL",
+      "STAIR_UP-UNDERWORLD_GATE-NO_SPECIAL",
+      "STAIR_UPDOWN-UNDERWORLD_GATE-NO_SPECIAL",
+      "STAIR_DOWN-FEATURE-NO_SPECIAL",
+      "STAIR_UP-FEATURE-NO_SPECIAL",
+      "STAIR_UPDOWN-FEATURE-NO_SPECIAL",
+      "STAIR_DOWN-FROZEN_LIQUID-NO_SPECIAL",
+      "STAIR_UP-FROZEN_LIQUID-NO_SPECIAL",
+      "STAIR_UPDOWN-FROZEN_LIQUID-NO_SPECIAL",
+      "STAIR_DOWN-LAVA_STONE-NO_SPECIAL",
+      "STAIR_UP-LAVA_STONE-NO_SPECIAL",
+      "STAIR_UPDOWN-LAVA_STONE-NO_SPECIAL"
+    ]
+  },
+  {
+    "cell": {
+      "heightRatio": 1,
+      "floorTexture": "trunk_branch_floor",
+      "wallTexture": "trunk_branch_wall"
+    },
+    "signature": [
+      "TRUNK_BRANCH-TREE_MATERIAL-DEAD",
+      "TRUNK_BRANCH-TREE_MATERIAL-NO_SPECIAL"
+    ]
+  },
+  {
+    "cell": {
+      "floorTexture": "pebbles_floor"
+    },
+    "signature": [
+      "PEBBLES-FEATURE-NO_SPECIAL",
+      "PEBBLES-LAVA_STONE-NO_SPECIAL",
+      "PEBBLES-MINERAL-NO_SPECIAL",
+      "PEBBLES-STONE-NO_SPECIAL"
+    ]
+  },
+  {
+    "cell": {
+      "heightRatio": 0.5,
+      "floorTexture": "ramp_floor_neutral",
+      "wallTexture": "ramp_wall_neutral"
+    },
+    "variants": [
+      {
+        "cell": {
+          "floorTexture": "ramp_floor_construction",
+          "wallTexture": "ramp_wall_construction"
+        },
+        "signature": [
+          "RAMP-CONSTRUCTION-NO_SPECIAL",
+          "RAMP-CONSTRUCTION-TRACK"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "ramp_floor_grass",
+          "wallTexture": "ramp_wall_grass"
+        },
+        "signature": [
+          "RAMP-GRASS_DARK-NO_SPECIAL",
+          "RAMP-GRASS_DEAD-NO_SPECIAL",
+          "RAMP-GRASS_DRY-NO_SPECIAL",
+          "RAMP-GRASS_LIGHT-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "ramp_floor_stone",
+          "wallTexture": "ramp_wall_stone"
+        },
+        "signature": [
+          "RAMP-STONE-NO_SPECIAL",
+          "RAMP-STONE-TRACK"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "ramp_floor_soil",
+          "wallTexture": "ramp_wall_soil"
+        },
+        "signature": [
+          "RAMP-SOIL-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "ramp_floor_mineral",
+          "wallTexture": "ramp_wall_mineral"
+        },
+        "signature": [
+          "RAMP-MINERAL-NO_SPECIAL",
+          "RAMP-MINERAL-TRACK"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "ramp_floor_wood",
+          "wallTexture": "ramp_wall_wood"
+        },
+        "signature": [
+          "RAMP-TREE_MATERIAL-DEAD",
+          "RAMP-TREE_MATERIAL-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "ramp_floor_water",
+          "wallTexture": "ramp_wall_water"
+        },
+        "signature": [
+          "RAMP-POOL-NO_SPECIAL",
+          "RAMP-RIVER-NO_SPECIAL"
+        ]
+      }
+    ],
+    "signature": [
+      "RAMP-FEATURE-NO_SPECIAL",
+      "RAMP-FEATURE-TRACK",
+      "RAMP-FIRE-NO_SPECIAL",
+      "RAMP-FROZEN_LIQUID-NO_SPECIAL",
+      "RAMP-FROZEN_LIQUID-TRACK",
+      "RAMP-LAVA_STONE-NO_SPECIAL",
+      "RAMP-LAVA_STONE-TRACK",
+      "RAMP-MUSHROOM-DEAD",
+      "RAMP-MUSHROOM-NO_SPECIAL",
+      "RAMP-ROOT-DEAD",
+      "RAMP-ROOT-NO_SPECIAL"
+    ]
+  },
+  {
+    "cell": {
+      "heightRatio": 1,
+      "floorTexture": "fortification_floor",
+      "wallTexture": "fortification_wall"
+    },
+    "signature": [
+      "FORTIFICATION-CONSTRUCTION-NO_SPECIAL",
+      "FORTIFICATION-FEATURE-NO_SPECIAL",
+      "FORTIFICATION-FROZEN_LIQUID-NO_SPECIAL",
+      "FORTIFICATION-LAVA_STONE-NO_SPECIAL",
+      "FORTIFICATION-MINERAL-NO_SPECIAL",
+      "FORTIFICATION-STONE-NO_SPECIAL"
+    ]
+  },
+  {
+    "cell": {
+      "floorTexture": "floor_neutral"
+    },
+    "variants": [
+      {
+        "cell": {
+          "floorTexture": "floor_grass"
+        },
+        "signature": [
+          "FLOOR-GRASS_DARK-NO_SPECIAL",
+          "FLOOR-GRASS_DEAD-NO_SPECIAL",
+          "FLOOR-GRASS_DRY-NO_SPECIAL",
+          "FLOOR-GRASS_LIGHT-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "floor_mineral"
+        },
+        "signature": [
+          "FLOOR-MINERAL-NORMAL",
+          "FLOOR-MINERAL-SMOOTH",
+          "FLOOR-MINERAL-TRACK"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "floor_stone"
+        },
+        "signature": [
+          "FLOOR-STONE-NORMAL",
+          "FLOOR-STONE-SMOOTH",
+          "FLOOR-STONE-TRACK"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "floor_soil"
+        },
+        "signature": [
+          "FLOOR-SOIL-FURROWED",
+          "FLOOR-SOIL-NORMAL",
+          "FLOOR-SOIL-WET"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "floor_construction"
+        },
+        "signature": [
+          "FLOOR-CONSTRUCTION-SMOOTH",
+          "FLOOR-CONSTRUCTION-TRACK"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "floor_water"
+        },
+        "signature": [
+          "FLOOR-RIVER-NORMAL",
+          "FLOOR-RIVER-RIVER_SOURCE",
+          "FLOOR-RIVER-WATERFALL",
+          "BROOK_TOP-BROOK-NO_SPECIAL",
+          "FLOOR-POOL-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "wall_floor_brook"
+        },
+        "signature": [
+          "BROOK_BED-BROOK-NO_SPECIAL"
+        ]
+      }
+    ],
+    "signature": [
+      "FLOOR-ASHES-NO_SPECIAL",
+      "FLOOR-CAMPFIRE-NO_SPECIAL",
+      "FLOOR-DRIFTWOOD-NO_SPECIAL",
+      "FLOOR-FEATURE-NORMAL",
+      "FLOOR-FEATURE-SMOOTH",
+      "FLOOR-FEATURE-TRACK",
+      "FLOOR-FIRE-NO_SPECIAL",
+      "FLOOR-FROZEN_LIQUID-NORMAL",
+      "FLOOR-FROZEN_LIQUID-SMOOTH",
+      "FLOOR-FROZEN_LIQUID-TRACK",
+      "FLOOR-HFS-NO_SPECIAL",
+      "FLOOR-LAVA_STONE-NORMAL",
+      "FLOOR-LAVA_STONE-SMOOTH",
+      "FLOOR-LAVA_STONE-TRACK",
+      "FLOOR-MAGMA-NO_SPECIAL",
+      "FLOOR-MUSHROOM-DEAD",
+      "FLOOR-MUSHROOM-NO_SPECIAL"
+    ]
+  },
+  {
+    "cell": {
+      "floorTexture": "wall_floor_neutral",
+      "wallTexture": "wall_neutral",
+      "heightRatio": 1,
+      "stopView": true
+    },
+    "variants": [
+      {
+        "cell": {
+          "floorTexture": "wall_floor_construction",
+          "wallTexture": "wall_construction"
+        },
+        "signature": [
+          "WALL-CONSTRUCTION-SMOOTH"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "wall_floor_mineral",
+          "wallTexture": "wall_mineral"
+        },
+        "signature": [
+          "WALL-MINERAL-NORMAL",
+          "WALL-MINERAL-WORN_1",
+          "WALL-MINERAL-WORN_2",
+          "WALL-MINERAL-WORN_3"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "wall_floor_root",
+          "wallTexture": "wall_root"
+        },
+        "signature": [
+          "WALL-ROOT-DEAD",
+          "WALL-ROOT-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "wall_floor_stone",
+          "wallTexture": "wall_stone"
+        },
+        "signature": [
+          "WALL-STONE-NORMAL",
+          "WALL-STONE-WORN_1",
+          "WALL-STONE-WORN_2",
+          "WALL-STONE-WORN_3"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "wall_floor_stone_smooth",
+          "wallTexture": "wall_stone_smooth"
+        },
+        "signature": [
+          "WALL-STONE-SMOOTH",
+          "WALL-MINERAL-SMOOTH"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "wall_floor_soil",
+          "wallTexture": "wall_soil"
+        },
+        "signature": [
+          "WALL-SOIL-NO_SPECIAL"
+        ]
+      },
+      {
+        "cell": {
+          "floorTexture": "wall_floor_tree",
+          "wallTexture": "wall_tree"
+        },
+        "signature": [
+          "WALL-TREE_MATERIAL-DEAD",
+          "WALL-TREE_MATERIAL-NO_SPECIAL",
+          "WALL-TREE_MATERIAL-SMOOTH",
+          "WALL-TREE_MATERIAL-SMOOTH_DEAD"
+        ]
+      }
+    ],
+    "signature": [
+      "WALL-FEATURE-NORMAL",
+      "WALL-FEATURE-SMOOTH",
+      "WALL-FEATURE-WORN_1",
+      "WALL-FEATURE-WORN_2",
+      "WALL-FEATURE-WORN_3",
+      "WALL-FIRE-NO_SPECIAL",
+      "WALL-FROZEN_LIQUID-NORMAL",
+      "WALL-FROZEN_LIQUID-SMOOTH",
+      "WALL-FROZEN_LIQUID-WORN_1",
+      "WALL-FROZEN_LIQUID-WORN_2",
+      "WALL-FROZEN_LIQUID-WORN_3",
+      "WALL-HFS-NO_SPECIAL",
+      "WALL-LAVA_STONE-NORMAL",
+      "WALL-LAVA_STONE-SMOOTH",
+      "WALL-LAVA_STONE-WORN_1",
+      "WALL-LAVA_STONE-WORN_2",
+      "WALL-LAVA_STONE-WORN_3",
+      "WALL-MAGMA-NO_SPECIAL",
+      "WALL-MUSHROOM-DEAD",
+      "WALL-MUSHROOM-NO_SPECIAL",
+      "WALL-MUSHROOM-SMOOTH",
+      "WALL-MUSHROOM-SMOOTH_DEAD"
+    ]
+  },
+  {
+    "cell": {
+      "heightRatio": 0.5,
+      "floorTexture": "branch_floor",
+      "wallTexture": "branch_wall"
+    },
+    "signature": [
+      "BRANCH-FIRE-NO_SPECIAL",
+      "BRANCH-TREE_MATERIAL-DEAD",
+      "BRANCH-TREE_MATERIAL-NO_SPECIAL",
+      "BRANCH-TREE_MATERIAL-SMOOTH",
+      "BRANCH-TREE_MATERIAL-SMOOTH_DEAD"
+    ]
+  },
+  {
+    "cell": {
+      "floorTexture": "boulder_floor"
+    },
+    "signature": [
+      "BOULDER-FEATURE-NO_SPECIAL",
+      "BOULDER-LAVA_STONE-NO_SPECIAL",
+      "BOULDER-MINERAL-NO_SPECIAL",
+      "BOULDER-STONE-NO_SPECIAL"
+    ]
+  },
+  {
+    "cell": {
+      "heightRatio": 0.3,
+      "floorTexture": "twig_floor",
+      "wallTexture": "twig_wall"
+    },
+    "signature": [
+      "TWIG-FIRE-NO_SPECIAL",
+      "TWIG-TREE_MATERIAL-DEAD",
+      "TWIG-TREE_MATERIAL-NO_SPECIAL"
+    ]
+  }
+]
