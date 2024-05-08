@@ -43,7 +43,7 @@ export class Game {
     ctx.fillStyle = '#ff6600';
     ctx.fillText(Math.round(1 / seconds) + ' fps', 10, 26);
 
-    this.renderer.render();
+    this.renderer.render(seconds);
   }
 
   postControls() {
@@ -61,6 +61,7 @@ export class Game {
     
     this.callback(seconds, this.ctx);
     this.postControls();
+    
 
     this.ctx.fillStyle = '#ff6600';
     this.ctx.fillText(Math.round(1 / seconds) + ' fps', 10, 26);

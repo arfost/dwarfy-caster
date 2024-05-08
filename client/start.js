@@ -4,6 +4,12 @@ import { RendererCanvas } from './modules/RendererCanvas.js';
 
 async function initGame() {
 
+  const renderSettings = {
+    resolution: 320,
+    width: 640,
+    height: 360
+  }
+
   let paramCast = undefined;
   const params = window.location.search.split("=")[1];
   console.log(params);
@@ -29,9 +35,9 @@ async function initGame() {
   });
 
   const controls = new Controls();
-  const renderer = new RendererCanvas(display, 320);
+  const renderer = new RendererCanvas(display, renderSettings);
 
-  const game = new Game(display, renderer, controls, {paramCast});
+  const game = new Game(display, renderer, controls, {paramCast, renderSettings});
   await game.ready;
   game.start();
 }

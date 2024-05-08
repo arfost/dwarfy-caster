@@ -34,7 +34,7 @@ async function initGame(settings) {
 
   postMessage({type:'init', assetNames: connection.initData.definitions.assetNames})
 
-  const renderer = new RendererWorker({ width: 640, height: 360, resolution: 320});
+  const renderer = new RendererWorker(settings.renderSettings);
   const raycaster = new Raycaster(settings.paramCast ? settings.paramCast : [10, 5]);
 
   return (e)=>{

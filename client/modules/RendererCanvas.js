@@ -1,26 +1,31 @@
 import { Bitmap } from "./Bitmap.js";
 
 export class RendererCanvas {
-  constructor(display, resolution) {
+  constructor(display, { resolution, width, height }) {
 
     this.display = display;
-    this.ctx = display.getContext('2d');
+    this.ctx = display.getContext('2d', { alpha: false });
 
     // this.width = display.width = Math.floor(window.innerWidth*0.5);
     // this.height = display.height = Math.floor(window.innerHeight*0.5);
 
-    this.width = display.width = 640;
-    this.height = display.height = 360;
+    this.width = display.width = width;
+    this.height = display.height = height;
 
     this.resolution = resolution;
     this.spacing = this.width / resolution;
 
     this.renderInstruction = [];
 
+    this.call = 0;
+    this.currentTime = 0;
   };
 
   updateRenderInstruction(instruction) {
     this.renderInstruction = instruction;
+    // if (this.renderInstruction.length === 0) {
+    //   this.renderInstruction = instruction;
+    // }
   }
 
   async initTextures(assetNames) {
@@ -36,24 +41,43 @@ export class RendererCanvas {
     this.sprites = {};
 
     await Promise.all(assetNames.sprites.map(async (def) => {
-      let sprite = new Bitmap(`assets/sprites/${def.name}.png`, 64, 64*def.heightRatio);
+      let sprite = new Bitmap(`assets/sprites/${def.name}.png`, 64, 64 * def.heightRatio);
       this.sprites[def.name] = sprite;
       return sprite.imageLoaded;
     }));
   }
 
-  render() {
+
+  render(seconds) {
+    // this.currentTime += seconds;
+    // if (this.currentTime > 0.05 && this.call < this.renderInstruction.length - 1) {
+    //   //console.log("rendering", this.call, this.renderInstruction.length, this.renderInstruction[this.call])
+    //   const instruction = this.renderInstruction[this.call];
+    //   if (instruction.length === 5) {
+    //     this._drawColoredColumn(instruction[0], instruction[1], instruction[2], instruction[3], instruction[4]);
+    //   } else {
+    //     this._drawTexturedColumn(this.textures[instruction[0]], instruction[1], instruction[2], instruction[3], instruction[4], instruction[5], instruction[6], instruction[7]);
+    //   }
+    //   this.currentTime = 0;
+    //   this.call++;
+    // }
     //this.drawCallList = [];
     //this.droppedCallList = [];
-    this.ctx.fillStyle = '#000';
-    this.ctx.fillRect(0, 0, this.width, this.height);
+    this.ctx.clearRect(0, 0, this.width, this.height);
+    // console.log("render instruction", this.renderInstruction.length);
 
     for (let instruction of this.renderInstruction) {
       //console.log("instruction", instruction);
-      if(instruction.length === 5) {
-        this._drawColoredColumn(instruction[0], instruction[1], instruction[2], instruction[3], instruction[4]);
-      }else{
-        this._drawTexturedColumn(this.textures[instruction[0]], instruction[1], instruction[2], instruction[3], instruction[4], instruction[5], instruction[6], instruction[7]);
+      switch(instruction.length){
+        case 5:
+          this._drawColoredColumn(instruction[0], instruction[1], instruction[2], instruction[3], instruction[4]);
+          break;
+        case 7:
+          this._drawTexturedColumn(this.textures[instruction[0]], instruction[1], instruction[2], instruction[3], instruction[4], instruction[5], instruction[6], instruction[7]);
+          break;
+        case 8:
+          this._drawSpriteColumn(this.sprites[instruction[0]], instruction[1], instruction[2], instruction[3], instruction[4], instruction[5], instruction[6], instruction[7]);
+          break;
       }
     }
 
@@ -62,7 +86,9 @@ export class RendererCanvas {
     //console.log("drawCallList", this.drawCallList);
   }
 
-
+  _drawSpriteColumn(sprite, drawXStart, drawXEnd, clipStartX, drawStartY, drawWidth, spriteHeight) {
+    this.ctx.drawImage(sprite.image, drawXStart, 0, drawXEnd, sprite.height, clipStartX, drawStartY, drawWidth, spriteHeight);
+  }
 
   _drawTexturedColumn(image, texX, x, top, height, shade, tint) {
 
@@ -73,7 +99,7 @@ export class RendererCanvas {
       this.ctx.fillStyle = `rgba(${tint[0]}, ${tint[1]}, ${tint[2]}, 0.3)`;
       this.ctx.fillRect(x, top, this.spacing, height);
     }
-    
+
     //shading
     this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
     this.ctx.fillRect(x, top, this.spacing, height);

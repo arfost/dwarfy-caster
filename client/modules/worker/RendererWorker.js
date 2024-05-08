@@ -54,9 +54,10 @@ export class RendererWorker {
     const playerZ = Math.floor(player.z);
 
     this._renderColumn(raycaster, player, map, playerZ);
-    //this._drawSprites(player, map.placeables[playerZ], map, playerZ);
+    this._drawSprites(player, map.placeables[playerZ], map, playerZ);
 
     //console.log("renderInstruction", this.renderInstruction.length);
+    this._filterRenderInstruction();
     return this.renderInstruction;
   }
 
@@ -174,12 +175,33 @@ export class RendererWorker {
     }
   }
 
+  _filterRenderInstruction(){
+    const instructionLength = this.renderInstruction.length;
+    
+    this.renderInstruction = this.renderInstruction.filter(instruction => {
+      //too small
+      if(instruction[4] > -2 && instruction[4] < 2){
+        return false;
+      }
+      //outside bounds
+      if(instruction[3] < 0 && instruction[3]+instruction[4] < 0 || instruction[3] > this.height && instruction[3]+instruction[4] > this.height){
+        return false;
+      }
+      return true;
+    });
+    console.log("filtered", instructionLength - this.renderInstruction.length);
+  };
+
   drawImage(image, texX, x, top, height, shade, tint){
     this.renderInstruction.push([image, texX, x, top, height, shade, tint]);
   }
 
   fillRect(x, top, height, shade, tint){
     this.renderInstruction.push([x, top, height, shade, tint]);
+  }
+
+  drawSprite(sprite, drawXStart, drawXEnd, clipStartX, drawStartY, drawWidth, spriteHeight){
+    this.renderInstruction.push([sprite, drawXStart, drawXEnd, clipStartX, drawStartY, drawWidth, spriteHeight, 0]);
   }
 
   _drawTexturedColumn(x, top, height, distance, image, texOffset, side, tint) {
@@ -300,7 +322,8 @@ export class RendererWorker {
           if (drawWidth < 0) {
             drawWidth = 0;
           }
-          this.ctx.drawImage(placeableSprite.image, drawXStart, 0, Math.round(drawXEnd), placeableSprite.height, Math.round(clipStartX * this.spacing), Math.round(drawStartY + verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight));
+          this.drawSprite(placeableInfos.sprite, drawXStart, drawXEnd, clipStartX* this.spacing, drawStartY + verticalAdjustement, drawWidth*this.spacing, spriteHeight);
+          // this.ctx.drawImage(placeableSprite.image, drawXStart, 0, Math.round(drawXEnd), placeableSprite.height, Math.round(clipStartX * this.spacing), Math.round(drawStartY + verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight));
         }
       }
     }//End of spriteList for loop
