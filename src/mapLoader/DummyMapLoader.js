@@ -22,6 +22,8 @@ class DummyMapLoader extends MapLoader{
     this.definitions = prepareDefinitions();
 
     this._ready = this.initMap();
+
+    this.lastPlaceableUpdate = 0;
   }
 
   ready() {
@@ -36,6 +38,7 @@ class DummyMapLoader extends MapLoader{
     this.water = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
     this.magma = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
     this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => []);
+    this.RTplaceables = new Array(this.mapInfos.size.z).fill(0).map(() => []);
 
     const tintInfos = {
       tintDefinitions: [
@@ -103,6 +106,49 @@ class DummyMapLoader extends MapLoader{
 
   async loadChunk(x, y, z, size, forceReload = true) {
     console.log("load do nothing");
+  }
+
+  _syncUpdate(activeChunks, seconds) {
+    //every 100ms, update placeables
+    this.lastPlaceableUpdate += seconds;
+    if (this.lastPlaceableUpdate > 100) {
+      this.lastPlaceableUpdate = 0;
+      for (let z = 90; z < 100; z++) {
+        this.RTplaceables[z] = this.RTplaceables[z].filter((placeable) => {
+          placeable.duration--;
+          //move placeable
+          switch(placeable.direction) {
+            case 0:
+              placeable.x++;
+              break;
+            case 1:
+              placeable.y++;
+              break;
+            case 2:
+              placeable.x--;
+              break;
+            case 3:
+              placeable.y--;
+              break;
+          }
+          if(placeable.duration <= 0) {
+            placeable.release(placeable);
+            return false;
+          }
+          return true;
+        });
+        for (let i = 0; i < 10-this.RTplaceables[z].length; i++) {
+          const placeable = this.placeablePool.getNew();
+          placeable.x = Math.floor(Math.random() * 20+110);
+          placeable.y = Math.floor(Math.random() * 20+110);
+          placeable.type = Math.floor(Math.random() * this.definitions.placeableDefinitions.length);
+          placeable.duration = Math.floor(Math.random() * 10);
+          placeable.direction = Math.floor(Math.random() * 4);
+          this.RTplaceables[z].push(placeable);
+        }
+      }
+      this.tick++;
+    }
   }
 }
 

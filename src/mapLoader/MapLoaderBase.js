@@ -15,9 +15,61 @@ class MapLoader {
     }, 1000, 500);
   }
 
+  update(players, seconds){
+    const activeChunks = [];
+    for(let player of players){
+      if(player.stopUpdate){
+        continue;
+      }
+      //create a list of chunks the player can see
+      const keys = this.getChunkKeysForPlayerPosition(player.x, player.y, player.z, 1);
+      if(!activeChunks.includes(keys)){
+        activeChunks.push(...keys);
+      }
+    }
+    this._asyncUpdate(activeChunks, seconds);
+    this._syncUpdate(activeChunks, seconds);
+  }
+
+  async _asyncUpdate(){}
+  _syncUpdate(){}
+
   getPlaceablesForLevel(level) {
     return this.placeables[level];
   };
+
+  getRTPlaceablesForLevel(level) {
+    console.log("getRTPlaceablesForLevel", level, this.RTplaceables[level].length);
+    return this.RTplaceables[level];
+  }
+
+  getRTWaterForPosition(x, y, z) {
+    const water = [];
+    //get one chunk size around the player
+    for (let k = 0; k < this.CHUNK_SIZE; k++) {
+      water[k] = [];
+      for (let j = 0; j < this.CHUNK_SIZE; j++) {
+        for (let i = 0; i < this.CHUNK_SIZE; i++) {
+          water[k][j * this.CHUNK_SIZE + i] = this.water[z + k][(y + j) * this.mapInfos.size.x + (x + i)];
+        }
+      }
+    }
+    return water;
+  }
+
+  getRTMagmaForPosition(x, y, z) {
+    const magma = [];
+    //get one chunk size around the player
+    for (let k = 0; k < this.CHUNK_SIZE; k++) {
+      magma[k] = [];
+      for (let j = 0; j < this.CHUNK_SIZE; j++) {
+        for (let i = 0; i < this.CHUNK_SIZE; i++) {
+          magma[k][j * this.CHUNK_SIZE + i] = this.magma[z + k][(y + j) * this.mapInfos.size.x + (x + i)];
+        }
+      }
+    }
+    return magma;
+  }
 
   prepareChunk(chunkKey) {
     let [x, y, z] = chunkKey.split(',').map(Number);

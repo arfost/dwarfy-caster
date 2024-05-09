@@ -28,6 +28,9 @@ export class SocketConnection {
       case "placeables":
         this.onPlaceables(message.datas);
         break;
+      case "RTUpdate":
+        this.onRTUpdate(message.datas);
+        break;
     }
   }
 

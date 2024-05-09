@@ -6,7 +6,8 @@ const { DummyMapLoader } = require('./src/mapLoader/DummyMapLoader.js');
 const { simpleServer } = require('./src/simpleServer.js');
 
 const serverInfos = {
-  connectionList: []
+  connectionList: [],
+  lastUpdate: Date.now(),
 };
 
 class Player {
@@ -20,23 +21,44 @@ class Player {
     this.ws.on('close', this._close.bind(this));
     this.ws.on('error', this._error.bind(this));
 
-    this.lastUpdate = Date.now();
+    this.lastUpdate = 10000;
+
+    this.lastRTUpdate = 0;
+    this.rtUpateTick = 0;
 
     this.seenChunks = [];
     this.seenPlaceablesLvls = [];
 
   }
 
-  update(mapLoader) {
+  update(mapLoader, seconds) {
     if (this.stopUpdate) {
       return;
     }
 
+    this.lastRTUpdate += seconds;
+    this.lastUpdate += seconds;
+
+    //send RT update every 100ms
+    if (this.lastRTUpdate > 100) {
+      this.rtUpateTick++
+      this._send({
+        type: "RTUpdate",
+        datas:{
+          pos: {x: this.x, y: this.y, z: this.z},
+          tick: this.rtUpateTick,
+          placeables: mapLoader.getRTPlaceablesForLevel(this.z),
+          water: mapLoader.getRTWaterForPosition(this.x, this.y, this.z),
+          magma: mapLoader.getRTMagmaForPosition(this.x, this.y, this.z),
+        }
+      });
+      this.lastRTUpdate = 0;
+    }
+
     //send update every second
-    if (Date.now() - this.lastUpdate > 1000) {
+    if (this.lastUpdate > 1000) {
       const keys = mapLoader.getChunkKeysForPlayerPosition(this.x, this.y, this.z, 1);
       const filteredKey = keys.filter((key) => !this.seenChunks.includes(key));
-      console.log("send", filteredKey.length, "chunks");
       for (let key of filteredKey) {
         this._send({
           type: "mapChunk",
@@ -46,7 +68,6 @@ class Player {
       }
       const zLevel = Math.floor(this.z);
       if(!this.seenPlaceablesLvls.includes(zLevel)) {
-        console.log("send placeables");
         this._send({
           type: "placeables",
           datas: {
@@ -57,7 +78,7 @@ class Player {
         });
         this.seenPlaceablesLvls.push(zLevel);
       }
-      this.lastUpdate = Date.now();
+      this.lastUpdate = 0;
     }
 
 
@@ -121,10 +142,12 @@ class Player {
 }
 
 const update = (mapLoader) => {
+  const seconds = (Date.now() - serverInfos.lastUpdate) / 1000;
   for (let player of serverInfos.connectionList) {
-    player.update(mapLoader);
+    player.update(mapLoader, seconds);
   }
   serverInfos.connectionList = serverInfos.connectionList.filter((player) => !player.shouldRemove);
+  mapLoader.update(serverInfos.connectionList, seconds);
 }
 
 const init = async () => {
