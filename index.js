@@ -23,6 +23,7 @@ class Player {
     this.lastUpdate = Date.now();
 
     this.seenChunks = [];
+    this.seenPlaceablesLvls = [];
 
   }
 
@@ -42,6 +43,19 @@ class Player {
           datas: mapLoader.getChunkForChunkKey(key)
         });
         this.seenChunks.push(key);
+      }
+      const zLevel = Math.floor(this.z);
+      if(!this.seenPlaceablesLvls.includes(zLevel)) {
+        console.log("send placeables");
+        this._send({
+          type: "placeables",
+          datas: {
+            datas: mapLoader.getPlaceablesForLevel(zLevel),
+            isPartial: false,
+            zLevel,
+          }
+        });
+        this.seenPlaceablesLvls.push(zLevel);
       }
       this.lastUpdate = Date.now();
     }

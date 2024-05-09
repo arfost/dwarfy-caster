@@ -1,8 +1,23 @@
+const { ObjectPool } = require("../utils/gcHelpers");
+
 class MapLoader {
 
   constructor() {
     this.preparedChunks = {};
+    this.placeablePool = new ObjectPool(() => {
+      return {
+        x: 0,
+        y: 0,
+        type: 0,
+        creaDate: 0,
+        tick: false
+      }
+    }, 1000, 500);
   }
+
+  getPlaceablesForLevel(level) {
+    return this.placeables[level];
+  };
 
   prepareChunk(chunkKey) {
     let [x, y, z] = chunkKey.split(',').map(Number);

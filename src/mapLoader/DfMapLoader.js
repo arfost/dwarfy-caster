@@ -19,14 +19,7 @@ class DfMapLoader extends MapLoader{
     this.mapInfos = {};
 
     this.client = dfClient;
-    this.placeablePool = new ObjectPool(() => {
-      return {
-        x: 0,
-        y: 0,
-        type: 0,
-        tick: false
-      }
-    }, 1000, 500);
+    
 
     this.definitions = prepareDefinitions();
 

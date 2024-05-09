@@ -18,14 +18,6 @@ class DummyMapLoader extends MapLoader{
       },
       chunkSize: 16
     }
-    this.placeablePool = new ObjectPool(() => {
-      return {
-        x: 0,
-        y: 0,
-        type: 0,
-        tick: false
-      }
-    }, 1000, 500);
 
     this.definitions = prepareDefinitions();
 
@@ -68,14 +60,31 @@ class DummyMapLoader extends MapLoader{
       ...tintInfos
     }
 
+    //write defintions to a file "definitions.json"
+    require("fs").writeFileSync("./data-tests/definitions.json", JSON.stringify(this.definitions, null, 2));
+
+    const possiblesValues = [22, 23, 24, 25, 26, 27, 32, 33]
+
+
     //fill map with random values
     for (let z = 0; z < this.mapInfos.size.z; z++) {
       for (let y = 0; y < this.mapInfos.size.y; y++) {
         for (let x = 0; x < this.mapInfos.size.x; x++) {
-          this.map[z][y * this.mapInfos.size.x + x] = Math.floor(Math.random() * this.definitions.cellDefinitions.length);
+          this.map[z][y * this.mapInfos.size.x + x] = possiblesValues[Math.floor(Math.random() * possiblesValues.length)];
           this.floorTint[z][y * this.mapInfos.size.x + x] = Math.floor(Math.random() * this.definitions.tintDefinitions.length);
           this.wallTint[z][y * this.mapInfos.size.x + x] = Math.floor(Math.random() * this.definitions.tintDefinitions.length);
         }
+      }
+    }
+
+    //fill placeables with random values
+    for (let z = 0; z < this.mapInfos.size.z; z++) {
+      for (let i = 0; i < 100; i++) {
+        const placeable = this.placeablePool.getNew();
+        placeable.x = Math.floor(Math.random() * this.mapInfos.size.x);
+        placeable.y = Math.floor(Math.random() * this.mapInfos.size.y);
+        placeable.type = Math.floor(Math.random() * this.definitions.placeableDefinitions.length);
+        this.placeables[z].push(placeable);
       }
     }
     

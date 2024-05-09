@@ -57,7 +57,7 @@ export class RendererWorker {
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
 
     //console.log("renderInstruction", this.renderInstruction.length);
-    this._filterRenderInstruction();
+    //this._filterRenderInstruction();
     return this.renderInstruction;
   }
 
@@ -307,16 +307,16 @@ export class RendererWorker {
         if (clipStartX != clipEndX && clipStartX < this.resolution && clipEndX > 0) { //Make sure the sprite is not fully obstructed or off screen
           
           const placeableInfos = map.getPlaceableProperties(placeables[placeableOrders[i]].type);
-          const placeableSprite = this.sprites[placeableInfos.sprite];
+          const placeableWidth = this.spriteSize.width;
 
-          const scaleDelta = placeableSprite.width / spriteWidth;
+          const scaleDelta = placeableWidth / spriteWidth;
           let drawXStart = Math.floor((clipStartX - drawStartX) * scaleDelta);
           if (drawXStart < 0) {
             drawXStart = 0;
           }
           const drawXEnd = Math.floor((clipEndX - clipStartX) * scaleDelta) + 1;
-          if (drawXEnd > placeableSprite.width) {
-            drawEndX = placeableSprite.width;
+          if (drawXEnd > placeableWidth) {
+            drawEndX = placeableWidth;
           }
           let drawWidth = clipEndX - clipStartX;
           if (drawWidth < 0) {
