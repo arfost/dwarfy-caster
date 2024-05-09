@@ -27,12 +27,12 @@ async function initGame(settings) {
   let connection = new SocketConnection();
   await connection.ready;
 
-  const player = new Player(connection.initData);
+  const player = new Player(connection);
   const map = new GameMap(connection);
 
   console.log("init game logic : ", connection.initData);
 
-  postMessage({type:'init', assetNames: connection.initData.definitions.assetNames})
+  postMessage({type:'init', definitions: connection.initData.definitions})
 
   const renderer = new RendererWorker(settings.renderSettings);
   const raycaster = new Raycaster(settings.paramCast ? settings.paramCast : [10, 5]);

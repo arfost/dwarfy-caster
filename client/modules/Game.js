@@ -13,7 +13,7 @@ export class Game {
     this.worker.onmessage = ({data}) => {
       if (data.type === 'init') {
         console.log("worker init infos received", data);
-        this._assetNames = data.assetNames;
+        this._definitions = data.definitions;
         this.worker.onmessage = this._onRenderInfos.bind(this);
         this._finishInit();
       }
@@ -31,7 +31,7 @@ export class Game {
   }
 
   async _finishInit() {
-    await this.renderer.initTextures(this._assetNames);
+    await this.renderer.initTextures(this._definitions);
     this._resolve();
   }
 

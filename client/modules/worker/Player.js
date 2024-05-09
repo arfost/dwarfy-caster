@@ -2,10 +2,12 @@ const CIRCLE = Math.PI /180;
 const MOVE_SPEED = 5;
 
 export class Player {
-  constructor({x, y, z}, upDirection = 0) {
-    this.x = x;
-    this.y = y;
-    this.z = z;
+  constructor(connection) {
+    this.connection = connection;
+
+    this.x = connection.initData.start.x;
+    this.y = connection.initData.start.y;
+    this.z = connection.initData.start.z;
 
     this.dirX = -1;
     this.dirY = 0;
@@ -13,10 +15,11 @@ export class Player {
     this.planeX = 0;
     this.planeY = 0.66;
 
-    this.upDirection = upDirection;
+    this.upDirection = 0;
     this.weapon = 'rabbit';
     this.paces = 0;
     this.lastValidPosition = { x: this.x, y: this.y, z: this.z };
+    this.lastPostionUpdate = Date.now();
   }
 
   rotate(angle) {
@@ -88,6 +91,11 @@ export class Player {
   }
 
   update(controls, map, seconds) {
+    //send position update every 100ms
+    if (Date.now() - this.lastPostionUpdate > 100) {
+      this.connection.sendPosition(this.x, this.y, this.z, this.upDirection);
+      this.lastPostionUpdate = Date.now();
+    }
     if (controls.left) {
       this.strafe(-MOVE_SPEED*2 * seconds, map)
     };

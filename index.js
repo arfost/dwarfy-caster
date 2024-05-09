@@ -9,8 +9,8 @@ const serverInfos = {
   connectionList: []
 };
 
-class Player{
-  constructor(ws, start){
+class Player {
+  constructor(ws, start) {
     this.ws = ws;
     this.x = start.x;
     this.y = start.y;
@@ -20,63 +20,84 @@ class Player{
     this.ws.on('close', this._close.bind(this));
     this.ws.on('error', this._error.bind(this));
 
+    this.lastUpdate = Date.now();
+
+    this.seenChunks = [];
+
   }
 
-  update(mapLoader){
-    if(this.stopUpdate){
+  update(mapLoader) {
+    if (this.stopUpdate) {
       return;
     }
-    this.ws.send(JSON.stringify({
-      type: "update",
-      x: this.x,
-      y: this.y,
-      z: this.z,
-      map: mapLoader.map,
-      placeables: mapLoader.placeables,
-    }));
+
+    //send update every second
+    if (Date.now() - this.lastUpdate > 1000) {
+      const keys = mapLoader.getChunkKeysForPlayerPosition(this.x, this.y, this.z, 1);
+      const filteredKey = keys.filter((key) => !this.seenChunks.includes(key));
+      console.log("send", filteredKey.length, "chunks");
+      for (let key of filteredKey) {
+        this._send({
+          type: "mapChunk",
+          datas: mapLoader.getChunkForChunkKey(key)
+        });
+        this.seenChunks.push(key);
+      }
+      this.lastUpdate = Date.now();
+    }
+
+
   }
 
-  sendHandshake(mapLoader){
-    this.ws.send(JSON.stringify({
+  sendHandshake(mapLoader) {
+    this._send({
       type: "handshake",
       mapInfos: mapLoader.mapInfos,
       definitions: {
         cellDefinitions: mapLoader.definitions.cellDefinitions,
         placeableDefinitions: mapLoader.definitions.placeableDefinitions,
+        tintDefinitions: mapLoader.definitions.tintDefinitions,
         assetNames: mapLoader.definitions.assetNames,
       },
-      x: this.x,
-      y: this.y,
-      z: this.z,
-    }));
+      start: {
+        x: this.x,
+        y: this.y,
+        z: this.z,
+      }
+    });
   }
 
-  _receiveData(data){
-    console.log("received", data);
+  _receiveData(data) {
     const message = JSON.parse(data);
-    if(message.type === "stop"){
+    if (message.type === "stop") {
       console.log("stop update");
       this.stopUpdate = true;
     }
-    if(message.type === "move"){
+    if (message.type === "position") {
       this.x = message.x;
       this.y = message.y;
       this.z = message.z;
     }
   }
 
-  _close(){
+  _close() {
     console.log("closed");
     this.shouldRemove = true;
   }
 
-  _error(){
+  _error() {
     console.log("error");
     this.shouldRemove = true;
   }
 
-  invalidate(){
-    if(this.ws.readyState === this.ws.OPEN){
+  _send(data) {
+    if (this.ws.readyState === this.ws.OPEN) {
+      this.ws.send(JSON.stringify(data));
+    }
+  }
+
+  invalidate() {
+    if (this.ws.readyState === this.ws.OPEN) {
       this.ws.send("invalidate");
     }
     this.ws.close();
@@ -86,7 +107,7 @@ class Player{
 }
 
 const update = (mapLoader) => {
-  for(let player of serverInfos.connectionList){
+  for (let player of serverInfos.connectionList) {
     player.update(mapLoader);
   }
   serverInfos.connectionList = serverInfos.connectionList.filter((player) => !player.shouldRemove);
@@ -98,7 +119,7 @@ const init = async () => {
 
   // const mapLoader = new DfMapLoader(df);
 
-  const mapLoader = new DummyMapLoader({x:240, y: 240, z:190});
+  const mapLoader = new DummyMapLoader({ x: 240, y: 240, z: 190 });
   const start = await mapLoader.ready();
 
   console.log(mapLoader.mapInfos, start);
@@ -114,7 +135,7 @@ const init = async () => {
   server.listen(8080, (err) => {
     if (err) {
       console.error("couldn't start server", err);
-    }else{
+    } else {
       console.log('Server started on port 8080');
     }
   });

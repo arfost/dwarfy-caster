@@ -28,8 +28,8 @@ export class RendererCanvas {
     // }
   }
 
-  async initTextures(assetNames) {
-
+  async initTextures(definitions) {
+    const assetNames = definitions.assetNames;
     this.textures = {};
 
     await Promise.all(assetNames.textures.map(async (textureName) => {
@@ -45,6 +45,10 @@ export class RendererCanvas {
       this.sprites[def.name] = sprite;
       return sprite.imageLoaded;
     }));
+
+    this.preparedTints = definitions.tintDefinitions.map((tint) => {
+      return tint === false ? false : `rgba(${tint.red}, ${tint.green}, ${tint.blue}, 0.3)`;
+    });
   }
 
 
@@ -73,10 +77,10 @@ export class RendererCanvas {
           this._drawColoredColumn(instruction[0], instruction[1], instruction[2], instruction[3], instruction[4]);
           break;
         case 7:
-          this._drawTexturedColumn(this.textures[instruction[0]], instruction[1], instruction[2], instruction[3], instruction[4], instruction[5], instruction[6], instruction[7]);
+          this._drawTexturedColumn(this.textures[instruction[0]], instruction[1], instruction[2], instruction[3], instruction[4], instruction[5], this.preparedTints[instruction[6]]);
           break;
         case 8:
-          this._drawSpriteColumn(this.sprites[instruction[0]], instruction[1], instruction[2], instruction[3], instruction[4], instruction[5], instruction[6], instruction[7]);
+          this._drawSpriteColumn(this.sprites[instruction[0]], instruction[1], instruction[2], instruction[3], instruction[4], instruction[5], instruction[6], /*instruction[7] ignored, here only for size diff*/);
           break;
       }
     }
@@ -96,7 +100,7 @@ export class RendererCanvas {
 
     //tinting
     if (tint) {
-      this.ctx.fillStyle = `rgba(${tint[0]}, ${tint[1]}, ${tint[2]}, 0.3)`;
+      this.ctx.fillStyle = tint;
       this.ctx.fillRect(x, top, this.spacing, height);
     }
 
@@ -107,7 +111,7 @@ export class RendererCanvas {
   }
 
   _drawColoredColumn(x, top, height, shade, tint) {
-    this.ctx.fillStyle = `rgba(${tint[0]}, ${tint[1]}, ${tint[2]}, 0.5)`;
+    this.ctx.fillStyle = tint;
     this.ctx.fillRect(x, top, this.spacing, height);
 
     this.ctx.fillStyle = `rgba(0,0,0,${shade})`;

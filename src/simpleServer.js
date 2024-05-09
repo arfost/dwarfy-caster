@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 function simpleServer(req, res) {
-  console.log(`${req.method} ${req.url}`);
+  // console.log(`${req.method} ${req.url}`);
 
   // parse URL
   const parsedUrl = url.parse(req.url);

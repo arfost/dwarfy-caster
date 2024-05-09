@@ -19,10 +19,11 @@ export class Raycaster {
         distance: 0,
         offset: 0,
         side: 0,
-        cellAdditionnalInfos: null,
         cellInfos: null,
         ceiling: null,
-        ceilingAdditionnalInfos: null,
+        floorTint: 0,
+        wallTint: 0,
+        ceilingTint: 0,
         floorOnly: false,
         zLevel: 0,
         water: 0,
@@ -129,7 +130,8 @@ export class Raycaster {
       if (mapCell > 0) {
         //console.log("here is a wall");
         stepInfos.cellInfos = map.getCellProperties(mapCell);
-        stepInfos.cellAdditionnalInfos = map.getWallAdditionnalInfos(mapX, mapY, zLevel);
+        stepInfos.floorTint = map.getFloorTint(mapX, mapY, zLevel);
+        stepInfos.wallTint = map.getWallTint(mapX, mapY, zLevel);
 
         if(stepInfos.cellInfos.stopView) {
           break;
@@ -169,7 +171,9 @@ export class Raycaster {
       if (mapCellZ > 0) {
         let cellInfos = map.getCellProperties(mapCellZ);
         stepInfos.ceiling = cellInfos;
-        stepInfos.ceilingAdditionnalInfos = map.getWallAdditionnalInfos(mapX, mapY, zLevel + 1);
+
+        stepInfos.ceilingTint = map.getFloorTint(mapX, mapY, zLevel+1);
+
         registerBackWall = this.stepArray.length-1;
         alreadyLookedUp = false;
       }else{
@@ -201,8 +205,9 @@ export class Raycaster {
     stepInfos.side = 0;
     stepInfos.cellInfos = null;
     stepInfos.ceiling = null;
-    stepInfos.cellAdditionnalInfos = null,
-    stepInfos.ceilingAdditionnalInfos = null,
+    stepInfos.floorTint = 0;
+    stepInfos.wallTint = 0;
+    stepInfos.ceilingTint = 0;
     stepInfos.floorOnly = false;
     stepInfos.zLevel = 0;
     stepInfos.water = 0;

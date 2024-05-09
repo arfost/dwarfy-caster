@@ -20,10 +20,26 @@ export class SocketConnection {
   }
 
   _receive({data}){
-    this._socket.send(JSON.stringify({type: "stop"}));
     const message = JSON.parse(data);
-    if(message.type === "update"){
-      this.onmapupdate(message);
+    switch(message.type){
+      case "mapChunk":
+        this.onChunk(message.datas);
+        break;
+      case "placeables":
+        this.onPlaceables(message.datas);
+        break;
     }
+  }
+
+  _send(data){
+    this._socket.send(JSON.stringify(data));
+  }
+
+  sendPosition(x, y, z){
+    this._send({type: "position", x, y, z});
+  }
+
+  sendStop(){
+    this._send({type: "stop"});
   }
 }
