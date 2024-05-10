@@ -97,10 +97,10 @@ export class Player {
       this.lastPostionUpdate = Date.now();
     }
     if (controls.left) {
-      this.strafe(-MOVE_SPEED*2 * seconds, map)
+      this.strafe(-MOVE_SPEED * seconds, map)
     };
     if (controls.right) {
-      this.strafe(MOVE_SPEED*2 * seconds, map)
+      this.strafe(MOVE_SPEED * seconds, map)
     };
 
     if (controls.look) {

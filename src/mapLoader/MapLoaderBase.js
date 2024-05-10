@@ -15,21 +15,7 @@ class MapLoader {
     }, 1000, 500);
   }
 
-  update(players, seconds){
-    const activeChunks = [];
-    for(let player of players){
-      if(player.stopUpdate){
-        continue;
-      }
-      //create a list of chunks the player can see
-      const keys = this.getChunkKeysForPlayerPosition(player.x, player.y, player.z, 1);
-      if(!activeChunks.includes(keys)){
-        activeChunks.push(...keys);
-      }
-    }
-    this._asyncUpdate(activeChunks, seconds);
-    this._syncUpdate(activeChunks, seconds);
-  }
+  update(players, seconds){}
 
   async _asyncUpdate(){}
   _syncUpdate(){}
@@ -72,28 +58,28 @@ class MapLoader {
   }
 
   prepareChunk(chunkKey) {
+    console.log("===============> preparing chunk", chunkKey);
     let [x, y, z] = chunkKey.split(',').map(Number);
-    if (!this.preparedChunks[chunkKey]) {
-      let chunk = {
-        chunkX: x,
-        chunkY: y,
-        chunkZ: z
-      };
-      chunk.datas = new Array(this.CHUNK_SIZE).fill(0).map(() => []);
-      for (let i = 0; i < this.CHUNK_SIZE; i++) {
-        for (let j = 0; j < this.CHUNK_SIZE; j++) {
-          for (let k = 0; k < this.CHUNK_SIZE; k++) {
-            //block format : [cell, water, magma]
-            chunk.datas[k][j*this.CHUNK_SIZE + i] = [
-              this.map[z + k][(y + j) * this.mapInfos.size.x + (x + i)],
-              this.floorTint[z + k][(y + j) * this.mapInfos.size.x + (x + i)],
-              this.wallTint[z + k][(y + j) * this.mapInfos.size.x + (x + i)]
-            ];
-          }
+    let chunk = {
+      chunkX: x,
+      chunkY: y,
+      chunkZ: z,
+      version: Date.now(),
+    };
+    chunk.datas = new Array(this.CHUNK_SIZE).fill(0).map(() => []);
+    for (let i = 0; i < this.CHUNK_SIZE; i++) {
+      for (let j = 0; j < this.CHUNK_SIZE; j++) {
+        for (let k = 0; k < this.CHUNK_SIZE; k++) {
+          //block format : [cell, floortint, walltint]
+          chunk.datas[k][j*this.CHUNK_SIZE + i] = [
+            this.map[z*this.CHUNK_SIZE + k][(y*this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x*this.CHUNK_SIZE + i)],
+            this.floorTint[z*this.CHUNK_SIZE + k][(y*this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x*this.CHUNK_SIZE + i)],
+            this.wallTint[z*this.CHUNK_SIZE + k][(y*this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x*this.CHUNK_SIZE + i)]
+          ];
         }
       }
-      this.preparedChunks[chunkKey] = chunk;
     }
+    this.preparedChunks[chunkKey] = chunk;
   }
 
   getChunkKeysForPlayerPosition(x, y, z, size = 1) {
@@ -107,7 +93,8 @@ class MapLoader {
     for (let i = -size; i <= size; i++) {
       for (let j = -size; j <= size; j++) {
         for (let k = -size; k <= size; k++) {
-          chunks.push(`${chunkX + i},${chunkY + j},${chunkZ + k}`);
+          const chunkKey = `${chunkX + i},${chunkY + j},${chunkZ + k}`;
+          chunks.push(`${chunkKey}:${this.preparedChunks[chunkKey] ? this.preparedChunks[chunkKey].version : 0}`);
         }
       }
     }
@@ -124,6 +111,8 @@ class MapLoader {
   }
 
   getChunkForChunkKey(key) {
+    //remove version from key
+    key = key.split(':')[0];
     if(!this.preparedChunks[key]){
       this.prepareChunk(key);
     }

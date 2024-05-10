@@ -6,7 +6,7 @@ function isBitOn(number, index) {
   return (number & (1 << index)) ? 1 : 0;
 }
 
-class DfMapLoader extends MapLoader{
+class DfMapLoader extends MapLoader {
 
   CHUNK_SIZE = 16;
 
@@ -19,7 +19,7 @@ class DfMapLoader extends MapLoader{
     this.mapInfos = {};
 
     this.client = dfClient;
-    
+
 
     this.definitions = prepareDefinitions();
 
@@ -40,6 +40,8 @@ class DfMapLoader extends MapLoader{
       y: dfMapInfos.blockSizeY * this.BLOCK_SIZE,
       z: dfMapInfos.blockSizeZ * this.BLOCK_SIZE_Z
     };
+
+    this.initializedBlocks = {};
 
     this.mapInfos.chunkSize = this.CHUNK_SIZE;
 
@@ -74,18 +76,21 @@ class DfMapLoader extends MapLoader{
     for (let material of this.materialList) {
       const materialKey = `${material.matPair.matIndex},${material.matPair.matType}`;
       this.preparedMaterialList.set(materialKey, material);
-      const tintKey = `${material.stateColor.red},${material.stateColor.green},${material.stateColor.blue}`;
-      if (!tintKeys.includes(tintKey)) {
-        tintKeys.push(tintKey);
-        tintInfos.tintDefinitions.push({
-          red: material.stateColor.red,
-          green: material.stateColor.green,
-          blue: material.stateColor.blue
-        });
-        tintInfos.tintCorrespondances[materialKey] = tintKeys.length - 1;
-      } else {
-        tintInfos.tintCorrespondances[materialKey] = tintKeys.indexOf(tintKey);
+      if (material.stateColor) {
+        const tintKey = `${material.stateColor.red},${material.stateColor.green},${material.stateColor.blue}`;
+        if (!tintKeys.includes(tintKey)) {
+          tintKeys.push(tintKey);
+          tintInfos.tintDefinitions.push({
+            red: material.stateColor.red,
+            green: material.stateColor.green,
+            blue: material.stateColor.blue
+          });
+          tintInfos.tintCorrespondances[materialKey] = tintKeys.length - 1;
+        } else {
+          tintInfos.tintCorrespondances[materialKey] = tintKeys.indexOf(tintKey);
+        }
       }
+
     }
 
     this.definitions = {
@@ -114,99 +119,154 @@ class DfMapLoader extends MapLoader{
     }
   }
 
-  async loadChunk(x, y, z, size, forceReload = true) {
+  lastUpdate = 10000;
+  rtUpateTick = 0;
+  update(players, seconds) {
+    this.lastUpdate += seconds;
+    //send RT update every 100ms
+    console.log("update : ");
+    if (this.lastUpdate > 100) {
+      console.log("update chunk", this.rtUpateTick, players.length);
+      this.lastUpdate = 0;
+      const activeChunks = [];
+      for (let player of players) {
+        if (player.stopUpdate) {
+          continue;
+        }
+        //create a list of chunks the player can see
+        const keys = this.getChunkKeysForPlayerPosition(player.x, player.y, player.z, 0).map(key => key.split(':')[0]);
+        if (!activeChunks.includes(keys)) {
+          activeChunks.push(...keys);
+        }
+      }
+      for (let chunk of activeChunks) {
+        if (this.initializedBlocks[chunk]) {
+          this.loadChunk(chunk, this.rtUpateTick, false);
+        } else {
+          this.loadChunk(chunk, this.rtUpateTick, true);
+          this.initializedBlocks[chunk] = true;
+        }
+      }
+      this.rtUpateTick++;
+    }
+  }
+
+  dfBlockPositionFromPlayerPosition(x, y, z) {
+    return {
+      x: Math.floor(x / this.BLOCK_SIZE),
+      y: Math.floor(y / this.BLOCK_SIZE),
+      z: Math.floor(z / this.BLOCK_SIZE_Z)
+    }
+  }
+
+  async loadChunk(chunk, tick, forceReload = false) {
+    const [x, y, z] = chunk.split(',').map(Number);
     await this.ready();
-    const params = { minX: x, minY: y, minZ: z, maxX: x + size, maxY: y + size, maxZ: z + size * 16, forceReload };
-    console.log("loading chunk : ", params);
+    const params = { minX: x, minY: y, minZ: z*16, maxX: x + 1, maxY: y + 1, maxZ: z*16 + 16, forceReload };
+    console.log("loading chunk : " + x + " " + y + " " + z + " " + tick + " " + forceReload, params);
     try {
       let res = await this.client.request("GetBlockList", params);
-      this._processDfBlocks(res.mapBlocks || []);
+      for (let block of res.mapBlocks || []) {
+        if (block.tiles) {
+          this._processDfBlocks(block);
+          this.removePreparedChunk(chunk);
+        }
+        this._processDfBlocksForDynamic(block, tick);
+      }
     } catch (e) {
       console.log(e);
     }
   }
 
-  
-
-  _processDfBlocks(blocks) {
-    if (blocks.length === 0) {
-      return;
+  async updateCreatures() {
+    let res = await this.client.request("GetUnitListInside", params);
+    // console.log("update chunk : ", res, tick);
+    for (let crea of res.creatureList || []) {
+      this.creatureMap(crea, tick);
     }
-    for (let block of blocks) {
-      let basePosition = {
-        x: block.mapX,
-        y: block.mapY,
-        z: block.mapZ
+  }
+
+  removePreparedChunk(key) {
+    console.log("invalidating chunk : ", key);
+    delete this.preparedChunks[key];
+  }
+
+  _processDfBlocks(block) {
+    let basePosition = {
+      x: block.mapX,
+      y: block.mapY,
+      z: block.mapZ
+    }
+
+    const posKey = `${basePosition.x},${basePosition.y},${basePosition.z}`;
+    this.placeables[basePosition.z] = this.placeables[basePosition.z].filter(placeable => {
+      if (placeable.blockKey === posKey) {
+        placeable.release(placeable);
+        return false;
       }
+      return true;
+    });
+
+    for (let x = 0; x < 16; x++) {
+      for (let y = 0; y < 16; y++) {
+        let index = y * 16 + x;
+        this.tileMap(block, index, basePosition, x, y, posKey);
+        this.water[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = block.water[index];
+        this.magma[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = block.magma[index];
+      }
+    }
+    if (block.buildings) {
+      for (let building of block.buildings) {
+        if (building.buildingType) {
+          this.buildingMap(building, posKey);
+        }
+      }
+    }
+  }
+
+  _processDfBlocksForDynamic(block, tick) {
+    if (block.water) {
       for (let x = 0; x < 16; x++) {
         for (let y = 0; y < 16; y++) {
           let index = y * 16 + x;
-          this.tileMap(block, index, basePosition, x, y);
-          this.water[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = block.water[index];
-          this.magma[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = block.magma[index];
+          this.water[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.water[index];
         }
       }
     }
-    for (let building of blocks[0].buildings || []) {
-      if (building.buildingType) {
-        this.buildingMap(building);
-      }
-    }
-  }
-
-  async updateChunk(x, y, z, size, tick, currentZ) {
-    await this.ready();
-    const params = { minX: x, minY: y, minZ: z, maxX: x + size, maxY: y + size, maxZ: z + size };
-    try {
-      let res = await this.client.request("GetBlockList", params);
-      // console.log("update chunk : ", res, tick);
-      this._processDfBlocksForDynamic(res.mapBlocks || [], tick, currentZ);
-    } catch (e) {
-      console.log(e);
-    }
-    try {
-      let res = await this.client.request("GetUnitListInside", params);
-      // console.log("update chunk : ", res, tick);
-      for (let crea of res.creatureList || []) {
-        this.creatureMap(crea, tick, currentZ);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  _processDfBlocksForDynamic(blocks, tick, currentZ) {
-    for (let block of blocks) {
-      if (block.water) {
-        for (let x = 0; x < 16; x++) {
-          for (let y = 0; y < 16; y++) {
-            let index = y * 16 + x;
-            this.water[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.water[index];
-          }
+    if (block.magma) {
+      for (let x = 0; x < 16; x++) {
+        for (let y = 0; y < 16; y++) {
+          let index = y * 16 + x;
+          this.magma[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.magma[index];
         }
       }
-      for (let flow of block.flows || []) {
-        this.flowMap(flow, tick, currentZ);
-      }
-      for (let item of block.items || []) {
-        this.itemMap(item, tick, currentZ);
-      }
+    }
+
+    this.RTplaceables[block.mapZ] = this.RTplaceables[block.mapZ].filter(p=>{
+      p.release(p);
+      return false;
+    });
+    for (let flow of block.flows || []) {
+      this.flowMap(flow, tick);
+    }
+    for (let item of block.items || []) {
+      this.itemMap(item, tick);
     }
   }
 
-  buildingMap(building) {
+  buildingMap(building, posKey) {
     let key = `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`;
     if (this.definitions.buildingCorrespondances[key]) {
       for (let x = building.posXMin; x <= building.posXMax; x++) {
         for (let y = building.posYMin; y <= building.posYMax; y++) {
-          this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[key], x, y, building.posZMin);
+          this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[key], x, y, building.posZMin, false, posKey);
         }
       }
     }
   }
 
-  itemMap(item, tick, currentZ) {
-    if (!item.pos || item.pos.z !== currentZ) {
+  itemMap(item, tick) {
+    if (!item.pos) {
       return;
     }
     let key = `${item.type.matType},-1`;
@@ -215,8 +275,8 @@ class DfMapLoader extends MapLoader{
     }
   }
 
-  creatureMap(unit, tick, currentZ) {
-    if (unit.posZ === -30000 || unit.posZ !== currentZ || !unit.flags1 || isBitOn(unit.flags1, 1) || isBitOn(unit.flags1, 8) || isBitOn(unit.flags1, 7) || isBitOn(unit.flags1, 25)) {
+  creatureMap(unit, tick) {
+    if (unit.posZ === -30000 || !unit.flags1 || isBitOn(unit.flags1, 1) || isBitOn(unit.flags1, 8) || isBitOn(unit.flags1, 7) || isBitOn(unit.flags1, 25)) {
       return;
     }
     let key = `${unit.race.matType},${unit.race.matIndex}`;
@@ -225,8 +285,7 @@ class DfMapLoader extends MapLoader{
     }
   }
 
-  flowMap(flow, tick, currentZ) {
-    if (flow.pos.z !== currentZ) return;
+  flowMap(flow, tick) {
     if (flow.density > 66) {
       this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-heavy"], flow.pos.x, flow.pos.y, flow.pos.z, tick);
     } else if (flow.density > 33) {
@@ -236,7 +295,7 @@ class DfMapLoader extends MapLoader{
     }
   }
 
-  tileMap(block, index, basePosition, x, y) {
+  tileMap(block, index, basePosition, x, y, posKey) {
     let tileType = this.tileTypeList.find(t => t.id === block.tiles[index]);
     if (!tileType) {
       console.log("Tile type not found for", block.tiles[index]);
@@ -244,18 +303,19 @@ class DfMapLoader extends MapLoader{
     }
     const corres = this._mapDFTileInfosToCell(tileType.shape, tileType.material, tileType.special);
     const matKey = `${block.materials[index].matIndex},${block.materials[index].matType}`;
-    const matTintType = this.definitions.tintCorrespondances[matKey];
-    
-    this._correspondanceResultToMapInfos(corres, basePosition.x + x, basePosition.y + y, basePosition.z);
+    const matTintType = this.definitions.tintCorrespondances[matKey] || 0;
+
+    this._correspondanceResultToMapInfos(corres, basePosition.x + x, basePosition.y + y, basePosition.z, false, posKey);
     this.floorTint[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = matTintType;
     this.wallTint[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = matTintType;
   }
 
-  _correspondanceResultToMapInfos(correspondanceResult, posX, posY, posZ, tick = false) {
+  _correspondanceResultToMapInfos(correspondanceResult, posX, posY, posZ, tick, blockKey) {
     if (!correspondanceResult) {
       return;
     }
     if (correspondanceResult.cell) {
+      //console.log("updating map : ", posZ, posY * this.mapInfos.size.x + posX, this.map[posZ][posY * this.mapInfos.size.x + posX], correspondanceResult.cell)
       this.map[posZ][posY * this.mapInfos.size.x + posX] = correspondanceResult.cell;
     }
     if (correspondanceResult.placeable) {
@@ -264,7 +324,12 @@ class DfMapLoader extends MapLoader{
       newPlaceable.y = posY + 0.5;
       newPlaceable.type = correspondanceResult.placeable;
       newPlaceable.tick = tick;
-      this.placeables[posZ].push(newPlaceable);
+      newPlaceable.blockKey = blockKey;
+      if (tick) {
+        this.RTplaceables[posZ].push(newPlaceable);
+      } else {
+        this.placeables[posZ].push(newPlaceable);
+      }
     }
   }
 

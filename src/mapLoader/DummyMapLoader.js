@@ -108,7 +108,7 @@ class DummyMapLoader extends MapLoader{
     console.log("load do nothing");
   }
 
-  _syncUpdate(activeChunks, seconds) {
+  update(players, seconds) {
     //every 100ms, update placeables
     this.lastPlaceableUpdate += seconds;
     if (this.lastPlaceableUpdate > 100) {
@@ -142,7 +142,7 @@ class DummyMapLoader extends MapLoader{
           placeable.x = Math.floor(Math.random() * 20+110);
           placeable.y = Math.floor(Math.random() * 20+110);
           placeable.type = Math.floor(Math.random() * this.definitions.placeableDefinitions.length);
-          placeable.duration = Math.floor(Math.random() * 10);
+          placeable.duration = 10+Math.floor(Math.random() * 10);
           placeable.direction = Math.floor(Math.random() * 4);
           this.RTplaceables[z].push(placeable);
         }

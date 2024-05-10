@@ -36,11 +36,10 @@ class Player {
       return;
     }
 
-    this.lastRTUpdate += seconds;
     this.lastUpdate += seconds;
 
     //send RT update every 100ms
-    if (this.lastRTUpdate > 100) {
+    if (this.lastUpdate > 100) {
       this.rtUpateTick++
       this._send({
         type: "RTUpdate",
@@ -52,11 +51,6 @@ class Player {
           magma: mapLoader.getRTMagmaForPosition(this.x, this.y, this.z),
         }
       });
-      this.lastRTUpdate = 0;
-    }
-
-    //send update every second
-    if (this.lastUpdate > 1000) {
       const keys = mapLoader.getChunkKeysForPlayerPosition(this.x, this.y, this.z, 1);
       const filteredKey = keys.filter((key) => !this.seenChunks.includes(key));
       for (let key of filteredKey) {
@@ -64,7 +58,9 @@ class Player {
           type: "mapChunk",
           datas: mapLoader.getChunkForChunkKey(key)
         });
-        this.seenChunks.push(key);
+        if(key.split(':')[1] !== "0"){
+          this.seenChunks.push(key);
+        }
       }
       const zLevel = Math.floor(this.z);
       if(!this.seenPlaceablesLvls.includes(zLevel)) {
@@ -80,7 +76,6 @@ class Player {
       }
       this.lastUpdate = 0;
     }
-
 
   }
 
@@ -111,7 +106,7 @@ class Player {
     if (message.type === "position") {
       this.x = message.x;
       this.y = message.y;
-      this.z = message.z;
+      this.z = Math.floor(message.z);
     }
   }
 
@@ -152,16 +147,14 @@ const update = (mapLoader) => {
 
 const init = async () => {
 
-  // const df = new DfHackConnection("127.0.0.1", 5000);
+  const df = new DfHackConnection("127.0.0.1", 5000);
 
-  // const mapLoader = new DfMapLoader(df);
+  const mapLoader = new DfMapLoader(df);
 
-  const mapLoader = new DummyMapLoader({ x: 240, y: 240, z: 190 });
+  // const mapLoader = new DummyMapLoader({ x: 240, y: 240, z: 190 });
   const start = await mapLoader.ready();
 
   console.log(mapLoader.mapInfos, start);
-
-  mapLoader.loadChunk(3, 3, 153, 5, true);
 
   const server = createServer(process.argv);
   const wss = new WebSocketServer({
