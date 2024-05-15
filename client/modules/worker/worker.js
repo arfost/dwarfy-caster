@@ -36,9 +36,12 @@ async function initGame(settings) {
 
   const renderer = new RendererWorker(settings.renderSettings);
   const raycaster = new Raycaster(settings.paramCast ? settings.paramCast : [10, 5]);
-
+  let lastCall = Date.now();
   return (e)=>{
-    player.update(e.data, map, 1/60);
+    const now = Date.now();
+    const delta = (now - lastCall) / 1000;
+    lastCall = now
+    player.update(e.data, map, delta);
     const renderInstruction = renderer.render(player, map, raycaster);
     postMessage(renderInstruction);
   };
