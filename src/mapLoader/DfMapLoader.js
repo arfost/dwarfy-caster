@@ -258,6 +258,7 @@ class DfMapLoader extends MapLoader {
     if (this.definitions.buildingCorrespondances[key]) {
       for (let x = building.posXMin; x <= building.posXMax; x++) {
         for (let y = building.posYMin; y <= building.posYMax; y++) {
+          this.updatedZlevels.push(building.posZMin);
           this._correspondanceResultToMapInfos(this.definitions.buildingCorrespondances[key], x, y, building.posZMin, false, posKey);
         }
       }

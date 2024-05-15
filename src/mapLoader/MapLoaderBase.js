@@ -13,19 +13,27 @@ class MapLoader {
         tick: false
       }
     }, 1000, 500);
+
+    this.updatedZlevels = [];
   }
 
-  update(players, seconds){}
+  update(players, seconds) {
+    if (this.updatedZlevels.length > 0) {
+      for (let player of players) {
+        player.seenPlaceablesLvls = player.seenPlaceablesLvls.filter((zLevel) => this.updatedZlevels.includes(zLevel));
+      }
+      this.updatedZlevels = [];
+    }
+  }
 
-  async _asyncUpdate(){}
-  _syncUpdate(){}
+  async _asyncUpdate() { }
+  _syncUpdate() { }
 
-  getPlaceablesForLevel(level) {
+  getPlaceablesForLevel(level, lastUpdate) {
     return this.placeables[level];
   };
 
   getRTPlaceablesForLevel(level) {
-    console.log("getRTPlaceablesForLevel", level, this.RTplaceables[level].length);
     return this.RTplaceables[level];
   }
 
@@ -71,10 +79,10 @@ class MapLoader {
       for (let j = 0; j < this.CHUNK_SIZE; j++) {
         for (let k = 0; k < this.CHUNK_SIZE; k++) {
           //block format : [cell, floortint, walltint]
-          chunk.datas[k][j*this.CHUNK_SIZE + i] = [
-            this.map[z*this.CHUNK_SIZE + k][(y*this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x*this.CHUNK_SIZE + i)],
-            this.floorTint[z*this.CHUNK_SIZE + k][(y*this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x*this.CHUNK_SIZE + i)],
-            this.wallTint[z*this.CHUNK_SIZE + k][(y*this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x*this.CHUNK_SIZE + i)]
+          chunk.datas[k][j * this.CHUNK_SIZE + i] = [
+            this.map[z * this.CHUNK_SIZE + k][(y * this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x * this.CHUNK_SIZE + i)],
+            this.floorTint[z * this.CHUNK_SIZE + k][(y * this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x * this.CHUNK_SIZE + i)],
+            this.wallTint[z * this.CHUNK_SIZE + k][(y * this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x * this.CHUNK_SIZE + i)]
           ];
         }
       }
@@ -103,7 +111,7 @@ class MapLoader {
 
   getChunksForChunkKeys(keys) {
     return keys.map(key => {
-      if(!this.preparedChunks[key]){
+      if (!this.preparedChunks[key]) {
         this.prepareChunk(key);
       }
       return this.preparedChunks[key];
@@ -113,7 +121,7 @@ class MapLoader {
   getChunkForChunkKey(key) {
     //remove version from key
     key = key.split(':')[0];
-    if(!this.preparedChunks[key]){
+    if (!this.preparedChunks[key]) {
       this.prepareChunk(key);
     }
     return this.preparedChunks[key];
