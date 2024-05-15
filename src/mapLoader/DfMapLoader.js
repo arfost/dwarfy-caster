@@ -1,4 +1,3 @@
-const { ObjectPool } = require('../utils/gcHelpers.js');
 const MapLoader = require('./MapLoaderBase.js');
 const { prepareDefinitions } = require('./dfDefinitions/ObjectDefinitions.js');
 

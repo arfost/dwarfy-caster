@@ -27,7 +27,10 @@ export class GameMap {
 
   _rtUpdate({ tick, placeables, water, magma, pos }) {
     this._placeables[pos.z] = this._placeables[pos.z].filter((placeable) => {
-      return placeable.tick && placeable.tick === tick;
+      if(placeable.tick && placeable.tick < tick) {
+        return false;
+      }
+      return true;
     });
     this._placeables[pos.z] = [...this._placeables[pos.z], ...placeables.map((placeable) => { return {...placeable, tick}})];
     //update water and magma from player position up to chunk size
