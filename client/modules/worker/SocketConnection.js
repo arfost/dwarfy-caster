@@ -28,8 +28,8 @@ export class SocketConnection {
       case "placeables":
         this.onPlaceables(message.datas);
         break;
-      case "RTUpdate":
-        this.onRTUpdate(message.datas);
+      case "RTLayers":
+        this.onRTLayers(message.datas);
         break;
     }
   }

@@ -36,47 +36,34 @@ class Player {
       return;
     }
 
-    this.lastUpdate += seconds;
-
-    //send RT update every 100ms
-    if (this.lastUpdate > 100) {
-      this.rtUpateTick++
+    this.rtUpateTick++
+    this._send({
+      type: "RTLayers",
+      datas: {
+        pos: { x: this.x, y: this.y, z: this.z },
+        water: mapLoader.getRTLayerInfosForPosition("water", this.x, this.y, this.z),
+        magma: mapLoader.getRTLayerInfosForPosition("magma", this.x, this.y, this.z),
+      }
+    });
+    const keys = mapLoader.getChunkKeysForPlayerPosition(this.x, this.y, this.z);
+    const filteredKey = keys.filter((key) => !this.seenChunks.includes(key));
+    for (let key of filteredKey) {
       this._send({
-        type: "RTUpdate",
-        datas:{
-          pos: {x: this.x, y: this.y, z: this.z},
-          tick: this.rtUpateTick,
-          placeables: mapLoader.getRTPlaceablesForLevel(this.z),
-          water: mapLoader.getRTWaterForPosition(this.x, this.y, this.z),
-          magma: mapLoader.getRTMagmaForPosition(this.x, this.y, this.z),
-        }
+        type: "mapChunk",
+        datas: mapLoader.getChunkForChunkKey(key)
       });
-      const keys = mapLoader.getChunkKeysForPlayerPosition(this.x, this.y, this.z, 1);
-      const filteredKey = keys.filter((key) => !this.seenChunks.includes(key));
-      for (let key of filteredKey) {
-        this._send({
-          type: "mapChunk",
-          datas: mapLoader.getChunkForChunkKey(key)
-        });
-        if(key.split(':')[1] !== "0"){
-          this.seenChunks.push(key);
-        }
+      if (key.split(':')[1] !== "0") {
+        this.seenChunks.push(key);
       }
-      const zLevel = Math.floor(this.z);
-      if(!this.seenPlaceablesLvls.includes(zLevel)) {
-        this._send({
-          type: "placeables",
-          datas: {
-            datas: mapLoader.getPlaceablesForLevel(zLevel),
-            isPartial: false,
-            zLevel,
-          }
-        });
-        this.seenPlaceablesLvls.push(zLevel);
-      }
-      this.lastUpdate = 0;
     }
-
+    const zLevel = Math.floor(this.z);
+    this._send({
+      type: "placeables",
+      datas: {
+        zLevel,
+        datas: mapLoader.getPlaceablesForLevel(zLevel)
+      }
+    });
   }
 
   sendHandshake(mapLoader) {
@@ -137,7 +124,9 @@ class Player {
 }
 
 const update = (mapLoader) => {
-  const seconds = (Date.now() - serverInfos.lastUpdate) / 1000;
+  const now = Date.now();
+  const seconds = (now - serverInfos.lastUpdate) / 1000;
+  serverInfos.lastUpdate = now;
   for (let player of serverInfos.connectionList) {
     player.update(mapLoader, seconds);
   }
@@ -147,11 +136,11 @@ const update = (mapLoader) => {
 
 const init = async () => {
 
-  const df = new DfHackConnection("127.0.0.1", 5000);
+  // const df = new DfHackConnection("127.0.0.1", 5000);
 
-  const mapLoader = new DfMapLoader(df);
+  // const mapLoader = new DfMapLoader(df);
 
-  // const mapLoader = new DummyMapLoader({ x: 240, y: 240, z: 190 });
+  const mapLoader = new DummyMapLoader({ x: 240, y: 240, z: 190 });
   const start = await mapLoader.ready();
 
   console.log(mapLoader.mapInfos, start);
@@ -177,6 +166,7 @@ const init = async () => {
     serverInfos.connectionList.push(player);
   });
 
+  console.log("starting update");
   setInterval(() => {
     update(mapLoader);
   }, 1000);

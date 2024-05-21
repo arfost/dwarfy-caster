@@ -1,68 +1,104 @@
 const { ObjectPool } = require("../utils/gcHelpers");
 
+const placeableProperties = [
+  "id",
+  "x",
+  "y",
+  "z",
+  "type",
+  "tick"
+];
+
 class MapLoader {
 
-  constructor() {
+  constructor(poolSize = 1000) {
     this.preparedChunks = {};
     this.placeablePool = new ObjectPool(() => {
       return {
+        id: 0,
         x: 0,
         y: 0,
+        z: 0,
         type: 0,
-        creaDate: 0,
         tick: false
       }
-    }, 1000, 500);
+    }, poolSize, poolSize/2);
 
-    this.updatedZlevels = [];
+    this.invalidatedZlevels = [];
+    this.placeableList = {};
+    this.currentTick = 1;
+  }
+
+  invalidateZlevel(zLevel) {
+    if (!this.invalidatedZlevels.includes(zLevel)) {
+      this.invalidatedZlevels.push(zLevel);
+    }
   }
 
   update(players, seconds) {
-    if (this.updatedZlevels.length > 0) {
-      for (let player of players) {
-        player.seenPlaceablesLvls = player.seenPlaceablesLvls.filter((zLevel) => this.updatedZlevels.includes(zLevel));
+    //clean placeables with outdated tick
+    for (let id in this.placeableList) {
+      if (this.placeableList[id].tick && this.placeableList[id].tick !== this.currentTick) {
+        this.invalidateZlevel(this.placeableList[id].z);
+        this.placeableList[id].release(this.placeableList[id]);
+        delete this.placeableList[id];
       }
-      this.updatedZlevels = [];
     }
+    this.currentTick++;
+    for(let zLevel in this.invalidatedZlevels) {
+      this.placeables[zLevel] = false;
+    }
+    this.invalidatedZlevels = [];
   }
 
-  async _asyncUpdate() { }
-  _syncUpdate() { }
+  prepareZlevel(zLevel) {
+    let placeables = [];
+    for(let placeable in this.placeableList) {
+      if(this.placeableList[placeable].z === zLevel) {
+        placeables.push(this.placeableList[placeable]);
+      }
+    }
+    this.placeables[zLevel] = placeables;
+  }
 
-  getPlaceablesForLevel(level, lastUpdate) {
+  getPlaceablesForLevel(level) {
+    if(!this.placeables[level]) {
+      this.prepareZlevel(level);
+    }
     return this.placeables[level];
   };
 
-  getRTPlaceablesForLevel(level) {
-    return this.RTplaceables[level];
-  }
-
-  getRTWaterForPosition(x, y, z) {
-    const water = [];
-    //get one chunk size around the player
-    for (let k = 0; k < this.CHUNK_SIZE; k++) {
-      water[k] = [];
-      for (let j = 0; j < this.CHUNK_SIZE; j++) {
-        for (let i = 0; i < this.CHUNK_SIZE; i++) {
-          water[k][j * this.CHUNK_SIZE + i] = this.water[z + k][(y + j) * this.mapInfos.size.x + (x + i)];
+  updatePlaceable(placeable) {
+    if(!this.placeableList[placeable.id]) {
+      this.placeableList[placeable.id] = placeable;
+      this.invalidateZlevel(placeable.z);
+    }else{
+      const oldPlaceable = this.placeableList[placeable.id];
+      if(oldPlaceable.z !== placeable.z) {
+        this.invalidateZlevel(oldPlaceable.z);
+        this.invalidateZlevel(placeable.z);
+      }
+      
+      for(let prop of placeableProperties) {
+        if(oldPlaceable[prop] !== placeable[prop]) {
+          oldPlaceable[prop] = placeable[prop];
         }
       }
     }
-    return water;
   }
 
-  getRTMagmaForPosition(x, y, z) {
-    const magma = [];
+  getRTLayerInfosForPosition(layer, x, y, z) {
+    const datas = [];
     //get one chunk size around the player
     for (let k = 0; k < this.CHUNK_SIZE; k++) {
-      magma[k] = [];
+      datas[k] = [];
       for (let j = 0; j < this.CHUNK_SIZE; j++) {
         for (let i = 0; i < this.CHUNK_SIZE; i++) {
-          magma[k][j * this.CHUNK_SIZE + i] = this.magma[z + k][(y + j) * this.mapInfos.size.x + (x + i)];
+          datas[k][j * this.CHUNK_SIZE + i] = this[layer][z + k][(y + j) * this.mapInfos.size.x + (x + i)];
         }
       }
     }
-    return magma;
+    return datas;
   }
 
   prepareChunk(chunkKey) {
@@ -111,6 +147,7 @@ class MapLoader {
 
   getChunksForChunkKeys(keys) {
     return keys.map(key => {
+      key = key.split(':')[0];
       if (!this.preparedChunks[key]) {
         this.prepareChunk(key);
       }

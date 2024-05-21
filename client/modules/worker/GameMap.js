@@ -22,17 +22,10 @@ export class GameMap {
 
     this.connection.onChunk = this._chunkUpdate.bind(this);
     this.connection.onPlaceables = this._placeableUpdate.bind(this);
-    this.connection.onRTUpdate = this._rtUpdate.bind(this);
+    this.connection.onRTLayers = this._rtLayers.bind(this);
   }
 
-  _rtUpdate({ tick, placeables, water, magma, pos }) {
-    this._placeables[pos.z] = this._placeables[pos.z].filter((placeable) => {
-      if(placeable.tick && placeable.tick < tick) {
-        return false;
-      }
-      return true;
-    });
-    this._placeables[pos.z] = [...this._placeables[pos.z], ...placeables.map((placeable) => { return {...placeable, tick}})];
+  _rtLayers({ water, magma, pos }) {
     //update water and magma from player position up to chunk size
     for (let k = 0; k < this.chunkSize; k++) {
       for (let j = 0; j < this.chunkSize; j++) {
