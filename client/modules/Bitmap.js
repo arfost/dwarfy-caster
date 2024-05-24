@@ -19,6 +19,17 @@ export class Bitmap {
     });
 
     this.image.onload = () => {
+      //resize image if needed
+      if (this.image.width !== this.width || this.image.height !== this.height) {
+        const canvas = document.createElement('canvas');
+        canvas.width = this.width;
+        canvas.height = this.height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(this.image, 0, 0, this.width, this.height);
+
+        this.image.src = canvas.toDataURL();
+      }
       this._available();
     };
 
