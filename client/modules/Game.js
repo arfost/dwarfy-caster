@@ -10,24 +10,30 @@ export class Game {
 
     this.worker = new Worker('/modules/worker/worker.js', { type: 'module' });
 
-    this.worker.onmessage = ({data}) => {
-      if (data.type === 'init') {
-        console.log("worker init infos received", data);
-        this._definitions = data.definitions;
-        this.worker.onmessage = this._onRenderInfos.bind(this);
-        this._finishInit();
-      }
-    }
+    this.worker.onmessage = this._handleWorkerMessage.bind(this);
     this.worker.postMessage({ type: 'init', settings });
     
     this._ready = new Promise((resolve) => {
       this._resolve = resolve;
     });
 
+    this.frameCount = 0;
+    this.lastFpsUpdate = 0;
+    this.currentFps = 0;
   }
 
   get ready() {
     return this._ready;
+  }
+
+  _handleWorkerMessage({data}) {
+    if (data.type === 'init') {
+      console.log("worker init infos received", data);
+      this._definitions = data.definitions;
+      this._finishInit();
+    } else if (data.type === 'renderInfos') {
+      this.renderer.updateRenderInstruction(data.data);
+    }
   }
 
   async _finishInit() {
@@ -35,36 +41,38 @@ export class Game {
     this._resolve();
   }
 
-  _onRenderInfos(renderInfos) {
-    this.renderer.updateRenderInstruction(renderInfos.data);
+  start() {
+    requestAnimationFrame(this.frame);
   }
 
-  callback(seconds, ctx) {
-    ctx.fillStyle = '#ff6600';
-    ctx.fillText(Math.round(1 / seconds) + ' fps', 10, 26);
-
+  frame(time) {
+    const seconds = (time - this.lastTime) / 1000;
+    this.lastTime = time;
+    
+    this.updateFps(time);
     this.renderer.render(seconds);
+    this.postControls();
+    
+    this.drawFps();
+    requestAnimationFrame(this.frame);
+  }
+
+  updateFps(time) {
+    this.frameCount++;
+    if (time - this.lastFpsUpdate >= 1000) {
+      this.currentFps = Math.round(this.frameCount / ((time - this.lastFpsUpdate) / 1000));
+      this.frameCount = 0;
+      this.lastFpsUpdate = time;
+    }
+  }
+
+  drawFps() {
+    this.ctx.fillStyle = '#ff6600';
+    this.ctx.fillText(this.currentFps + ' fps', 10, 26);
   }
 
   postControls() {
     this.worker.postMessage(this.controls.states);
     this.controls.reset();
   }
-
-  start() {
-    requestAnimationFrame(this.frame);
-  };
-
-  frame(time) {
-    const seconds = (time - this.lastTime) / 1000;
-    this.lastTime = time;
-    
-    this.callback(seconds, this.ctx);
-    this.postControls();
-    
-
-    this.ctx.fillStyle = '#ff6600';
-    this.ctx.fillText(Math.round(1 / seconds) + ' fps', 10, 26);
-    requestAnimationFrame(this.frame);
-  };
 }

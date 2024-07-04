@@ -198,11 +198,6 @@ class DfMapLoader extends MapLoader {
     }
   }
 
-  removePreparedChunk(key) {
-    console.log("invalidating chunk : ", key);
-    delete this.preparedChunks[key];
-  }
-
   _processDfBlocks(block) {
     let basePosition = {
       x: block.mapX,

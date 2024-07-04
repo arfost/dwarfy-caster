@@ -58,7 +58,9 @@ export class Controls {
     }
     const state = this.codes[e.keyCode];
     if (typeof state === 'undefined') return;
+  
     this.states[state] = val;
+
     e.preventDefault && e.preventDefault();
     e.stopPropagation && e.stopPropagation();
   };

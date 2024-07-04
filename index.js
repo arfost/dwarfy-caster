@@ -1,4 +1,4 @@
-const { DfMapLoader } = require('./src/mapLoader/DfMapLoader.js');
+const { PermaDfMapLoader } = require('./src/mapLoader/PermaDfMapLoader.js');
 const { DfHackConnection } = require('./src/dfHackConnection.js');
 const createServer = require('./src/utils/createServer.js');
 const { WebSocketServer } = require("ws");
@@ -48,6 +48,7 @@ class Player {
     const keys = mapLoader.getChunkKeysForPlayerPosition(this.x, this.y, this.z);
     const filteredKey = keys.filter((key) => !this.seenChunks.includes(key));
     for (let key of filteredKey) {
+      console.log("sending chunk", key);
       this._send({
         type: "mapChunk",
         datas: mapLoader.getChunkForChunkKey(key)
@@ -136,11 +137,11 @@ const update = (mapLoader) => {
 
 const init = async () => {
 
-  // const df = new DfHackConnection("127.0.0.1", 5000);
+  const df = new DfHackConnection("127.0.0.1", 5000);
 
-  // const mapLoader = new DfMapLoader(df);
+  const mapLoader = new PermaDfMapLoader(df);
 
-  const mapLoader = new DummyMapLoader({ x: 240, y: 240, z: 190 });
+  // const mapLoader = new DummyMapLoader({ x: 240, y: 240, z: 190 });
   const start = await mapLoader.ready();
 
   console.log(mapLoader.mapInfos, start);
@@ -168,6 +169,7 @@ const init = async () => {
 
   console.log("starting update");
   setInterval(() => {
+    //process.exit();
     update(mapLoader);
   }, 1000);
 }

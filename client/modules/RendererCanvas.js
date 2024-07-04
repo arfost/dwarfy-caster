@@ -19,6 +19,7 @@ export class RendererCanvas {
 
     this.call = 0;
     this.currentTime = 0;
+    this.shadingStyles = new Array(256).fill().map((_, i) => `rgba(0,0,0,${i / 255})`);
   };
 
   updateRenderInstruction(instruction) {
@@ -95,6 +96,7 @@ export class RendererCanvas {
   }
 
   _drawTexturedColumn(image, texX, x, top, height, shade, tint) {
+    //console.log("shading", shade, "tint", tint);
 
     this.ctx.drawImage(image.image, texX, 0, 1, image.height, x, top, this.spacing, height);
 
@@ -105,7 +107,11 @@ export class RendererCanvas {
     }
 
     //shading
-    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
+    const shadeIndex = Math.min(255, Math.floor(shade * 255));
+    if(!this.shadingStyles[shadeIndex]) console.log("shadeIndex", shadeIndex, "shade", shade, "x", x, "top", top, "height", height, "spacing", this.spacing);
+
+    this.ctx.fillStyle = this.shadingStyles[shadeIndex];
+    // this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
     this.ctx.fillRect(x, top, this.spacing, height);
 
   }

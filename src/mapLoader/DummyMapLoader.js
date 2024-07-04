@@ -26,10 +26,6 @@ class DummyMapLoader extends MapLoader {
     this._ready = this.initMap();
   }
 
-  ready() {
-    return this._ready;
-  }
-
   async initMap() {
 
     this.map = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
@@ -83,7 +79,7 @@ class DummyMapLoader extends MapLoader {
       placeable.x = Math.floor(Math.random() * 20 + 110);
       placeable.y = Math.floor(Math.random() * 20 + 110);
       placeable.z = Math.floor(Math.random() * 10 + 90);
-      placeable.type = Math.floor(Math.random() * this.definitions.placeableDefinitions.length);
+      placeable.type = Math.floor(Math.random() * this.definitions.placeableDefinitions.length-1)+1;
       placeable.tick = this.currentTick;
       placeable.direction = Math.floor(Math.random() * 4);
       this.updatePlaceable(placeable);

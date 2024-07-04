@@ -56,6 +56,63 @@ async function init() {
         }
       }
     },
+    testBuildingsSmall: {
+      description: "get the block list from DFHack",
+      args: [],
+      callback: async function () {
+        //parse args
+        x = 3;
+        y = 6;
+        z = 153;
+        const params = { minX: x, minY: y, minZ: z, maxX: x + 1, maxY: y + 1, maxZ: z+1, forceReload: true };
+        try {
+          const request = await dfHackConnection.request("GetBlockList", params);
+          const buildings = request.mapBlocks[0].buildings.filter(b => !!b.buildingType);
+          writeToFile("testBuildingsSmall", JSON.stringify(buildings, null, 2));
+          return ["buildings list", ...JSON.stringify(buildings, null, 2).split("\n")];
+        } catch (e) {
+          return ["buildings list", "error : " + e.message];
+        }
+      }
+    },
+    testBuildingsBig: {
+      description: "get the block list from DFHack",
+      args: [],
+      callback: async function () {
+        //parse args
+        x = 3;
+        y = 6;
+        z = 153;
+        const params = { minX: x - 1, minY: y - 1, minZ: z, maxX: x + 2, maxY: y + 2, maxZ: z+1, forceReload: true };
+        try {
+          const request = await dfHackConnection.request("GetBlockList", params);
+          const buildings = request.mapBlocks[0].buildings.filter(b => !!b.buildingType);
+          writeToFile("testBuildingsBig", JSON.stringify(buildings, null, 2));
+          return ["buildings list", ...JSON.stringify(buildings, null, 2).split("\n")];
+        } catch (e) {
+          return ["buildings list", "error : " + e.message];
+        }
+      }
+    },
+    testPartial: {
+      description: "get the block list from DFHack",
+      args: [],
+      callback: async function () {
+        //parse args
+        x = 3;
+        y = 6;
+        z = 153;
+        const params = { minX: x, minY: y, minZ: z, maxX: x + 1, maxY: y + 1, maxZ: z+1, forceReload: true };
+        try {
+          const request = await dfHackConnection.request("GetBlockList", params);
+          
+          writeToFile("tetPatial", JSON.stringify(request, null, 2));
+          return ["tetPatial list", ...JSON.stringify(request, null, 2).split("\n")];
+        } catch (e) {
+          return ["tetPatial list", "error : " + e.message];
+        }
+      }
+    },
   }
 
   const testComProcessor = new CommandLineProcessor(testCommands);

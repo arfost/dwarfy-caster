@@ -12,6 +12,7 @@ const placeableProperties = [
 class MapLoader {
 
   constructor(poolSize = 1000) {
+    this._ready = false;
     this.preparedChunks = {};
     this.placeablePool = new ObjectPool(() => {
       return {
@@ -67,6 +68,10 @@ class MapLoader {
     }
     return this.placeables[level];
   };
+
+  ready() {
+    return this._ready;
+  }
 
   updatePlaceable(placeable) {
     if(!this.placeableList[placeable.id]) {
@@ -146,13 +151,7 @@ class MapLoader {
   }
 
   getChunksForChunkKeys(keys) {
-    return keys.map(key => {
-      key = key.split(':')[0];
-      if (!this.preparedChunks[key]) {
-        this.prepareChunk(key);
-      }
-      return this.preparedChunks[key];
-    });
+    return keys.map(this.getChunkForChunkKey);
   }
 
   getChunkForChunkKey(key) {
@@ -162,6 +161,10 @@ class MapLoader {
       this.prepareChunk(key);
     }
     return this.preparedChunks[key];
+  }
+
+  removePreparedChunk(key) {
+    delete this.preparedChunks[key];
   }
 }
 

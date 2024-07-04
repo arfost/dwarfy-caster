@@ -43,6 +43,6 @@ async function initGame(settings) {
     lastCall = now
     player.update(e.data, map, delta);
     const renderInstruction = renderer.render(player, map, raycaster);
-    postMessage(renderInstruction);
+    postMessage({data:renderInstruction, type:'renderInfos'});
   };
 }

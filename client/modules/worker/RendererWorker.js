@@ -322,7 +322,9 @@ export class RendererWorker {
           if (drawWidth < 0) {
             drawWidth = 0;
           }
-          this.drawSprite(placeableInfos.sprite, drawXStart, drawXEnd, clipStartX* this.spacing, drawStartY + verticalAdjustement, drawWidth*this.spacing, spriteHeight);
+          if(placeableInfos.sprite){
+            this.drawSprite(placeableInfos.sprite, drawXStart, drawXEnd, clipStartX* this.spacing, drawStartY + verticalAdjustement, drawWidth*this.spacing, spriteHeight);
+          }
           // this.ctx.drawImage(placeableSprite.image, drawXStart, 0, Math.round(drawXEnd), placeableSprite.height, Math.round(clipStartX * this.spacing), Math.round(drawStartY + verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight));
         }
       }
