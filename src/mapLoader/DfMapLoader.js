@@ -161,7 +161,7 @@ class DfMapLoader extends MapLoader {
     await this.ready();
     const params = { minX: x, minY: y, minZ: z*16, maxX: x + 1, maxY: y + 1, maxZ: z*16 + 16, forceReload };
     try {
-      let creatureList = await this.client.request("GetUnitListInside", params);
+      
       let res = await this.client.request("GetBlockList", params);
       for (let block of res.mapBlocks || []) {
         if (block.tiles) {
@@ -173,6 +173,7 @@ class DfMapLoader extends MapLoader {
           return false;
         });
         this._processDfBlocksForDynamic(block, tick);
+        let creatureList = await this.client.request("GetUnitListInside", params);
         for(let crea of creatureList.creatureList || []) {
           this.creatureMap(crea, tick, block.mapZ);
         }

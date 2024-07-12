@@ -94,8 +94,8 @@ async function init() {
         }
       }
     },
-    testPartial: {
-      description: "get the block list from DFHack",
+    testConcurence: {
+      description: "launch multiple request at the same time",
       args: [],
       callback: async function () {
         //parse args
@@ -104,12 +104,18 @@ async function init() {
         z = 153;
         const params = { minX: x, minY: y, minZ: z, maxX: x + 1, maxY: y + 1, maxZ: z+1, forceReload: true };
         try {
-          const request = await dfHackConnection.request("GetBlockList", params);
+          const requests = await Promise.all([
+            dfHackConnection.request("GetBlockList", params),
+            dfHackConnection.request("GetUnitList")
+          ]);
+          const request = requests[0];
+          console.log("first request done", request.mapBlocks.length);
+          const request2 = requests[1];
+          console.log("second request done", request2.creatureList.length);
           
-          writeToFile("tetPatial", JSON.stringify(request, null, 2));
-          return ["tetPatial list", ...JSON.stringify(request, null, 2).split("\n")];
+          return ["test fait"];
         } catch (e) {
-          return ["tetPatial list", "error : " + e.message];
+          return ["testPatial list", "error : " + e.message];
         }
       }
     },

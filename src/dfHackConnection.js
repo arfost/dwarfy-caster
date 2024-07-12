@@ -342,28 +342,29 @@ const DfHackConnection = class {
     this.codec = new DwarfWireCodec();
     this.aggregator = new DataAggregator();
     this._data = new Uint8Array();
+    this.subscribers = [];
 
-    const target = net.createConnection(target_host, target_port);
+    const protoConnection = net.createConnection(target_host, target_port);
 
-    target.on('end', function () {
+    protoConnection.on('end', function () {
       console.log('target disconnected');
     });
-    target.on('error', function (err) {
+    protoConnection.on('error', function (err) {
       console.log('target connection error', err);
-      target.end();
+      protoConnection.end();
     });
 
-    this.target = target;
+    this.protoConnection = protoConnection;
     console.log("init connection");
     const handshake = this.codec.open();
 
     this._ready = new Promise((resolve, reject) => {
-      this.target.write(handshake);
-      this.target.on('data', (data) => {
+      this.protoConnection.write(handshake);
+      this.protoConnection.on('data', (data) => {
         try{
           this.codec.decode([data]);
-          this.target.removeAllListeners('data');
-          this.target.on('data', this._receive.bind(this));
+          this.protoConnection.removeAllListeners('data');
+          this.protoConnection.on('data', this._receive.bind(this));
           resolve(true);
         }catch(e){
           console.log("error decode : ", e);
@@ -379,15 +380,15 @@ const DfHackConnection = class {
 
   async _prepareRoundTrip(msg) {
     return new Promise((resolve, reject) => {
-      this.subscriber = { resolve, reject };
-      this.target.write(msg);
+      this.subscribers.push({ resolve, reject });
+      this.protoConnection.write(msg);
     });
   }
 
 
 
   _receive(data) {
-    if (!this.subscriber) {
+    if (!this.subscribers.length) {
       console.log("data received with no subscriber !!!");
       return;
     }
@@ -395,11 +396,12 @@ const DfHackConnection = class {
     const { msg, error, finished } = this.aggregator.add(data, this.codec);
 
     if(finished){
+      const subscriber = this.subscribers.shift();
       if (error) {
-        this.subscriber.reject(error);
+        subscriber.reject(error);
         return;
       }
-      this.subscriber.resolve(msg);
+      subscriber.resolve(msg);
     }
   }
 

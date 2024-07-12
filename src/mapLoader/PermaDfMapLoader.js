@@ -1,6 +1,11 @@
 const MapLoader = require('./MapLoaderBase.js');
 const { prepareDefinitions } = require('./dfDefinitions/ObjectDefinitions.js');
 
+function isBitOn(number, index) {
+  return (number & (1 << index)) ? 1 : 0;
+}
+
+
 class PermaDfMapLoader extends MapLoader {
 
   CHUNK_SIZE = 16;
@@ -120,11 +125,41 @@ class PermaDfMapLoader extends MapLoader {
       this.loadBlock(block.x, block.y, block.z, true);
       //this.blockToInit = [];
     }
+
+    this.loadUnit();
+
+    // for(let player of players){
+    //   const block = this._getBlockPositionFromPlayerPosition(player.x, player.y, player.z);
+    //   //load all blocks around the player
+    //   const blocks = this._generateSpiralBlocksToLoad3D(block.x, block.y, block.z, 1);
+    //   for (let block of blocks) {
+    //     this.loadBlock(block.x, block.y, block.z);
+    //   }
+    // }
   }
+
+  async loadUnit(){
+    let creatureList = await this.client.request("GetUnitList");
+    for (let crea of creatureList.creatureList || []) {
+      this.creatureMap(crea, this.tick);
+    }
+  }
+
+  creatureMap(unit, tick) {
+    if (unit.posZ === -30000 || !unit.flags1 || isBitOn(unit.flags1, 1) || isBitOn(unit.flags1, 8) || isBitOn(unit.flags1, 7) || isBitOn(unit.flags1, 25)) {
+      return;
+    }
+    let key = `${unit.race.matType},${unit.race.matIndex}`;
+    if (this.definitions.creatureCorrespondances[key]) {
+      this._correspondanceResultToMapInfos(this.definitions.creatureCorrespondances[key], unit.posX, unit.posY, unit.posZ, tick, unit.id);
+    }
+  }
+
+
 
   async loadBlock(x, y, z, forceReload = false) {
     await this.ready();
-    const params = { minX: x, minY: y, minZ: z, maxX: x + 1, maxY: y + 1, maxZ: z+1, forceReload };
+    const params = { minX: x, minY: y, minZ: z, maxX: x + 1, maxY: y + 1, maxZ: z + 1, forceReload };
     try {
       let res = await this.client.request("GetBlockList", params);
       // console.log("block loaded", x, y, z, res);
@@ -132,21 +167,21 @@ class PermaDfMapLoader extends MapLoader {
         if (block.tiles) {
           this._processDfBlocks(block);
           console.log("invalidate chunk", this._listChunksInBlock(x, y, z));
-          for(let chunk of this._listChunksInBlock(x, y, z)){
+          for (let chunk of this._listChunksInBlock(x, y, z)) {
             this.removePreparedChunk(chunk);
           }
         }
-       
+
         //this._processDfBlocksForDynamic(block, this.currentTick);
       }
-      // if(res.mapBlocks.length > 0){
-      //   const buildingList = res.mapBlocks[0].buildings || [];
-      //   for (let building of buildingList) {
-      //     if (building.buildingType) {
-      //       this.buildingMap(building);
-      //     }
-      //   }
-      // }
+      if (res.mapBlocks.length > 0) {
+        const buildingList = res.mapBlocks[0].buildings || [];
+        for (let building of buildingList) {
+          if (building.buildingType) {
+            this.buildingMap(building);
+          }
+        }
+      }
     } catch (e) {
       console.error("error loading block", x, y, z, e);
     }
@@ -185,15 +220,14 @@ class PermaDfMapLoader extends MapLoader {
 
   _generateSpiralBlocksToLoad3D(centerX, centerY, centerZ, radius) {
     const blocksToLoad = [];
-    const blockSize = 16;
-  
+
     // Fonction pour vérifier si un bloc est dans les limites de la carte
     const isInBounds = (bx, by, bz) => {
       return bx >= 0 && bx < Math.ceil(this.mapInfos.size.x / this.BLOCK_SIZE) &&
-             by >= 0 && by < Math.ceil(this.mapInfos.size.y / this.BLOCK_SIZE) &&
-             bz >= 0 && bz < Math.ceil(this.mapInfos.size.z / this.BLOCK_SIZE_Z);
+        by >= 0 && by < Math.ceil(this.mapInfos.size.y / this.BLOCK_SIZE) &&
+        bz >= 0 && bz < Math.ceil(this.mapInfos.size.z / this.BLOCK_SIZE_Z);
     };
-  
+
     // Ajouter le bloc central
     const centerBlockX = Math.floor(centerX / this.BLOCK_SIZE);
     const centerBlockY = Math.floor(centerY / this.BLOCK_SIZE);
@@ -201,7 +235,7 @@ class PermaDfMapLoader extends MapLoader {
     if (isInBounds(centerBlockX, centerBlockY, centerBlockZ)) {
       blocksToLoad.push({ x: centerBlockX, y: centerBlockY, z: centerBlockZ });
     }
-  
+
     // Générer la spirale 3D
     for (let r = 1; r <= radius; r++) {
       for (let phi = 0; phi < 2 * Math.PI; phi += Math.PI / 8) {
@@ -209,11 +243,11 @@ class PermaDfMapLoader extends MapLoader {
           const x = Math.round(r * Math.sin(theta) * Math.cos(phi));
           const y = Math.round(r * Math.sin(theta) * Math.sin(phi));
           const z = Math.round(r * Math.cos(theta));
-  
+
           const blockX = Math.floor((centerX + x * this.BLOCK_SIZE) / this.BLOCK_SIZE);
           const blockY = Math.floor((centerY + y * this.BLOCK_SIZE) / this.BLOCK_SIZE);
           const blockZ = Math.floor((centerZ + z * this.BLOCK_SIZE_Z) / this.BLOCK_SIZE_Z);
-  
+
           if (isInBounds(blockX, blockY, blockZ)) {
             const block = { x: blockX, y: blockY, z: blockZ };
             if (!blocksToLoad.some(b => b.x === block.x && b.y === block.y && b.z === block.z)) {
@@ -223,7 +257,7 @@ class PermaDfMapLoader extends MapLoader {
         }
       }
     }
-  
+
     return blocksToLoad;
   }
 
@@ -265,15 +299,34 @@ class PermaDfMapLoader extends MapLoader {
     this.wallTint[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = matTintType;
   }
 
+  buildingMap(building) {
+    let key = `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`;
+
+    const matKey = `${building.material.matIndex},${building.material.matType}`;
+    const matTintType = this.definitions.tintCorrespondances[matKey] || 0;
+    const def = this.definitions.buildingCorrespondances[key];
+
+    if (this.definitions.buildingCorrespondances[key]) {
+      for (let z = building.posZMin; z <= building.posZMax; z++) {
+        for (let x = building.posXMin; x <= building.posXMax; x++) {
+          for (let y = building.posYMin; y <= building.posYMax; y++) {
+            this._correspondanceResultToMapInfos(def, x, y, z, undefined, building.id);
+            if (def.cell) {
+              this.wallTint[building.posZMin][(y) * this.mapInfos.size.x + (x)] = matTintType;
+            }
+          }
+        }
+      }
+    }
+  }
+
   _correspondanceResultToMapInfos(correspondanceResult, posX, posY, posZ, tick, placeableId) {
     if (!correspondanceResult) {
       return;
     }
     if (correspondanceResult.cell) {
       //console.log("updating map : ", posZ, posY * this.mapInfos.size.x + posX, this.map[posZ][posY * this.mapInfos.size.x + posX], correspondanceResult.cell)
-      if(correspondanceResult.cell === 41 || this.map[posZ][posY * this.mapInfos.size.x + posX] === 41){
-        console.log("door ", this.map[posZ][posY * this.mapInfos.size.x + posX], correspondanceResult.cell, this.definitions.cellDefinitions[correspondanceResult.cell]);
-      }
+
       this.map[posZ][posY * this.mapInfos.size.x + posX] = correspondanceResult.cell;
     }
     if (correspondanceResult.placeable) {

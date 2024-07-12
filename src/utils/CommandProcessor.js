@@ -18,6 +18,9 @@ class CommandLineProcessor {
     try {
       readline.emitKeypressEvents(process.stdin);
       process.stdin.setRawMode(true);
+      process.on('exit', () => {
+        process.stdin.setRawMode(false);
+      });
 
       process.stdout.write("\u001b[2J\u001b[0;0H");
       process.stdout.write("\u001b[=2h");
