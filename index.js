@@ -171,7 +171,7 @@ const init = async () => {
   setInterval(() => {
     //process.exit();
     update(mapLoader);
-  }, 1000);
+  }, 100);
 }
 
 init();

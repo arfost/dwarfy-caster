@@ -128,14 +128,15 @@ class PermaDfMapLoader extends MapLoader {
 
     this.loadUnit();
 
-    // for(let player of players){
-    //   const block = this._getBlockPositionFromPlayerPosition(player.x, player.y, player.z);
-    //   //load all blocks around the player
-    //   const blocks = this._generateSpiralBlocksToLoad3D(block.x, block.y, block.z, 1);
-    //   for (let block of blocks) {
-    //     this.loadBlock(block.x, block.y, block.z);
-    //   }
-    // }
+    for(let player of players){
+      const block = this._getBlockPositionFromPlayerPosition(player.x, player.y, player.z);
+      //load all blocks around the player
+      this.loadBlock(block.x, block.y, block.z-2);
+      this.loadBlock(block.x, block.y, block.z-1);
+      this.loadBlock(block.x, block.y, block.z);
+      this.loadBlock(block.x, block.y, block.z+1);
+      this.loadBlock(block.x, block.y, block.z+2);
+    }
   }
 
   async loadUnit(){
@@ -172,7 +173,7 @@ class PermaDfMapLoader extends MapLoader {
           }
         }
 
-        //this._processDfBlocksForDynamic(block, this.currentTick);
+        this._processDfBlocksForDynamic(block, this.currentTick);
       }
       if (res.mapBlocks.length > 0) {
         const buildingList = res.mapBlocks[0].buildings || [];
@@ -184,6 +185,52 @@ class PermaDfMapLoader extends MapLoader {
       }
     } catch (e) {
       console.error("error loading block", x, y, z, e);
+    }
+  }
+
+  _processDfBlocksForDynamic(block) {
+    if (block.water) {
+      for (let x = 0; x < 16; x++) {
+        for (let y = 0; y < 16; y++) {
+          let index = y * 16 + x;
+          this.water[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.water[index];
+        }
+      }
+    }
+    if (block.magma) {
+      for (let x = 0; x < 16; x++) {
+        for (let y = 0; y < 16; y++) {
+          let index = y * 16 + x;
+          this.magma[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.magma[index];
+        }
+      }
+    }
+
+    for (let flow of block.flows || []) {
+      this.flowMap(flow);
+    }
+    for (let item of block.items || []) {
+      this.itemMap(item);
+    }
+  }
+
+  itemMap(item) {
+    if (!item.pos) {
+      return;
+    }
+    let key = `${item.type.matType},-1`;
+    if (this.definitions.itemCorrespondances[key]) {
+      this._correspondanceResultToMapInfos(this.definitions.itemCorrespondances[key], item.pos.x, item.pos.y, item.pos.z, this.tick, item.id);
+    }
+  }
+
+  flowMap(flow) {
+    if (flow.density > 66) {
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-heavy"], flow.pos.x, flow.pos.y, flow.pos.z, this.tick, flow.id);
+    } else if (flow.density > 33) {
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-medium"], flow.pos.x, flow.pos.y, flow.pos.z, this.tick, flow.id);
+    } else if (flow.density > 0) {
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-light"], flow.pos.x, flow.pos.y, flow.pos.z, this.tick, flow.id);
     }
   }
 
