@@ -83,12 +83,12 @@ class MapLoader {
         this.invalidateZlevel(oldPlaceable.z);
         this.invalidateZlevel(placeable.z);
       }
-      
       for(let prop of placeableProperties) {
         if(oldPlaceable[prop] !== placeable[prop]) {
           oldPlaceable[prop] = placeable[prop];
         }
       }
+      placeable.release(placeable);
     }
   }
 

@@ -38,6 +38,38 @@ async function init() {
         }
       }
     },
+    mapBlockOnCursor: {
+      description: "get the block list from DFHack on the cursor position",
+      args: ["filename"],
+      callback: async function ({ filename }) {
+        try {
+          let cursorPos;
+          const viewInfos = await dfHackConnection.request("GetViewInfo");
+          if (viewInfos.cursorPosX === -30000) {
+            cursorPos = {
+              x: viewInfos.viewPosX + viewInfos.viewSizeX / 2,
+              y: viewInfos.viewPosY + viewInfos.viewSizeY / 2,
+              z: viewInfos.viewPosZ
+            }
+          } else {
+            cursorPos = {
+              x: viewInfos.cursorPosX,
+              y: viewInfos.cursorPosY,
+              z: viewInfos.cursorPosZ
+            }
+          }
+          cursorPos.x = Math.floor(cursorPos.x/16);
+          cursorPos.y = Math.floor(cursorPos.y/16);
+          cursorPos.z = Math.floor(cursorPos.z);
+          console.log("cursorPos", cursorPos); 
+          const request = await dfHackConnection.request("GetBlockList", { minX: cursorPos.x, minY: cursorPos.y, minZ: cursorPos.z, maxX: cursorPos.x + 1, maxY: cursorPos.y + 1, maxZ: cursorPos.z + 1, forceReload: true });
+          writeToFile(filename, JSON.stringify(request, null, 2));
+          return ["block list", ...JSON.stringify(request, null, 2).split("\n")];
+        } catch (e) {
+          return ["block list", "error : " + e.message];
+        }
+      }
+    },
     mapBlock: {
       description: "get the block list from DFHack",
       args: ["x", "y", "z", "filename"],
@@ -53,69 +85,6 @@ async function init() {
           return ["block list", ...JSON.stringify(request, null, 2).split("\n")];
         } catch (e) {
           return ["block list", "error : " + e.message];
-        }
-      }
-    },
-    testBuildingsSmall: {
-      description: "get the block list from DFHack",
-      args: [],
-      callback: async function () {
-        //parse args
-        x = 3;
-        y = 6;
-        z = 153;
-        const params = { minX: x, minY: y, minZ: z, maxX: x + 1, maxY: y + 1, maxZ: z+1, forceReload: true };
-        try {
-          const request = await dfHackConnection.request("GetBlockList", params);
-          const buildings = request.mapBlocks[0].buildings.filter(b => !!b.buildingType);
-          writeToFile("testBuildingsSmall", JSON.stringify(buildings, null, 2));
-          return ["buildings list", ...JSON.stringify(buildings, null, 2).split("\n")];
-        } catch (e) {
-          return ["buildings list", "error : " + e.message];
-        }
-      }
-    },
-    testBuildingsBig: {
-      description: "get the block list from DFHack",
-      args: [],
-      callback: async function () {
-        //parse args
-        x = 3;
-        y = 6;
-        z = 153;
-        const params = { minX: x - 1, minY: y - 1, minZ: z, maxX: x + 2, maxY: y + 2, maxZ: z+1, forceReload: true };
-        try {
-          const request = await dfHackConnection.request("GetBlockList", params);
-          const buildings = request.mapBlocks[0].buildings.filter(b => !!b.buildingType);
-          writeToFile("testBuildingsBig", JSON.stringify(buildings, null, 2));
-          return ["buildings list", ...JSON.stringify(buildings, null, 2).split("\n")];
-        } catch (e) {
-          return ["buildings list", "error : " + e.message];
-        }
-      }
-    },
-    testConcurence: {
-      description: "launch multiple request at the same time",
-      args: [],
-      callback: async function () {
-        //parse args
-        x = 3;
-        y = 6;
-        z = 153;
-        const params = { minX: x, minY: y, minZ: z, maxX: x + 1, maxY: y + 1, maxZ: z+1, forceReload: true };
-        try {
-          const requests = await Promise.all([
-            dfHackConnection.request("GetBlockList", params),
-            dfHackConnection.request("GetUnitList")
-          ]);
-          const request = requests[0];
-          console.log("first request done", request.mapBlocks.length);
-          const request2 = requests[1];
-          console.log("second request done", request2.creatureList.length);
-          
-          return ["test fait"];
-        } catch (e) {
-          return ["testPatial list", "error : " + e.message];
         }
       }
     },

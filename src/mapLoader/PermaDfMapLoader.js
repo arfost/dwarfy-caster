@@ -142,17 +142,17 @@ class PermaDfMapLoader extends MapLoader {
   async loadUnit(){
     let creatureList = await this.client.request("GetUnitList");
     for (let crea of creatureList.creatureList || []) {
-      this.creatureMap(crea, this.tick);
+      this.creatureMap(crea);
     }
   }
 
-  creatureMap(unit, tick) {
+  creatureMap(unit) {
     if (unit.posZ === -30000 || !unit.flags1 || isBitOn(unit.flags1, 1) || isBitOn(unit.flags1, 8) || isBitOn(unit.flags1, 7) || isBitOn(unit.flags1, 25)) {
       return;
     }
     let key = `${unit.race.matType},${unit.race.matIndex}`;
     if (this.definitions.creatureCorrespondances[key]) {
-      this._correspondanceResultToMapInfos(this.definitions.creatureCorrespondances[key], unit.posX, unit.posY, unit.posZ, tick, unit.id);
+      this._correspondanceResultToMapInfos(this.definitions.creatureCorrespondances[key], unit.posX, unit.posY, unit.posZ, false, unit.id);
     }
   }
 
@@ -220,17 +220,17 @@ class PermaDfMapLoader extends MapLoader {
     }
     let key = `${item.type.matType},-1`;
     if (this.definitions.itemCorrespondances[key]) {
-      this._correspondanceResultToMapInfos(this.definitions.itemCorrespondances[key], item.pos.x, item.pos.y, item.pos.z, this.tick, item.id);
+      this._correspondanceResultToMapInfos(this.definitions.itemCorrespondances[key], item.pos.x, item.pos.y, item.pos.z, this.currentTick, item.id);
     }
   }
 
   flowMap(flow) {
     if (flow.density > 66) {
-      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-heavy"], flow.pos.x, flow.pos.y, flow.pos.z, this.tick, flow.id);
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-heavy"], flow.pos.x, flow.pos.y, flow.pos.z, this.currentTick, flow.id);
     } else if (flow.density > 33) {
-      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-medium"], flow.pos.x, flow.pos.y, flow.pos.z, this.tick, flow.id);
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-medium"], flow.pos.x, flow.pos.y, flow.pos.z, this.currentTick, flow.id);
     } else if (flow.density > 0) {
-      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-light"], flow.pos.x, flow.pos.y, flow.pos.z, this.tick, flow.id);
+      this._correspondanceResultToMapInfos(this.definitions.flowCorrespondances[flow.type + "-light"], flow.pos.x, flow.pos.y, flow.pos.z, this.currentTick, flow.id);
     }
   }
 
