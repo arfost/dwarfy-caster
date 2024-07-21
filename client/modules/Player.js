@@ -118,19 +118,6 @@ export class Player {
       this.walk(MOVE_SPEED * seconds, map);
     }
 
-    if(controls.teleport) {
-      controls.teleport = false;
-      map.teleportToCursor(this);
-    }
-    if(controls.resetChunk) {
-      console.log("reset chunk");
-      controls.resetChunk = false;
-      map.resetChunk(this);
-    }
-    if(controls.pause) {
-      map.togglePause();
-      controls.pause = false;
-    }
     this.physique(seconds, map);
   };
 }

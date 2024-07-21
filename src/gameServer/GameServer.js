@@ -1,26 +1,31 @@
+const Player = require('./Player.js');
+const ServerMap = require('./ServerMap.js');
+
 class GameServer {
-  constructor() {
+  constructor(mapLoader) {
     this.players = [];
+    this.serverMap = new ServerMap(mapLoader);
+  }
+
+  async init() {
+    await this.serverMap.initMap();
     
   }
 
-  addPlayer(player) {
+  addPlayer(socket) {
+    const player = new Player(socket);
     this.players.push(player);
+    player.sendHandshake(this.serverMap.mapLoader);
   }
 
-  removePlayer(player) {
-    this.players = this.players.filter(p => p !== player);
-  }
-
-  getPlayers() {
-    return this.players;
+  removePlayer(socket) {
+    this.players = this.players.filter(p => p.socket !== socket);
   }
 
   update(delta) {
-    for(let player of this.players) {
-      player.update(delta);
-    }
+    this.serverMap.update(this.players, delta);
+    this.players.forEach(player => player.update(this.serverMap, delta));
   }
-
-  
 }
+
+module.exports = { GameServer };

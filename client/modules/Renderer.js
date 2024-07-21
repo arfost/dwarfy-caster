@@ -65,7 +65,7 @@ export class Renderer {
 
   };
 
-  async initTextures(assetNames) {
+  async initAssets(assetNames) {
 
     this.textures = {};
 
@@ -77,9 +77,9 @@ export class Renderer {
 
     this.sprites = {};
 
-    await Promise.all(assetNames.sprites.map(async (def) => {
-      let sprite = new Bitmap(`assets/sprites/${def.name}.png`, 64, 64*def.heightRatio);
-      this.sprites[def.name] = sprite;
+    await Promise.all(assetNames.sprites.map(async (spriteName) => {
+      let sprite = new Bitmap(`assets/sprites/${spriteName}.png`, 64, 64);
+      this.sprites[spriteName] = sprite;
       return sprite.imageLoaded;
     }));
   }
@@ -307,6 +307,10 @@ export class Renderer {
       
       const spriteX = placeables[placeableOrders[i]].x - player.x;
       const spriteY = placeables[placeableOrders[i]].y - player.y;
+      
+      // if((spriteX > 0 && spriteX < 1 || spriteY > 0 && spriteY < 1) || (spriteX < 0 && spriteX > -1 || spriteY < 0 && spriteY > -1)){
+      //   continue;
+      // }
 
       const invDet = 1.0 / (player.planeX * -player.dirY + player.dirX * player.planeY);
       const transformX = invDet * (-player.dirY * spriteX + player.dirX * spriteY);
@@ -330,7 +334,7 @@ export class Renderer {
         if (drawEndX > this.resolution + spriteWidth) {
           drawEndX = this.resolution + spriteWidth;
         }
-
+        console.log("spriteX", spriteX, "spriteY", spriteY, drawStartX);
         for (let stripe = drawStartX; stripe <= drawEndX; stripe++) {
           if (transformY > this.zBuffer[stripe]) {
             if (stripe - clipStartX <= 1) { //Detect leftmost obstruction
