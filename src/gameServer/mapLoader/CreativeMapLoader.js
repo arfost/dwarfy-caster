@@ -1,7 +1,19 @@
+const { ObjectPool } = require("../../utils/gcHelpers");
+
 class CreativeMapLoader {
-  constructor(params) {
+  constructor(params, poolSize = 100) {
     this.params = params;
     this.CHUNK_SIZE = 16;
+    this.placeablePool = new ObjectPool(() => {
+      return {
+        id: 0,
+        x: 0,
+        y: 0,
+        z: 0,
+        type: 0,
+        tick: false
+      }
+    }, poolSize, poolSize/2);
   }
 
   async initMap() {
@@ -107,17 +119,21 @@ class CreativeMapLoader {
     }
     this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => false); 
 
+    
+    const basePlaceable = this.placeablePool.getNew();
+    basePlaceable.id = 0;
+    basePlaceable.x = 45;
+    basePlaceable.y = 45;
+    basePlaceable.z = 25;
+    basePlaceable.type = 0;
+    
+    this._newPlaceableList = [basePlaceable];
+    
     return this.mapInfos;
   }
 
   newPlaceableList() {
-    return [{
-      id: 1,
-      x: 45,
-      y: 45,
-      z: 25,
-      type: 0,
-    }];
+    return this._newPlaceableList;
   }
 }
 

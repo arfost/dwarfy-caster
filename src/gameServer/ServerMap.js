@@ -1,6 +1,4 @@
 
-const { ObjectPool } = require("../utils/gcHelpers");
-
 const placeableProperties = [
   "id",
   "x",
@@ -12,19 +10,10 @@ const placeableProperties = [
 
 class ServerMap {
 
-  constructor(mapLoader, poolSize = 1000) {
+  constructor(mapLoader) {
     this._ready = false;
     this.preparedChunks = {};
-    this.placeablePool = new ObjectPool(() => {
-      return {
-        id: 0,
-        x: 0,
-        y: 0,
-        z: 0,
-        type: 0,
-        tick: false
-      }
-    }, poolSize, poolSize/2);
+    
 
     this.invalidatedZlevels = [];
     this.placeableList = {};
@@ -46,6 +35,10 @@ class ServerMap {
     console.log("Map loaded");
   }
 
+  getPlaceableModel(){
+    return this.mapLoader.placeablePool.getNew();
+  }
+
   invalidateZlevel(zLevel) {
     if (!this.invalidatedZlevels.includes(zLevel)) {
       this.invalidatedZlevels.push(zLevel);
@@ -63,13 +56,15 @@ class ServerMap {
     //clean placeables with outdated tick
     for (let id in this.placeableList) {
       if (this.placeableList[id].tick && this.placeableList[id].tick !== this.currentTick) {
+        console.log("removing placeable", id);
         this.invalidateZlevel(this.placeableList[id].z);
         this.placeableList[id].release(this.placeableList[id]);
         delete this.placeableList[id];
       }
     }
     this.currentTick++;
-    for(let zLevel in this.invalidatedZlevels) {
+    for(let zLevel of this.invalidatedZlevels) {
+      console.log("invalidating level ", zLevel);
       this.placeables[zLevel] = false;
     }
     this.invalidatedZlevels = [];

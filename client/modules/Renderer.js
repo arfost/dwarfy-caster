@@ -334,7 +334,6 @@ export class Renderer {
         if (drawEndX > this.resolution + spriteWidth) {
           drawEndX = this.resolution + spriteWidth;
         }
-        console.log("spriteX", spriteX, "spriteY", spriteY, drawStartX);
         for (let stripe = drawStartX; stripe <= drawEndX; stripe++) {
           if (transformY > this.zBuffer[stripe]) {
             if (stripe - clipStartX <= 1) { //Detect leftmost obstruction

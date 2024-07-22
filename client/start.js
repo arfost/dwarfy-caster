@@ -36,6 +36,8 @@ async function initGame() {
   const connection = new SocketConnection();
   await connection.ready;
 
+  console.log("connection : ", connection.initData.id);
+
   const startPos = connection.initData.start;
 
   const player = new Player(startPos);

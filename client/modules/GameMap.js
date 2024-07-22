@@ -59,6 +59,7 @@ export class GameMap {
   }
 
   _placeableUpdate({ zLevel, isPartial, datas }) {
+    console.log("placeable update", zLevel, datas.length);
     if (isPartial) {
       this._placeables[zLevel] = [...this._placeables[zLevel], ...datas];
     } else {

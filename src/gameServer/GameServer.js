@@ -15,16 +15,26 @@ class GameServer {
   addPlayer(socket) {
     const player = new Player(socket);
     this.players.push(player);
-    player.sendHandshake(this.serverMap.mapLoader);
+    player.sendHandshake(this.serverMap.mapLoader, this.serverMap.getPlaceableModel());
   }
 
   removePlayer(socket) {
-    this.players = this.players.filter(p => p.socket !== socket);
+    this.players = this.players.filter(p => {
+      console.log("comparing", p.socket, socket);
+      return p.socket !== socket
+    });
+    console.log("player removed", this.players);
   }
 
   update(delta) {
     this.serverMap.update(this.players, delta);
-    this.players.forEach(player => player.update(this.serverMap, delta));
+    this.players.forEach(player => {
+      player.update(this.serverMap, delta);
+      if(player.shouldRemove){
+        this.removePlayer(player.socket);
+        player.invalidate();
+      }
+    });
   }
 }
 

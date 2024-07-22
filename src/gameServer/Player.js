@@ -1,26 +1,26 @@
+const { generateIncrementalId } = require('../utils/helpers.js');
+
 class Player {
   constructor(ws, start) {
-    this.ws = ws;
+    this.socket = ws;
 
-    this.id = Math.ceil(Math.random()*1000000);
+    this.id = generateIncrementalId();
 
-    this.ws.on('message', this._receiveData.bind(this));
-    this.ws.on('close', this._close.bind(this));
-    this.ws.on('error', this._error.bind(this));
+    this.socket.on('message', this._receiveData.bind(this));
+    this.socket.on('close', this._close.bind(this));
+    this.socket.on('error', this._error.bind(this));
 
     this.seenChunks = [];
+
+    console.log("new player : ", this.id, this.socket._socket.remoteAddress, this.shouldRemove);
 
   }
 
   get placeable(){
-    const placeable = {
-      id: this.id,
-      x: this.x,
-      y: this.y,
-      z: this.z,
-      type: 1,
-    }
-    return placeable;
+    this._placeable.x = this.x;
+    this._placeable.y = this.y;
+    this._placeable.z = this.z;
+    return this._placeable;
   }
 
   update(serverMap, seconds) {
@@ -42,7 +42,6 @@ class Player {
     const keys = serverMap.getChunkKeysForPlayerPosition(this.x, this.y, this.z);
     const filteredKey = keys.filter((key) => !this.seenChunks.includes(key));
     for (let key of filteredKey) {
-      console.log("sending chunk", key);
       this._send({
         type: "mapChunk",
         datas: serverMap.getChunkForChunkKey(key)
@@ -52,16 +51,22 @@ class Player {
       }
     }
     const zLevel = Math.floor(this.z);
+    const placeables = serverMap.getPlaceablesForLevel(zLevel).filter((placeable) => this.id !== placeable.id);
     this._send({
       type: "placeables",
       datas: {
         zLevel,
-        datas: serverMap.getPlaceablesForLevel(zLevel).filter((placeable) => this.id !== placeable.id)
+        datas: placeables, 
       }
     });
   }
 
-  sendHandshake(mapLoader) {
+  sendHandshake(mapLoader, placeableModel) {
+    this._placeable = placeableModel;
+    this._placeable.id = this.id;
+    this._placeable.type = 1;
+    this._placeable.tick = false;
+
     this.x = mapLoader.mapInfos.start.x;
     this.y = mapLoader.mapInfos.start.y;
     this.z = mapLoader.mapInfos.start.z;
@@ -70,6 +75,7 @@ class Player {
       type: "handshake",
       mapInfos: mapLoader.mapInfos,
       chunkSize: mapLoader.CHUNK_SIZE,
+      id: this.id,
       definitions: {
         rtLayerDefinitions: mapLoader.definitions.rtLayerDefinitions,
         cellDefinitions: mapLoader.definitions.cellDefinitions,
@@ -109,17 +115,21 @@ class Player {
   }
 
   _send(data) {
-    if (this.ws.readyState === this.ws.OPEN) {
-      this.ws.send(JSON.stringify(data));
+    if (this.socket.readyState === this.socket.OPEN) {
+      this.socket.send(JSON.stringify(data));
     }
   }
 
   invalidate() {
-    if (this.ws.readyState === this.ws.OPEN) {
-      this.ws.send("invalidate");
+    console.log("invalidate player : ", this.id);
+    if (this.socket.readyState === this.socket.OPEN) {
+      this.socket.send({
+        type:"technical",
+        datas: "invalidate"
+      });
     }
-    this.ws.close();
-    this.shouldRemove = true;
+    this.socket.close();
+    this._placeable.tick = true;
   }
 
 }
