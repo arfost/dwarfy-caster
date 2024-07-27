@@ -19,11 +19,7 @@ class GameServer {
   }
 
   removePlayer(socket) {
-    this.players = this.players.filter(p => {
-      console.log("comparing", p.socket, socket);
-      return p.socket !== socket
-    });
-    console.log("player removed", this.players);
+    this.players = this.players.filter(p => p.socket !== socket);
   }
 
   update(delta) {

@@ -45,12 +45,12 @@ class ServerMap {
     }
   }
 
-  update(players, seconds) {
+  update(players, delta) {
     //update placeables
     for (let player of players) {
       this.updatePlaceable(player.placeable);
     }
-    for(let placeable of this.mapLoader.newPlaceableList()) {
+    for(let placeable of this.mapLoader.update(delta)) {
       this.updatePlaceable(placeable);
     }
     //clean placeables with outdated tick
@@ -64,15 +64,14 @@ class ServerMap {
     }
     this.currentTick++;
     for(let zLevel of this.invalidatedZlevels) {
-      console.log("invalidating level ", zLevel);
       this.placeables[zLevel] = false;
     }
     this.invalidatedZlevels = [];
+    this.flushModifiedCells();
   }
 
   prepareZlevel(zLevel) {
     let placeables = [];
-    console.log("preparing zlevel", zLevel, this.placeableList, this.placeables[zLevel]);
     for(let placeable in this.placeableList) {
       if(this.placeableList[placeable].z === zLevel) {
         placeables.push(this.placeableList[placeable]);
@@ -153,6 +152,35 @@ class ServerMap {
     this.preparedChunks[chunkKey] = chunk;
   }
 
+  keyFromPosition(x, y, z) {
+    return `${Math.floor(x / this.CHUNK_SIZE)},${Math.floor(y / this.CHUNK_SIZE)},${Math.floor(z / this.CHUNK_SIZE)}`;
+  }
+
+  modifiedCellsList = [];
+  notifyCellModification(x, y, z) {
+    console.log("cell modified", x, y, z);
+    this.modifiedCellsList.push([x, y, z]);
+  }
+
+  flushModifiedCells() {
+    this.modifiedCellsList.reduce((doneChunk, [x, y, z]) => {
+      console.log("flushing modified cell", x, y, z);
+      const chunkKey = this.keyFromPosition(x, y, z);
+      if (!doneChunk[chunkKey]) {
+        this.removePreparedChunk(chunkKey);
+        doneChunk[chunkKey] = true;
+      }
+      return doneChunk;
+    }, {});
+    this.modifiedCellsList = [];
+  }
+
+  get chunkInterface() {
+    return {
+      notifyCellModification: this.notifyCellModification.bind(this)
+    }
+  }
+
   getChunkKeysForPlayerPosition(x, y, z, size = 1) {
     //get the chunk the player is in
     let chunkX = Math.floor(x / this.CHUNK_SIZE);
@@ -186,6 +214,7 @@ class ServerMap {
   }
 
   removePreparedChunk(key) {
+    console.log("===============> removing chunk", key);
     delete this.preparedChunks[key];
   }
 }

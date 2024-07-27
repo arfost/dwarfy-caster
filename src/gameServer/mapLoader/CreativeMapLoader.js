@@ -1,4 +1,5 @@
 const { ObjectPool } = require("../../utils/gcHelpers");
+const { generateRandomId } = require("../../utils/helpers");
 
 class CreativeMapLoader {
   constructor(params, poolSize = 100) {
@@ -16,8 +17,8 @@ class CreativeMapLoader {
     }, poolSize, poolSize/2);
   }
 
-  async initMap() {
-
+  async initMap(serverMap) {
+    this.chunkInterface = serverMap.chunkInterface;
 
     this.mapInfos = {
       size: this.params.size ? this.params.size : { x: 100, y: 100, z: 50 },
@@ -132,8 +133,42 @@ class CreativeMapLoader {
     return this.mapInfos;
   }
 
-  newPlaceableList() {
+  update(delta) {
+    this.timer = this.timer ? this.timer + delta : delta;
+    if (this.timer > 2000) {
+      this.timer = 0;
+      const newPlaceable = this.placeablePool.getNew();
+      newPlaceable.id = generateRandomId();
+      newPlaceable.x = 45 + Math.floor(Math.random() * 10);
+      newPlaceable.y = 45 + Math.floor(Math.random() * 10);
+      newPlaceable.z = 25;
+      newPlaceable.type = Math.floor(Math.random() * 2);
+      newPlaceable.tick = false;
+      this._newPlaceableList.push(newPlaceable);
+      if(this._newPlaceableList.length > 10){
+        let toRemove = this._newPlaceableList.shift();
+        toRemove.tick = true;
+      }
+      this.cycleCell(48, 48, 25);
+    }
     return this._newPlaceableList;
+  }
+
+  changeCell(x, y, z, value, floorTint, wallTint) {
+    this.map[z][y * this.mapInfos.size.x + x] = value;
+    if(floorTint){
+      this.floorTint[z][y * this.mapInfos.size.x + x] = floorTint;
+    }
+    if(wallTint){
+      this.wallTint[z][y * this.mapInfos.size.x + x] = wallTint;
+    }
+    this.chunkInterface.notifyCellModification(x, y, z);
+    console.log(this.chunkInterface, this.chunkInterface.notifyCellModification);
+  }
+
+  cycleCell(x, y, z) {
+    console.log("cycle cell", x, y, z, (this.map[z][y * this.mapInfos.size.x + x] + 1) % this.definitions.cellDefinitions.length);
+    this.changeCell(x, y, z, (this.map[z][y * this.mapInfos.size.x + x] + 1) % this.definitions.cellDefinitions.length);
   }
 }
 

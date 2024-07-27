@@ -1,10 +1,10 @@
-const { generateIncrementalId } = require('../utils/helpers.js');
+const { generateRandomId } = require('../utils/helpers.js');
 
 class Player {
   constructor(ws, start) {
     this.socket = ws;
 
-    this.id = generateIncrementalId();
+    this.id = generateRandomId();
 
     this.socket.on('message', this._receiveData.bind(this));
     this.socket.on('close', this._close.bind(this));
