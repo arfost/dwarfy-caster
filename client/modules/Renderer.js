@@ -55,7 +55,9 @@ export class Renderer {
     this.resolution = resolution;
     this.spacing = this.width / resolution;
 
-    this.cameraX = []
+    this.cameraX = [];
+
+    this.facingCell = { x: 0, y: 0 };
 
     for (let i = 0; i < this.resolution; i++) {
       this.cameraX[i] = 2 * i / this.resolution - 1; //x-coordinate in camera space
@@ -94,9 +96,20 @@ export class Renderer {
 
     const playerZ = Math.floor(player.z);
 
+    this._updateFacingCell(player);
+
     this._renderColumn(raycaster, player, map, playerZ);
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
     //console.log("drawCallList", this.drawCallList);
+  }
+
+  _updateFacingCell(player) {
+    const celluleX = Math.floor(player.x - player.dirX);
+    const celluleY = Math.floor(player.y - player.dirY);
+
+    // update facing cell
+    this.facingCell.x = celluleX;
+    this.facingCell.y = celluleY;
   }
 
   _renderColumn(raycaster, player, map, layerZ) {
@@ -125,19 +138,21 @@ export class Renderer {
       const cellHeight = this.height / hit.distance;
       const cellTop = (((this.height + cellHeight) / 2) - cellHeight) + (cellHeight * -zOffset) + (cellHeight * zRest) + verticalAdjustement;
 
+      const isFacingCell = this.facingCell.x === hit.x && this.facingCell.y === hit.y;
+
       if(hit.backDistance){
         
         const backCellHeight = this.height / hit.backDistance;
         const backCellTop = (((this.height + backCellHeight) / 2) - backCellHeight) + (backCellHeight * -zOffset) + (backCellHeight * zRest) + verticalAdjustement;
         
         if (zOffset >=0 && hit.ceiling) {
-          this._drawTexturedColumn(x,  backCellTop, cellTop - backCellTop, hit.distance, this.textures[hit.ceiling.floorTexture], hit.offset, 1, hit.ceilingAdditionnalInfos ? hit.ceilingAdditionnalInfos.tint : false);
+          this._drawTexturedColumn(x,  backCellTop, cellTop - backCellTop, hit.distance, this.textures[hit.ceiling.floorTexture], hit.offset, 1, hit.ceilingAdditionnalInfos ? hit.ceilingAdditionnalInfos.tint : false, isFacingCell);
         }
 
         if (zOffset<=0 && hit.cellInfos ) {
           //draw floor
           if (hit.cellInfos.floorTexture && (hit.floorOnly || !hit.cellInfos.stopView)) {
-            this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+            this._drawTexturedColumn(x,  cellTop + cellHeight, (backCellTop + backCellHeight) - (cellTop + cellHeight), hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false, isFacingCell);
           }
 
           //draw top face
@@ -149,7 +164,7 @@ export class Renderer {
             const backBlockTop = backCellTop + (backCellHeight - backBlockHeight);
   
             // this._drawWireframeColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, COLORS.gray, 0);
-            this._drawTexturedColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+            this._drawTexturedColumn(x, backBlockTop, blockTop - backBlockTop, hit.distance, this.textures[hit.cellInfos.floorTexture], hit.offset, 0, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false, isFacingCell);
           }
         }
         
@@ -183,7 +198,7 @@ export class Renderer {
           }
           const blockHeight = cellHeight * hit.cellInfos.heightRatio;
           const blockTop = cellTop + (cellHeight - blockHeight);
-          this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+          this._drawTexturedColumn(x, blockTop, blockHeight, hit.distance, this.textures[hit.cellInfos.wallTexture], hit.offset, hit.side, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false, isFacingCell);
         }
         if(zOffset >= 0){
           //liquide front face
@@ -207,13 +222,13 @@ export class Renderer {
           const cellThinTop = (((this.height + cellThinHeight) / 2) - cellThinHeight) + (cellThinHeight * -zOffset) + (cellThinHeight * zRest) + verticalAdjustement;
           const blockHeight = cellThinHeight * hit.cellInfos.heightRatio;
           const blockTop = cellThinTop + (cellThinHeight - blockHeight);
-          this._drawTexturedColumn(x, blockTop, blockHeight, hit.thinDistance, this.textures[hit.cellInfos.wallTexture], hit.thinOffset, hit.thinSide, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false);
+          this._drawTexturedColumn(x, blockTop, blockHeight, hit.thinDistance, this.textures[hit.cellInfos.wallTexture], hit.thinOffset, hit.thinSide, hit.cellAdditionnalInfos ? hit.cellAdditionnalInfos.tint : false, isFacingCell);
         }
       }
     }
   }
 
-  _drawTexturedColumn(x, top, height, distance, image, texOffset, side, tint) {
+  _drawTexturedColumn(x, top, height, distance, image, texOffset, side, tint, isFacingCell) {
     // if(height > this.height*2 || top > this.height*2 || top < -this.height*2 || height < -this.height*2) {
     //   return;
     // }
@@ -242,6 +257,12 @@ export class Renderer {
     shade += Math.max(0, Math.min(1, (distance) / 10));
     this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
     this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+
+    // facing cell
+    if (isFacingCell) {
+      this.ctx.fillStyle = `rgba(0,255,0,0.3)`;
+      this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    }
 
   }
 

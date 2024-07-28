@@ -27,7 +27,9 @@ export class Raycaster {
         floorOnly: false,
         zLevel: 0,
         water: 0,
-        magma: 0
+        magma: 0,
+        x: 0,
+        y: 0
       }
     }, 100, 50);
   }
@@ -121,6 +123,8 @@ export class Raycaster {
       stepInfos.offset = wallX - Math.floor(wallX);;
       stepInfos.side = side;
       stepInfos.zLevel = zLevel;
+      stepInfos.x = mapX;
+      stepInfos.y = mapY;
 
       const mapCell = map.getWall(mapX, mapY, zLevel);
       if(mapCell === -1){
@@ -212,6 +216,8 @@ export class Raycaster {
     stepInfos.zLevel = 0;
     stepInfos.water = 0;
     stepInfos.magma = 0;
+    stepInfos.x = 0;
+    stepInfos.y = 0;
   }
 
 
