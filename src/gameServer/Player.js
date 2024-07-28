@@ -13,6 +13,7 @@ class Player {
     this.seenChunks = [];
 
     console.log("new player : ", this.id, this.socket._socket.remoteAddress, this.shouldRemove);
+    this._orders = [];
 
   }
 
@@ -101,7 +102,19 @@ class Player {
       this.x = message.x;
       this.y = message.y;
       this.z = Math.floor(message.z);
+      this._orders = message.orders;
+      this.dirX = message.dirX;
+      this.dirY = message.dirY;
     }
+  }
+
+  get orders() {
+    const orders = this._orders;
+    this._orders = [];
+    if(orders.length > 0){
+      console.log("player orders", orders);
+    }
+    return orders;
   }
 
   _close() {

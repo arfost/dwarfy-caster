@@ -139,7 +139,7 @@ export class GameMap {
 
   update(seconds, player) {
     if (this.connection.ready) {
-      this.connection.sendPosition(player.x, player.y, player.z);
+      this.connection.sendPosition(player.x, player.y, player.z, player.dirX, player.dirY, player.orders);
     }
   }
 }

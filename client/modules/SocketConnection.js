@@ -40,8 +40,8 @@ export class SocketConnection {
     this._socket.send(JSON.stringify(data));
   }
 
-  sendPosition(x, y, z){
-    this._send({type: "position", x, y, z});
+  sendPosition(x, y, z, dirX, dirY, orders){
+    this._send({type: "position", x, y, z, dirX, dirY, orders : orders || []});
   }
 
   sendStop(){

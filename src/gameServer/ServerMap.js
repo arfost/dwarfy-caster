@@ -48,6 +48,7 @@ class ServerMap {
   update(players, delta) {
     //update placeables
     for (let player of players) {
+      this.mapLoader.playerUpdate(player, delta);
       this.updatePlaceable(player.placeable);
     }
     for(let placeable of this.mapLoader.update(delta)) {

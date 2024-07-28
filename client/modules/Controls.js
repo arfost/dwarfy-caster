@@ -5,8 +5,7 @@ const AZERTY = {
   83:'backward',
   69:'up',
   65:'down',
-  88:'teleport',
-  67: 'resetChunk',
+  67: 'changeCell',
   32: 'pause',
 };
 
@@ -17,8 +16,7 @@ const QWERTY = {
   83:'backward',
   69:'up',
   81:'down',
-  88:'teleport',
-  67: 'resetChunk',
+  67: 'changeCell',
   32: 'pause',
 };
 

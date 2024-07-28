@@ -133,6 +133,18 @@ class CreativeMapLoader {
     return this.mapInfos;
   }
 
+  playerUpdate(player, delta) {
+    //consume orders on player
+    for (let order of player.orders) {
+      console.log("order", order);
+      if (order === "changeCell") {
+        const celluleX = Math.floor(player.x - player.dirX);
+        const celluleY = Math.floor(player.y - player.dirY);
+        this.cycleCell(celluleX, celluleY, player.z);
+      }
+    }
+  }
+
   update(delta) {
     this.timer = this.timer ? this.timer + delta : delta;
     if (this.timer > 2000) {
@@ -149,7 +161,6 @@ class CreativeMapLoader {
         let toRemove = this._newPlaceableList.shift();
         toRemove.tick = true;
       }
-      this.cycleCell(48, 48, 25);
     }
     return this._newPlaceableList;
   }

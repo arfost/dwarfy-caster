@@ -13,6 +13,8 @@ export class Player {
     this.planeX = 0;
     this.planeY = 0.66;
 
+    this._orders = [];
+
     this.upDirection = upDirection;
     this.weapon = 'rabbit';
     this.paces = 0;
@@ -87,6 +89,12 @@ export class Player {
     this.lastValidPosition.z = this.z;
   }
 
+  get orders() {
+    const oldOrders = this._orders;
+    this._orders = [];
+    return oldOrders;
+  }
+  
   update(controls, map, seconds) {
     if (controls.left) {
       this.strafe(-MOVE_SPEED*2 * seconds, map)
@@ -116,6 +124,12 @@ export class Player {
     } 
     if (controls.backward) { 
       this.walk(MOVE_SPEED * seconds, map);
+    }
+
+    if (controls.changeCell) {
+      console.log("change cell");
+      this._orders.push('changeCell');
+      controls.changeCell = false;
     }
 
     this.physique(seconds, map);

@@ -55,6 +55,12 @@ export class Renderer {
     this.resolution = resolution;
     this.spacing = this.width / resolution;
 
+    // Création du canvas virtuel
+    this.virtualCanvas = document.createElement('canvas');
+    this.virtualCanvas.width = this.width;
+    this.virtualCanvas.height = this.height;
+    this.virtualCtx = this.virtualCanvas.getContext('2d');
+
     this.cameraX = [];
 
     this.facingCell = { x: 0, y: 0 };
@@ -90,9 +96,11 @@ export class Renderer {
     //this.drawCallList = [];
     //this.droppedCallList = [];
     this.zBuffer = new Array(this.resolution).fill(99);
-    
-    this.ctx.fillStyle = '#000';
-    this.ctx.fillRect(0, 0, this.width, this.height);
+
+    // Effacer le canvas virtuel
+    this.virtualCtx.fillStyle = '#000';
+    this.virtualCtx.fillRect(0, 0, this.width, this.height);
+
 
     const playerZ = Math.floor(player.z);
 
@@ -101,6 +109,8 @@ export class Renderer {
     this._renderColumn(raycaster, player, map, playerZ);
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
     //console.log("drawCallList", this.drawCallList);
+
+    this.ctx.drawImage(this.virtualCanvas, 0, 0);
   }
 
   _updateFacingCell(player) {
@@ -240,12 +250,12 @@ export class Renderer {
     //this.drawCallList.push({x, top, height, distance, imageName:image.name, texOffset, side, tint});
     const texX = Math.floor(texOffset * image.width);
 
-    this.ctx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
+    this.virtualCtx.drawImage(image.image, texX, 0, 1, image.height, x * this.spacing, top, this.spacing, height);
 
     //tinting
     if (tint) {
-      this.ctx.fillStyle = `rgba(${tint[0]}, ${tint[1]}, ${tint[2]}, 0.3)`;
-      this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+      this.virtualCtx.fillStyle = `rgba(${tint[0]}, ${tint[1]}, ${tint[2]}, 0.3)`;
+      this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
     }
     
 
@@ -255,21 +265,21 @@ export class Renderer {
       shade = 0.3;
     }
     shade += Math.max(0, Math.min(1, (distance) / 10));
-    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    this.virtualCtx.fillStyle = `rgba(0,0,0,${shade})`;
+    this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
 
     // facing cell
     if (isFacingCell) {
-      this.ctx.fillStyle = `rgba(0,255,0,0.3)`;
-      this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+      this.virtualCtx.fillStyle = `rgba(0,255,0,0.3)`;
+      this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
     }
 
   }
 
   _drawWater(x, top, height, distance, side) {
     //console.log("drawWater", x, top, height, distance, side);
-    this.ctx.fillStyle = `rgba(0, 0, 255, 0.5)`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    this.virtualCtx.fillStyle = `rgba(0, 0, 255, 0.5)`;
+    this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
 
     //shading
     let shade = 0;
@@ -277,14 +287,14 @@ export class Renderer {
       shade = 0.3;
     }
     shade = Math.max(0, Math.min(1, distance / 10));
-    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    this.virtualCtx.fillStyle = `rgba(0,0,0,${shade})`;
+    this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
   }
 
   _drawMagma(x, top, height, distance, side) {
     //console.log("drawWater", x, top, height, distance, side);
-    this.ctx.fillStyle = `rgba(255, 0, 0, 0.5)`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    this.virtualCtx.fillStyle = `rgba(255, 0, 0, 0.5)`;
+    this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
 
     //shading
     let shade = 0;
@@ -292,15 +302,15 @@ export class Renderer {
       shade = 0.3;
     }
     shade = Math.max(0, Math.min(1, distance / 10));
-    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    this.virtualCtx.fillStyle = `rgba(0,0,0,${shade})`;
+    this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
   }
 
   _drawWireframeColumn(x, top, height, distance, color, side) {
     //console.log("drawWireframeColumn", x, top, height, distance, color, side);
 
-    this.ctx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    this.virtualCtx.fillStyle = `rgba(${color[0]}, ${color[1]}, ${color[2]}, ${color[3]})`;
+    this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
 
     //shading
     let shade = 0;
@@ -308,8 +318,8 @@ export class Renderer {
       shade = 0.3;
     }
     shade = Math.max(0, Math.min(1, distance / 10));
-    this.ctx.fillStyle = `rgba(0,0,0,${shade})`;
-    this.ctx.fillRect(x * this.spacing, top, this.spacing, height);
+    this.virtualCtx.fillStyle = `rgba(0,0,0,${shade})`;
+    this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
   }
 
   _drawSprites(player, placeables, map) {
@@ -384,7 +394,7 @@ export class Renderer {
           if (drawWidth < 0) {
             drawWidth = 0;
           }
-          this.ctx.drawImage(placeableSprite.image, drawXStart, 0, Math.round(drawXEnd), placeableSprite.height, Math.round(clipStartX * this.spacing), Math.round(drawStartY + verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight));
+          this.virtualCtx.drawImage(placeableSprite.image, drawXStart, 0, Math.round(drawXEnd), placeableSprite.height, Math.round(clipStartX * this.spacing), Math.round(drawStartY + verticalAdjustement), Math.round(drawWidth * this.spacing), Math.round(spriteHeight));
         }
       }
     }//End of spriteList for loop
