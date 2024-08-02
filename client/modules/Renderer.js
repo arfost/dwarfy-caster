@@ -1,6 +1,5 @@
 import { Bitmap } from "./Bitmap.js";
-
-const randomTint = () => Math.floor(Math.random() * 256);
+import { UiView } from "./UiView.js";
 
 function combSort(order, dist, amount) {
   let gap = amount;
@@ -61,9 +60,11 @@ export class Renderer {
     this.virtualCanvas.height = this.height;
     this.virtualCtx = this.virtualCanvas.getContext('2d');
 
+    this.uiRenderer = new UiView(this.virtualCanvas);
+
     this.cameraX = [];
 
-    this.facingCell = { x: 0, y: 0 };
+    this.facingCell = { x: 0, y: 0, z: 0 };
 
     for (let i = 0; i < this.resolution; i++) {
       this.cameraX[i] = 2 * i / this.resolution - 1; //x-coordinate in camera space
@@ -110,16 +111,20 @@ export class Renderer {
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
     //console.log("drawCallList", this.drawCallList);
 
+    // Dessiner l'UI
+    this.uiRenderer.render(player, map, this.facingCell);
+
+    // Copier le contenu du canvas virtuel et de l'UI sur le canvas réel
     this.ctx.drawImage(this.virtualCanvas, 0, 0);
+    this.ctx.drawImage(this.uiRenderer.uiCanvas, 0, 0);
   }
 
   _updateFacingCell(player) {
-    const celluleX = Math.floor(player.x - player.dirX);
-    const celluleY = Math.floor(player.y - player.dirY);
 
     // update facing cell
-    this.facingCell.x = celluleX;
-    this.facingCell.y = celluleY;
+    this.facingCell.x = Math.floor(player.x - player.dirX);
+    this.facingCell.y = Math.floor(player.y - player.dirY);
+    this.facingCell.z = Math.floor(player.z);
   }
 
   _renderColumn(raycaster, player, map, layerZ) {

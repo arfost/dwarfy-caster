@@ -52,8 +52,6 @@ async function initGame() {
     player.update(controls.states, map, seconds);
     map.update(seconds, player);
     renderer.render(player, map, raycaster);
-    ctx.fillStyle = 'white';
-    ctx.fillText(`pos: ${player.x}, ${player.y}, ${player.z}`, 10, 10);
   });
 }
 
