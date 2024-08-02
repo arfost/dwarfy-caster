@@ -13,9 +13,10 @@ export class UiView {
     this.fontSize = 14;
     this.uiCtx.font = `${this.fontSize}px Arial`;
     this.uiCtx.fillStyle = 'white';
+    this.message = [];
   }
 
-  render(player, map, facingCell) {
+  render(player, map) {
     // Effacer le canvas de l'UI
     this.uiCtx.clearRect(0, 0, this.width, this.height);
 
@@ -25,28 +26,13 @@ export class UiView {
     // Dessiner une mini-carte
     this._drawMinimap(player, map);
 
-    const { isOverflowing, actualHeight } = this.drawTextBox(
-      "Instructions",
-      [
-        "Utilisez les flèches pour vous déplacer.",
-        "Appuyez sur Espace pour interagir.",
-        "Échap pour ouvrir le menu.",
-        "Ce texte est un exemple de texte multiligne qui sera automatiquement ajusté à la largeur de la boîte.",
-        "Si le texte est trop long, il sera tronqué et '...' sera affiché à la fin."
-      ],
-      {
-        y: 20,
-        x: 420,
-        width: 200,
-        maxHeight: 300,
-        backgroundColor: 'rgba(0, 0, 50, 0.8)',
-        titleColor: 'yellow',
-        textColor: 'lightblue'
-      }
-    );
+    if(this.message) {
+      const { isOverflowing, actualHeight } = this.drawTextBox(this.message.title, this.message.texts, this.message.options);
 
-    console.log(`La boîte de texte dépasse : ${isOverflowing}`);
-    console.log(`Hauteur réelle de la boîte : ${actualHeight}`);
+      console.log(`La boîte de texte dépasse : ${isOverflowing}`);
+      console.log(`Hauteur réelle de la boîte : ${actualHeight}`);
+    }
+    
   }
 
   drawTextBox(title, texts, options = {}) {
@@ -146,6 +132,11 @@ export class UiView {
     } else {
       return `Out of bounds (${facingCell.x}, ${facingCell.y}, ${facingCell.z})`;
     }
+  }
+
+  updateMessage(message) {
+    this.message = message;
+    this.dirty = true;
   }
 
   _drawMinimap(player, map) {
