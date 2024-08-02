@@ -48,11 +48,11 @@ export class Renderer {
     // this.width = display.width = Math.floor(window.innerWidth*0.5);
     // this.height = display.height = Math.floor(window.innerHeight*0.5);
 
-    this.width = display.width = 640;
-    this.height = display.height = 360;
+    this.width = display.width = resolution.width;
+    this.height = display.height = resolution.height;
 
-    this.resolution = resolution;
-    this.spacing = this.width / resolution;
+    this.resolution = resolution.resolution;
+    this.spacing = this.width / this.resolution;
 
     // Création du canvas virtuel
     this.virtualCanvas = document.createElement('canvas');

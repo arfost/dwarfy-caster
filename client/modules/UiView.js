@@ -27,10 +27,7 @@ export class UiView {
     this._drawMinimap(player, map);
 
     if(this.message) {
-      const { isOverflowing, actualHeight } = this.drawTextBox(this.message.title, this.message.texts, this.message.options);
-
-      console.log(`La boîte de texte dépasse : ${isOverflowing}`);
-      console.log(`Hauteur réelle de la boîte : ${actualHeight}`);
+      this.drawTextBox(this.message.title, this.message.texts, this.message.options);
     }
     
   }
@@ -121,22 +118,8 @@ export class UiView {
     this.uiCtx.fillText(text, x, y);
   }
 
-  _getFacingCellInfo(map, facingCell) {
-    const cellType = map.getWall(facingCell.x, facingCell.y, facingCell.z);
-    if (cellType > 0) {
-      const cellProps = map.getCellProperties(cellType);
-      if(cellProps.wallTexture) return `Wall (${facingCell.x}, ${facingCell.y}, ${facingCell.z}) - ${cellProps.wallTexture}`;
-      return `Floor (${facingCell.x}, ${facingCell.y}, ${facingCell.z}) - ${cellProps.floorTexture}`;
-    } else if (cellType === 0) {
-      return `Empty (${facingCell.x}, ${facingCell.y}, ${facingCell.z})`;
-    } else {
-      return `Out of bounds (${facingCell.x}, ${facingCell.y}, ${facingCell.z})`;
-    }
-  }
-
   updateMessage(message) {
     this.message = message;
-    this.dirty = true;
   }
 
   _drawMinimap(player, map) {
