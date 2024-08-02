@@ -99,10 +99,13 @@ class Player {
       this.stopUpdate = true;
     }
     if (message.type === "position") {
+      if(message.orders.length > 0){
+        console.log("player orders loaded in player : ", message.orders);
+      }
       this.x = message.x;
       this.y = message.y;
       this.z = Math.floor(message.z);
-      this._orders = message.orders;
+      this._orders = [...message.orders, ...this._orders];
       this.dirX = message.dirX;
       this.dirY = message.dirY;
     }
@@ -112,7 +115,7 @@ class Player {
     const orders = this._orders;
     this._orders = [];
     if(orders.length > 0){
-      console.log("player orders", orders);
+      console.log("player orders consummed : ", orders);
     }
     return orders;
   }

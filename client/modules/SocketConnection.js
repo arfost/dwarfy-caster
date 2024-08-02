@@ -41,6 +41,9 @@ export class SocketConnection {
   }
 
   sendPosition(x, y, z, dirX, dirY, orders){
+    if(orders.length){
+      console.log("sending orders", orders);
+    }
     this._send({type: "position", x, y, z, dirX, dirY, orders : orders || []});
   }
 
