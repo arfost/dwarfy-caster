@@ -27,7 +27,15 @@ export class UiView {
     this._drawMinimap(player, map);
 
     if(this.message) {
-      this.drawTextBox(this.message.title, this.message.texts, this.message.options);
+      this.drawTextBox(this.message.title, this.message.texts, this.message.options || {
+        y: 20,
+        x: 420,
+        width: 200,
+        maxHeight: 300,
+        backgroundColor: 'rgba(0, 0, 50, 1)',
+        titleColor: 'yellow',
+        textColor: 'lightblue'
+      });
     }
     
   }

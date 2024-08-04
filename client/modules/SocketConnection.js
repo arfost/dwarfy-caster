@@ -40,11 +40,11 @@ export class SocketConnection {
     this._socket.send(JSON.stringify(data));
   }
 
-  sendPosition(x, y, z, dirX, dirY, orders){
+  sendPosition(x, y, z, dirX, dirY, orders, infoRequest){
     if(orders.length){
       console.log("sending orders", orders);
     }
-    this._send({type: "position", x, y, z, dirX, dirY, orders : orders || []});
+    this._send({type: "position", x, y, z, dirX, dirY, orders : orders || [], infoRequest});
   }
 
   sendStop(){

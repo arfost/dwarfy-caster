@@ -15,7 +15,7 @@ class GameServer {
   addPlayer(socket) {
     const player = new Player(socket);
     this.players.push(player);
-    player.sendHandshake(this.serverMap.mapLoader, this.serverMap.getPlaceableModel());
+    player.sendHandshake(this.serverMap);
   }
 
   removePlayer(socket) {

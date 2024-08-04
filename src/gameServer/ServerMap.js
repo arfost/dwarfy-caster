@@ -18,6 +18,7 @@ class ServerMap {
     this.invalidatedZlevels = [];
     this.placeableList = {};
     this.currentTick = 1;
+    this.CHUNK_SIZE = 16;
 
     this.mapLoader = mapLoader;
 
@@ -30,7 +31,7 @@ class ServerMap {
     this.wallTint = this.mapLoader.wallTint;
     this.rtLayers = this.mapLoader.rtLayers;
     this.placeables = this.mapLoader.placeables;
-    this.CHUNK_SIZE = this.mapLoader.CHUNK_SIZE;
+    this.infos = this.mapLoader._infos;
     this._ready = true;
     console.log("Map loaded");
   }
@@ -193,6 +194,9 @@ class ServerMap {
     for (let i = -size; i <= size; i++) {
       for (let j = -size; j <= size; j++) {
         for (let k = -size; k <= size; k++) {
+          if(k + chunkZ < 0 || k + chunkZ >= this.mapInfos.size.z / this.CHUNK_SIZE) {
+            continue;
+          }
           const chunkKey = `${chunkX + i},${chunkY + j},${chunkZ + k}`;
           chunks.push(`${chunkKey}:${this.preparedChunks[chunkKey] ? this.preparedChunks[chunkKey].version : 0}`);
         }
@@ -212,6 +216,10 @@ class ServerMap {
       this.prepareChunk(key);
     }
     return this.preparedChunks[key];
+  }
+
+  getInfos(id){
+    return this.infos.get(id);
   }
 
   removePreparedChunk(key) {

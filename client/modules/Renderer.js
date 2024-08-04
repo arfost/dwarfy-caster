@@ -118,30 +118,13 @@ export class Renderer {
     this._drawSprites(player, map.placeables[playerZ], map, playerZ);
     //console.log("drawCallList", this.drawCallList);
 
+    let infos;
     if (this.selectedSprite) {
-      const spriteInfo = map.getPlaceableProperties(this.selectedSprite.type);
-      this.uiRenderer.updateMessage(
-        {
-          title: "Sprite sélectionné",
-          texts: [
-            `Type: ${spriteInfo.sprite || this.selectedSprite.type}`,
-            `ID: ${this.selectedSprite.id}`,
-            `Position: (${this.selectedSprite.x.toFixed(2)}, ${this.selectedSprite.y.toFixed(2)})`,
-          ],
-          options: {
-            y: 20,
-            x: 420,
-            width: 200,
-            maxHeight: 300,
-            backgroundColor: 'rgba(0, 0, 50, 1)',
-            titleColor: 'yellow',
-            textColor: 'lightblue'
-          }
-        }
-      );
+      infos = map.getInfos(this.selectedSprite.id);
     } else {
-      this.uiRenderer.updateMessage(undefined);
+      infos = map.getInfos(`${this.facingCell.x},${this.facingCell.y},${this.facingCell.z}`);
     }
+    this.uiRenderer.updateMessage(infos);
 
     // Dessiner l'UI
     this.uiRenderer.render(player, map, this.facingCell);
@@ -357,51 +340,6 @@ export class Renderer {
     shade = Math.max(0, Math.min(1, distance / 10));
     this.virtualCtx.fillStyle = `rgba(0,0,0,${shade})`;
     this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
-  }
-
-  _selectCentralSprite(player, placeables, map) {
-    const maxDistance = 1; // Distance maximale en cases
-    const centerX = this.width / 2;
-    const centerY = this.height / 2;
-    let closestSprite = null;
-    let closestDistance = Infinity;
-    let closestScreenDistance = Infinity;
-
-    for (let i = 0; i < placeables.length; i++) {
-      const sprite = placeables[i];
-
-      // Calculer la distance entre le joueur et le sprite
-      const dx = sprite.x - player.x;
-      const dy = sprite.y - player.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-
-      // Vérifier si le sprite est à moins d'une case de distance
-      if (distance <= maxDistance) {
-        // Calculer la position à l'écran du sprite
-        const invDet = 1.0 / (player.planeX * player.dirY - player.dirX * player.planeY);
-        const transformX = invDet * (player.dirY * dx - player.dirX * dy);
-        const transformY = invDet * (-player.planeY * dx + player.planeX * dy);
-
-        const spriteScreenX = (this.width / 2) * (1 + transformX / transformY);
-        const spriteScreenY = this.height / 2; // Les sprites sont toujours centrés verticalement dans ce type de raycaster
-
-        // Calculer la distance à l'écran par rapport au centre
-        const screenDistance = Math.sqrt(
-          Math.pow(spriteScreenX - centerX, 2) +
-          Math.pow(spriteScreenY - centerY, 2)
-        );
-
-        // Mettre à jour le sprite le plus proche du centre
-        if (screenDistance < closestScreenDistance) {
-          closestSprite = sprite;
-          closestDistance = distance;
-          closestScreenDistance = screenDistance;
-        }
-      }
-    }
-
-    this.selectedSprite = closestSprite;
-    return closestSprite;
   }
 
   _drawSprites(player, placeables, map) {

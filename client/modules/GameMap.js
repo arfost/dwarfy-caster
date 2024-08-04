@@ -11,6 +11,7 @@ export class GameMap {
     this._map = new Array(this.size.z).fill(0).map(() => new Uint8Array(this.size.x * this.size.y));
     this._wallTint = new Array(this.size.z).fill(0).map(() => new Uint8Array(this.size.x * this.size.y));
     this._floorTint = new Array(this.size.z).fill(0).map(() => new Uint8Array(this.size.x * this.size.y));
+    this._infos = new Map();
 
     this._rtLayers = [];
     for(let layer of initDatas.definitions.rtLayerDefinitions){
@@ -27,9 +28,10 @@ export class GameMap {
     this.connection.onRTLayers = this._rtLayersUpdate.bind(this);
   }
 
-  _rtLayersUpdate({ layers, pos }) {
-    //update water and magma from player position up to chunk size
+  _rtLayersUpdate({ layers, pos, info }) {
+    this._infos.set(info.id, info.data);
 
+    //update water and magma from player position up to chunk size
     for (let k = 0; k < this.chunkSize; k++) {
       for (let j = 0; j < this.chunkSize; j++) {
         for (let i = 0; i < this.chunkSize; i++) {
@@ -137,9 +139,14 @@ export class GameMap {
     return this.wallTintGrids[z][y * this.size.x + x];
   };
 
+  getInfos(id){
+    this.infoRequest = id;
+    return this._infos.get(id);
+  }
+
   update(seconds, player) {
     if (this.connection.ready) {
-      this.connection.sendPosition(player.x, player.y, player.z, player.dirX, player.dirY, player.orders);
+      this.connection.sendPosition(player.x, player.y, player.z, player.dirX, player.dirY, player.orders, this.infoRequest);
     }
   }
 }

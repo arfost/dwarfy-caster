@@ -37,7 +37,11 @@ class Player {
       type: "RTLayers",
       datas: {
         pos: { x: this.x, y: this.y, z: this.z },
-        layers: rtLayers
+        layers: rtLayers,
+        info: {
+          id: this.infoRequest,
+          data:serverMap.getInfos(this.infoRequest)
+        }
       }
     });
     const keys = serverMap.getChunkKeysForPlayerPosition(this.x, this.y, this.z);
@@ -62,28 +66,28 @@ class Player {
     });
   }
 
-  sendHandshake(mapLoader, placeableModel) {
-    this._placeable = placeableModel;
+  sendHandshake(serverMap, placeableModel) {
+    this._placeable = serverMap.getPlaceableModel();
     this._placeable.id = this.id;
     this._placeable.type = 1;
     this._placeable.tick = false;
 
-    this.x = mapLoader.mapInfos.start.x;
-    this.y = mapLoader.mapInfos.start.y;
-    this.z = mapLoader.mapInfos.start.z;
+    this.x = serverMap.mapInfos.start.x;
+    this.y = serverMap.mapInfos.start.y;
+    this.z = serverMap.mapInfos.start.z;
 
     this._send({
       type: "handshake",
-      mapInfos: mapLoader.mapInfos,
-      chunkSize: mapLoader.CHUNK_SIZE,
+      mapInfos: serverMap.mapInfos,
+      chunkSize: serverMap.CHUNK_SIZE,
       id: this.id,
       definitions: {
-        rtLayerDefinitions: mapLoader.definitions.rtLayerDefinitions,
-        cellDefinitions: mapLoader.definitions.cellDefinitions,
-        placeableDefinitions: mapLoader.definitions.placeableDefinitions,
-        tintDefinitions: mapLoader.definitions.tintDefinitions,
+        rtLayerDefinitions: serverMap.mapLoader.definitions.rtLayerDefinitions,
+        cellDefinitions: serverMap.mapLoader.definitions.cellDefinitions,
+        placeableDefinitions: serverMap.mapLoader.definitions.placeableDefinitions,
+        tintDefinitions: serverMap.mapLoader.definitions.tintDefinitions,
       },
-      assetNames: mapLoader.definitions.assetNames,
+      assetNames: serverMap.mapLoader.definitions.assetNames,
       start: {
         x: this.x,
         y: this.y,
@@ -108,6 +112,7 @@ class Player {
       this._orders = [...message.orders, ...this._orders];
       this.dirX = message.dirX;
       this.dirY = message.dirY;
+      this.infoRequest = message.infoRequest;
     }
   }
 
