@@ -126,10 +126,6 @@ class DFMapLoader {
 
     this.blockToInit = this._generateSpiralBlocksToLoad3D(Math.ceil(cursor.x), Math.ceil(cursor.y), cursor.z, 50);
 
-    //write block to init to a file
-    const fs = require("fs");
-    fs.writeFileSync("blockToInit.json", JSON.stringify(this.blockToInit, null, 2));
-
     console.log("blockToInit", cursor, this.blockToInit.length);
     return this.mapInfos;
   }
