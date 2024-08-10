@@ -3,6 +3,7 @@ const { WebSocketServer } = require("ws");
 const { simpleServer } = require('./src/utils/simpleHttpServer.js');
 const { GameServer } = require('./src/gameServer/GameServer.js');
 const CreativeMapLoader = require('./src/GameServer/mapLoader/CreativeMapLoader.js');
+const DFMapLoader = require('./src/GameServer/mapLoader/DFMapLoader.js');
 
 const serverInfos = {
   lastUpdate: Date.now(),
@@ -10,8 +11,14 @@ const serverInfos = {
 
 const init = async () => {
 
-  const mapLoader = new CreativeMapLoader({});
-  console.log(mapLoader.mapInfos);
+  // const mapLoader = new CreativeMapLoader({});
+  // console.log(mapLoader.mapInfos);
+
+  const mapLoader = new DFMapLoader({
+   dfHackConnectionHost: "127.0.0.1",
+   dfHackConnectionPort: 5000
+  });
+
 
   const gameServer = new GameServer(mapLoader);
   await gameServer.init();

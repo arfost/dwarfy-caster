@@ -44,7 +44,7 @@ async function initGame() {
   const map = new GameMap(connection);
   const controls = new Controls();
   const renderer = new Renderer(display, {width:640, height:360, resolution: 320});
-  await renderer.initAssets(connection.initData.assetNames);
+  await renderer.initAssets(connection.initData.assetNames, connection.initData.definitions.tintDefinitions);
   const raycaster = new Raycaster(paramCast ? paramCast : [10, 5]);
 
   const game = new Game(display);

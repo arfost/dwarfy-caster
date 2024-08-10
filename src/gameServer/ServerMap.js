@@ -13,7 +13,7 @@ class ServerMap {
   constructor(mapLoader) {
     this._ready = false;
     this.preparedChunks = {};
-    
+
 
     this.invalidatedZlevels = [];
     this.placeableList = {};
@@ -160,13 +160,11 @@ class ServerMap {
 
   modifiedCellsList = [];
   notifyCellModification(x, y, z) {
-    console.log("cell modified", x, y, z);
     this.modifiedCellsList.push([x, y, z]);
   }
 
   flushModifiedCells() {
     this.modifiedCellsList.reduce((doneChunk, [x, y, z]) => {
-      console.log("flushing modified cell", x, y, z);
       const chunkKey = this.keyFromPosition(x, y, z);
       if (!doneChunk[chunkKey]) {
         this.removePreparedChunk(chunkKey);

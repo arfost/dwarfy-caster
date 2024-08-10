@@ -49,14 +49,14 @@ class CreativeMapLoader {
         },
         {
           heightRatio: 1,
-          floorTexture: "WALL_TREE", 
+          floorTexture: "WALL_TREE",
           wallTexture: "WALL_TREE",
           stopView: true,
         },
         {
           heightRatio: 1,
           floorTexture: "WALL_SOIL",
-          wallTexture: "WALL_SOIL", 
+          wallTexture: "WALL_SOIL",
           stopView: true,
         },
         {
@@ -113,16 +113,16 @@ class CreativeMapLoader {
     for (let i = 0; i < this.definitions.rtLayerDefinitions.length; i++) {
       this.rtLayers.push(new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y)));
     }
-    this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => false); 
+    this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => false);
 
-    
+
     const basePlaceable = this.placeablePool.getNew();
     basePlaceable.id = 0;
     basePlaceable.x = 45;
     basePlaceable.y = 45;
     basePlaceable.z = 0;
     basePlaceable.type = 0;
-    
+
     this._newPlaceableList = [basePlaceable];
 
     for(let i = 0; i < 3; i++){
@@ -139,7 +139,7 @@ class CreativeMapLoader {
     this.generateHouse(10, 10, 0, 10, 10);
     this.generateHouse(30, 30, 0, 10, 10);
     this.generateHouse(50, 50, 0, 10, 10);
-    
+
     return this.mapInfos;
   }
 
@@ -168,7 +168,6 @@ class CreativeMapLoader {
       this.wallTint[z][y * this.mapInfos.size.x + x] = wallTint;
     }
     this.chunkInterface.notifyCellModification(x, y, z);
-    console.log(this.chunkInterface, this.chunkInterface.notifyCellModification);
   }
 
   cycleCell(x, y, z) {
