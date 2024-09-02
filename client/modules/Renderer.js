@@ -443,10 +443,6 @@ export class Renderer {
       const spriteX = placeables[placeableOrders[i]].x - player.x;
       const spriteY = placeables[placeableOrders[i]].y - player.y;
 
-      // if((spriteX > 0 && spriteX < 1 || spriteY > 0 && spriteY < 1) || (spriteX < 0 && spriteX > -1 || spriteY < 0 && spriteY > -1)){
-      //   continue;
-      // }
-
       const invDet = 1.0 / (player.planeX * -player.dirY + player.dirX * player.planeY);
       const transformX = invDet * (-player.dirY * spriteX + player.dirX * spriteY);
       const transformY = invDet * (-player.planeY * spriteX + player.planeX * spriteY);
@@ -469,6 +465,9 @@ export class Renderer {
         }
         if (drawEndX > this.resolution + spriteWidth) {
           drawEndX = this.resolution + spriteWidth;
+        }
+        if(drawStartX < -50 || drawStartX > this.resolution+50){
+          continue;
         }
         for (let stripe = drawStartX; stripe <= drawEndX; stripe++) {
           if (transformY > this.zBuffer[stripe]) {

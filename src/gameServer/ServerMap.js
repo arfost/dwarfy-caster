@@ -99,6 +99,10 @@ class ServerMap {
       this.invalidateZlevel(placeable.z);
     }else{
       const oldPlaceable = this.placeableList[placeable.id];
+      console.log("updating placeable", placeable.id, placeable.x, placeable.y, placeable.z);
+      if(placeable.id.startsWith("build-")) {
+        console.log("updating placeable", placeable.id, placeable.x, placeable.y, placeable.z);
+      }
       if(oldPlaceable.z !== placeable.z) {
         this.invalidateZlevel(oldPlaceable.z);
         this.invalidateZlevel(placeable.z);
@@ -108,6 +112,7 @@ class ServerMap {
           oldPlaceable[prop] = placeable[prop];
         }
       }
+      placeable.release(placeable);
     }
   }
 
@@ -142,12 +147,21 @@ class ServerMap {
     for (let i = 0; i < this.CHUNK_SIZE; i++) {
       for (let j = 0; j < this.CHUNK_SIZE; j++) {
         for (let k = 0; k < this.CHUNK_SIZE; k++) {
-          //block format : [cell, floortint, walltint]
-          chunk.datas[k][j * this.CHUNK_SIZE + i] = [
-            this.map[z * this.CHUNK_SIZE + k][(y * this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x * this.CHUNK_SIZE + i)],
-            this.floorTint[z * this.CHUNK_SIZE + k][(y * this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x * this.CHUNK_SIZE + i)],
-            this.wallTint[z * this.CHUNK_SIZE + k][(y * this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x * this.CHUNK_SIZE + i)]
-          ];
+          //prepare indexes for the chunk
+          const cellX = x * this.CHUNK_SIZE + i;
+          const cellY = y * this.CHUNK_SIZE + j;
+          const cellZ = z * this.CHUNK_SIZE + k;
+
+          if(cellX < 0 || cellX >= this.mapInfos.size.x || cellY < 0 || cellY >= this.mapInfos.size.y || cellZ < 0 || cellZ >= this.mapInfos.size.z) {
+            console.log("out of bounds", cellX, cellY, cellZ, this.mapInfos.size.x, this.mapInfos.size.y, this.mapInfos.size.z, chunkKey);
+          }else{
+            //block format : [cell, floortint, walltint]
+            chunk.datas[k][j * this.CHUNK_SIZE + i] = [
+              this.map[z * this.CHUNK_SIZE + k][(y * this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x * this.CHUNK_SIZE + i)],
+              this.floorTint[z * this.CHUNK_SIZE + k][(y * this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x * this.CHUNK_SIZE + i)],
+              this.wallTint[z * this.CHUNK_SIZE + k][(y * this.CHUNK_SIZE + j) * this.mapInfos.size.x + (x * this.CHUNK_SIZE + i)]
+            ];
+          }
         }
       }
     }
@@ -221,7 +235,6 @@ class ServerMap {
   }
 
   removePreparedChunk(key) {
-    console.log("===============> removing chunk", key);
     delete this.preparedChunks[key];
   }
 }

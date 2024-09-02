@@ -126,10 +126,10 @@ export class Player {
       this.walk(MOVE_SPEED * seconds, map);
     }
 
-    if (controls.changeCell) {
+    if (controls.togglePause) {
       console.log("change cell");
-      this._orders.push('changeCell');
-      controls.changeCell = false;
+      this._orders.push('togglePause');
+      controls.togglePause = false;
     }
 
     this.physique(seconds, map);

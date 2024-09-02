@@ -25,6 +25,7 @@ class ObjectPool{
   getNew(){
     if(this.elements.length === 0){
       console.log("object pool extended to ", this.total + this.chunkSize, this.total, this.in, this.out);
+      // console.trace("Here I am!");
       const newElements = new Array(this.chunkSize).fill(0).map(() => this.generator());
       newElements.forEach((el) => {
         el.release = this._release.bind(this);

@@ -2,9 +2,8 @@ const { DfHackConnection } = require("../../dfHackConnection.js");
 const { ObjectPool } = require("../../utils/gcHelpers.js");
 const { prepareDefinitions } = require("./definitions/objectDefinition.js");
 
-
 function isBitOn(number, index) {
-  return (number & (1 << index)) ? 1 : 0;
+  return number & (1 << index) ? 1 : 0;
 }
 
 class DFMapLoader {
@@ -39,6 +38,9 @@ class DFMapLoader {
     this.chunkInterface = serverMap.chunkInterface;
 
     await this.client.ready;
+
+    await this.client.request("ResetMapHashes");
+    this._pauseState = await this.client.request("GetPauseState");
 
     this.mapInfos = {};
 
@@ -124,7 +126,7 @@ class DFMapLoader {
     const cursor = await this.getCursorPosition();
     this.mapInfos.start = cursor;
 
-    this.blockToInit = this._generateSpiralBlocksToLoad3D(Math.ceil(cursor.x), Math.ceil(cursor.y), cursor.z, 50);
+    this.blockToInit = this._generateSimpleBlockListToLoad(Math.ceil(cursor.x), Math.ceil(cursor.y), cursor.z, 50);
 
     console.log("blockToInit", cursor, this.blockToInit.length);
     return this.mapInfos;
@@ -198,17 +200,19 @@ class DFMapLoader {
       for (let z = building.posZMin; z <= building.posZMax; z++) {
         for (let x = building.posXMin; x <= building.posXMax; x++) {
           for (let y = building.posYMin; y <= building.posYMax; y++) {
-            this._correspondanceResultToMapInfos(def, x, y, z, undefined, "build-"+building.index);
+            this._correspondanceResultToMapInfos(def, x, y, z, false, "build-" + building.index);
             if (def.cell) {
               this.wallTint[building.posZMin][y * this.mapInfos.size.x + x] = matTintType;
               this._infos.set(`${x},${y},${z}`, {
                 title: `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`,
-                texts: ["C'est un batiment", "Bientot des infos utiles"] })
+                texts: [`${x},${y},${z}`],
+              });
             }
-            if(def.placeable){
-              this._infos.set("build-"+building.index, {
+            if (def.placeable) {
+              this._infos.set("build-" + building.index, {
                 title: `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`,
-                texts: ["C'est un batiment", "Bientot des infos utiles"] })
+                texts: [`${x},${y},${z}`, "build-" + building.index],
+              });
             }
           }
         }
@@ -312,33 +316,144 @@ class DFMapLoader {
     return blocksToLoad;
   }
 
+  _generateSimpleBlockListToLoad() {
+    const blocksToLoad = [];
+
+    for (let x = 0; x < Math.ceil(this.mapInfos.size.x / this.BLOCK_SIZE); x++) {
+      for (let y = 0; y < Math.ceil(this.mapInfos.size.y / this.BLOCK_SIZE); y++) {
+        for (let z = 0; z < Math.ceil(this.mapInfos.size.z / this.BLOCK_SIZE_Z); z++) {
+          blocksToLoad.push({ x, y, z });
+        }
+      }
+    }
+
+    return blocksToLoad;
+  }
+
+  async _togglePauser(){
+    this._pauseState["Value"] = this._pauseState["Value"] === false ? true : false;
+    await this.client.request("SetPauseState", this._pauseState);
+    console.log("pause state toggled", this._pauseState["Value"]);
+  }
+
   playerUpdate(player, delta) {
+
+    const block = this._getBlockPositionFromPlayerPosition(player.x, player.y, player.z);
+    //load all blocks around the player
+    // this.loadBlock(block.x, block.y, block.z-2);
+    // this.loadBlock(block.x, block.y, block.z-1);
+    this.loadBlock(block.x, block.y, block.z);
+    // this.loadBlock(block.x, block.y, block.z+1);
+    // this.loadBlock(block.x, block.y, block.z+2);
     //consume orders on player
     for (let order of player.orders) {
       console.log("order", order);
-      if (order === "changeCell") {
-        const celluleX = Math.floor(player.x - player.dirX);
-        const celluleY = Math.floor(player.y - player.dirY);
-        this.cycleCell(celluleX, celluleY, player.z);
+      if (order === "togglePause") {
+        this._togglePauser();
       }
     }
+  }
+
+  _getBlockPositionFromPlayerPosition(x, y, z) {
+    return {
+      x: Math.floor(x / this.BLOCK_SIZE),
+      y: Math.floor(y / this.BLOCK_SIZE),
+      z: Math.floor(z / this.BLOCK_SIZE_Z),
+    };
   }
 
   update(delta) {
     if (this.blockToInit.length > 0) {
       const block = this.blockToInit.shift();
-      this.loadBlock(block.x, block.y, block.z, true);
+      //this.loadBlock(block.x, block.y, block.z, true);
+      console.log("block loaded", block.x, block.y, block.z, this.blockToInit.length);
       //this.blockToInit = [];
     }
-
-    this.loadUnit();
-    return this._newPlaceableList;
+    
+    //this.loadUnit();
+    const tmpPlaceableList = this._newPlaceableList;
+    this._newPlaceableList = [];
+    return tmpPlaceableList;
   }
 
   async loadUnit() {
     let creatureList = await this.client.request("GetUnitList");
     for (let crea of creatureList.creatureList || []) {
       this.creatureMap(crea);
+    }
+  }
+
+  _processDfBlocksForDynamic(block) {
+    if (block.water) {
+      for (let x = 0; x < 16; x++) {
+        for (let y = 0; y < 16; y++) {
+          let index = y * 16 + x;
+          this.water[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.water[index];
+        }
+      }
+    }
+    if (block.magma) {
+      for (let x = 0; x < 16; x++) {
+        for (let y = 0; y < 16; y++) {
+          let index = y * 16 + x;
+          this.magma[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.magma[index];
+        }
+      }
+    }
+
+    for (let flow of block.flows || []) {
+      this.flowMap(flow);
+    }
+    for (let item of block.items || []) {
+      this.itemMap(item);
+    }
+  }
+
+  itemMap(item) {
+    if (!item.pos) {
+      return;
+    }
+    let key = `${item.type.matType},-1`;
+    if (this.definitions.itemCorrespondances[key]) {
+      this._correspondanceResultToMapInfos(
+        this.definitions.itemCorrespondances[key],
+        item.pos.x,
+        item.pos.y,
+        item.pos.z,
+        this.currentTick,
+        item.id,
+      );
+    }
+  }
+
+  flowMap(flow) {
+    if (flow.density > 66) {
+      this._correspondanceResultToMapInfos(
+        this.definitions.flowCorrespondances[flow.type + "-heavy"],
+        flow.pos.x,
+        flow.pos.y,
+        flow.pos.z,
+        this.currentTick,
+        flow.id,
+      );
+    } else if (flow.density > 33) {
+      this._correspondanceResultToMapInfos(
+        this.definitions.flowCorrespondances[flow.type + "-medium"],
+        flow.pos.x,
+        flow.pos.y,
+        flow.pos.z,
+        this.currentTick,
+        flow.id,
+      );
+    } else if (flow.density > 0) {
+      this._correspondanceResultToMapInfos(
+        this.definitions.flowCorrespondances[flow.type + "-light"],
+        flow.pos.x,
+        flow.pos.y,
+        flow.pos.z,
+        this.currentTick,
+        flow.id,
+      );
     }
   }
 
@@ -361,12 +476,17 @@ class DFMapLoader {
         unit.posY,
         unit.posZ,
         false,
-        unit.id,
+        "crea-" + unit.id,
       );
+      this._infos.set("crea-" + unit.id, {
+        title: unit.name,
+        texts: unit.isSoldier ? ["soldier"] : [],
+      });
     }
   }
 
   changeCell(x, y, z, value, floorTint, wallTint) {
+    const oldVal = this.map[z][y * this.mapInfos.size.x + x];
     this.map[z][y * this.mapInfos.size.x + x] = value;
     if (floorTint) {
       this.floorTint[z][y * this.mapInfos.size.x + x] = floorTint;
@@ -374,7 +494,9 @@ class DFMapLoader {
     if (wallTint) {
       this.wallTint[z][y * this.mapInfos.size.x + x] = wallTint;
     }
-    this.chunkInterface.notifyCellModification(x, y, z);
+    if(oldVal !== value){
+      this.chunkInterface.notifyCellModification(x, y, z);
+    }
   }
 }
 
