@@ -150,7 +150,7 @@ class Player {
       });
     }
     this.socket.close();
-    this._placeable.tick = true;
+    this._placeable.toRemove = true;
   }
 
 }

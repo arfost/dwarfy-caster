@@ -4,20 +4,10 @@ const { generateRandomId } = require("../../utils/helpers");
 class CreativeMapLoader {
   constructor(params, poolSize = 100) {
     this.params = params;
-    this.placeablePool = new ObjectPool(() => {
-      return {
-        id: 0,
-        x: 0,
-        y: 0,
-        z: 0,
-        type: 0,
-        tick: false
-      }
-    }, poolSize, poolSize/2);
   }
 
   async initMap(serverMap) {
-    this.chunkInterface = serverMap.chunkInterface;
+    this.preparationInterface = serverMap.preparationInterface;
 
     this.mapInfos = {
       size: this.params.size ? this.params.size : { x: 100, y: 100, z: 50 },
@@ -73,9 +63,18 @@ class CreativeMapLoader {
         {
           heightRatio: 1,
           sprite: "BARREL",
-        },{
+        }, {
           heightRatio: 1,
           sprite: "DWARF_MALE",
+        }, {
+          heightRatio: 1,
+          sprite: "ANVIL",
+        }, {
+          heightRatio: 1,
+          sprite: "BAG",
+        }, {
+          heightRatio: 1,
+          sprite: "MIST-MEDIUM",
         }
       ],
       tintDefinitions: [
@@ -95,7 +94,7 @@ class CreativeMapLoader {
       ],
       assetNames: {
         textures: ["WALL_STONE", "WALL_TREE", "WALL_SOIL", "FLOOR_STONE", "FLOOR_GRASS", "DOOR"],
-        sprites: ["BARREL", "DWARF_MALE"],
+        sprites: ["BARREL", "DWARF_MALE", "ANVIL", "BAG", "MIST-MEDIUM"],
       }
     };
 
@@ -113,32 +112,32 @@ class CreativeMapLoader {
     for (let i = 0; i < this.definitions.rtLayerDefinitions.length; i++) {
       this.rtLayers.push(new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y)));
     }
-    this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => false);
-
-
-    const basePlaceable = this.placeablePool.getNew();
-    basePlaceable.id = 0;
-    basePlaceable.x = 45;
-    basePlaceable.y = 45;
-    basePlaceable.z = 0;
-    basePlaceable.type = 0;
-
-    this._newPlaceableList = [basePlaceable];
-
-    for(let i = 0; i < 3; i++){
-      const placeable = this.placeablePool.getNew();
-      placeable.id = generateRandomId();
-      placeable.x = 50 + Math.random() * 10;
-      placeable.y = 50 + Math.random() * 10;
-      placeable.z = 0;
-      placeable.type = 0;
-      this._infos.set(placeable.id, { title: "Baril", texts: ["C'est un baril", "il est vide"] });
-      this._newPlaceableList.push(placeable);
-    }
+    this.placeables = [];
 
     this.generateHouse(10, 10, 0, 10, 10);
     this.generateHouse(30, 30, 0, 10, 10);
     this.generateHouse(50, 50, 0, 10, 10);
+
+    this.decors = new Decors(this.placeables, this._infos);
+
+    this.particuleFountains = new ParticuleFountains(this.placeables);
+
+    this.entities = new Entities(this.placeables, this._infos);
+
+    this.particuleFountains.add(4, { x: 52, y: 41, z: 0 }, { xMin: -2, xMax: 2, yMin: -2, yMax: 2 }, 25);
+
+    this.decors.add(0, { x: 45, y: 45, z: 0 }, generateRandomId());
+    this.decors.add(2, { x: 47, y: 45, z: 0 }, generateRandomId());
+    this.decors.add(3, { x: 45, y: 47, z: 0 }, generateRandomId());
+
+    this.entities.add(1, generateRandomId(), { x: 52, y: 41, z: 0 }, {
+      waypoints:[
+        { x: 62, y: 41 },
+        { x: 52, y: 51 },
+        { x: 52, y: 41 }
+      ],
+      infos:{title: "Un truc", texts:["un truc qui bouge"]},
+    })
 
     return this.mapInfos;
   }
@@ -156,18 +155,28 @@ class CreativeMapLoader {
   }
 
   update(delta) {
-    return this._newPlaceableList;
+    this.currentTick++;
+    for (let i = this.placeables.length - 1; i >= 0; i--) {
+      if (this.placeables[i].toRemove) {
+        this.placeables.splice(i, 1);
+      }
+    }
+
+    this.particuleFountains.update();
+    this.entities.update();
+
+    this.preparationInterface.notifyZlevelModification(0);
   }
 
   changeCell(x, y, z, value, floorTint, wallTint) {
     this.map[z][y * this.mapInfos.size.x + x] = value;
-    if(floorTint){
+    if (floorTint) {
       this.floorTint[z][y * this.mapInfos.size.x + x] = floorTint;
     }
-    if(wallTint){
+    if (wallTint) {
       this.wallTint[z][y * this.mapInfos.size.x + x] = wallTint;
     }
-    this.chunkInterface.notifyCellModification(x, y, z);
+    this.preparationInterface.notifyCellModification(x, y, z);
   }
 
   cycleCell(x, y, z) {
@@ -178,9 +187,9 @@ class CreativeMapLoader {
   generateHouse(startX, startY, startZ, width, length) {
     // Vérification des limites de la carte
     if (startX < 0 || startY < 0 || startZ < 0 ||
-        startX + width > this.mapInfos.size.x ||
-        startY + length > this.mapInfos.size.y ||
-        startZ + 3 > this.mapInfos.size.z) {
+      startX + width > this.mapInfos.size.x ||
+      startY + length > this.mapInfos.size.y ||
+      startZ + 3 > this.mapInfos.size.z) {
       console.error("La maison dépasse les limites de la carte");
       return;
     }
@@ -221,6 +230,148 @@ class CreativeMapLoader {
     }
 
     console.log(`Maison générée à la position (${startX}, ${startY}, ${startZ})`);
+  }
+}
+
+class Entities {
+  constructor(spriteList, infos) {
+    this.spriteList = spriteList;
+    this._infos = infos;
+    this.entityList = {};
+    this.entityInfos = {};
+  }
+
+  add(type, id, position, entityInfos) {
+    if (this.entityList[id]) {
+      console.log("entity already in list");
+      return;
+    }
+
+    const newSprite = {
+      ...position,
+      id,
+      type,
+    }
+
+    
+    entityInfos.currentWaypoint = entityInfos.waypoints[0];
+    entityInfos.currentWaypointIndex = 0;
+    console.log(entityInfos);
+
+    this.entityInfos[newSprite.id] = entityInfos;
+
+    this._infos.set(id, entityInfos.infos);
+
+    this.spriteList.push(newSprite);
+    this.entityList[newSprite.id] = newSprite;
+  }
+
+  moveTowards(entity, waypoint, speed) {
+    const dx = waypoint.x - entity.x;
+    const dy = waypoint.y - entity.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    
+    if (distance > speed) {
+      const ratio = speed / distance;
+      entity.x += dx * ratio;
+      entity.y += dy * ratio;
+    } else {
+      entity.x = waypoint.x;
+      entity.y = waypoint.y;
+    }
+  }
+  
+  update() {
+    for (let entityID in this.entityList) {
+      const entity = this.entityList[entityID];
+      const entityInfos = this.entityInfos[entityID];
+
+      if (entity.x === entityInfos.currentWaypoint.x && entity.y === entityInfos.currentWaypoint.y) {
+        entityInfos.currentWaypointIndex++
+        if (entityInfos.currentWaypointIndex >= entityInfos.waypoints.length) {
+          entityInfos.currentWaypointIndex = 0;
+        }
+        entityInfos.currentWaypoint = entityInfos.waypoints[entityInfos.currentWaypointIndex];
+      } else {
+        this.moveTowards(entity, entityInfos.currentWaypoint, entityInfos.speed || 0.1);
+      }
+    }
+  }
+}
+
+class ParticuleFountains {
+
+  constructor(spriteList) {
+    this.spriteList = spriteList;
+    this.foutainList = [];
+  }
+
+  add(type, position, dimension, proba) {
+    const fountain = {
+      type,
+      ...position,
+      dimension,
+      proba
+    }
+
+    this.foutainList.push(fountain);
+  }
+
+  update() {
+    for (let fountain of this.foutainList) {
+      for (let x = fountain.x + fountain.dimension.xMin; x <= fountain.x + fountain.dimension.xMax; x++) {
+        for (let y = fountain.y + fountain.dimension.yMin; y <= fountain.y + fountain.dimension.yMax; y++) {
+          if (Math.random() * 100 < fountain.proba) {
+            const newSprite = {
+              type: fountain.type,
+              id: generateRandomId(),
+              x,
+              y,
+              z: fountain.z,
+              toRemove: true
+            }
+            this.spriteList.push(newSprite)
+          }
+        }
+      }
+    }
+  }
+}
+
+class Decors {
+
+  constructor(spriteList, infos) {
+    this.spriteList = spriteList;
+    this._infos = infos;
+    this.decorList = {};
+  }
+
+  add(type, position, id) {
+
+    if (this.decorList[id]) {
+      console.log("decor already in list");
+      return;
+    }
+
+    const newSprite = {
+      ...position,
+      id,
+      type,
+    }
+
+    this._infos.set(id, { title: "Decors", texts: [`c'est un ${this.infoDecorCorres[type]}`] });
+
+    this.spriteList.push(newSprite);
+    this.decorList[newSprite.id] = newSprite;
+  }
+
+  get infoDecorCorres() {
+    return [
+      "barrel",
+      "dwarf",
+      "anvil",
+      "bag",
+    ]
   }
 }
 

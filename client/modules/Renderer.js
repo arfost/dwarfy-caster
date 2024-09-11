@@ -89,9 +89,9 @@ export class Renderer {
     this.sprites = {};
 
     await Promise.all(
-      assetNames.sprites.map(async (def) => {
-        let sprite = new Bitmap(`assets/sprites/${def.name}.png`, 64, 64 * def.heightRatio);
-        this.sprites[def.name] = sprite;
+      assetNames.sprites.map(async (name) => {
+        let sprite = new Bitmap(`assets/sprites/${name}.png`, 64, 64);
+        this.sprites[name] = sprite;
         return sprite.imageLoaded;
       }),
     );

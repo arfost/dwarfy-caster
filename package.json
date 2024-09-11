@@ -4,11 +4,11 @@
   "description": "a simple forteress viewer for dwarf fortress",
   "main": "index.js",
   "scripts": {
-    "start": "websockify --web=./client 127.0.0.1:8080 127.0.0.1:5000"
+    "start": "node index.js"
   },
   "dependencies": {
-    "ws": "^8.12.1",
-    "protobufjs": "^6.9.0"
+    "ws": "8.18.0",
+    "protobufjs": "7.4.0"
   },
   "author": "arfost",
   "license": "ISC"

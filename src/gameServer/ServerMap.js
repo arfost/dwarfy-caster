@@ -1,22 +1,13 @@
-
-const placeableProperties = [
-  "id",
-  "x",
-  "y",
-  "z",
-  "type",
-  "tick"
-];
-
 class ServerMap {
 
   constructor(mapLoader) {
     this._ready = false;
     this.preparedChunks = {};
+    this.preparedPlaceables = {};
 
 
     this.invalidatedZlevels = [];
-    this.placeableList = {};
+
     this.currentTick = 1;
     this.CHUNK_SIZE = 16;
 
@@ -37,7 +28,7 @@ class ServerMap {
   }
 
   getPlaceableModel(){
-    return this.mapLoader.placeablePool.getNew();
+    return {};
   }
 
   invalidateZlevel(zLevel) {
@@ -48,25 +39,13 @@ class ServerMap {
 
   update(players, delta) {
     //update placeables
+    this.mapLoader.update(delta)
     for (let player of players) {
       this.mapLoader.playerUpdate(player, delta);
-      this.updatePlaceable(player.placeable);
     }
-    for(let placeable of this.mapLoader.update(delta)) {
-      this.updatePlaceable(placeable);
-    }
-    //clean placeables with outdated tick
-    for (let id in this.placeableList) {
-      if (this.placeableList[id].tick && this.placeableList[id].tick !== this.currentTick) {
-        console.log("removing placeable", id);
-        this.invalidateZlevel(this.placeableList[id].z);
-        this.placeableList[id].release(this.placeableList[id]);
-        delete this.placeableList[id];
-      }
-    }
-    this.currentTick++;
+    
     for(let zLevel of this.invalidatedZlevels) {
-      this.placeables[zLevel] = false;
+      this.preparedPlaceables[zLevel] = false;
     }
     this.invalidatedZlevels = [];
     this.flushModifiedCells();
@@ -74,46 +53,23 @@ class ServerMap {
 
   prepareZlevel(zLevel) {
     let placeables = [];
-    for(let placeable in this.placeableList) {
-      if(this.placeableList[placeable].z === zLevel) {
-        placeables.push(this.placeableList[placeable]);
+    for(let placeable of this.placeables) {
+      if(placeable.z === zLevel) {
+        placeables.push(placeable);
       }
     }
-    this.placeables[zLevel] = placeables;
+    this.preparedPlaceables[zLevel] = placeables;
   }
 
   getPlaceablesForLevel(level) {
-    if(!this.placeables[level]) {
+    if(!this.preparedPlaceables[level]) {
       this.prepareZlevel(level);
     }
-    return this.placeables[level];
+    return this.preparedPlaceables[level];
   };
 
   ready() {
     return this._ready;
-  }
-
-  updatePlaceable(placeable) {
-    if(!this.placeableList[placeable.id]) {
-      this.placeableList[placeable.id] = placeable;
-      this.invalidateZlevel(placeable.z);
-    }else{
-      const oldPlaceable = this.placeableList[placeable.id];
-      console.log("updating placeable", placeable.id, placeable.x, placeable.y, placeable.z);
-      if(placeable.id.startsWith("build-")) {
-        console.log("updating placeable", placeable.id, placeable.x, placeable.y, placeable.z);
-      }
-      if(oldPlaceable.z !== placeable.z) {
-        this.invalidateZlevel(oldPlaceable.z);
-        this.invalidateZlevel(placeable.z);
-      }
-      for(let prop of placeableProperties) {
-        if(oldPlaceable[prop] !== placeable[prop]) {
-          oldPlaceable[prop] = placeable[prop];
-        }
-      }
-      placeable.release(placeable);
-    }
   }
 
   getRTLayerInfosForPosition(layer, x, y, z) {
@@ -189,9 +145,10 @@ class ServerMap {
     this.modifiedCellsList = [];
   }
 
-  get chunkInterface() {
+  get preparationInterface() {
     return {
-      notifyCellModification: this.notifyCellModification.bind(this)
+      notifyCellModification: this.notifyCellModification.bind(this),
+      notifyZlevelModification: this.invalidateZlevel.bind(this),
     }
   }
 
@@ -235,7 +192,7 @@ class ServerMap {
   }
 
   removePreparedChunk(key) {
-    delete this.preparedChunks[key];
+    this.preparedChunks[key] = false;
   }
 }
 
