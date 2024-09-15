@@ -1,5 +1,6 @@
 const { DfHackConnection } = require("../../dfHackConnection.js");
 const { ObjectPool } = require("../../utils/gcHelpers.js");
+const { generateRandomId } = require("../../utils/helpers.js");
 const { prepareDefinitions } = require("./definitions/objectDefinition.js");
 
 function isBitOn(number, index) {
@@ -16,26 +17,26 @@ class DFMapLoader {
       dfHackConnectionPort: params.dfHackConnectionPort || 5000,
     };
     this._newPlaceableList = [];
-    this.placeablePool = new ObjectPool(
-      () => {
-        return {
-          id: 0,
-          x: 0,
-          y: 0,
-          z: 0,
-          type: 0,
-          tick: false,
-        };
-      },
-      poolSize,
-      poolSize / 2,
-    );
+    // this.placeablePool = new ObjectPool(
+    //   () => {
+    //     return {
+    //       id: 0,
+    //       x: 0,
+    //       y: 0,
+    //       z: 0,
+    //       type: 0,
+    //       tick: false,
+    //     };
+    //   },
+    //   poolSize,
+    //   poolSize / 2,
+    // );
 
     this.client = new DfHackConnection(this.params.dfHackConnectionHost, this.params.dfHackConnectionPort);
   }
 
   async initMap(serverMap) {
-    this.chunkInterface = serverMap.chunkInterface;
+    this.preparationInterface = serverMap.preparationInterface;
 
     await this.client.ready;
 
@@ -78,7 +79,8 @@ class DFMapLoader {
         new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y)),
       );
     }
-    this.placeables = new Array(this.mapInfos.size.z).fill(0).map(() => false);
+    this.placeables = [];
+    this.permaEntity = {};
     this._infos = new Map();
 
     const tileTypeList = await this.client.request("GetTiletypeList");
@@ -127,6 +129,7 @@ class DFMapLoader {
     this.mapInfos.start = cursor;
 
     this.blockToInit = this._generateSimpleBlockListToLoad(Math.ceil(cursor.x), Math.ceil(cursor.y), cursor.z, 50);
+    this.totalBlockToInit = this.blockToInit.length;
 
     console.log("blockToInit", cursor, this.blockToInit.length);
     return this.mapInfos;
@@ -200,19 +203,25 @@ class DFMapLoader {
       for (let z = building.posZMin; z <= building.posZMax; z++) {
         for (let x = building.posXMin; x <= building.posXMax; x++) {
           for (let y = building.posYMin; y <= building.posYMax; y++) {
-            this._correspondanceResultToMapInfos(def, x, y, z, false, "build-" + building.index);
             if (def.cell) {
-              this.wallTint[building.posZMin][y * this.mapInfos.size.x + x] = matTintType;
-              this._infos.set(`${x},${y},${z}`, {
+              this._cellCorrespondanceToMapInfos(def.cell, x, y, z, {
                 title: `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`,
                 texts: [`${x},${y},${z}`],
-              });
+              }, matTintType);
             }
             if (def.placeable) {
-              this._infos.set("build-" + building.index, {
-                title: `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`,
-                texts: [`${x},${y},${z}`, "build-" + building.index],
-              });
+              this._entityCorrespondanceToPlaceable(
+                def.placeable, 
+                x+0.5, 
+                y+0.5, 
+                z, 
+                "build-" + building.index,
+                {
+                  title: `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`,
+                  texts: [`${x},${y},${z}`, "build-" + building.index],
+                },
+                false, 
+              )
             }
           }
         }
@@ -230,28 +239,39 @@ class DFMapLoader {
     const matKey = `${block.materials[index].matIndex},${block.materials[index].matType}`;
     const matTintType = this.definitions.tintCorrespondances[matKey] || 0;
 
-    this._correspondanceResultToMapInfos(corres, basePosition.x + x, basePosition.y + y, basePosition.z);
-    this.floorTint[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = matTintType;
-    this.wallTint[basePosition.z][(basePosition.y + y) * this.mapInfos.size.x + (basePosition.x + x)] = matTintType;
+    this._cellCorrespondanceToMapInfos(corres.cell, basePosition.x + x, basePosition.y + y, basePosition.z, undefined, matTintType, matTintType);
   }
 
-  _correspondanceResultToMapInfos(correspondanceResult, posX, posY, posZ, tick, placeableId) {
-    if (!correspondanceResult) {
-      return;
+  _cellCorrespondanceToMapInfos(cellCorres, posX, posY, posZ, infos, wallTint, floorTint){
+    this.changeCell(posX, posY, posZ, cellCorres, wallTint, floorTint);
+    if(infos){
+      this._infos.set(`${posX},${posY},${posZ}`, infos);
+    }else{
+      this._infos.delete(`${posX},${posY},${posZ}`)
     }
-    if (correspondanceResult.cell) {
-      //console.log("updating map : ", posZ, posY * this.mapInfos.size.x + posX, this.map[posZ][posY * this.mapInfos.size.x + posX], correspondanceResult.cell)
-      this.changeCell(posX, posY, posZ, correspondanceResult.cell);
+  }
+
+  _entityCorrespondanceToPlaceable(correspondanceResult, posX, posY, posZ, placeableId, infos, toRemove){
+    
+    
+
+    if(!toRemove && this.permaEntity[placeableId]){
+      this.permaEntity[placeableId].x = posX;
+      this.permaEntity[placeableId].y = posY;
+      this.permaEntity[placeableId].z = posZ;
+    }else{
+      const newPlaceable = {
+        id: placeableId ? placeableId : generateRandomId(),
+        x: posX,
+        y: posY,
+        z: posZ,
+        type: correspondanceResult,
+        toRemove: toRemove,
+      };
+      this.placeables.push(newPlaceable);
     }
-    if (correspondanceResult.placeable) {
-      const newPlaceable = this.placeablePool.getNew();
-      newPlaceable.id = placeableId ? placeableId : Math.floor(Math.random() * 1000000);
-      newPlaceable.x = posX + 0.5;
-      newPlaceable.y = posY + 0.5;
-      newPlaceable.z = posZ;
-      newPlaceable.type = correspondanceResult.placeable;
-      newPlaceable.tick = tick;
-      this._newPlaceableList.push(newPlaceable);
+    if(infos){
+      this._infos.set(placeableId, infos)
     }
   }
 
@@ -330,7 +350,7 @@ class DFMapLoader {
     return blocksToLoad;
   }
 
-  async _togglePauser(){
+  async _togglePause(){
     this._pauseState["Value"] = this._pauseState["Value"] === false ? true : false;
     await this.client.request("SetPauseState", this._pauseState);
     console.log("pause state toggled", this._pauseState["Value"]);
@@ -349,9 +369,10 @@ class DFMapLoader {
     for (let order of player.orders) {
       console.log("order", order);
       if (order === "togglePause") {
-        this._togglePauser();
+        this._togglePause();
       }
     }
+    this.preparationInterface.notifyZlevelModification(player.z);
   }
 
   _getBlockPositionFromPlayerPosition(x, y, z) {
@@ -363,17 +384,20 @@ class DFMapLoader {
   }
 
   update(delta) {
+    for (let i = this.placeables.length - 1; i >= 0; i--) {
+      if (this.placeables[i].toRemove) {
+        this.placeables.splice(i, 1);
+      }
+    }
     if (this.blockToInit.length > 0) {
       const block = this.blockToInit.shift();
       //this.loadBlock(block.x, block.y, block.z, true);
-      console.log("block loaded", block.x, block.y, block.z, this.blockToInit.length);
+      console.log("block loaded", `left : ${this.blockToInit.length}/${this.totalBlockToInit}`);
       //this.blockToInit = [];
     }
     
-    //this.loadUnit();
-    const tmpPlaceableList = this._newPlaceableList;
-    this._newPlaceableList = [];
-    return tmpPlaceableList;
+    this.loadUnit();
+    
   }
 
   async loadUnit() {
@@ -415,44 +439,50 @@ class DFMapLoader {
     }
     let key = `${item.type.matType},-1`;
     if (this.definitions.itemCorrespondances[key]) {
-      this._correspondanceResultToMapInfos(
-        this.definitions.itemCorrespondances[key],
-        item.pos.x,
-        item.pos.y,
+      this._entityCorrespondanceToPlaceable(
+        this.definitions.itemCorrespondances[key].placeable,
+        item.pos.x + 0.5,
+        item.pos.y + 0.5,
         item.pos.z,
-        this.currentTick,
         item.id,
+        {
+          title:"item",
+          texts: ["item "+ this.definitions.itemCorrespondances[key].placeable.sprite]
+        },
       );
     }
   }
 
   flowMap(flow) {
     if (flow.density > 66) {
-      this._correspondanceResultToMapInfos(
-        this.definitions.flowCorrespondances[flow.type + "-heavy"],
-        flow.pos.x,
-        flow.pos.y,
+      this._entityCorrespondanceToPlaceable(
+        this.definitions.flowCorrespondances[flow.type + "-heavy"].placeable,
+        flow.pos.x + 0.5,
+        flow.pos.y + 0.5,
         flow.pos.z,
-        this.currentTick,
         flow.id,
+        undefined,
+        true,
       );
     } else if (flow.density > 33) {
-      this._correspondanceResultToMapInfos(
-        this.definitions.flowCorrespondances[flow.type + "-medium"],
-        flow.pos.x,
-        flow.pos.y,
+      this._entityCorrespondanceToPlaceable(
+        this.definitions.flowCorrespondances[flow.type + "-medium"].placeable,
+        flow.pos.x + 0.5,
+        flow.pos.y + 0.5,
         flow.pos.z,
-        this.currentTick,
         flow.id,
+        undefined,
+        true,
       );
     } else if (flow.density > 0) {
-      this._correspondanceResultToMapInfos(
-        this.definitions.flowCorrespondances[flow.type + "-light"],
-        flow.pos.x,
-        flow.pos.y,
+      this._entityCorrespondanceToPlaceable(
+        this.definitions.flowCorrespondances[flow.type + "-light"].placeable,
+        flow.pos.x + 0.5,
+        flow.pos.y + 0.5,
         flow.pos.z,
-        this.currentTick,
         flow.id,
+        undefined,
+        true,
       );
     }
   }
@@ -470,22 +500,22 @@ class DFMapLoader {
     }
     let key = `${unit.race.matType},${unit.race.matIndex}`;
     if (this.definitions.creatureCorrespondances[key]) {
-      this._correspondanceResultToMapInfos(
-        this.definitions.creatureCorrespondances[key],
+      this._entityCorrespondanceToPlaceable(
+        this.definitions.creatureCorrespondances[key].placeable,
         unit.posX,
         unit.posY,
         unit.posZ,
-        false,
         "crea-" + unit.id,
+        {
+          title: unit.name,
+          texts: unit.isSoldier ? ["soldier"] : [],
+        },
+        false,
       );
-      this._infos.set("crea-" + unit.id, {
-        title: unit.name,
-        texts: unit.isSoldier ? ["soldier"] : [],
-      });
     }
   }
 
-  changeCell(x, y, z, value, floorTint, wallTint) {
+  changeCell(x, y, z, value, wallTint, floorTint) {
     const oldVal = this.map[z][y * this.mapInfos.size.x + x];
     this.map[z][y * this.mapInfos.size.x + x] = value;
     if (floorTint) {
@@ -495,7 +525,7 @@ class DFMapLoader {
       this.wallTint[z][y * this.mapInfos.size.x + x] = wallTint;
     }
     if(oldVal !== value){
-      this.chunkInterface.notifyCellModification(x, y, z);
+      this.preparationInterface.notifyCellModification(x, y, z);
     }
   }
 }

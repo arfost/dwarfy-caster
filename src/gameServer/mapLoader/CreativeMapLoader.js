@@ -126,18 +126,30 @@ class CreativeMapLoader {
 
     this.particuleFountains.add(4, { x: 52, y: 41, z: 0 }, { xMin: -2, xMax: 2, yMin: -2, yMax: 2 }, 25);
 
-    this.decors.add(0, { x: 45, y: 45, z: 0 }, generateRandomId());
-    this.decors.add(2, { x: 47, y: 45, z: 0 }, generateRandomId());
-    this.decors.add(3, { x: 45, y: 47, z: 0 }, generateRandomId());
+    
 
-    this.entities.add(1, generateRandomId(), { x: 52, y: 41, z: 0 }, {
-      waypoints:[
-        { x: 62, y: 41 },
-        { x: 52, y: 51 },
-        { x: 52, y: 41 }
-      ],
-      infos:{title: "Un truc", texts:["un truc qui bouge"]},
-    })
+    for(let i = 0; i < this.mapInfos.size.z; i++){
+      for (let o = Math.random()*100; o>0; o--){
+        const entityWaypoint = [];
+        for(let way = Math.random()*10; way>0; way--){
+          entityWaypoint.push({ x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y })
+        }
+        this.entities.add(1, generateRandomId(), { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, {
+          waypoints:entityWaypoint,
+          infos:{title: "Un truc", texts:["un truc qui bouge"]},
+        });
+      }
+
+      for (let o = Math.random()*1000; o>0; o--){
+        this.decors.add(Math.floor(Math.random()*4), { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, generateRandomId());
+      }
+
+      for (let o = Math.random()*1000; o>0; o--){
+        this.particuleFountains.add(Math.floor(Math.random()*4), { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, { xMin: -2, xMax: 2, yMin: -2, yMax: 2 }, 25);
+      }
+    }
+
+    
 
     return this.mapInfos;
   }
@@ -256,7 +268,6 @@ class Entities {
     
     entityInfos.currentWaypoint = entityInfos.waypoints[0];
     entityInfos.currentWaypointIndex = 0;
-    console.log(entityInfos);
 
     this.entityInfos[newSprite.id] = entityInfos;
 

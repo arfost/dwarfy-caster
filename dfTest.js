@@ -38,6 +38,45 @@ async function init() {
         }
       }
     },
+    materialDefList: {
+      description: "get the building def list from DFHack",
+      args: ["filename"],
+      callback: async function (args) {
+        try {
+          const request = await dfHackConnection.request("GetMaterialList");
+          writeToFile(args.filename, JSON.stringify(request, null, 2));
+          return ["building def list", ...JSON.stringify(request, null, 2).split("\n")];
+        } catch (e) {
+          return ["building def list", "error : " + e.message];
+        }
+      }
+    },
+    getTiletypeList: {
+      description: "get the building def list from DFHack",
+      args: ["filename"],
+      callback: async function (args) {
+        try {
+          const request = await dfHackConnection.request("GetTiletypeList");
+          writeToFile(args.filename, JSON.stringify(request, null, 2));
+          return ["building def list", ...JSON.stringify(request, null, 2).split("\n")];
+        } catch (e) {
+          return ["building def list", "error : " + e.message];
+        }
+      }
+    },
+    getItemList: {
+      description: "get the building def list from DFHack",
+      args: ["filename"],
+      callback: async function (args) {
+        try {
+          const request = await dfHackConnection.request("GetItemList");
+          writeToFile(args.filename, JSON.stringify(request, null, 2));
+          return ["building def list", ...JSON.stringify(request, null, 2).split("\n")];
+        } catch (e) {
+          return ["building def list", "error : " + e.message];
+        }
+      }
+    },
     togglePause: {
       description: "toggle the pause state of the game",
       args: [],

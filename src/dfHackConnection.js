@@ -63,7 +63,6 @@ const FUNC_DEFS = [
     GetPauseState: ['EmptyMessage', 'SingleBool'],
     GetVersionInfo: ['EmptyMessage', 'VersionInfo'],
     GetReports: ['EmptyMessage', 'Status'],
-
     GetLanguage: ['EmptyMessage', 'Language']
   }],
   ['RemoteFortressReader', 'AdventureControl', {

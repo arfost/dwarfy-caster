@@ -1,0 +1,6935 @@
+{
+  "tiletypeList": [
+    {
+      "id": 0,
+      "name": "Void",
+      "caption": "void",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 1,
+      "name": "RampTop",
+      "caption": "ramp top",
+      "shape": 10,
+      "special": -1,
+      "material": 0,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 2,
+      "name": "MurkyPool",
+      "caption": "murky pool",
+      "shape": 1,
+      "special": -1,
+      "material": 19,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 3,
+      "name": "MurkyPoolRamp",
+      "caption": "murky pool slope",
+      "shape": 9,
+      "special": -1,
+      "material": 19,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 4,
+      "name": "UnderworldGateStairU",
+      "caption": "underworld gate up",
+      "shape": 6,
+      "special": -1,
+      "material": 25,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 5,
+      "name": "UnderworldGateStairD",
+      "caption": "underworld gate down",
+      "shape": 7,
+      "special": -1,
+      "material": 25,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 6,
+      "name": "UnderworldGateStairUD",
+      "caption": "underworld gate up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 25,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 7,
+      "name": "TreeCapInterior",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 8,
+      "name": "TreeCapWallThickSW",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 9,
+      "name": "TreeCapWallThickSE",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 10,
+      "name": "TreeCapWallThickNW",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 11,
+      "name": "TreeCapWallThickNE",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 12,
+      "name": "TreeCapWallThickN",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 13,
+      "name": "TreeCapWallThickS",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 14,
+      "name": "TreeCapWallThickW",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 15,
+      "name": "TreeCapWallThickE",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 16,
+      "name": "TreeCapWallNSWE",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 17,
+      "name": "TreeCapWallNSW",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 18,
+      "name": "TreeCapWallNSE",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 19,
+      "name": "Driftwood",
+      "caption": "driftwood",
+      "shape": 1,
+      "special": -1,
+      "material": 18,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 20,
+      "name": "TreeCapWallNWE",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 21,
+      "name": "TreeCapWallSWE",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 22,
+      "name": "TreeCapWallNS",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 23,
+      "name": "TreeCapWallWE",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 24,
+      "name": "Unused999",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 25,
+      "name": "FrozenStairUD",
+      "caption": "ice stair up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 26,
+      "name": "FrozenStairD",
+      "caption": "ice stair down",
+      "shape": 7,
+      "special": -1,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 27,
+      "name": "FrozenStairU",
+      "caption": "ice stair up",
+      "shape": 6,
+      "special": -1,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 28,
+      "name": "Unused9999",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 29,
+      "name": "Unused99999",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 30,
+      "name": "Unused999999",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 31,
+      "name": "TreeDeadCapInterior",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 32,
+      "name": "OpenSpace",
+      "caption": "open space",
+      "shape": 0,
+      "special": -1,
+      "material": 0,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 33,
+      "name": "TreeDeadCapWallThickSW",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 34,
+      "name": "Shrub",
+      "caption": "shrub",
+      "shape": 15,
+      "special": 0,
+      "material": 12,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 35,
+      "name": "Chasm",
+      "caption": "chasm",
+      "shape": 0,
+      "special": -1,
+      "material": 0,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 36,
+      "name": "LavaStairUD",
+      "caption": "obsidian stair up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 37,
+      "name": "LavaStairD",
+      "caption": "obsidian stair down",
+      "shape": 7,
+      "special": -1,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 38,
+      "name": "LavaStairU",
+      "caption": "obsidian stair up",
+      "shape": 6,
+      "special": -1,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 39,
+      "name": "SoilStairUD",
+      "caption": "soil stair up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 40,
+      "name": "SoilStairD",
+      "caption": "soil stair down",
+      "shape": 7,
+      "special": -1,
+      "material": 1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 41,
+      "name": "SoilStairU",
+      "caption": "soil stair up",
+      "shape": 6,
+      "special": -1,
+      "material": 1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 42,
+      "name": "EeriePit",
+      "caption": "eerie pit",
+      "shape": 0,
+      "special": -1,
+      "material": 13,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 43,
+      "name": "StoneFloorSmooth",
+      "caption": "smooth stone floor",
+      "shape": 1,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 44,
+      "name": "LavaFloorSmooth",
+      "caption": "smooth obsidian floor",
+      "shape": 1,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 45,
+      "name": "FeatureFloorSmooth",
+      "caption": "smooth featstone floor",
+      "shape": 1,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 46,
+      "name": "MineralFloorSmooth",
+      "caption": "smooth vein floor",
+      "shape": 1,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 47,
+      "name": "FrozenFloorSmooth",
+      "caption": "smooth ice floor",
+      "shape": 1,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 48,
+      "name": "TreeDeadCapWallThickSE",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 49,
+      "name": "Grass1StairUD",
+      "caption": "light grass stair up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 8,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 50,
+      "name": "Grass1StairD",
+      "caption": "light grass stair down",
+      "shape": 7,
+      "special": -1,
+      "material": 8,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 51,
+      "name": "Grass1StairU",
+      "caption": "light grass stair up",
+      "shape": 6,
+      "special": -1,
+      "material": 8,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 52,
+      "name": "Grass2StairUD",
+      "caption": "dark grass stair up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 9,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 53,
+      "name": "Grass2StairD",
+      "caption": "dark grass stair down",
+      "shape": 7,
+      "special": -1,
+      "material": 9,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 54,
+      "name": "Grass2StairU",
+      "caption": "dark grass stair up",
+      "shape": 6,
+      "special": -1,
+      "material": 9,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 55,
+      "name": "StoneStairUD",
+      "caption": "stone stair up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 56,
+      "name": "StoneStairD",
+      "caption": "stone stair down",
+      "shape": 7,
+      "special": -1,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 57,
+      "name": "StoneStairU",
+      "caption": "stone stair up",
+      "shape": 6,
+      "special": -1,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 58,
+      "name": "MineralStairUD",
+      "caption": "vein stair up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 59,
+      "name": "MineralStairD",
+      "caption": "vein stair down",
+      "shape": 7,
+      "special": -1,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 60,
+      "name": "MineralStairU",
+      "caption": "vein stair up",
+      "shape": 6,
+      "special": -1,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 61,
+      "name": "FeatureStairUD",
+      "caption": "featstone stair up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 62,
+      "name": "FeatureStairD",
+      "caption": "featstone stair down",
+      "shape": 7,
+      "special": -1,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 63,
+      "name": "FeatureStairU",
+      "caption": "featstone stair up",
+      "shape": 6,
+      "special": -1,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 64,
+      "name": "TreeDeadCapWallThickNW",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 65,
+      "name": "StoneFortification",
+      "caption": "stone fortification",
+      "shape": 5,
+      "special": -1,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 66,
+      "name": "TreeDeadCapWallThickNE",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 67,
+      "name": "Campfire",
+      "caption": "campfire",
+      "shape": 1,
+      "special": -1,
+      "material": 14,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 68,
+      "name": "TreeDeadCapWallThickN",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 69,
+      "name": "TreeDeadCapWallThickS",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 70,
+      "name": "Fire",
+      "caption": "fire",
+      "shape": 1,
+      "special": -1,
+      "material": 15,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 71,
+      "name": "BurningTreeTrunk",
+      "caption": "fire",
+      "shape": 4,
+      "special": -1,
+      "material": 15,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 72,
+      "name": "BurningTreeBranches",
+      "caption": "fire",
+      "shape": 17,
+      "special": -1,
+      "material": 15,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 73,
+      "name": "BurningTreeTwigs",
+      "caption": "fire",
+      "shape": 19,
+      "special": -1,
+      "material": 15,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 74,
+      "name": "BurningTreeCapWall",
+      "caption": "fire",
+      "shape": 4,
+      "special": -1,
+      "material": 15,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 75,
+      "name": "BurningTreeCapRamp",
+      "caption": "fire",
+      "shape": 9,
+      "special": -1,
+      "material": 15,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 76,
+      "name": "BurningTreeCapFloor",
+      "caption": "fire",
+      "shape": 1,
+      "special": -1,
+      "material": 15,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 77,
+      "name": "TreeDeadCapWallThickW",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 78,
+      "name": "TreeDeadCapWallThickE",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 79,
+      "name": "StonePillar",
+      "caption": "stone pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 80,
+      "name": "LavaPillar",
+      "caption": "obsidian pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 81,
+      "name": "FeaturePillar",
+      "caption": "featstone pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 82,
+      "name": "MineralPillar",
+      "caption": "vein pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 83,
+      "name": "FrozenPillar",
+      "caption": "ice pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 84,
+      "name": "TreeDeadCapWallNSWE",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 85,
+      "name": "TreeDeadCapWallNSW",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 86,
+      "name": "TreeDeadCapWallNSE",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 87,
+      "name": "TreeDeadCapWallNWE",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 88,
+      "name": "TreeDeadCapWallSWE",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 89,
+      "name": "Waterfall",
+      "caption": "waterfall",
+      "shape": 1,
+      "special": 2,
+      "material": 21,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 90,
+      "name": "RiverSource",
+      "caption": "river source",
+      "shape": 1,
+      "special": 1,
+      "material": 21,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 91,
+      "name": "TreeRootSloping",
+      "caption": "sloping roots",
+      "shape": 9,
+      "special": -1,
+      "material": 22,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 92,
+      "name": "TreeRoots",
+      "caption": "roots",
+      "shape": 4,
+      "special": -1,
+      "material": 22,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 93,
+      "name": "TreeTrunkPillar",
+      "caption": "trunk pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 94,
+      "name": "TreeTrunkSloping",
+      "caption": "sloping trunk",
+      "shape": 9,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 95,
+      "name": "TreeTrunkThickN",
+      "caption": "trunk (N)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 96,
+      "name": "TreeTrunkThickS",
+      "caption": "trunk (S)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 97,
+      "name": "TreeTrunkThickE",
+      "caption": "trunk (E)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 98,
+      "name": "TreeTrunkThickW",
+      "caption": "trunk (W)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 99,
+      "name": "TreeTrunkThickNW",
+      "caption": "trunk (NW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 100,
+      "name": "TreeTrunkThickNE",
+      "caption": "trunk (NE)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 101,
+      "name": "TreeTrunkThickSW",
+      "caption": "trunk (SW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 102,
+      "name": "TreeTrunkThickSE",
+      "caption": "trunk (SE)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 103,
+      "name": "TreeTrunkBranchN",
+      "caption": "trunk branch (N)",
+      "shape": 18,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 104,
+      "name": "TreeTrunkBranchS",
+      "caption": "trunk branch (S)",
+      "shape": 18,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 105,
+      "name": "TreeTrunkBranchE",
+      "caption": "trunk branch (E)",
+      "shape": 18,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 106,
+      "name": "TreeTrunkBranchW",
+      "caption": "trunk branch (W)",
+      "shape": 18,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 107,
+      "name": "TreeBranchNS",
+      "caption": "branch (NS)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 108,
+      "name": "TreeBranchEW",
+      "caption": "branch (EW)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 109,
+      "name": "TreeBranchesSmooth",
+      "caption": "smooth branch",
+      "shape": 17,
+      "special": 3,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 110,
+      "name": "TreeDeadBranchesSmooth",
+      "caption": "smooth dead branch",
+      "shape": 17,
+      "special": 11,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 111,
+      "name": "TreeBranchNW",
+      "caption": "branch (NW)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 112,
+      "name": "TreeBranchNE",
+      "caption": "branch (NE)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 113,
+      "name": "TreeBranchSW",
+      "caption": "branch (SW)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 114,
+      "name": "TreeBranchSE",
+      "caption": "branch (SE)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 115,
+      "name": "TreeBranches",
+      "caption": "branches",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 116,
+      "name": "TreeTwigs",
+      "caption": "twigs",
+      "shape": 19,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 117,
+      "name": "TreeCapRamp",
+      "caption": "cap ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 24,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 118,
+      "name": "TreeCapPillar",
+      "caption": "cap pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 24,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 119,
+      "name": "TreeCapWallN",
+      "caption": "cap wall (N)",
+      "shape": 4,
+      "special": -1,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 120,
+      "name": "TreeCapWallS",
+      "caption": "cap wall (S)",
+      "shape": 4,
+      "special": -1,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 121,
+      "name": "TreeCapWallE",
+      "caption": "cap wall (E)",
+      "shape": 4,
+      "special": -1,
+      "material": 24,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 122,
+      "name": "TreeCapWallW",
+      "caption": "cap wall (W)",
+      "shape": 4,
+      "special": -1,
+      "material": 24,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 123,
+      "name": "TreeCapWallNW",
+      "caption": "cap wall (NW)",
+      "shape": 4,
+      "special": -1,
+      "material": 24,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 124,
+      "name": "TreeCapWallNE",
+      "caption": "cap wall (NE)",
+      "shape": 4,
+      "special": -1,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 125,
+      "name": "TreeCapWallSW",
+      "caption": "cap wall (SW)",
+      "shape": 4,
+      "special": -1,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 126,
+      "name": "TreeCapWallSE",
+      "caption": "cap wall (SE)",
+      "shape": 4,
+      "special": -1,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 127,
+      "name": "TreeCapFloor1",
+      "caption": "cap floor",
+      "shape": 1,
+      "special": -1,
+      "material": 24,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 128,
+      "name": "TreeCapFloor2",
+      "caption": "cap floor",
+      "shape": 1,
+      "special": -1,
+      "material": 24,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 129,
+      "name": "TreeCapFloor3",
+      "caption": "cap floor",
+      "shape": 1,
+      "special": -1,
+      "material": 24,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 130,
+      "name": "TreeCapFloor4",
+      "caption": "cap floor",
+      "shape": 1,
+      "special": -1,
+      "material": 24,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 131,
+      "name": "TreeDeadRootSloping",
+      "caption": "dead sloping roots",
+      "shape": 9,
+      "special": 6,
+      "material": 22,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 132,
+      "name": "TreeDeadRoots",
+      "caption": "dead roots",
+      "shape": 4,
+      "special": 6,
+      "material": 22,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 133,
+      "name": "TreeDeadTrunkPillar",
+      "caption": "dead trunk pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 134,
+      "name": "TreeDeadTrunkSloping",
+      "caption": "dead sloping trunk",
+      "shape": 9,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 135,
+      "name": "TreeDeadTrunkThickN",
+      "caption": "dead trunk (N)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 136,
+      "name": "TreeDeadTrunkThickS",
+      "caption": "dead trunk (S)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 137,
+      "name": "TreeDeadTrunkThickE",
+      "caption": "dead trunk (E)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 138,
+      "name": "TreeDeadTrunkThickW",
+      "caption": "dead trunk (W)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 139,
+      "name": "TreeDeadTrunkThickNW",
+      "caption": "dead trunk (NW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 140,
+      "name": "TreeDeadTrunkThickNE",
+      "caption": "dead trunk (NE)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 141,
+      "name": "TreeDeadTrunkThickSW",
+      "caption": "dead trunk (SW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 142,
+      "name": "TreeDeadTrunkThickSE",
+      "caption": "dead trunk (SE)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 143,
+      "name": "TreeDeadTrunkBranchN",
+      "caption": "dead trunk branch (N)",
+      "shape": 18,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 144,
+      "name": "TreeDeadTrunkBranchS",
+      "caption": "dead trunk branch (S)",
+      "shape": 18,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 145,
+      "name": "TreeDeadTrunkBranchE",
+      "caption": "dead trunk branch (E)",
+      "shape": 18,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 146,
+      "name": "TreeDeadTrunkBranchW",
+      "caption": "dead trunk branch (W)",
+      "shape": 18,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 147,
+      "name": "TreeDeadBranchNS",
+      "caption": "dead branch (NS)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 148,
+      "name": "TreeDeadBranchEW",
+      "caption": "dead branch (EW)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 149,
+      "name": "TreeBranch",
+      "caption": "branches (NSEW)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 150,
+      "name": "TreeDeadBranch",
+      "caption": "dead branches (NSEW)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 151,
+      "name": "TreeDeadBranchNW",
+      "caption": "dead branch (NW)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 152,
+      "name": "TreeDeadBranchNE",
+      "caption": "dead branch (NE)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 153,
+      "name": "TreeDeadBranchSW",
+      "caption": "dead branch (SW)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 154,
+      "name": "TreeDeadBranchSE",
+      "caption": "dead branch (SE)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 155,
+      "name": "TreeDeadBranches",
+      "caption": "dead branches",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 156,
+      "name": "TreeDeadTwigs",
+      "caption": "dead twigs",
+      "shape": 19,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 157,
+      "name": "TreeDeadCapRamp",
+      "caption": "dead cap ramp",
+      "shape": 9,
+      "special": 6,
+      "material": 24,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 158,
+      "name": "TreeDeadCapPillar",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 159,
+      "name": "TreeDeadCapWallN",
+      "caption": "dead cap wall (N)",
+      "shape": 4,
+      "special": 6,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 160,
+      "name": "TreeDeadCapWallS",
+      "caption": "dead cap wall (S)",
+      "shape": 4,
+      "special": 6,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 161,
+      "name": "TreeDeadCapWallE",
+      "caption": "dead cap wall (E)",
+      "shape": 4,
+      "special": 6,
+      "material": 24,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 162,
+      "name": "TreeDeadCapWallW",
+      "caption": "dead cap wall (W)",
+      "shape": 4,
+      "special": 6,
+      "material": 24,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 163,
+      "name": "TreeDeadCapWallNW",
+      "caption": "dead cap wall (NW)",
+      "shape": 4,
+      "special": 6,
+      "material": 24,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 164,
+      "name": "TreeDeadCapWallNE",
+      "caption": "dead cap wall (NE)",
+      "shape": 4,
+      "special": 6,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 165,
+      "name": "TreeDeadCapWallSW",
+      "caption": "dead cap wall (SW)",
+      "shape": 4,
+      "special": 6,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 166,
+      "name": "TreeDeadCapWallSE",
+      "caption": "dead cap wall (SE)",
+      "shape": 4,
+      "special": 6,
+      "material": 24,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 167,
+      "name": "TreeDeadCapFloor1",
+      "caption": "dead cap floor",
+      "shape": 1,
+      "special": 6,
+      "material": 24,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 168,
+      "name": "TreeDeadCapFloor2",
+      "caption": "dead cap floor",
+      "shape": 1,
+      "special": 6,
+      "material": 24,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 169,
+      "name": "TreeDeadCapFloor3",
+      "caption": "dead cap floor",
+      "shape": 1,
+      "special": 6,
+      "material": 24,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 170,
+      "name": "TreeDeadCapFloor4",
+      "caption": "dead cap floor",
+      "shape": 1,
+      "special": 6,
+      "material": 24,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 171,
+      "name": "TreeDeadCapWallNS",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 172,
+      "name": "StoneWallWorn1",
+      "caption": "worn 1 stone wall",
+      "shape": 4,
+      "special": 7,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 173,
+      "name": "StoneWallWorn2",
+      "caption": "worn 2 stone wall",
+      "shape": 4,
+      "special": 8,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 174,
+      "name": "StoneWallWorn3",
+      "caption": "worn 3 stone wall",
+      "shape": 4,
+      "special": 9,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 175,
+      "name": "TreeBranchNSE",
+      "caption": "branches (NSE)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 176,
+      "name": "TreeBranchNSW",
+      "caption": "branches (NSW)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 177,
+      "name": "TreeBranchNEW",
+      "caption": "branches (NEW)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 178,
+      "name": "TreeBranchSEW",
+      "caption": "branches (SEW)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 179,
+      "name": "TreeBranchNSEW",
+      "caption": "branches (NSEW)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 180,
+      "name": "TreeDeadBranchNSE",
+      "caption": "dead branches (NSW)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 181,
+      "name": "TreeDeadBranchNSW",
+      "caption": "dead branches (NEW)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 182,
+      "name": "TreeDeadBranchNEW",
+      "caption": "dead branches (NEW)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 183,
+      "name": "TreeDeadBranchSEW",
+      "caption": "dead branches (SEW)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 184,
+      "name": "TreeDeadBranchNSEW",
+      "caption": "dead branches (NSEW)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 185,
+      "name": "TreeTrunkNSE",
+      "caption": "trunk (NSE)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 186,
+      "name": "TreeTrunkNSW",
+      "caption": "trunk (NSW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 187,
+      "name": "TreeTrunkNEW",
+      "caption": "trunk (NEW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 188,
+      "name": "TreeTrunkSEW",
+      "caption": "trunk (SEW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 189,
+      "name": "TreeTrunkNS",
+      "caption": "trunk (NS)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 190,
+      "name": "TreeTrunkEW",
+      "caption": "trunk (EW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 191,
+      "name": "TreeTrunkNSEW",
+      "caption": "trunk (NSEW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 192,
+      "name": "TreeTrunkInterior",
+      "caption": "trunk interior",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 193,
+      "name": "TreeDeadTrunkNSE",
+      "caption": "dead trunk (NSE)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 194,
+      "name": "TreeDeadTrunkNSW",
+      "caption": "dead trunk (NSW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 195,
+      "name": "TreeDeadTrunkNEW",
+      "caption": "dead trunk (NEW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 196,
+      "name": "TreeDeadTrunkSEW",
+      "caption": "dead trunk (SEW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 197,
+      "name": "TreeDeadTrunkNS",
+      "caption": "dead trunk (NS)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 198,
+      "name": "TreeDeadTrunkEW",
+      "caption": "dead trunk (EW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 199,
+      "name": "TreeDeadTrunkNSEW",
+      "caption": "dead trunk (NSEW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 200,
+      "name": "TreeDeadTrunkInterior",
+      "caption": "dead trunk interior",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 201,
+      "name": "TreeTrunkNW",
+      "caption": "trunk (NW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 202,
+      "name": "TreeTrunkNE",
+      "caption": "trunk (NE)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 203,
+      "name": "TreeTrunkSW",
+      "caption": "trunk (SW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 204,
+      "name": "TreeTrunkSE",
+      "caption": "trunk (SE)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 205,
+      "name": "TreeDeadTrunkNW",
+      "caption": "dead trunk (NW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 206,
+      "name": "TreeDeadTrunkNE",
+      "caption": "dead trunk (NE)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 207,
+      "name": "TreeDeadTrunkSW",
+      "caption": "dead trunk (SW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 208,
+      "name": "TreeDeadTrunkSE",
+      "caption": "dead trunk (SE)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 209,
+      "name": "TreeTrunkN",
+      "caption": "trunk (NS)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 210,
+      "name": "TreeTrunkS",
+      "caption": "trunk (NS)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 211,
+      "name": "TreeTrunkW",
+      "caption": "trunk (EW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 212,
+      "name": "TreeTrunkE",
+      "caption": "trunk (EW)",
+      "shape": 4,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 213,
+      "name": "TreeDeadTrunkN",
+      "caption": "dead trunk (NS)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 214,
+      "name": "TreeDeadTrunkS",
+      "caption": "dead trunk (NS)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 215,
+      "name": "StoneWall",
+      "caption": "stone wall",
+      "shape": 4,
+      "special": 0,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 216,
+      "name": "TreeDeadTrunkW",
+      "caption": "dead trunk (EW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 217,
+      "name": "TreeDeadTrunkE",
+      "caption": "dead trunk (EW)",
+      "shape": 4,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 218,
+      "name": "TreeBranchS",
+      "caption": "branch (S)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 219,
+      "name": "TreeBranchN",
+      "caption": "branch (N)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 220,
+      "name": "TreeBranchW",
+      "caption": "branch (W)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 221,
+      "name": "TreeBranchE",
+      "caption": "branch (E)",
+      "shape": 17,
+      "special": -1,
+      "material": 23,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 222,
+      "name": "TreeDeadBranchS",
+      "caption": "branch (S)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 223,
+      "name": "TreeDeadBranchN",
+      "caption": "branch (N)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 224,
+      "name": "TreeDeadBranchW",
+      "caption": "branch (W)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 225,
+      "name": "TreeDeadBranchE",
+      "caption": "branch (E)",
+      "shape": 17,
+      "special": 6,
+      "material": 23,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 226,
+      "name": "TreeDeadCapPillarWE",
+      "caption": "dead cap pillar",
+      "shape": 4,
+      "special": 11,
+      "material": 24,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 227,
+      "name": "Sapling",
+      "caption": "sapling",
+      "shape": 14,
+      "special": 0,
+      "material": 12,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 228,
+      "name": "Unused888",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 229,
+      "name": "GrassDryRamp",
+      "caption": "dry grass ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 10,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 230,
+      "name": "GrassDeadRamp",
+      "caption": "dead grass ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 11,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 231,
+      "name": "GrassLightRamp",
+      "caption": "light grass ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 8,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 232,
+      "name": "GrassDarkRamp",
+      "caption": "dark grass ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 9,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 233,
+      "name": "StoneRamp",
+      "caption": "stone ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 234,
+      "name": "LavaRamp",
+      "caption": "obsidian ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 235,
+      "name": "FeatureRamp",
+      "caption": "featstone ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 236,
+      "name": "MineralRamp",
+      "caption": "vein ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 237,
+      "name": "SoilRamp",
+      "caption": "soil ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 238,
+      "name": "Ashes1",
+      "caption": "ashes",
+      "shape": 1,
+      "special": -1,
+      "material": 16,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 239,
+      "name": "Ashes2",
+      "caption": "ashes",
+      "shape": 1,
+      "special": -1,
+      "material": 16,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 240,
+      "name": "Ashes3",
+      "caption": "ashes",
+      "shape": 1,
+      "special": -1,
+      "material": 16,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 241,
+      "name": "FrozenRamp",
+      "caption": "ice ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 242,
+      "name": "Unused8888",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 243,
+      "name": "Unused88888",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 244,
+      "name": "Unused888888",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 245,
+      "name": "Unused245",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 246,
+      "name": "Unused246",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 247,
+      "name": "Unused247",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 248,
+      "name": "Unused248",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 249,
+      "name": "Unused249",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 250,
+      "name": "Unused250",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 251,
+      "name": "Unused251",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 252,
+      "name": "Unused252",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 253,
+      "name": "Unused253",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 254,
+      "name": "FrozenFloor2",
+      "caption": "ice floor",
+      "shape": 1,
+      "special": 0,
+      "material": 6,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 255,
+      "name": "FrozenFloor3",
+      "caption": "ice floor",
+      "shape": 1,
+      "special": 0,
+      "material": 6,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 256,
+      "name": "FrozenFloor4",
+      "caption": "ice floor",
+      "shape": 1,
+      "special": 0,
+      "material": 6,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 257,
+      "name": "FurrowedSoil",
+      "caption": "furrowed soil",
+      "shape": 1,
+      "special": 4,
+      "material": 1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 258,
+      "name": "FrozenFloor1",
+      "caption": "ice floor",
+      "shape": 1,
+      "special": 0,
+      "material": 6,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 259,
+      "name": "SemiMoltenRock",
+      "caption": "semi-molten rock",
+      "shape": 4,
+      "special": -1,
+      "material": 17,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 260,
+      "name": "MagmaFlow",
+      "caption": "magma flow",
+      "shape": 1,
+      "special": -1,
+      "material": 17,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 261,
+      "name": "SoilWall",
+      "caption": "soil wall",
+      "shape": 4,
+      "special": -1,
+      "material": 1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 262,
+      "name": "GlowingBarrier",
+      "caption": "glowing barrier",
+      "shape": 4,
+      "special": -1,
+      "material": 13,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 263,
+      "name": "GlowingFloor",
+      "caption": "glowing floor",
+      "shape": 1,
+      "special": -1,
+      "material": 13,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 264,
+      "name": "Unused264",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 265,
+      "name": "LavaWallSmoothRD2",
+      "caption": "smooth obsidian wall RD2",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "--SS--E-"
+    },
+    {
+      "id": 266,
+      "name": "LavaWallSmoothR2D",
+      "caption": "smooth obsidian wall R2D",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S---EE"
+    },
+    {
+      "id": 267,
+      "name": "LavaWallSmoothR2U",
+      "caption": "smooth obsidian wall R2U",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-----EE"
+    },
+    {
+      "id": 268,
+      "name": "LavaWallSmoothRU2",
+      "caption": "smooth obsidian wall RU2",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "NN----E-"
+    },
+    {
+      "id": 269,
+      "name": "LavaWallSmoothL2U",
+      "caption": "smooth obsidian wall L2U",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "N---WW--"
+    },
+    {
+      "id": 270,
+      "name": "LavaWallSmoothLU2",
+      "caption": "smooth obsidian wall LU2",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "NN--W---"
+    },
+    {
+      "id": 271,
+      "name": "LavaWallSmoothL2D",
+      "caption": "smooth obsidian wall L2D",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S-WW--"
+    },
+    {
+      "id": 272,
+      "name": "LavaWallSmoothLD2",
+      "caption": "smooth obsidian wall LD2",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "--SSW---"
+    },
+    {
+      "id": 273,
+      "name": "LavaWallSmoothLRUD",
+      "caption": "smooth obsidian wall LRUD",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 274,
+      "name": "LavaWallSmoothRUD",
+      "caption": "smooth obsidian wall RUD",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 275,
+      "name": "LavaWallSmoothLRD",
+      "caption": "smooth obsidian wall LRD",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 276,
+      "name": "LavaWallSmoothLRU",
+      "caption": "smooth obsidian wall LRU",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 277,
+      "name": "LavaWallSmoothLUD",
+      "caption": "smooth obsidian wall LUD",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 278,
+      "name": "LavaWallSmoothRD",
+      "caption": "smooth obsidian wall RD",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 279,
+      "name": "LavaWallSmoothRU",
+      "caption": "smooth obsidian wall RU",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 280,
+      "name": "LavaWallSmoothLU",
+      "caption": "smooth obsidian wall LU",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 281,
+      "name": "LavaWallSmoothLD",
+      "caption": "smooth obsidian wall LD",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 282,
+      "name": "LavaWallSmoothUD",
+      "caption": "smooth obsidian wall UD",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 283,
+      "name": "LavaWallSmoothLR",
+      "caption": "smooth obsidian wall LR",
+      "shape": 4,
+      "special": 3,
+      "material": 4,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 284,
+      "name": "FeatureWallSmoothRD2",
+      "caption": "smooth featstone wall RD2",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "--SS--E-"
+    },
+    {
+      "id": 285,
+      "name": "FeatureWallSmoothR2D",
+      "caption": "smooth featstone wall R2D",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S---EE"
+    },
+    {
+      "id": 286,
+      "name": "FeatureWallSmoothR2U",
+      "caption": "smooth featstone wall R2U",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-----EE"
+    },
+    {
+      "id": 287,
+      "name": "FeatureWallSmoothRU2",
+      "caption": "smooth featstone wall RU2",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "NN----E-"
+    },
+    {
+      "id": 288,
+      "name": "FeatureWallSmoothL2U",
+      "caption": "smooth featstone wall L2U",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "N---WW--"
+    },
+    {
+      "id": 289,
+      "name": "FeatureWallSmoothLU2",
+      "caption": "smooth featstone wall LU2",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "NN--W---"
+    },
+    {
+      "id": 290,
+      "name": "FeatureWallSmoothL2D",
+      "caption": "smooth featstone wall L2D",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S-WW--"
+    },
+    {
+      "id": 291,
+      "name": "FeatureWallSmoothLD2",
+      "caption": "smooth featstone wall LD2",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "--SSW---"
+    },
+    {
+      "id": 292,
+      "name": "FeatureWallSmoothLRUD",
+      "caption": "smooth featstone wall LRUD",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 293,
+      "name": "FeatureWallSmoothRUD",
+      "caption": "smooth featstone wall RUD",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 294,
+      "name": "FeatureWallSmoothLRD",
+      "caption": "smooth featstone wall LRD",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 295,
+      "name": "FeatureWallSmoothLRU",
+      "caption": "smooth featstone wall LRU",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 296,
+      "name": "FeatureWallSmoothLUD",
+      "caption": "smooth featstone wall LUD",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 297,
+      "name": "FeatureWallSmoothRD",
+      "caption": "smooth featstone wall RD",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 298,
+      "name": "FeatureWallSmoothRU",
+      "caption": "smooth featstone wall RU",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 299,
+      "name": "FeatureWallSmoothLU",
+      "caption": "smooth featstone wall LU",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 300,
+      "name": "FeatureWallSmoothLD",
+      "caption": "smooth featstone wall LD",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 301,
+      "name": "FeatureWallSmoothUD",
+      "caption": "smooth featstone wall UD",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 302,
+      "name": "FeatureWallSmoothLR",
+      "caption": "smooth featstone wall LR",
+      "shape": 4,
+      "special": 3,
+      "material": 3,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 303,
+      "name": "StoneWallSmoothRD2",
+      "caption": "smooth stone wall RD2",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "--SS--E-"
+    },
+    {
+      "id": 304,
+      "name": "StoneWallSmoothR2D",
+      "caption": "smooth stone wall R2D",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S---EE"
+    },
+    {
+      "id": 305,
+      "name": "StoneWallSmoothR2U",
+      "caption": "smooth stone wall R2U",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-----EE"
+    },
+    {
+      "id": 306,
+      "name": "StoneWallSmoothRU2",
+      "caption": "smooth stone wall RU2",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "NN----E-"
+    },
+    {
+      "id": 307,
+      "name": "StoneWallSmoothL2U",
+      "caption": "smooth stone wall L2U",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "N---WW--"
+    },
+    {
+      "id": 308,
+      "name": "StoneWallSmoothLU2",
+      "caption": "smooth stone wall LU2",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "NN--W---"
+    },
+    {
+      "id": 309,
+      "name": "StoneWallSmoothL2D",
+      "caption": "smooth stone wall L2D",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S-WW--"
+    },
+    {
+      "id": 310,
+      "name": "StoneWallSmoothLD2",
+      "caption": "smooth stone wall LD2",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "--SSW---"
+    },
+    {
+      "id": 311,
+      "name": "StoneWallSmoothLRUD",
+      "caption": "smooth stone wall LRUD",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 312,
+      "name": "StoneWallSmoothRUD",
+      "caption": "smooth stone wall RUD",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 313,
+      "name": "StoneWallSmoothLRD",
+      "caption": "smooth stone wall LRD",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 314,
+      "name": "StoneWallSmoothLRU",
+      "caption": "smooth stone wall LRU",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 315,
+      "name": "StoneWallSmoothLUD",
+      "caption": "smooth stone wall LUD",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 316,
+      "name": "StoneWallSmoothRD",
+      "caption": "smooth stone wall RD",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 317,
+      "name": "StoneWallSmoothRU",
+      "caption": "smooth stone wall RU",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 318,
+      "name": "StoneWallSmoothLU",
+      "caption": "smooth stone wall LU",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 319,
+      "name": "StoneWallSmoothLD",
+      "caption": "smooth stone wall LD",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 320,
+      "name": "StoneWallSmoothUD",
+      "caption": "smooth stone wall UD",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 321,
+      "name": "StoneWallSmoothLR",
+      "caption": "smooth stone wall LR",
+      "shape": 4,
+      "special": 3,
+      "material": 2,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 322,
+      "name": "LavaFortification",
+      "caption": "obsidian fortification",
+      "shape": 5,
+      "special": -1,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 323,
+      "name": "FeatureFortification",
+      "caption": "featstone fortification",
+      "shape": 5,
+      "special": -1,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 324,
+      "name": "LavaWallWorn1",
+      "caption": "worn 1 obsidian wall",
+      "shape": 4,
+      "special": 7,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 325,
+      "name": "LavaWallWorn2",
+      "caption": "worn 2 obsidian wall",
+      "shape": 4,
+      "special": 8,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 326,
+      "name": "LavaWallWorn3",
+      "caption": "worn 3 obsidian wall",
+      "shape": 4,
+      "special": 9,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 327,
+      "name": "LavaWall",
+      "caption": "obsidian wall",
+      "shape": 4,
+      "special": 0,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 328,
+      "name": "FeatureWallWorn1",
+      "caption": "worn 1 featstone wall",
+      "shape": 4,
+      "special": 7,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 329,
+      "name": "FeatureWallWorn2",
+      "caption": "worn 2 featstone wall",
+      "shape": 4,
+      "special": 8,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 330,
+      "name": "FeatureWallWorn3",
+      "caption": "worn 3 featstone wall",
+      "shape": 4,
+      "special": 9,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 331,
+      "name": "FeatureWall",
+      "caption": "featstone wall",
+      "shape": 4,
+      "special": 0,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 332,
+      "name": "StoneFloor1",
+      "caption": "stone floor",
+      "shape": 1,
+      "special": 0,
+      "material": 2,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 333,
+      "name": "StoneFloor2",
+      "caption": "stone floor",
+      "shape": 1,
+      "special": 0,
+      "material": 2,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 334,
+      "name": "StoneFloor3",
+      "caption": "stone floor",
+      "shape": 1,
+      "special": 0,
+      "material": 2,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 335,
+      "name": "StoneFloor4",
+      "caption": "stone floor",
+      "shape": 1,
+      "special": 0,
+      "material": 2,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 336,
+      "name": "LavaFloor1",
+      "caption": "obsidian floor",
+      "shape": 1,
+      "special": 0,
+      "material": 4,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 337,
+      "name": "LavaFloor2",
+      "caption": "obsidian floor",
+      "shape": 1,
+      "special": 0,
+      "material": 4,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 338,
+      "name": "LavaFloor3",
+      "caption": "obsidian floor",
+      "shape": 1,
+      "special": 0,
+      "material": 4,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 339,
+      "name": "LavaFloor4",
+      "caption": "obsidian floor",
+      "shape": 1,
+      "special": 0,
+      "material": 4,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 340,
+      "name": "FeatureFloor1",
+      "caption": "featstone floor",
+      "shape": 1,
+      "special": 0,
+      "material": 3,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 341,
+      "name": "FeatureFloor2",
+      "caption": "featstone floor",
+      "shape": 1,
+      "special": 0,
+      "material": 3,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 342,
+      "name": "FeatureFloor3",
+      "caption": "featstone floor",
+      "shape": 1,
+      "special": 0,
+      "material": 3,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 343,
+      "name": "FeatureFloor4",
+      "caption": "featstone floor",
+      "shape": 1,
+      "special": 0,
+      "material": 3,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 344,
+      "name": "GrassDarkFloor1",
+      "caption": "dark grass",
+      "shape": 1,
+      "special": -1,
+      "material": 9,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 345,
+      "name": "GrassDarkFloor2",
+      "caption": "dark grass",
+      "shape": 1,
+      "special": -1,
+      "material": 9,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 346,
+      "name": "GrassDarkFloor3",
+      "caption": "dark grass",
+      "shape": 1,
+      "special": -1,
+      "material": 9,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 347,
+      "name": "GrassDarkFloor4",
+      "caption": "dark grass",
+      "shape": 1,
+      "special": -1,
+      "material": 9,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 348,
+      "name": "SoilFloor1",
+      "caption": "soil floor",
+      "shape": 1,
+      "special": 0,
+      "material": 1,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 349,
+      "name": "SoilFloor2",
+      "caption": "soil floor",
+      "shape": 1,
+      "special": 0,
+      "material": 1,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 350,
+      "name": "SoilFloor3",
+      "caption": "soil floor",
+      "shape": 1,
+      "special": 0,
+      "material": 1,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 351,
+      "name": "SoilFloor4",
+      "caption": "soil floor",
+      "shape": 1,
+      "special": 0,
+      "material": 1,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 352,
+      "name": "SoilWetFloor1",
+      "caption": "wet soil floor",
+      "shape": 1,
+      "special": 5,
+      "material": 1,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 353,
+      "name": "SoilWetFloor2",
+      "caption": "wet soil floor",
+      "shape": 1,
+      "special": 5,
+      "material": 1,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 354,
+      "name": "SoilWetFloor3",
+      "caption": "wet soil floor",
+      "shape": 1,
+      "special": 5,
+      "material": 1,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 355,
+      "name": "SoilWetFloor4",
+      "caption": "wet soil floor",
+      "shape": 1,
+      "special": 5,
+      "material": 1,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 356,
+      "name": "FrozenFortification",
+      "caption": "ice fortification",
+      "shape": 5,
+      "special": -1,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 357,
+      "name": "FrozenWallWorn1",
+      "caption": "worn 1 ice wall",
+      "shape": 4,
+      "special": 7,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 358,
+      "name": "FrozenWallWorn2",
+      "caption": "worn 2 ice wall",
+      "shape": 4,
+      "special": 8,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 359,
+      "name": "FrozenWallWorn3",
+      "caption": "worn 3 ice wall",
+      "shape": 4,
+      "special": 9,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 360,
+      "name": "FrozenWall",
+      "caption": "ice wall",
+      "shape": 4,
+      "special": 0,
+      "material": 6,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 361,
+      "name": "RiverN",
+      "caption": "river N",
+      "shape": 1,
+      "special": 0,
+      "material": 21,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 362,
+      "name": "RiverS",
+      "caption": "river S",
+      "shape": 1,
+      "special": 0,
+      "material": 21,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 363,
+      "name": "RiverE",
+      "caption": "river E",
+      "shape": 1,
+      "special": 0,
+      "material": 21,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 364,
+      "name": "RiverW",
+      "caption": "river W",
+      "shape": 1,
+      "special": 0,
+      "material": 21,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 365,
+      "name": "RiverNW",
+      "caption": "river NW",
+      "shape": 1,
+      "special": 0,
+      "material": 21,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 366,
+      "name": "RiverNE",
+      "caption": "river NE",
+      "shape": 1,
+      "special": 0,
+      "material": 21,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 367,
+      "name": "RiverSW",
+      "caption": "river SW",
+      "shape": 1,
+      "special": 0,
+      "material": 21,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 368,
+      "name": "RiverSE",
+      "caption": "river SE",
+      "shape": 1,
+      "special": 0,
+      "material": 21,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 369,
+      "name": "BrookN",
+      "caption": "brook bed N",
+      "shape": 11,
+      "special": -1,
+      "material": 20,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 370,
+      "name": "BrookS",
+      "caption": "brook bed S",
+      "shape": 11,
+      "special": -1,
+      "material": 20,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 371,
+      "name": "BrookE",
+      "caption": "brook bed E",
+      "shape": 11,
+      "special": -1,
+      "material": 20,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 372,
+      "name": "BrookW",
+      "caption": "brook bed W",
+      "shape": 11,
+      "special": -1,
+      "material": 20,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 373,
+      "name": "BrookNW",
+      "caption": "brook bed NW",
+      "shape": 11,
+      "special": -1,
+      "material": 20,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 374,
+      "name": "BrookNE",
+      "caption": "brook bed NE",
+      "shape": 11,
+      "special": -1,
+      "material": 20,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 375,
+      "name": "BrookSW",
+      "caption": "brook bed SW",
+      "shape": 11,
+      "special": -1,
+      "material": 20,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 376,
+      "name": "BrookSE",
+      "caption": "brook bed SE",
+      "shape": 11,
+      "special": -1,
+      "material": 20,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 377,
+      "name": "BrookTop1",
+      "caption": "brook top",
+      "shape": 12,
+      "special": -1,
+      "material": 20,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 378,
+      "name": "BrookTop2",
+      "caption": "brook top",
+      "shape": 12,
+      "special": -1,
+      "material": 20,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 379,
+      "name": "BrookTop3",
+      "caption": "brook top",
+      "shape": 12,
+      "special": -1,
+      "material": 20,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 380,
+      "name": "BrookTop4",
+      "caption": "brook top",
+      "shape": 12,
+      "special": -1,
+      "material": 20,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 381,
+      "name": "Unused381",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 382,
+      "name": "Unused382",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 383,
+      "name": "GrassDryFloor1",
+      "caption": "dry grass",
+      "shape": 1,
+      "special": -1,
+      "material": 10,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 384,
+      "name": "GrassDryFloor2",
+      "caption": "dry grass",
+      "shape": 1,
+      "special": -1,
+      "material": 10,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 385,
+      "name": "GrassDryFloor3",
+      "caption": "dry grass",
+      "shape": 1,
+      "special": -1,
+      "material": 10,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 386,
+      "name": "GrassDryFloor4",
+      "caption": "dry grass",
+      "shape": 1,
+      "special": -1,
+      "material": 10,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 387,
+      "name": "Unused387",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 388,
+      "name": "SaplingDead",
+      "caption": "dead sapling",
+      "shape": 14,
+      "special": 6,
+      "material": 12,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 389,
+      "name": "ShrubDead",
+      "caption": "dead shrub",
+      "shape": 15,
+      "special": 6,
+      "material": 12,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 390,
+      "name": "GrassDeadFloor1",
+      "caption": "dead grass",
+      "shape": 1,
+      "special": -1,
+      "material": 11,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 391,
+      "name": "GrassDeadFloor2",
+      "caption": "dead grass",
+      "shape": 1,
+      "special": -1,
+      "material": 11,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 392,
+      "name": "GrassDeadFloor3",
+      "caption": "dead grass",
+      "shape": 1,
+      "special": -1,
+      "material": 11,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 393,
+      "name": "GrassDeadFloor4",
+      "caption": "dead grass",
+      "shape": 1,
+      "special": -1,
+      "material": 11,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 394,
+      "name": "GrassLightFloor1",
+      "caption": "light grass",
+      "shape": 1,
+      "special": -1,
+      "material": 8,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 395,
+      "name": "GrassLightFloor2",
+      "caption": "light grass",
+      "shape": 1,
+      "special": -1,
+      "material": 8,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 396,
+      "name": "GrassLightFloor3",
+      "caption": "light grass",
+      "shape": 1,
+      "special": -1,
+      "material": 8,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 397,
+      "name": "GrassLightFloor4",
+      "caption": "light grass",
+      "shape": 1,
+      "special": -1,
+      "material": 8,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 398,
+      "name": "StoneBoulder",
+      "caption": "boulder",
+      "shape": 2,
+      "special": -1,
+      "material": 2,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 399,
+      "name": "LavaBoulder",
+      "caption": "obsidian boulder",
+      "shape": 2,
+      "special": -1,
+      "material": 4,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 400,
+      "name": "FeatureBoulder",
+      "caption": "featstone boulder",
+      "shape": 2,
+      "special": -1,
+      "material": 3,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 401,
+      "name": "StonePebbles1",
+      "caption": "stone pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 2,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 402,
+      "name": "StonePebbles2",
+      "caption": "stone pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 2,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 403,
+      "name": "StonePebbles3",
+      "caption": "stone pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 2,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 404,
+      "name": "StonePebbles4",
+      "caption": "stone pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 2,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 405,
+      "name": "LavaPebbles1",
+      "caption": "obsidian pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 4,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 406,
+      "name": "LavaPebbles2",
+      "caption": "obsidian pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 4,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 407,
+      "name": "LavaPebbles3",
+      "caption": "obsidian pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 4,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 408,
+      "name": "LavaPebbles4",
+      "caption": "obsidian pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 4,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 409,
+      "name": "FeaturePebbles1",
+      "caption": "featstone pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 3,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 410,
+      "name": "FeaturePebbles2",
+      "caption": "featstone pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 3,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 411,
+      "name": "FeaturePebbles3",
+      "caption": "featstone pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 3,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 412,
+      "name": "FeaturePebbles4",
+      "caption": "featstone pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 3,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 413,
+      "name": "MineralWallSmoothRD2",
+      "caption": "smooth vein wall RD2",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "--SS--E-"
+    },
+    {
+      "id": 414,
+      "name": "MineralWallSmoothR2D",
+      "caption": "smooth vein wall R2D",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S---EE"
+    },
+    {
+      "id": 415,
+      "name": "MineralWallSmoothR2U",
+      "caption": "smooth vein wall R2U",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-----EE"
+    },
+    {
+      "id": 416,
+      "name": "MineralWallSmoothRU2",
+      "caption": "smooth vein wall RU2",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "NN----E-"
+    },
+    {
+      "id": 417,
+      "name": "MineralWallSmoothL2U",
+      "caption": "smooth vein wall L2U",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "N---WW--"
+    },
+    {
+      "id": 418,
+      "name": "MineralWallSmoothLU2",
+      "caption": "smooth vein wall LU2",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "NN--W---"
+    },
+    {
+      "id": 419,
+      "name": "MineralWallSmoothL2D",
+      "caption": "smooth vein wall L2D",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S-WW--"
+    },
+    {
+      "id": 420,
+      "name": "MineralWallSmoothLD2",
+      "caption": "smooth vein wall LD2",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "--SSW---"
+    },
+    {
+      "id": 421,
+      "name": "MineralWallSmoothLRUD",
+      "caption": "smooth vein wall LRUD",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 422,
+      "name": "MineralWallSmoothRUD",
+      "caption": "smooth vein wall RUD",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 423,
+      "name": "MineralWallSmoothLRD",
+      "caption": "smooth vein wall LRD",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 424,
+      "name": "MineralWallSmoothLRU",
+      "caption": "smooth vein wall LRU",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 425,
+      "name": "MineralWallSmoothLUD",
+      "caption": "smooth vein wall LUD",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 426,
+      "name": "MineralWallSmoothRD",
+      "caption": "smooth vein wall RD",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 427,
+      "name": "MineralWallSmoothRU",
+      "caption": "smooth vein wall RU",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 428,
+      "name": "MineralWallSmoothLU",
+      "caption": "smooth vein wall LU",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 429,
+      "name": "MineralWallSmoothLD",
+      "caption": "smooth vein wall LD",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 430,
+      "name": "MineralWallSmoothUD",
+      "caption": "smooth vein wall UD",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 431,
+      "name": "MineralWallSmoothLR",
+      "caption": "smooth vein wall LR",
+      "shape": 4,
+      "special": 3,
+      "material": 5,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 432,
+      "name": "MineralFortification",
+      "caption": "vein fortification",
+      "shape": 5,
+      "special": -1,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 433,
+      "name": "MineralWallWorn1",
+      "caption": "worn 1 vein wall",
+      "shape": 4,
+      "special": 7,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 434,
+      "name": "MineralWallWorn2",
+      "caption": "worn 2 vein wall",
+      "shape": 4,
+      "special": 8,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 435,
+      "name": "MineralWallWorn3",
+      "caption": "worn 3 vein wall",
+      "shape": 4,
+      "special": 9,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 436,
+      "name": "MineralWall",
+      "caption": "vein wall",
+      "shape": 4,
+      "special": 0,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 437,
+      "name": "MineralFloor1",
+      "caption": "vein floor",
+      "shape": 1,
+      "special": 0,
+      "material": 5,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 438,
+      "name": "MineralFloor2",
+      "caption": "vein floor",
+      "shape": 1,
+      "special": 0,
+      "material": 5,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 439,
+      "name": "MineralFloor3",
+      "caption": "vein floor",
+      "shape": 1,
+      "special": 0,
+      "material": 5,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 440,
+      "name": "MineralFloor4",
+      "caption": "vein floor",
+      "shape": 1,
+      "special": 0,
+      "material": 5,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 441,
+      "name": "MineralBoulder",
+      "caption": "vein boulder",
+      "shape": 2,
+      "special": -1,
+      "material": 5,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 442,
+      "name": "MineralPebbles1",
+      "caption": "vein pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 5,
+      "variant": 0,
+      "direction": "--------"
+    },
+    {
+      "id": 443,
+      "name": "MineralPebbles2",
+      "caption": "vein pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 5,
+      "variant": 1,
+      "direction": "--------"
+    },
+    {
+      "id": 444,
+      "name": "MineralPebbles3",
+      "caption": "vein pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 5,
+      "variant": 2,
+      "direction": "--------"
+    },
+    {
+      "id": 445,
+      "name": "MineralPebbles4",
+      "caption": "vein pebbles",
+      "shape": 3,
+      "special": -1,
+      "material": 5,
+      "variant": 3,
+      "direction": "--------"
+    },
+    {
+      "id": 446,
+      "name": "FrozenWallSmoothRD2",
+      "caption": "smooth ice wall RD2",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "--SS--E-"
+    },
+    {
+      "id": 447,
+      "name": "FrozenWallSmoothR2D",
+      "caption": "smooth ice wall R2D",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S---EE"
+    },
+    {
+      "id": 448,
+      "name": "FrozenWallSmoothR2U",
+      "caption": "smooth ice wall R2U",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-----EE"
+    },
+    {
+      "id": 449,
+      "name": "FrozenWallSmoothRU2",
+      "caption": "smooth ice wall RU2",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "NN----E-"
+    },
+    {
+      "id": 450,
+      "name": "FrozenWallSmoothL2U",
+      "caption": "smooth ice wall L2U",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "N---WW--"
+    },
+    {
+      "id": 451,
+      "name": "FrozenWallSmoothLU2",
+      "caption": "smooth ice wall LU2",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "NN--W---"
+    },
+    {
+      "id": 452,
+      "name": "FrozenWallSmoothL2D",
+      "caption": "smooth ice wall L2D",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S-WW--"
+    },
+    {
+      "id": 453,
+      "name": "FrozenWallSmoothLD2",
+      "caption": "smooth ice wall LD2",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "--SSW---"
+    },
+    {
+      "id": 454,
+      "name": "FrozenWallSmoothLRUD",
+      "caption": "smooth ice wall LRUD",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 455,
+      "name": "FrozenWallSmoothRUD",
+      "caption": "smooth ice wall RUD",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 456,
+      "name": "FrozenWallSmoothLRD",
+      "caption": "smooth ice wall LRD",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 457,
+      "name": "FrozenWallSmoothLRU",
+      "caption": "smooth ice wall LRU",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 458,
+      "name": "FrozenWallSmoothLUD",
+      "caption": "smooth ice wall LUD",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 459,
+      "name": "FrozenWallSmoothRD",
+      "caption": "smooth ice wall RD",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 460,
+      "name": "FrozenWallSmoothRU",
+      "caption": "smooth ice wall RU",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 461,
+      "name": "FrozenWallSmoothLU",
+      "caption": "smooth ice wall LU",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 462,
+      "name": "FrozenWallSmoothLD",
+      "caption": "smooth ice wall LD",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 463,
+      "name": "FrozenWallSmoothUD",
+      "caption": "smooth ice wall UD",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 464,
+      "name": "FrozenWallSmoothLR",
+      "caption": "smooth ice wall LR",
+      "shape": 4,
+      "special": 3,
+      "material": 6,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 465,
+      "name": "RiverRampN",
+      "caption": "river ramp N",
+      "shape": 9,
+      "special": -1,
+      "material": 21,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 466,
+      "name": "RiverRampS",
+      "caption": "river ramp S",
+      "shape": 9,
+      "special": -1,
+      "material": 21,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 467,
+      "name": "RiverRampE",
+      "caption": "river ramp E",
+      "shape": 9,
+      "special": -1,
+      "material": 21,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 468,
+      "name": "RiverRampW",
+      "caption": "river ramp W",
+      "shape": 9,
+      "special": -1,
+      "material": 21,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 469,
+      "name": "RiverRampNW",
+      "caption": "river ramp NW",
+      "shape": 9,
+      "special": -1,
+      "material": 21,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 470,
+      "name": "RiverRampNE",
+      "caption": "river ramp NE",
+      "shape": 9,
+      "special": -1,
+      "material": 21,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 471,
+      "name": "RiverRampSW",
+      "caption": "river ramp SW",
+      "shape": 9,
+      "special": -1,
+      "material": 21,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 472,
+      "name": "RiverRampSE",
+      "caption": "river ramp SE",
+      "shape": 9,
+      "special": -1,
+      "material": 21,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 473,
+      "name": "Unused473",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 474,
+      "name": "Unused474",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 475,
+      "name": "Unused475",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 476,
+      "name": "Unused476",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 477,
+      "name": "Unused477",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 478,
+      "name": "Unused478",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 479,
+      "name": "Unused479",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 480,
+      "name": "Unused480",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 481,
+      "name": "Unused481",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 482,
+      "name": "Unused482",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 483,
+      "name": "Unused483",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 484,
+      "name": "Unused484",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 485,
+      "name": "Unused485",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 486,
+      "name": "Unused486",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 487,
+      "name": "Unused487",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 488,
+      "name": "Unused488",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 489,
+      "name": "ConstructedFloor",
+      "caption": "constructed floor",
+      "shape": 1,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 490,
+      "name": "ConstructedFortification",
+      "caption": "constructed fortification",
+      "shape": 5,
+      "special": -1,
+      "material": 7,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 491,
+      "name": "ConstructedPillar",
+      "caption": "constructed pillar",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 492,
+      "name": "ConstructedWallRD2",
+      "caption": "constructed wall RD2",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "--SS--E-"
+    },
+    {
+      "id": 493,
+      "name": "ConstructedWallR2D",
+      "caption": "constructed wall R2D",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S---EE"
+    },
+    {
+      "id": 494,
+      "name": "ConstructedWallR2U",
+      "caption": "constructed wall R2U",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-----EE"
+    },
+    {
+      "id": 495,
+      "name": "ConstructedWallRU2",
+      "caption": "constructed wall RU2",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "NN----E-"
+    },
+    {
+      "id": 496,
+      "name": "ConstructedWallL2U",
+      "caption": "constructed wall L2U",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "N---WW--"
+    },
+    {
+      "id": 497,
+      "name": "ConstructedWallLU2",
+      "caption": "constructed wall LU2",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "NN--W---"
+    },
+    {
+      "id": 498,
+      "name": "ConstructedWallL2D",
+      "caption": "constructed wall L2D",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S-WW--"
+    },
+    {
+      "id": 499,
+      "name": "ConstructedWallLD2",
+      "caption": "constructed wall LD2",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "--SSW---"
+    },
+    {
+      "id": 500,
+      "name": "ConstructedWallLRUD",
+      "caption": "constructed wall LRUD",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 501,
+      "name": "ConstructedWallRUD",
+      "caption": "constructed wall RUD",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 502,
+      "name": "ConstructedWallLRD",
+      "caption": "constructed wall LRD",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 503,
+      "name": "ConstructedWallLRU",
+      "caption": "constructed wall LRU",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 504,
+      "name": "ConstructedWallLUD",
+      "caption": "constructed wall LUD",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 505,
+      "name": "ConstructedWallRD",
+      "caption": "constructed wall RD",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 506,
+      "name": "ConstructedWallRU",
+      "caption": "constructed wall RU",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 507,
+      "name": "ConstructedWallLU",
+      "caption": "constructed wall LU",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 508,
+      "name": "ConstructedWallLD",
+      "caption": "constructed wall LD",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 509,
+      "name": "ConstructedWallUD",
+      "caption": "constructed wall UD",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 510,
+      "name": "ConstructedWallLR",
+      "caption": "constructed wall LR",
+      "shape": 4,
+      "special": 3,
+      "material": 7,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 511,
+      "name": "ConstructedStairUD",
+      "caption": "constructed stair up/down",
+      "shape": 8,
+      "special": -1,
+      "material": 7,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 512,
+      "name": "ConstructedStairD",
+      "caption": "constructed stair down",
+      "shape": 7,
+      "special": -1,
+      "material": 7,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 513,
+      "name": "ConstructedStairU",
+      "caption": "constructed stair up",
+      "shape": 6,
+      "special": -1,
+      "material": 7,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 514,
+      "name": "ConstructedRamp",
+      "caption": "constructed ramp",
+      "shape": 9,
+      "special": -1,
+      "material": 7,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 515,
+      "name": "StoneFloorTrackN",
+      "caption": "stone floor track N",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 516,
+      "name": "StoneFloorTrackS",
+      "caption": "stone floor track S",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 517,
+      "name": "StoneFloorTrackE",
+      "caption": "stone floor track E",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 518,
+      "name": "StoneFloorTrackW",
+      "caption": "stone floor track W",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 519,
+      "name": "StoneFloorTrackNS",
+      "caption": "stone floor track NS",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 520,
+      "name": "StoneFloorTrackNE",
+      "caption": "stone floor track NE",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 521,
+      "name": "StoneFloorTrackNW",
+      "caption": "stone floor track NW",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 522,
+      "name": "StoneFloorTrackSE",
+      "caption": "stone floor track SE",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 523,
+      "name": "StoneFloorTrackSW",
+      "caption": "stone floor track SW",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 524,
+      "name": "StoneFloorTrackEW",
+      "caption": "stone floor track EW",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 525,
+      "name": "StoneFloorTrackNSE",
+      "caption": "stone floor track NSE",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 526,
+      "name": "StoneFloorTrackNSW",
+      "caption": "stone floor track NSW",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 527,
+      "name": "StoneFloorTrackNEW",
+      "caption": "stone floor track NEW",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 528,
+      "name": "StoneFloorTrackSEW",
+      "caption": "stone floor track SEW",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 529,
+      "name": "StoneFloorTrackNSEW",
+      "caption": "stone floor track NSEW",
+      "shape": 1,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 530,
+      "name": "LavaFloorTrackN",
+      "caption": "obsidian floor track N",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 531,
+      "name": "LavaFloorTrackS",
+      "caption": "obsidian floor track S",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 532,
+      "name": "LavaFloorTrackE",
+      "caption": "obsidian floor track E",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 533,
+      "name": "LavaFloorTrackW",
+      "caption": "obsidian floor track W",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 534,
+      "name": "LavaFloorTrackNS",
+      "caption": "obsidian floor track NS",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 535,
+      "name": "LavaFloorTrackNE",
+      "caption": "obsidian floor track NE",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 536,
+      "name": "LavaFloorTrackNW",
+      "caption": "obsidian floor track NW",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 537,
+      "name": "LavaFloorTrackSE",
+      "caption": "obsidian floor track SE",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 538,
+      "name": "LavaFloorTrackSW",
+      "caption": "obsidian floor track SW",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 539,
+      "name": "LavaFloorTrackEW",
+      "caption": "obsidian floor track EW",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 540,
+      "name": "LavaFloorTrackNSE",
+      "caption": "obsidian floor track NSE",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 541,
+      "name": "LavaFloorTrackNSW",
+      "caption": "obsidian floor track NSW",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 542,
+      "name": "LavaFloorTrackNEW",
+      "caption": "obsidian floor track NEW",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 543,
+      "name": "LavaFloorTrackSEW",
+      "caption": "obsidian floor track SEW",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 544,
+      "name": "LavaFloorTrackNSEW",
+      "caption": "obsidian floor track NSEW",
+      "shape": 1,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 545,
+      "name": "FeatureFloorTrackN",
+      "caption": "featstone floor track N",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 546,
+      "name": "FeatureFloorTrackS",
+      "caption": "featstone floor track S",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 547,
+      "name": "FeatureFloorTrackE",
+      "caption": "featstone floor track E",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 548,
+      "name": "FeatureFloorTrackW",
+      "caption": "featstone floor track W",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 549,
+      "name": "FeatureFloorTrackNS",
+      "caption": "featstone floor track NS",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 550,
+      "name": "FeatureFloorTrackNE",
+      "caption": "featstone floor track NE",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 551,
+      "name": "FeatureFloorTrackNW",
+      "caption": "featstone floor track NW",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 552,
+      "name": "FeatureFloorTrackSE",
+      "caption": "featstone floor track SE",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 553,
+      "name": "FeatureFloorTrackSW",
+      "caption": "featstone floor track SW",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 554,
+      "name": "FeatureFloorTrackEW",
+      "caption": "featstone floor track EW",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 555,
+      "name": "FeatureFloorTrackNSE",
+      "caption": "featstone floor track NSE",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 556,
+      "name": "FeatureFloorTrackNSW",
+      "caption": "featstone floor track NSW",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 557,
+      "name": "FeatureFloorTrackNEW",
+      "caption": "featstone floor track NEW",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 558,
+      "name": "FeatureFloorTrackSEW",
+      "caption": "featstone floor track SEW",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 559,
+      "name": "FeatureFloorTrackNSEW",
+      "caption": "featstone floor track NSEW",
+      "shape": 1,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 560,
+      "name": "MineralFloorTrackN",
+      "caption": "vein floor track N",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 561,
+      "name": "MineralFloorTrackS",
+      "caption": "vein floor track S",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 562,
+      "name": "MineralFloorTrackE",
+      "caption": "vein floor track E",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 563,
+      "name": "MineralFloorTrackW",
+      "caption": "vein floor track W",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 564,
+      "name": "MineralFloorTrackNS",
+      "caption": "vein floor track NS",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 565,
+      "name": "MineralFloorTrackNE",
+      "caption": "vein floor track NE",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 566,
+      "name": "MineralFloorTrackNW",
+      "caption": "vein floor track NW",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 567,
+      "name": "MineralFloorTrackSE",
+      "caption": "vein floor track SE",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 568,
+      "name": "MineralFloorTrackSW",
+      "caption": "vein floor track SW",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 569,
+      "name": "MineralFloorTrackEW",
+      "caption": "vein floor track EW",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 570,
+      "name": "MineralFloorTrackNSE",
+      "caption": "vein floor track NSE",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 571,
+      "name": "MineralFloorTrackNSW",
+      "caption": "vein floor track NSW",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 572,
+      "name": "MineralFloorTrackNEW",
+      "caption": "vein floor track NEW",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 573,
+      "name": "MineralFloorTrackSEW",
+      "caption": "vein floor track SEW",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 574,
+      "name": "MineralFloorTrackNSEW",
+      "caption": "vein floor track NSEW",
+      "shape": 1,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 575,
+      "name": "FrozenFloorTrackN",
+      "caption": "ice floor track N",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 576,
+      "name": "FrozenFloorTrackS",
+      "caption": "ice floor track S",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 577,
+      "name": "FrozenFloorTrackE",
+      "caption": "ice floor track E",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 578,
+      "name": "FrozenFloorTrackW",
+      "caption": "ice floor track W",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 579,
+      "name": "FrozenFloorTrackNS",
+      "caption": "ice floor track NS",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 580,
+      "name": "FrozenFloorTrackNE",
+      "caption": "ice floor track NE",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 581,
+      "name": "FrozenFloorTrackNW",
+      "caption": "ice floor track NW",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 582,
+      "name": "FrozenFloorTrackSE",
+      "caption": "ice floor track SE",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 583,
+      "name": "FrozenFloorTrackSW",
+      "caption": "ice floor track SW",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 584,
+      "name": "FrozenFloorTrackEW",
+      "caption": "ice floor track EW",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 585,
+      "name": "FrozenFloorTrackNSE",
+      "caption": "ice floor track NSE",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 586,
+      "name": "FrozenFloorTrackNSW",
+      "caption": "ice floor track NSW",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 587,
+      "name": "FrozenFloorTrackNEW",
+      "caption": "ice floor track NEW",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 588,
+      "name": "FrozenFloorTrackSEW",
+      "caption": "ice floor track SEW",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 589,
+      "name": "FrozenFloorTrackNSEW",
+      "caption": "ice floor track NSEW",
+      "shape": 1,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 590,
+      "name": "ConstructedFloorTrackN",
+      "caption": "constructed floor track N",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 591,
+      "name": "ConstructedFloorTrackS",
+      "caption": "constructed floor track S",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 592,
+      "name": "ConstructedFloorTrackE",
+      "caption": "constructed floor track E",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 593,
+      "name": "ConstructedFloorTrackW",
+      "caption": "constructed floor track W",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 594,
+      "name": "ConstructedFloorTrackNS",
+      "caption": "constructed floor track NS",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 595,
+      "name": "ConstructedFloorTrackNE",
+      "caption": "constructed floor track NE",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 596,
+      "name": "ConstructedFloorTrackNW",
+      "caption": "constructed floor track NW",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 597,
+      "name": "ConstructedFloorTrackSE",
+      "caption": "constructed floor track SE",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 598,
+      "name": "ConstructedFloorTrackSW",
+      "caption": "constructed floor track SW",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 599,
+      "name": "ConstructedFloorTrackEW",
+      "caption": "constructed floor track EW",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 600,
+      "name": "ConstructedFloorTrackNSE",
+      "caption": "constructed floor track NSE",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 601,
+      "name": "ConstructedFloorTrackNSW",
+      "caption": "constructed floor track NSW",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 602,
+      "name": "ConstructedFloorTrackNEW",
+      "caption": "constructed floor track NEW",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 603,
+      "name": "ConstructedFloorTrackSEW",
+      "caption": "constructed floor track SEW",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 604,
+      "name": "ConstructedFloorTrackNSEW",
+      "caption": "constructed floor track NSEW",
+      "shape": 1,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 605,
+      "name": "StoneRampTrackN",
+      "caption": "stone ramp track N",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 606,
+      "name": "StoneRampTrackS",
+      "caption": "stone ramp track S",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 607,
+      "name": "StoneRampTrackE",
+      "caption": "stone ramp track E",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 608,
+      "name": "StoneRampTrackW",
+      "caption": "stone ramp track W",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 609,
+      "name": "StoneRampTrackNS",
+      "caption": "stone ramp track NS",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 610,
+      "name": "StoneRampTrackNE",
+      "caption": "stone ramp track NE",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 611,
+      "name": "StoneRampTrackNW",
+      "caption": "stone ramp track NW",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 612,
+      "name": "StoneRampTrackSE",
+      "caption": "stone ramp track SE",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 613,
+      "name": "StoneRampTrackSW",
+      "caption": "stone ramp track SW",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 614,
+      "name": "StoneRampTrackEW",
+      "caption": "stone ramp track EW",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 615,
+      "name": "StoneRampTrackNSE",
+      "caption": "stone ramp track NSE",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 616,
+      "name": "StoneRampTrackNSW",
+      "caption": "stone ramp track NSW",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 617,
+      "name": "StoneRampTrackNEW",
+      "caption": "stone ramp track NEW",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 618,
+      "name": "StoneRampTrackSEW",
+      "caption": "stone ramp track SEW",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 619,
+      "name": "StoneRampTrackNSEW",
+      "caption": "stone ramp track NSEW",
+      "shape": 9,
+      "special": 10,
+      "material": 2,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 620,
+      "name": "LavaRampTrackN",
+      "caption": "obsidian ramp track N",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 621,
+      "name": "LavaRampTrackS",
+      "caption": "obsidian ramp track S",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 622,
+      "name": "LavaRampTrackE",
+      "caption": "obsidian ramp track E",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 623,
+      "name": "LavaRampTrackW",
+      "caption": "obsidian ramp track W",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 624,
+      "name": "LavaRampTrackNS",
+      "caption": "obsidian ramp track NS",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 625,
+      "name": "LavaRampTrackNE",
+      "caption": "obsidian ramp track NE",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 626,
+      "name": "LavaRampTrackNW",
+      "caption": "obsidian ramp track NW",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 627,
+      "name": "LavaRampTrackSE",
+      "caption": "obsidian ramp track SE",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 628,
+      "name": "LavaRampTrackSW",
+      "caption": "obsidian ramp track SW",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 629,
+      "name": "LavaRampTrackEW",
+      "caption": "obsidian ramp track EW",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 630,
+      "name": "LavaRampTrackNSE",
+      "caption": "obsidian ramp track NSE",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 631,
+      "name": "LavaRampTrackNSW",
+      "caption": "obsidian ramp track NSW",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 632,
+      "name": "LavaRampTrackNEW",
+      "caption": "obsidian ramp track NEW",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 633,
+      "name": "LavaRampTrackSEW",
+      "caption": "obsidian ramp track SEW",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 634,
+      "name": "LavaRampTrackNSEW",
+      "caption": "obsidian ramp track NSEW",
+      "shape": 9,
+      "special": 10,
+      "material": 4,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 635,
+      "name": "FeatureRampTrackN",
+      "caption": "featstone ramp track N",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 636,
+      "name": "FeatureRampTrackS",
+      "caption": "featstone ramp track S",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 637,
+      "name": "FeatureRampTrackE",
+      "caption": "featstone ramp track E",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 638,
+      "name": "FeatureRampTrackW",
+      "caption": "featstone ramp track W",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 639,
+      "name": "FeatureRampTrackNS",
+      "caption": "featstone ramp track NS",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 640,
+      "name": "FeatureRampTrackNE",
+      "caption": "featstone ramp track NE",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 641,
+      "name": "FeatureRampTrackNW",
+      "caption": "featstone ramp track NW",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 642,
+      "name": "FeatureRampTrackSE",
+      "caption": "featstone ramp track SE",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 643,
+      "name": "FeatureRampTrackSW",
+      "caption": "featstone ramp track SW",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 644,
+      "name": "FeatureRampTrackEW",
+      "caption": "featstone ramp track EW",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 645,
+      "name": "FeatureRampTrackNSE",
+      "caption": "featstone ramp track NSE",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 646,
+      "name": "FeatureRampTrackNSW",
+      "caption": "featstone ramp track NSW",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 647,
+      "name": "FeatureRampTrackNEW",
+      "caption": "featstone ramp track NEW",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 648,
+      "name": "FeatureRampTrackSEW",
+      "caption": "featstone ramp track SEW",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 649,
+      "name": "FeatureRampTrackNSEW",
+      "caption": "featstone ramp track NSEW",
+      "shape": 9,
+      "special": 10,
+      "material": 3,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 650,
+      "name": "MineralRampTrackN",
+      "caption": "vein ramp track N",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 651,
+      "name": "MineralRampTrackS",
+      "caption": "vein ramp track S",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 652,
+      "name": "MineralRampTrackE",
+      "caption": "vein ramp track E",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 653,
+      "name": "MineralRampTrackW",
+      "caption": "vein ramp track W",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 654,
+      "name": "MineralRampTrackNS",
+      "caption": "vein ramp track NS",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 655,
+      "name": "MineralRampTrackNE",
+      "caption": "vein ramp track NE",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 656,
+      "name": "MineralRampTrackNW",
+      "caption": "vein ramp track NW",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 657,
+      "name": "MineralRampTrackSE",
+      "caption": "vein ramp track SE",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 658,
+      "name": "MineralRampTrackSW",
+      "caption": "vein ramp track SW",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 659,
+      "name": "MineralRampTrackEW",
+      "caption": "vein ramp track EW",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 660,
+      "name": "MineralRampTrackNSE",
+      "caption": "vein ramp track NSE",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 661,
+      "name": "MineralRampTrackNSW",
+      "caption": "vein ramp track NSW",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 662,
+      "name": "MineralRampTrackNEW",
+      "caption": "vein ramp track NEW",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 663,
+      "name": "MineralRampTrackSEW",
+      "caption": "vein ramp track SEW",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 664,
+      "name": "MineralRampTrackNSEW",
+      "caption": "vein ramp track NSEW",
+      "shape": 9,
+      "special": 10,
+      "material": 5,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 665,
+      "name": "FrozenRampTrackN",
+      "caption": "ice ramp track N",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 666,
+      "name": "FrozenRampTrackS",
+      "caption": "ice ramp track S",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 667,
+      "name": "FrozenRampTrackE",
+      "caption": "ice ramp track E",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 668,
+      "name": "FrozenRampTrackW",
+      "caption": "ice ramp track W",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 669,
+      "name": "FrozenRampTrackNS",
+      "caption": "ice ramp track NS",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 670,
+      "name": "FrozenRampTrackNE",
+      "caption": "ice ramp track NE",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 671,
+      "name": "FrozenRampTrackNW",
+      "caption": "ice ramp track NW",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 672,
+      "name": "FrozenRampTrackSE",
+      "caption": "ice ramp track SE",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 673,
+      "name": "FrozenRampTrackSW",
+      "caption": "ice ramp track SW",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 674,
+      "name": "FrozenRampTrackEW",
+      "caption": "ice ramp track EW",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 675,
+      "name": "FrozenRampTrackNSE",
+      "caption": "ice ramp track NSE",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 676,
+      "name": "FrozenRampTrackNSW",
+      "caption": "ice ramp track NSW",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 677,
+      "name": "FrozenRampTrackNEW",
+      "caption": "ice ramp track NEW",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 678,
+      "name": "FrozenRampTrackSEW",
+      "caption": "ice ramp track SEW",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 679,
+      "name": "FrozenRampTrackNSEW",
+      "caption": "ice ramp track NSEW",
+      "shape": 9,
+      "special": 10,
+      "material": 6,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 680,
+      "name": "ConstructedRampTrackN",
+      "caption": "constructed ramp track N",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-------"
+    },
+    {
+      "id": 681,
+      "name": "ConstructedRampTrackS",
+      "caption": "constructed ramp track S",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S-----"
+    },
+    {
+      "id": 682,
+      "name": "ConstructedRampTrackE",
+      "caption": "constructed ramp track E",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "------E-"
+    },
+    {
+      "id": 683,
+      "name": "ConstructedRampTrackW",
+      "caption": "constructed ramp track W",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "----W---"
+    },
+    {
+      "id": 684,
+      "name": "ConstructedRampTrackNS",
+      "caption": "constructed ramp track NS",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S-----"
+    },
+    {
+      "id": 685,
+      "name": "ConstructedRampTrackNE",
+      "caption": "constructed ramp track NE",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-----E-"
+    },
+    {
+      "id": 686,
+      "name": "ConstructedRampTrackNW",
+      "caption": "constructed ramp track NW",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N---W---"
+    },
+    {
+      "id": 687,
+      "name": "ConstructedRampTrackSE",
+      "caption": "constructed ramp track SE",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S---E-"
+    },
+    {
+      "id": 688,
+      "name": "ConstructedRampTrackSW",
+      "caption": "constructed ramp track SW",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S-W---"
+    },
+    {
+      "id": 689,
+      "name": "ConstructedRampTrackEW",
+      "caption": "constructed ramp track EW",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "----W-E-"
+    },
+    {
+      "id": 690,
+      "name": "ConstructedRampTrackNSE",
+      "caption": "constructed ramp track NSE",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S---E-"
+    },
+    {
+      "id": 691,
+      "name": "ConstructedRampTrackNSW",
+      "caption": "constructed ramp track NSW",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S-W---"
+    },
+    {
+      "id": 692,
+      "name": "ConstructedRampTrackNEW",
+      "caption": "constructed ramp track NEW",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N---W-E-"
+    },
+    {
+      "id": 693,
+      "name": "ConstructedRampTrackSEW",
+      "caption": "constructed ramp track SEW",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "--S-W-E-"
+    },
+    {
+      "id": 694,
+      "name": "ConstructedRampTrackNSEW",
+      "caption": "constructed ramp track NSEW",
+      "shape": 9,
+      "special": 10,
+      "material": 7,
+      "variant": -1,
+      "direction": "N-S-W-E-"
+    },
+    {
+      "id": 695,
+      "name": "Unused695",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    },
+    {
+      "id": 696,
+      "name": "Unused696",
+      "shape": -1,
+      "special": -1,
+      "material": -1,
+      "variant": -1,
+      "direction": "--------"
+    }
+  ]
+}

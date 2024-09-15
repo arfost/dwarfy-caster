@@ -11,13 +11,13 @@ const serverInfos = {
 
 const init = async () => {
 
-  const mapLoader = new CreativeMapLoader({});
-  console.log(mapLoader.mapInfos);
+  // const mapLoader = new CreativeMapLoader({});
+  // console.log(mapLoader.mapInfos);
 
-  // const mapLoader = new DFMapLoader({
-  //  dfHackConnectionHost: "127.0.0.1",
-  //  dfHackConnectionPort: 5000
-  // });
+  const mapLoader = new DFMapLoader({
+   dfHackConnectionHost: "127.0.0.1",
+   dfHackConnectionPort: 5000
+  });
 
 
   const gameServer = new GameServer(mapLoader);

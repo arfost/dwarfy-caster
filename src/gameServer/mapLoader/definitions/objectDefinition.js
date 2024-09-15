@@ -260,11 +260,8 @@ function prepareDefinitions() {
   for (let definition of placeableDefinitions) {
     if (definition && definition.sprite) {
       definition.sprite = definition.sprite.toUpperCase();
-      if (!assetNames.sprites.some((def) => def.name === definition.sprite)) {
-        assetNames.sprites.push({
-          name: definition.sprite,
-          heightRatio: definition.heightRatio,
-        });
+      if (!assetNames.sprites.some((name) => name === definition.sprite)) {
+        assetNames.sprites.push(definition.sprite);
       }
     }
   }

@@ -14,7 +14,7 @@ export class GameMap {
     this._infos = new Map();
 
     this._rtLayers = [];
-    for(let layer of initDatas.definitions.rtLayerDefinitions){
+    for (let layer of initDatas.definitions.rtLayerDefinitions) {
       this._rtLayers.push(new Array(this.size.z).fill(0).map(() => new Uint8Array(this.size.x * this.size.y)));
     }
     this._placeables = new Array(this.size.z).fill(0).map(() => []);
@@ -35,7 +35,7 @@ export class GameMap {
     for (let k = 0; k < this.chunkSize; k++) {
       for (let j = 0; j < this.chunkSize; j++) {
         for (let i = 0; i < this.chunkSize; i++) {
-          for(let layerIndex = 0; layerIndex < this._rtLayers.length; layerIndex++){
+          for (let layerIndex = 0; layerIndex < this._rtLayers.length; layerIndex++) {
             this._rtLayers[layerIndex][pos.z + k][(pos.y + j) * this.size.x + (pos.x + i)] = layers[layerIndex][j * this.chunkSize + i];
           }
         }
@@ -52,9 +52,16 @@ export class GameMap {
       for (let j = 0; j < this.chunkSize; j++) {
         for (let i = 0; i < this.chunkSize; i++) {
           const index = j * this.chunkSize + i;
-          this._map[baseZ + k][(baseY + j) * this.size.x + (baseX + i)] = datas[k][index][0];
-          this._floorTint[baseZ + k][(baseY + j) * this.size.x + (baseX + i)] = datas[k][index][1];
-          this._wallTint[baseZ + k][(baseY + j) * this.size.x + (baseX + i)] = datas[k][index][2];
+          const x = baseX + i;
+          const y = baseY + j;
+          const z = baseZ + k
+          try {
+            this._map[z][(y) * this.size.x + (x)] = datas[k][index][0];
+            this._floorTint[z][(y) * this.size.x + (x)] = datas[k][index][1];
+            this._wallTint[z][(y) * this.size.x + (x)] = datas[k][index][2];
+          } catch (e) {
+            console.log("out of bound : ", x, y, z);
+          }
         }
       }
     }
@@ -139,7 +146,7 @@ export class GameMap {
     return this.wallTintGrids[z][y * this.size.x + x];
   };
 
-  getInfos(id){
+  getInfos(id) {
     this.infoRequest = id;
     return this._infos.get(id);
   }
