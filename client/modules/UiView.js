@@ -153,7 +153,11 @@ export class UiView {
           } else if (cellProps.floorTexture) {
             this.uiCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
           }
-          this.uiCtx.fillRect(mapX + x * cellSize, mapY + y * cellSize, cellSize, cellSize);
+          if(cellProps.thinWall){
+            this.uiCtx.fillRect(mapX + x * cellSize + cellSize / 2 - 1, mapY + y * cellSize, 2, cellSize);
+          }else{
+            this.uiCtx.fillRect(mapX + x * cellSize, mapY + y * cellSize, cellSize, cellSize);
+          }
         }
       }
     }
