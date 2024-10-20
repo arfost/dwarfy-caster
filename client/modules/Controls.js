@@ -5,8 +5,7 @@ const AZERTY = {
   83:'backward',
   69:'up',
   65:'down',
-  67: 'togglePause',
-  32: 'pause',
+  32: 'togglePause',
 };
 
 const QWERTY = {
@@ -16,8 +15,7 @@ const QWERTY = {
   83:'backward',
   69:'up',
   81:'down',
-  67: 'togglePause',
-  32: 'pause',
+  32: 'togglePause',
 };
 
 export class Controls {
@@ -26,7 +24,7 @@ export class Controls {
       80: this._changeControlScheme.bind(this),
     }
     this.codes = AZERTY;
-    this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false, 'up': false, 'down': false, 'teleport': false, 'resetChunk': false, 'pause': false, 'turn': 0, 'look': 0};
+    this.states = { 'left': false, 'right': false, 'forward': false, 'backward': false, 'up': false, 'down': false, 'togglePause': false, 'turn': 0, 'look': 0};
     document.addEventListener('keydown', this.onKey.bind(this, true), false);
     document.addEventListener('keyup', this.onKey.bind(this, false), false);
     //setup mouse listener

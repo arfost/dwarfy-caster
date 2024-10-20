@@ -99,6 +99,10 @@ function prepareDefinitions() {
     {
       heightRatio: 1,
     },
+    {
+      heightRatio: 1,
+      sprite: "PLAYER"
+    },
   ];
 
   const tileCorrespondances = {};

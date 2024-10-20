@@ -17,7 +17,7 @@ class Player {
 
   }
 
-  get placeable(){
+  updateSpriteAndReturn(){
     this._placeable.x = this.x;
     this._placeable.y = this.y;
     this._placeable.z = this.z;
@@ -70,7 +70,6 @@ class Player {
     this._placeable = serverMap.getPlaceableModel();
     this._placeable.id = this.id;
     this._placeable.type = 1;
-    this._placeable.tick = false;
 
     this.x = serverMap.mapInfos.start.x;
     this.y = serverMap.mapInfos.start.y;

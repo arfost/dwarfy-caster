@@ -252,8 +252,6 @@ class DFMapLoader {
   }
 
   _entityCorrespondanceToPlaceable(correspondanceResult, posX, posY, posZ, placeableId, infos, toRemove){
-    
-    
 
     if(!toRemove && this.permaEntity[placeableId]){
       this.permaEntity[placeableId].x = posX;
@@ -269,6 +267,9 @@ class DFMapLoader {
         toRemove: toRemove,
       };
       this.placeables.push(newPlaceable);
+      if(placeableId){
+        this.permaEntity[placeableId] = newPlaceable;
+      }
     }
     if(infos){
       this._infos.set(placeableId, infos)
@@ -358,13 +359,25 @@ class DFMapLoader {
 
   playerUpdate(player, delta) {
 
+    const playerSprite = player.updateSpriteAndReturn();
+
+    if(!this.permaEntity[playerSprite.id]){
+      this.permaEntity[playerSprite.id] = playerSprite;
+      this.placeables.push(playerSprite);
+    }
+
     const block = this._getBlockPositionFromPlayerPosition(player.x, player.y, player.z);
     //load all blocks around the player
-    // this.loadBlock(block.x, block.y, block.z-2);
-    // this.loadBlock(block.x, block.y, block.z-1);
-    this.loadBlock(block.x, block.y, block.z);
-    // this.loadBlock(block.x, block.y, block.z+1);
-    // this.loadBlock(block.x, block.y, block.z+2);
+    for (let x = block.x - 1; x <= block.x + 1; x++) {
+      for (let y = block.y - 1; y <= block.y + 1; y++) {
+        for (let z = block.z - 1; z <= block.z + 1; z++) {
+          if (x >= 0 && y >= 0 && z >= 0) {
+            this.loadBlock(x, y, z);
+          }
+        }
+      }
+    }
+
     //consume orders on player
     for (let order of player.orders) {
       console.log("order", order);
@@ -391,7 +404,7 @@ class DFMapLoader {
     }
     if (this.blockToInit.length > 0) {
       const block = this.blockToInit.shift();
-      //this.loadBlock(block.x, block.y, block.z, true);
+      this.loadBlock(block.x, block.y, block.z, true);
       console.log("block loaded", `left : ${this.blockToInit.length}/${this.totalBlockToInit}`);
       //this.blockToInit = [];
     }
@@ -502,8 +515,8 @@ class DFMapLoader {
     if (this.definitions.creatureCorrespondances[key]) {
       this._entityCorrespondanceToPlaceable(
         this.definitions.creatureCorrespondances[key].placeable,
-        unit.posX,
-        unit.posY,
+        unit.posX+0.5,
+        unit.posY+0.5,
         unit.posZ,
         "crea-" + unit.id,
         {

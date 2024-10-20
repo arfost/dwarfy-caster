@@ -127,7 +127,6 @@ export class Player {
     }
 
     if (controls.togglePause) {
-      console.log("change cell");
       this._orders.push('togglePause');
       controls.togglePause = false;
     }
