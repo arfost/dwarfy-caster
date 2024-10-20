@@ -168,11 +168,6 @@ class CreativeMapLoader {
 
   update(delta) {
     this.currentTick++;
-    for (let i = this.placeables.length - 1; i >= 0; i--) {
-      if (this.placeables[i].toRemove) {
-        this.placeables.splice(i, 1);
-      }
-    }
 
     this.particuleFountains.update();
     this.entities.update();

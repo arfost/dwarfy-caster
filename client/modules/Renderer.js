@@ -357,7 +357,6 @@ export class Renderer {
   }
 
   _drawWater(x, top, height, distance, side) {
-    //console.log("drawWater", x, top, height, distance, side);
     this.virtualCtx.fillStyle = `rgba(0, 0, 255, 0.5)`;
     this.virtualCtx.fillRect(x * this.spacing, top, this.spacing, height);
 

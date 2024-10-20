@@ -31,7 +31,7 @@ class Player {
 
     const rtLayers = [];
     for (let layer of serverMap.rtLayers) {
-      rtLayers.push(serverMap.getRTLayerInfosForPosition(layer, this.x, this.y, this.z));
+      rtLayers.push(serverMap.getRTLayerInfosForPosition(layer, Math.floor(this.x), Math.floor(this.y), this.z));
     }
     this._send({
       type: "RTLayers",

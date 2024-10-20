@@ -76,7 +76,7 @@ class DFMapLoader {
     this.rtLayers = [];
     for (let i = 0; i < this.definitions.rtLayerDefinitions.length; i++) {
       this.rtLayers.push(
-        new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y)),
+        new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y).fill(0)),
       );
     }
     this.placeables = [];
@@ -162,7 +162,7 @@ class DFMapLoader {
           this._processDfBlocks(block);
         }
 
-        //this._processDfBlocksForDynamic(block, this.currentTick);
+        this._processDfBlocksForDynamic(block, this.currentTick);
       }
       if (res.mapBlocks.length > 0) {
         const buildingList = res.mapBlocks[0].buildings || [];
@@ -289,54 +289,6 @@ class DFMapLoader {
     };
   }
 
-  _generateSpiralBlocksToLoad3D(centerX, centerY, centerZ, radius) {
-    const blocksToLoad = [];
-
-    // Fonction pour vérifier si un bloc est dans les limites de la carte
-    const isInBounds = (bx, by, bz) => {
-      return (
-        bx >= 0 &&
-        bx < Math.ceil(this.mapInfos.size.x / this.BLOCK_SIZE) &&
-        by >= 0 &&
-        by < Math.ceil(this.mapInfos.size.y / this.BLOCK_SIZE) &&
-        bz >= 0 &&
-        bz < Math.ceil(this.mapInfos.size.z / this.BLOCK_SIZE_Z)
-      );
-    };
-
-    // Ajouter le bloc central
-    const centerBlockX = Math.floor(centerX / this.BLOCK_SIZE);
-    const centerBlockY = Math.floor(centerY / this.BLOCK_SIZE);
-    const centerBlockZ = Math.floor(centerZ / this.BLOCK_SIZE_Z);
-    if (isInBounds(centerBlockX, centerBlockY, centerBlockZ)) {
-      blocksToLoad.push({ x: centerBlockX, y: centerBlockY, z: centerBlockZ });
-    }
-
-    // Générer la spirale 3D
-    for (let r = 1; r <= radius; r++) {
-      for (let phi = 0; phi < 2 * Math.PI; phi += Math.PI / 8) {
-        for (let theta = 0; theta < Math.PI; theta += Math.PI / 8) {
-          const x = Math.round(r * Math.sin(theta) * Math.cos(phi));
-          const y = Math.round(r * Math.sin(theta) * Math.sin(phi));
-          const z = Math.round(r * Math.cos(theta));
-
-          const blockX = Math.floor((centerX + x * this.BLOCK_SIZE) / this.BLOCK_SIZE);
-          const blockY = Math.floor((centerY + y * this.BLOCK_SIZE) / this.BLOCK_SIZE);
-          const blockZ = Math.floor((centerZ + z * this.BLOCK_SIZE_Z) / this.BLOCK_SIZE_Z);
-
-          if (isInBounds(blockX, blockY, blockZ)) {
-            const block = { x: blockX, y: blockY, z: blockZ };
-            if (!blocksToLoad.some((b) => b.x === block.x && b.y === block.y && b.z === block.z)) {
-              blocksToLoad.push(block);
-            }
-          }
-        }
-      }
-    }
-
-    return blocksToLoad;
-  }
-
   _generateSimpleBlockListToLoad() {
     const blocksToLoad = [];
 
@@ -364,19 +316,26 @@ class DFMapLoader {
     if(!this.permaEntity[playerSprite.id]){
       this.permaEntity[playerSprite.id] = playerSprite;
       this.placeables.push(playerSprite);
+      this._infos.set(playerSprite.id, {
+        title: "player",
+        texts: [playerSprite.id],
+      })
     }
-
+    
     const block = this._getBlockPositionFromPlayerPosition(player.x, player.y, player.z);
     //load all blocks around the player
-    for (let x = block.x - 1; x <= block.x + 1; x++) {
-      for (let y = block.y - 1; y <= block.y + 1; y++) {
-        for (let z = block.z - 1; z <= block.z + 1; z++) {
-          if (x >= 0 && y >= 0 && z >= 0) {
-            this.loadBlock(x, y, z);
-          }
-        }
-      }
-    }
+    // for (let x = block.x - 1; x <= block.x + 1; x++) {
+    //   for (let y = block.y - 1; y <= block.y + 1; y++) {
+    //     for (let z = block.z - 1; z <= block.z + 1; z++) {
+    //       if (x >= 0 && y >= 0 && z >= 0) {
+    //         console.log("load block", x, y, z);
+    //         this.loadBlock(x, y, z);
+    //       }
+    //     }
+    //   }
+    // }
+
+    this.loadBlock(block.x, block.y, block.z);
 
     //consume orders on player
     for (let order of player.orders) {
@@ -397,15 +356,10 @@ class DFMapLoader {
   }
 
   update(delta) {
-    for (let i = this.placeables.length - 1; i >= 0; i--) {
-      if (this.placeables[i].toRemove) {
-        this.placeables.splice(i, 1);
-      }
-    }
     if (this.blockToInit.length > 0) {
-      const block = this.blockToInit.shift();
-      this.loadBlock(block.x, block.y, block.z, true);
-      console.log("block loaded", `left : ${this.blockToInit.length}/${this.totalBlockToInit}`);
+      //const block = this.blockToInit.shift();
+      //this.loadBlock(block.x, block.y, block.z, true);
+      //console.log("block loaded", `left : ${this.blockToInit.length}/${this.totalBlockToInit}`);
       //this.blockToInit = [];
     }
     
@@ -425,7 +379,7 @@ class DFMapLoader {
       for (let x = 0; x < 16; x++) {
         for (let y = 0; y < 16; y++) {
           let index = y * 16 + x;
-          this.water[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.water[index];
+          this.rtLayers[0][block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.water[index];
         }
       }
     }
@@ -433,17 +387,17 @@ class DFMapLoader {
       for (let x = 0; x < 16; x++) {
         for (let y = 0; y < 16; y++) {
           let index = y * 16 + x;
-          this.magma[block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.magma[index];
+          this.rtLayers[1][block.mapZ][(block.mapY + y) * this.mapInfos.size.x + (block.mapX + x)] = block.magma[index];
         }
       }
     }
 
-    for (let flow of block.flows || []) {
-      this.flowMap(flow);
-    }
-    for (let item of block.items || []) {
-      this.itemMap(item);
-    }
+    // for (let flow of block.flows || []) {
+    //   this.flowMap(flow);
+    // }
+    // for (let item of block.items || []) {
+    //   this.itemMap(item);
+    // }
   }
 
   itemMap(item) {

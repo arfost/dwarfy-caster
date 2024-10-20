@@ -31,12 +31,15 @@ export class GameMap {
   _rtLayersUpdate({ layers, pos, info }) {
     this._infos.set(info.id, info.data);
 
-    //update water and magma from player position up to chunk size
-    for (let k = 0; k < this.chunkSize; k++) {
-      for (let j = 0; j < this.chunkSize; j++) {
-        for (let i = 0; i < this.chunkSize; i++) {
-          for (let layerIndex = 0; layerIndex < this._rtLayers.length; layerIndex++) {
-            this._rtLayers[layerIndex][pos.z + k][(pos.y + j) * this.size.x + (pos.x + i)] = layers[layerIndex][j * this.chunkSize + i];
+    const baseZ = Math.floor(pos.z - this.chunkSize / 2);
+    const baseY = Math.floor(pos.y - this.chunkSize / 2);
+    const baseX = Math.floor(pos.x - this.chunkSize / 2);
+
+    for(let k = 0; k < this.chunkSize; k++){
+      for(let j = 0; j < this.chunkSize; j++){
+        for(let i = 0; i < this.chunkSize; i++){
+          for(let layerIndex = 0; layerIndex < this._rtLayers.length; layerIndex++){
+            this._rtLayers[layerIndex][baseZ + k][(baseY + j) * this.size.x + (baseX + i)] = layers[layerIndex][k][j * this.chunkSize + i];
           }
         }
       }

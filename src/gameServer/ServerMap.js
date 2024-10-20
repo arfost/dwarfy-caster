@@ -44,6 +44,11 @@ class ServerMap {
       this.mapLoader.playerUpdate(player, delta);
     }
     
+    for (let i = this.placeables.length - 1; i >= 0; i--) {
+      if (this.placeables[i].toRemove) {
+        this.placeables.splice(i, 1);
+      }
+    }
     for(let zLevel of this.invalidatedZlevels) {
       this.preparedPlaceables[zLevel] = false;
     }
@@ -75,14 +80,19 @@ class ServerMap {
   getRTLayerInfosForPosition(layer, x, y, z) {
     const datas = [];
     //get one chunk size around the player
+    const baseX = Math.floor(x - this.CHUNK_SIZE / 2);
+    const baseY = Math.floor(y - this.CHUNK_SIZE / 2);
+    const baseZ = Math.floor(z - this.CHUNK_SIZE / 2);
     for (let k = 0; k < this.CHUNK_SIZE; k++) {
       datas[k] = [];
       for (let j = 0; j < this.CHUNK_SIZE; j++) {
         for (let i = 0; i < this.CHUNK_SIZE; i++) {
-          if(x + i < 0 || x + i >= this.mapInfos.size.x || y + j < 0 || y + j >= this.mapInfos.size.y || z + k < 0 || z + k >= this.mapInfos.size.z) {
+          //offset the player position
+          
+          if(baseX + i < 0 || baseX + i >= this.mapInfos.size.x || baseY + j < 0 || baseY + j >= this.mapInfos.size.y || baseZ + k < 0 || baseZ + k >= this.mapInfos.size.z) {
             datas[k][j * this.CHUNK_SIZE + i] = 0;
           }else{
-            datas[k][j * this.CHUNK_SIZE + i] = layer[z + k][(y + j) * this.mapInfos.size.x + (x + i)];
+            datas[k][j * this.CHUNK_SIZE + i] = layer[baseZ + k][(baseY + j) * this.mapInfos.size.x + (baseX + i)];
           }
         }
       }
