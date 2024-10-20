@@ -153,7 +153,7 @@ class DFMapLoader {
   }
 
   async loadBlock(x, y, z, forceReload = false) {
-    const params = { minX: x, minY: y, minZ: z, maxX: x + 1, maxY: y + 1, maxZ: z + 1, forceReload };
+    const params = { minX: x-1, minY: y-1, minZ: z-1, maxX: x + 2, maxY: y + 2, maxZ: z + 2, forceReload };
     try {
       let res = await this.client.request("GetBlockList", params);
       // console.log("block loaded", x, y, z, res);
@@ -292,9 +292,9 @@ class DFMapLoader {
   _generateSimpleBlockListToLoad() {
     const blocksToLoad = [];
 
-    for (let x = 0; x < Math.ceil(this.mapInfos.size.x / this.BLOCK_SIZE); x++) {
-      for (let y = 0; y < Math.ceil(this.mapInfos.size.y / this.BLOCK_SIZE); y++) {
-        for (let z = 0; z < Math.ceil(this.mapInfos.size.z / this.BLOCK_SIZE_Z); z++) {
+    for (let x = 1; x < Math.ceil(this.mapInfos.size.x / this.BLOCK_SIZE); x+=3) {
+      for (let y = 1; y < Math.ceil(this.mapInfos.size.y / this.BLOCK_SIZE); y+=3) {
+        for (let z = 1; z < Math.ceil(this.mapInfos.size.z / this.BLOCK_SIZE_Z); z+=3) {
           blocksToLoad.push({ x, y, z });
         }
       }
@@ -357,9 +357,9 @@ class DFMapLoader {
 
   update(delta) {
     if (this.blockToInit.length > 0) {
-      //const block = this.blockToInit.shift();
-      //this.loadBlock(block.x, block.y, block.z, true);
-      //console.log("block loaded", `left : ${this.blockToInit.length}/${this.totalBlockToInit}`);
+      const block = this.blockToInit.shift();
+      this.loadBlock(block.x, block.y, block.z, true);
+      console.log("block loaded", `left : ${this.blockToInit.length}/${this.totalBlockToInit}`);
       //this.blockToInit = [];
     }
     

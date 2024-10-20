@@ -63,7 +63,7 @@ export class GameMap {
             this._floorTint[z][(y) * this.size.x + (x)] = datas[k][index][1];
             this._wallTint[z][(y) * this.size.x + (x)] = datas[k][index][2];
           } catch (e) {
-            console.log("out of bound : ", x, y, z);
+            //console.log("out of bound : ", x, y, z);
           }
         }
       }
