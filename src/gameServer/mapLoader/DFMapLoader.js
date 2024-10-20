@@ -323,17 +323,6 @@ class DFMapLoader {
     }
     
     const block = this._getBlockPositionFromPlayerPosition(player.x, player.y, player.z);
-    //load all blocks around the player
-    // for (let x = block.x - 1; x <= block.x + 1; x++) {
-    //   for (let y = block.y - 1; y <= block.y + 1; y++) {
-    //     for (let z = block.z - 1; z <= block.z + 1; z++) {
-    //       if (x >= 0 && y >= 0 && z >= 0) {
-    //         console.log("load block", x, y, z);
-    //         this.loadBlock(x, y, z);
-    //       }
-    //     }
-    //   }
-    // }
 
     this.loadBlock(block.x, block.y, block.z);
 
@@ -370,7 +359,7 @@ class DFMapLoader {
   async loadUnit() {
     let creatureList = await this.client.request("GetUnitList");
     for (let crea of creatureList.creatureList || []) {
-      this.creatureMap(crea);
+      // this.creatureMap(crea);
     }
   }
 
@@ -392,12 +381,12 @@ class DFMapLoader {
       }
     }
 
-    // for (let flow of block.flows || []) {
-    //   this.flowMap(flow);
-    // }
-    // for (let item of block.items || []) {
-    //   this.itemMap(item);
-    // }
+    for (let flow of block.flows || []) {
+      this.flowMap(flow);
+    }
+    for (let item of block.items || []) {
+      this.itemMap(item);
+    }
   }
 
   itemMap(item) {
@@ -421,13 +410,14 @@ class DFMapLoader {
   }
 
   flowMap(flow) {
+    
     if (flow.density > 66) {
       this._entityCorrespondanceToPlaceable(
         this.definitions.flowCorrespondances[flow.type + "-heavy"].placeable,
         flow.pos.x + 0.5,
         flow.pos.y + 0.5,
         flow.pos.z,
-        flow.id,
+        undefined,
         undefined,
         true,
       );
@@ -437,7 +427,7 @@ class DFMapLoader {
         flow.pos.x + 0.5,
         flow.pos.y + 0.5,
         flow.pos.z,
-        flow.id,
+        undefined,
         undefined,
         true,
       );
@@ -447,7 +437,7 @@ class DFMapLoader {
         flow.pos.x + 0.5,
         flow.pos.y + 0.5,
         flow.pos.z,
-        flow.id,
+        undefined,
         undefined,
         true,
       );

@@ -39,28 +39,30 @@ class ServerMap {
 
   update(players, delta) {
     //update placeables
+
     this.mapLoader.update(delta)
     for (let player of players) {
       this.mapLoader.playerUpdate(player, delta);
     }
     
-    for (let i = this.placeables.length - 1; i >= 0; i--) {
-      if (this.placeables[i].toRemove) {
-        this.placeables.splice(i, 1);
-      }
-    }
+    
     for(let zLevel of this.invalidatedZlevels) {
       this.preparedPlaceables[zLevel] = false;
     }
     this.invalidatedZlevels = [];
     this.flushModifiedCells();
+    
   }
 
   prepareZlevel(zLevel) {
     let placeables = [];
-    for(let placeable of this.placeables) {
-      if(placeable.z === zLevel) {
-        placeables.push(placeable);
+    
+    for (let i = this.placeables.length - 1; i >= 0; i--) {
+      if(this.placeables[i].z === zLevel) {
+        placeables.push(this.placeables[i]);
+      }
+      if (this.placeables[i].toRemove) {
+        this.placeables.splice(i, 1);
       }
     }
     this.preparedPlaceables[zLevel] = placeables;
