@@ -377,7 +377,7 @@ class DFMapLoader {
   async loadUnit() {
     let creatureList = await this.client.request("GetUnitList");
     for (let crea of creatureList.creatureList || []) {
-      // this.creatureMap(crea);
+      this.creatureMap(crea);
     }
   }
 
