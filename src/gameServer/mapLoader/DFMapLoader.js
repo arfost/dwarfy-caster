@@ -87,15 +87,27 @@ class DFMapLoader {
 
     this.tileTypeList = tileTypeList.tiletypeList;
 
-    // const categories = this.tileTypeList.reduce((acc, tileType) => {
-    //   acc[`${tileType.shape},${tileType.material},${tileType.special}`] = acc[`${tileType.shape},${tileType.material},${tileType.special}`] || [];
-    //   acc[`${tileType.shape},${tileType.material},${tileType.special}`].push(tileType.name);
-    //   return acc;
-    // }, {});
+    const buildingList = await this.client.request("GetBuildingDefList");
+    this.buildingList = buildingList.buildingList;
+    this.preparedBuildingList = new Map();
+    for(let building of this.buildingList){
+      const buildingKey = `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`;
+      this.preparedBuildingList.set(buildingKey, building);
+    }
+
+    const itemList = await this.client.request("GetItemList");
+    this.itemList = itemList.materialList;
+    this.preparedItemList = new Map();
+    for(let item of this.itemList){
+      const itemKey = `${item.matPair.matIndex},${item.matPair.matType}`;
+      this.preparedItemList.set(itemKey, item);
+    }
+
 
     const materialList = await this.client.request("GetMaterialList");
     this.materialList = materialList.materialList;
     this.preparedMaterialList = new Map();
+    this.preparedMaterialList.set("-1,-1", {name: "No material"});
     const tintKeys = [""];
     const tintInfos = {
       tintCorrespondances: {},
@@ -103,6 +115,9 @@ class DFMapLoader {
     };
     for (let material of this.materialList) {
       const materialKey = `${material.matPair.matIndex},${material.matPair.matType}`;
+      if(materialKey ==="37,616"){
+        console.log("material", material);
+      }
       this.preparedMaterialList.set(materialKey, material);
       if (material.stateColor) {
         const tintKey = `${material.stateColor.red},${material.stateColor.green},${material.stateColor.blue}`;
@@ -199,14 +214,17 @@ class DFMapLoader {
     const matTintType = this.definitions.tintCorrespondances[matKey] || 0;
     const def = this.definitions.buildingCorrespondances[key];
 
+    const materialName = this.preparedMaterialList.get(matKey).name;
+    const buildingName = this.preparedBuildingList.get(key).name;
+
     if (this.definitions.buildingCorrespondances[key]) {
       for (let z = building.posZMin; z <= building.posZMax; z++) {
         for (let x = building.posXMin; x <= building.posXMax; x++) {
           for (let y = building.posYMin; y <= building.posYMax; y++) {
             if (def.cell) {
               this._cellCorrespondanceToMapInfos(def.cell, x, y, z, {
-                title: `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`,
-                texts: [`${x},${y},${z}`],
+                title: `${buildingName}`,
+                texts: [`${x},${y},${z}`, "Material : -" + materialName],
               }, matTintType);
             }
             if (def.placeable) {
@@ -217,8 +235,8 @@ class DFMapLoader {
                 z, 
                 "build-" + building.index,
                 {
-                  title: `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`,
-                  texts: [`${x},${y},${z}`, "build-" + building.index],
+                  title: `${buildingName}`,
+                  texts: [`${x},${y},${z}`, "Material : -" + materialName],
                 },
                 false, 
               )
@@ -393,7 +411,13 @@ class DFMapLoader {
     if (!item.pos) {
       return;
     }
-    let key = `${item.type.matType},-1`;
+    const key = `${item.type.matType},-1`;
+    const materialKey = `${item.material.matIndex},${item.material.matType}`;
+    const itemKey = `${item.type.matIndex},${item.type.matType}`;
+
+    const materialName = this.preparedMaterialList.get(materialKey).name;
+    const itemDef = this.preparedItemList.get(itemKey);
+
     if (this.definitions.itemCorrespondances[key]) {
       this._entityCorrespondanceToPlaceable(
         this.definitions.itemCorrespondances[key].placeable,
@@ -402,8 +426,9 @@ class DFMapLoader {
         item.pos.z,
         item.id,
         {
-          title:"item",
-          texts: ["item "+ this.definitions.itemCorrespondances[key].placeable.sprite]
+          title:itemDef.name ? itemDef.name : itemDef.id,
+          texts: ["material : "+ materialName, "stack : "+ item.stackSize, "improvements : "+ !!item.improvements],
+          
         },
       );
     }
