@@ -275,7 +275,6 @@
         },
         "signature": [
           "FLOOR-STONE-NORMAL",
-          "FLOOR-STONE-SMOOTH",
           "FLOOR-STONE-TRACK"
         ]
       },
@@ -295,6 +294,7 @@
         },
         "signature": [
           "FLOOR-CONSTRUCTION-SMOOTH",
+          "FLOOR-STONE-SMOOTH",
           "FLOOR-CONSTRUCTION-TRACK"
         ]
       },

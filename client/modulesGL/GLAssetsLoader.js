@@ -36,10 +36,11 @@ export class GLAssetsLoader {
   }
 
   loadImage(url) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const image = new Bitmap(url, 256, 256);
-      await image.imageLoaded;
-      resolve(image.image);
+      image.imageLoaded.then(() => {
+        resolve(image.image);
+      });
     });
   }
 
@@ -99,35 +100,35 @@ export class GLAssetsLoader {
   }
 
   loadTexture(url) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const texture = this.gl.createTexture();
       const image = new Bitmap(url, 64, 64);
 
-      await image.imageLoaded;
+      image.imageLoaded.then(() => {
+        this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
+        
+        // Configuration pour la transparence
+        this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        this.gl.pixelStorei(this.gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, this.gl.NONE);
+        
+        this.gl.texImage2D(
+          this.gl.TEXTURE_2D, 
+          0, 
+          this.gl.RGBA, 
+          this.gl.RGBA,
+          this.gl.UNSIGNED_BYTE, 
+          image.image
+        );
 
-      this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
-      
-      // Configuration pour la transparence
-      this.gl.pixelStorei(this.gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
-      this.gl.pixelStorei(this.gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, this.gl.NONE);
-      
-      this.gl.texImage2D(
-        this.gl.TEXTURE_2D, 
-        0, 
-        this.gl.RGBA, 
-        this.gl.RGBA,
-        this.gl.UNSIGNED_BYTE, 
-        image.image
-      );
-
-      if (this._isPowerOf2(image.width) && this._isPowerOf2(image.height)) {
-        this.gl.generateMipmap(this.gl.TEXTURE_2D);
-      } else {
-        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
-        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
-        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
-      }
-      resolve(texture);
+        if (this._isPowerOf2(image.width) && this._isPowerOf2(image.height)) {
+          this.gl.generateMipmap(this.gl.TEXTURE_2D);
+        } else {
+          this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
+          this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
+          this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
+        }
+        resolve(texture);
+      });
     });
   }
 }

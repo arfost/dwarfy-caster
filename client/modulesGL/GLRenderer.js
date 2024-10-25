@@ -325,8 +325,10 @@ _cleanChunkBuffer(chunkKey) {
   
     const projectionMatrix = mat4.create();
     mat4.perspective(projectionMatrix, this.fieldOfView, this.aspect, this.zNear, this.zFar);
+    projectionMatrix[0] *= -1;
   
     const modelViewMatrix = mat4.create();
+
     const target = vec3.create();
     vec3.add(target, [player.x, player.y, player.z], player.direction);
   
@@ -335,7 +337,7 @@ _cleanChunkBuffer(chunkKey) {
       [player.x, player.y, player.z], // Position de la caméra
       target,                         // Point que regarde la caméra
       player.up                       // Vecteur "up" de la caméra
-    );
+    );  
   
     // Utilisation du shader program
     this.gl.useProgram(this.glConfig.programInfo.program);
@@ -553,13 +555,50 @@ _cleanChunkBuffer(chunkKey) {
         for (let x = startX; x < startX + this.CHUNK_SIZE; x++) {
           // Vérifier l'eau
           const waterLevel = map.getCellWater(x, y, z);
+          
           if (waterLevel > 0) {
-            geometry = GeometryFactory.getLiquidTopGeometry(
+            const blockEast = map.getBlock(x + 1, y, z);
+            const blockWest = map.getBlock(x - 1, y, z);
+            const blockNorth = map.getBlock(x, y + 1, z);
+            const blockSouth = map.getBlock(x, y - 1, z);
+            const blockAbove = map.getBlock(x, y, z + 1);
+
+            const blockEastWater = map.getCellWater(x + 1, y, z);
+            const blockWestWater = map.getCellWater(x - 1, y, z);
+            const blockNorthWater = map.getCellWater(x, y + 1, z);
+            const blockSouthWater = map.getCellWater(x, y - 1, z);
+
+            let faceEast = true;
+            let faceWest = true;
+            let faceNorth = true;
+            let faceSouth = true;
+            let faceAbove = true;
+
+            if (blockEast && blockEast.stopView || blockEastWater === waterLevel) {
+              faceEast = false;
+            }
+            if (blockWest && blockWest.stopView || blockWestWater === waterLevel) {
+              faceWest = false;
+            }
+            if (blockNorth && blockNorth.stopView || blockNorthWater === waterLevel) {
+              faceNorth = false;
+            }
+            if (blockSouth && blockSouth.stopView || blockSouthWater === waterLevel) {
+              faceSouth = false;
+            }
+            if (waterLevel === 7 && blockAbove && blockAbove.stopView) {  
+              faceAbove = false;
+            }
+
+            geometry = GeometryFactory.getLiquidGeometry(
               geometry, 
               x, y, z, 
               [0.2, 0.4, 0.8], // Couleur bleue pour l'eau
-              waterLevel
+              waterLevel,
+              faceEast, faceWest, faceNorth, faceSouth, faceAbove
             );
+            
+
           }
 
           // Vérifier le magma

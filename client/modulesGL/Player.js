@@ -19,8 +19,8 @@ export class Player {
 
   updateVectors() {
     // Calculer la direction avec Z comme axe vertical
-    this.direction[0] = Math.cos(this.pitch) * Math.sin(this.yaw);
-    this.direction[1] = Math.cos(this.pitch) * Math.cos(this.yaw);
+    this.direction[0] = Math.cos(this.pitch) * Math.sin(-this.yaw);
+    this.direction[1] = Math.cos(this.pitch) * Math.cos(-this.yaw);
     this.direction[2] = Math.sin(this.pitch); // Z est maintenant la hauteur
 
     vec3.normalize(this.direction, this.direction);
@@ -32,11 +32,11 @@ export class Player {
   }
 
   get dirX() {
-    return this.direction[0];
+    return -this.direction[0];
   }
 
   get dirY() {
-    return -this.direction[1];
+    return  -this.direction[1];
   }
 
   mouseMove(dx, dy) {
@@ -77,12 +77,12 @@ export class Player {
     }
 
     if (controls.left) {
-      this.x -= this.right[0] * (this.speed * seconds);
-      this.y -= this.right[1] * (this.speed * seconds); // Utiliser camera.y au lieu de camera.z
-    };
-    if (controls.right) {
       this.x += this.right[0] * (this.speed * seconds);
       this.y += this.right[1] * (this.speed * seconds); // Utiliser camera.y au lieu de camera.z
+    };
+    if (controls.right) {
+      this.x -= this.right[0] * (this.speed * seconds);
+      this.y -= this.right[1] * (this.speed * seconds); // Utiliser camera.y au lieu de camera.z
     };
 
     if (controls.togglePause) {
