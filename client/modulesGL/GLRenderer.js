@@ -84,10 +84,10 @@ export class GLRenderer {
     ];
   
     const textureCoordinates = [
-      0.0, 1.0,   // Correspondance avec la texture
-      1.0, 1.0,
-      1.0, 0.0,
+      1.0, 1.0,   // Correspondance avec la texture
+      0.0, 1.0,
       0.0, 0.0,
+      1.0, 0.0,
     ];
   
     const indices = [0, 1, 2, 0, 2, 3];
@@ -225,6 +225,8 @@ _cleanChunkBuffer(chunkKey) {
     this.gl.deleteBuffer(buffers.indices);
 
     delete this.chunkBuffersCache[chunkKey];
+    
+    this.dirtyChunks = true;
   }
 }
 
@@ -310,10 +312,12 @@ _cleanChunkBuffer(chunkKey) {
       if (
           currentPlayerChunkCoords.x !== this.lastPlayerChunkCoords.x ||
           currentPlayerChunkCoords.y !== this.lastPlayerChunkCoords.y ||
-          currentPlayerChunkCoords.z !== this.lastPlayerChunkCoords.z
+          currentPlayerChunkCoords.z !== this.lastPlayerChunkCoords.z ||
+          this.dirtyChunks
       ) {
           this.lastPlayerChunkCoords = currentPlayerChunkCoords;
           this._updateChunksAroundPlayer(currentPlayerChunkCoords, map);
+          this.dirtyChunks = false;
       }
   
       this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
