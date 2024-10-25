@@ -4,6 +4,7 @@ export class UiView {
 
   constructor(canvas) {
     // Création d'un canvas pour l'UI
+    
     this.uiCanvas = document.createElement('canvas');
     this.width = this.uiCanvas.width = canvas.width;
     this.height = this.uiCanvas.height = canvas.height;
@@ -14,24 +15,42 @@ export class UiView {
     this.uiCtx.font = `${this.fontSize}px Arial`;
     this.uiCtx.fillStyle = 'white';
     this.message = [];
+    console.log('UI View created', {
+      width: this.width,
+      height: this.height,
+    });
+
+    //should be 100 for 640x360
+    this.mapSize = this.width / 6;
+    //should be 5 for 640x360
+    this.mapCellSize = this.width / 150;
+    //should be 10 for 640x360
+    this.mapMargin = this.width / 90;
+
+    //should be 20 for 640x360
+    this.messageY = this.width / 30;
+    //should be 200 for 640x360
+    this.messageWidth = this.width / 3;
+    //should be 420 for 640x360
+    this.messageX = this.width - (this.messageWidth + this.messageY);
+    
+    //should be 300 for 640x360
+    this.messageMaxHeight = this.height / 1.2;
   }
 
   render(player, map) {
     // Effacer le canvas de l'UI
     this.uiCtx.clearRect(0, 0, this.width, this.height);
 
-    // Afficher la position du joueur
-    this._drawText(`Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)}, ${player.z.toFixed(2)})`, this.width - 200, this.height - 20);
-
     // Dessiner une mini-carte
     this._drawMinimap(player, map);
 
     if(this.message) {
       this.drawTextBox(this.message.title, this.message.texts, this.message.options || {
-        y: 20,
-        x: 420,
-        width: 200,
-        maxHeight: 300,
+        y: this.messageY,
+        x: this.messageX,
+        width: this.messageWidth,
+        maxHeight: this.messageMaxHeight,
         backgroundColor: 'rgba(0, 0, 50, 1)',
         titleColor: 'yellow',
         textColor: 'lightblue'
@@ -131,10 +150,10 @@ export class UiView {
   }
 
   _drawMinimap(player, map) {
-    const mapSize = 100;
-    const cellSize = 5;
-    const mapX = 10;
-    const mapY = this.height - mapSize - 10;
+    const mapSize = this.mapSize;
+    const cellSize = this.mapCellSize;
+    const mapX = this.mapMargin;
+    const mapY = this.height - mapSize - this.mapMargin;
 
     // Dessiner le fond de la mini-carte
     this.uiCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
