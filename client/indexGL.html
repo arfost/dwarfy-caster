@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebGL FPS Demo</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { 
+          width: 100vw; 
+          height: 100vh; 
+          display: block; 
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 1;
+        }
+        #instructions {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            font-family: Arial;
+            z-index: 2;
+        }
+        .crosshair {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 20px;
+            pointer-events: none;
+            z-index: 2;
+        }
+        #fpsCounter {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            color: white;
+            background: rgba(0,0,0,0.5);
+            padding: 5px 10px;
+            font-family: monospace;
+            font-size: 16px;
+            border-radius: 3px;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="crosshair">+</div>
+    <div id="instructions">
+      ZQSD/Flèches pour se déplacer<br>
+      A pour monter, E pour descendre<br>
+      Souris pour regarder autour
+    </div>
+    <div id="fpsCounter">FPS: --</div>
+    <canvas id="glCanvas"></canvas>
+    <canvas id="uiCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gl-matrix/2.8.1/gl-matrix-min.js"></script>
+    <script type="module" src="startGL.js"></script>
+</body>
+</html>

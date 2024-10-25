@@ -39,6 +39,7 @@ export class GameMap {
       for(let j = 0; j < this.chunkSize; j++){
         for(let i = 0; i < this.chunkSize; i++){
           for(let layerIndex = 0; layerIndex < this._rtLayers.length; layerIndex++){
+            if(baseZ + k < 0 || baseZ + k >= this.size.z || baseY + j < 0 || baseY + j >= this.size.y || baseX + i < 0 || baseX + i >= this.size.x) continue;
             this._rtLayers[layerIndex][baseZ + k][(baseY + j) * this.size.x + (baseX + i)] = layers[layerIndex][k][j * this.chunkSize + i];
           }
         }
@@ -46,7 +47,10 @@ export class GameMap {
     }
   }
 
+  cleanChunkBuffer(chunkKey) {}
+
   _chunkUpdate({ chunkX, chunkY, chunkZ, datas }) {
+
     const baseX = chunkX * this.chunkSize;
     const baseY = chunkY * this.chunkSize;
     const baseZ = chunkZ * this.chunkSize;
@@ -68,6 +72,8 @@ export class GameMap {
         }
       }
     }
+    const chunkKey = `${chunkX},${chunkY},${chunkZ}`;
+    this.cleanChunkBuffer(chunkKey);
   }
 
   _placeableUpdate({ zLevel, isPartial, datas }) {
@@ -114,12 +120,26 @@ export class GameMap {
     return this.tintProperties[type];
   }
 
+  getBlock(x, y, z) {
+    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return undefined;
+    const cell = this._map[z][y * this.size.x + x];
+    if(cell === 0) return undefined;
+    return this.getCellProperties(cell);
+  };
+
   getWall(x, y, z) {
     x = Math.floor(x);
     y = Math.floor(y);
     if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
     return this.wallGrids[z][y * this.size.x + x];
   };
+
+  getRTLayerCell(layerIndex, x, y, z) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
+    return this._rtLayers[layerIndex][z][y * this.size.x + x];
+  }
 
   getCellWater(x, y, z) {
     x = Math.floor(x);
@@ -152,6 +172,14 @@ export class GameMap {
   getInfos(id) {
     this.infoRequest = id;
     return this._infos.get(id);
+  }
+
+  getPlayerChunkCoords(player) {
+    return {
+      x: Math.floor(player.x / this.chunkSize),
+      y: Math.floor(player.y / this.chunkSize),
+      z: Math.floor(player.z / this.chunkSize)
+    };
   }
 
   update(seconds, player) {
