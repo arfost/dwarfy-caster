@@ -586,7 +586,7 @@ _cleanChunkBuffer(chunkKey) {
             if (blockSouth && blockSouth.stopView || blockSouthWater === waterLevel) {
               faceSouth = false;
             }
-            if (waterLevel === 7 && blockAbove && blockAbove.stopView) {  
+            if (waterLevel === 7 && blockAbove) {  
               faceAbove = false;
             }
 
