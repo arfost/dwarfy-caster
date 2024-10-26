@@ -96,7 +96,8 @@ class DFMapStage extends Stage {
         "Welcome to fortress viewer",
       ] : ["loading..."],
       playerList: [
-        ...this.gameServer.players.map(p => p.name || p.id)
+        ...this.gameServer.players.map(p => p.name || p.id),
+        "player list : "
       ]
     };
   }

@@ -5,6 +5,12 @@ const minSize = {
   width: 70
 }
 
+const componentInstance = {
+  Title: require('./components/Title.js'),
+  Menu: require('./components/Menu.js'),
+  MultiLine: require('./components/MultiLine.js')
+}
+
 class Renderer {
   constructor() {
     this.errorMode = 0;
@@ -103,9 +109,9 @@ class Renderer {
     for (let [index, componentType] of componentsType.entries()) {
       let instance;
       if(!this.existingInstances[componentType]){
-        instance = require(`./components/${componentType}.js`);
+        instance = componentInstance[componentType];
         if (!instance) {
-          instance = require(`../customComponents/${componentType}.js`);
+          instance = componentInstance[componentType];
         }
         if (!instance) {
           throw new Error(`Component ${componentType} not found`);
