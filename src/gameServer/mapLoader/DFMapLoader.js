@@ -415,7 +415,7 @@ class DFMapLoader {
     const materialKey = `${item.material.matIndex},${item.material.matType}`;
     const itemKey = `${item.type.matIndex},${item.type.matType}`;
 
-    const materialName = this.preparedMaterialList.get(materialKey).name;
+    const materialName = (this.preparedMaterialList.get(materialKey) || {}).name;
     const itemDef = this.preparedItemList.get(itemKey);
 
     if (this.definitions.itemCorrespondances[key]) {

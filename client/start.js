@@ -36,7 +36,7 @@ async function initGame() {
   const connection = new SocketConnection();
   await connection.ready;
 
-  console.log("connection : ", connection.initData.id);
+  console.log("connection : ", connection.initData);
 
   const startPos = connection.initData.start;
 
@@ -44,6 +44,9 @@ async function initGame() {
   const map = new GameMap(connection);
   const controls = new Controls();
   const renderer = new Renderer(display, {width:640, height:360, resolution: 320});
+  // const renderer = new WebGLRenderer(display, {width:640, height:360, resolution: 320});
+  // Au chargement de la carte ou changement de niveau
+  
   await renderer.initAssets(connection.initData.assetNames, connection.initData.definitions.tintDefinitions);
   const raycaster = new Raycaster(paramCast ? paramCast : [10, 5]);
 

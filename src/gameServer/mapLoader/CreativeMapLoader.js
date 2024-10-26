@@ -11,7 +11,7 @@ class CreativeMapLoader {
 
     this.mapInfos = {
       size: this.params.size ? this.params.size : { x: 100, y: 100, z: 50 },
-      start: this.params.start ? this.params.start : { x: 50, y: 50, z: 0 },
+      start: this.params.start ? this.params.start : { x: 50, y: 50, z: 25 },
       seed: this.params.seed ? this.params.seed : Math.random(),
     };
 
@@ -98,25 +98,28 @@ class CreativeMapLoader {
       }
     };
 
-    this.map = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
+    this.map = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y).fill(0));
     //init all map values to 1
     for (let j = 0; j < this.mapInfos.size.y; j++) {
       for (let i = 0; i < this.mapInfos.size.x; i++) {
-        this.map[0][j * this.mapInfos.size.x + i] = 1;
+        for(let k = 0; k < this.mapInfos.size.z/2; k++){
+          this.map[k][j * this.mapInfos.size.x + i] = 4;
+        }
+        this.map[25][j * this.mapInfos.size.x + i] = 1;
       }
     }
-    this.floorTint = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
-    this.wallTint = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y));
+    this.floorTint = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y).fill(0));
+    this.wallTint = new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y).fill(0));
     this._infos = new Map();
     this.rtLayers = [];
     for (let i = 0; i < this.definitions.rtLayerDefinitions.length; i++) {
-      this.rtLayers.push(new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y)));
+      this.rtLayers.push(new Array(this.mapInfos.size.z).fill(0).map(() => new Uint8Array(this.mapInfos.size.x * this.mapInfos.size.y).fill(0)));
     }
     this.placeables = [];
 
-    this.generateHouse(10, 10, 0, 10, 10);
-    this.generateHouse(30, 30, 0, 10, 10);
-    this.generateHouse(50, 50, 0, 10, 10);
+    this.generateHouse(10, 10, 25, 10, 10);
+    this.generateHouse(30, 30, 25, 10, 10);
+    this.generateHouse(50, 50, 25, 10, 10);
 
     this.decors = new Decors(this.placeables, this._infos);
 
@@ -128,7 +131,7 @@ class CreativeMapLoader {
 
     
 
-    for(let i = 0; i < this.mapInfos.size.z; i++){
+    for(let i = 25; i < this.mapInfos.size.z; i++){
       for (let o = Math.random()*100; o>0; o--){
         const entityWaypoint = [];
         for(let way = Math.random()*10; way>0; way--){
@@ -145,11 +148,18 @@ class CreativeMapLoader {
       }
 
       for (let o = Math.random()*1000; o>0; o--){
-        this.particuleFountains.add(Math.floor(Math.random()*4), { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, { xMin: -2, xMax: 2, yMin: -2, yMax: 2 }, 25);
+        //this.particuleFountains.add(Math.floor(Math.random()*4), { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, { xMin: -2, xMax: 2, yMin: -2, yMax: 2 }, 25);
       }
     }
 
-    
+    this.liquidSpots = [];
+    for(let i = 0; i < 1; i++){
+      for(let j = 0; j < 2; j++){
+        const ls = new LiquideSpot(40+i, 40+j, 25, 0, 7, true);
+        ls.init(this);
+        this.liquidSpots.push(ls);
+      }
+    }
 
     return this.mapInfos;
   }
@@ -172,7 +182,12 @@ class CreativeMapLoader {
     this.particuleFountains.update();
     this.entities.update();
 
+    for(let ls of this.liquidSpots){
+      ls.update();
+    }
+
     this.preparationInterface.notifyZlevelModification(0);
+
   }
 
   changeCell(x, y, z, value, floorTint, wallTint) {
@@ -378,6 +393,44 @@ class Decors {
       "anvil",
       "bag",
     ]
+  }
+}
+
+class LiquideSpot{
+  constructor(x, y, z, type, level, variable = false){
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.type = type;
+    this.level = level;
+    this.variable = variable;
+    this.variableRate = 1;
+    this.lastUpdate = Date.now();
+  }
+
+  init(map){
+    map.changeCell(this.x, this.y, this.z, 0);
+    map.changeCell(this.x, this.y, this.z-1, 0);
+    map.rtLayers[this.type][this.z-1][this.y * map.mapInfos.size.x + this.x] = this.level;
+    this._updateRtLayer = (value) => {
+      map.rtLayers[this.type][this.z-1][this.y * map.mapInfos.size.x + this.x] = value;
+    };
+  }
+
+  update(){
+    if(this.variable){
+      if(Date.now() - this.lastUpdate > 1000){
+        this.level += Math.random() > 0.5 ? this.variableRate : -this.variableRate;
+        if(this.level < 0){
+          this.level = 0;
+        }
+        if(this.level > 7){
+          this.level = 7;
+        }
+        this._updateRtLayer(this.level);
+        this.lastUpdate = Date.now();
+      }
+    }
   }
 }
 
