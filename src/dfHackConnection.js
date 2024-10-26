@@ -364,6 +364,7 @@ const DfHackConnection = class {
           this.codec.decode([data]);
           this.protoConnection.removeAllListeners('data');
           this.protoConnection.on('data', this._receive.bind(this));
+          console.log("connection ready");
           resolve(true);
         }catch(e){
           console.log("error decode : ", e);

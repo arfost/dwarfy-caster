@@ -8,6 +8,7 @@ class GameServer {
   }
 
   async init() {
+    console.log("init game server");
     await this.serverMap.initMap();
     
   }

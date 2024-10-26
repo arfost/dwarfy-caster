@@ -52,6 +52,8 @@ class DFMapLoader {
       z: dfMapInfos.blockSizeZ * this.BLOCK_SIZE_Z,
     };
 
+    console.log("mapInfos", dfMapInfos);
+
     this.definitions = prepareDefinitions();
 
     (this.definitions.rtLayerDefinitions = [
@@ -366,7 +368,6 @@ class DFMapLoader {
     if (this.blockToInit.length > 0) {
       const block = this.blockToInit.shift();
       this.loadBlock(block.x, block.y, block.z, true);
-      console.log("block loaded", `left : ${this.blockToInit.length}/${this.totalBlockToInit}`);
       //this.blockToInit = [];
     }
     
