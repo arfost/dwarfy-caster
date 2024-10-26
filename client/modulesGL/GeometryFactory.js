@@ -238,16 +238,16 @@ export class GeometryFactory {
       tintColor,
       texIndex
     );
-    // // Face inférieure (peut être omise si non visible)
-    GeometryFactory._addFace(
-      geometry,
-      x,     y,     zBottom, // Coin arrière gauche
-      x + 1, y,     zBottom, // Coin arrière droit
-      x + 1, y + 1, zBottom, // Coin avant droit
-      x,     y + 1, zBottom,     // Coin supérieur gauche
-      tintColor,
-      texIndex
-    );
+    // // // Face inférieure (peut être omise si non visible)
+    // GeometryFactory._addFace(
+    //   geometry,
+    //   x,     y,     zBottom, // Coin arrière gauche
+    //   x + 1, y,     zBottom, // Coin arrière droit
+    //   x + 1, y + 1, zBottom, // Coin avant droit
+    //   x,     y + 1, zBottom,     // Coin supérieur gauche
+    //   tintColor,
+    //   texIndex
+    // );
     // Face droite
     GeometryFactory._addFace(
       geometry,
