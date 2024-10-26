@@ -30,9 +30,9 @@ async function initGame() {
 
   const renderer = new GLRenderer(GLCanvas, uiCanvas, document.getElementById('fpsCounter'), map);
 
-  uiCanvas.addEventListener('contextmenu', (e) => {
-    e.preventDefault();
-  });
+  // uiCanvas.addEventListener('contextmenu', (e) => {
+  //   e.preventDefault();
+  // });
   
   uiCanvas.requestPointerLock = uiCanvas.requestPointerLock || uiCanvas.mozRequestPointerLock;
   document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;

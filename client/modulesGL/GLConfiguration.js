@@ -39,7 +39,7 @@ const blockFragmentShader = `#version 300 es
                 vec4 texColor = texture(uSampler, vec3(vTextureCoord, float(vTextureIndex)));
                 
                 // Si la transparence est trop faible, rejeter le fragment
-                if (texColor.a < 0.1) discard;
+                if (texColor.a < 0.9) discard;
                 
                 float distance = length(vFragPosition - uPlayerPosition);
                 float attenuation = clamp(1.0 - (distance / uLightRadius), 0.0, 1.0);
@@ -87,7 +87,7 @@ const spriteFragmentShader = `#version 300 es
 
           void main(void) {
               vec4 texColor = texture(uSpriteSampler, vTextureCoord);
-              if (texColor.a < 0.1) discard;
+              if (texColor.a < 0.9) discard;
               
               if (uIsSelected) {
                 // Ajouter un effet de surbrillance
