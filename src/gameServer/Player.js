@@ -37,6 +37,7 @@ class Player {
       type: "RTLayers",
       datas: {
         pos: { x: this.x, y: this.y, z: this.z },
+        dirty: this.dirty,
         layers: rtLayers,
         info: {
           id: this.infoRequest,

@@ -11,7 +11,7 @@ class CreativeMapLoader {
 
     this.mapInfos = {
       size: this.params.size ? this.params.size : { x: 100, y: 100, z: 50 },
-      start: this.params.start ? this.params.start : { x: 50, y: 50, z: 25 },
+      start: this.params.start ? this.params.start : { x: 52, y: 52, z: 25 },
       seed: this.params.seed ? this.params.seed : Math.random(),
     };
 

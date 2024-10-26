@@ -28,10 +28,12 @@ export class GameMap {
     this.connection.onRTLayers = this._rtLayersUpdate.bind(this);
   }
 
-  _rtLayersUpdate({ layers, pos, info }) {
+  _rtLayersUpdate({ layers, pos, info, dirty }) {
     this._infos.set(info.id, info.data);
 
-    this._newPlayerPosition = pos;
+    if(dirty){
+      this._newPlayerPosition = pos;
+    }
 
     const baseZ = Math.floor(pos.z - this.chunkSize / 2);
     const baseY = Math.floor(pos.y - this.chunkSize / 2);
@@ -188,9 +190,7 @@ export class GameMap {
     if(this._newPlayerPosition){
       player.x = this._newPlayerPosition.x;
       player.y = this._newPlayerPosition.y;
-      if(Math.floor(player.z) !== this._newPlayerPosition.z){
-        player.z = this._newPlayerPosition.z+0.7;
-      }
+      player.z = this._newPlayerPosition.z+0.7;
       this._newPlayerPosition = undefined;
     }
     if (this.connection.ready) {
