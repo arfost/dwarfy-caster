@@ -35,7 +35,7 @@ class SimpleConsole {
     const message = this.queue.shift();
 
     try {
-      // await fs.promises.appendFile(this.logFilePath, message, 'utf8');
+      await fs.promises.appendFile(this.logFilePath, message, 'utf8');
     } catch (error) {
       console.error('Failed to write log message:', error);
     } finally {

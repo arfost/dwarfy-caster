@@ -41,7 +41,6 @@ class CreaMapStage extends Stage {
   }
 
   update(input) {
-    console.log("update", this.ready);
     if(!this.ready){
       return;
     }

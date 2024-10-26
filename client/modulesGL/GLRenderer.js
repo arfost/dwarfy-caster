@@ -142,7 +142,7 @@ export class GLRenderer {
             if (block.thinWall) {
               geometry = GeometryFactory.getWallGeometry(geometry, x, y, z, texIndex, tintColor, heightRatio, map);
             } else {
-              geometry = GeometryFactory.getBlocGeometry(geometry, x, y, z, texIndex, tintColor, heightRatio);
+              geometry = GeometryFactory.getBlocGeometry(geometry, x, y, z, texIndex, tintColor, heightRatio, map);
             }
           }
           if (block.floorTexture) {
@@ -454,8 +454,8 @@ export class GLRenderer {
       const placeableInfos = map.getPlaceableProperties(sprite.type);
 
       // Passer la taille du sprite
-      gl.uniform1f(programInfo.uniformLocations.uSpriteWidth, 0.7);
-      gl.uniform1f(programInfo.uniformLocations.uSpriteHeight, 0.7 * placeableInfos.heightRatio);
+      gl.uniform1f(programInfo.uniformLocations.uSpriteWidth, 0.5* placeableInfos.width || 1);
+      gl.uniform1f(programInfo.uniformLocations.uSpriteHeight, 0.5 * placeableInfos.heightRatio);
 
       // Lier la texture du sprite
       gl.activeTexture(gl.TEXTURE0);

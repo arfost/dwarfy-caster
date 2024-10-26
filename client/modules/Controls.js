@@ -6,6 +6,7 @@ const AZERTY = {
   69:'up',
   65:'down',
   32: 'togglePause',
+  88: 'teleportToCursor',
 };
 
 const QWERTY = {
@@ -16,6 +17,7 @@ const QWERTY = {
   69:'up',
   81:'down',
   32: 'togglePause',
+  88: 'teleportToCursor',
 };
 
 export class Controls {

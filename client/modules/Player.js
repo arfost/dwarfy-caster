@@ -130,6 +130,10 @@ export class Player {
       this._orders.push('togglePause');
       controls.togglePause = false;
     }
+    if(controls.teleportToCursor) {
+      this._orders.push('teleportToCursor');
+      controls.teleportToCursor = false
+    }
 
     this.physique(seconds, map);
   };

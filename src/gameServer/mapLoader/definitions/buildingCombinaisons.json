@@ -49,7 +49,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Furnace",
       "sprite": "Furnace"
     },
@@ -59,7 +60,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Wood Furnace",
       "sprite": "Furnace/WoodFurnace"
     },
@@ -69,7 +71,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Smelter",
       "sprite": "Furnace/Smelter"
     },
@@ -79,7 +82,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Glass Furnace",
       "sprite": "Furnace/GlassFurnace"
     },
@@ -89,7 +93,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Kiln",
       "sprite": "Furnace/Kiln"
     },
@@ -99,7 +104,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Magma Smelter",
       "sprite": "Furnace/MagmaSmelter"
     },
@@ -109,7 +115,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Magma Glass Furnace",
       "sprite": "Furnace/MagmaGlassFurnace"
     },
@@ -119,7 +126,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Magma Kiln",
       "sprite": "Furnace/MagmaKiln"
     },
@@ -139,7 +147,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 7,
       "name": "Trade Depot",
       "sprite": "TradeDepot"
     },
@@ -159,7 +168,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "GeneralStore",
       "sprite": "Shop/GeneralStore"
     },
@@ -169,7 +179,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "CraftsMarket",
       "sprite": "Shop/CraftsMarket"
     },
@@ -179,7 +190,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "ClothingShop",
       "sprite": "Shop/ClothingShop"
     },
@@ -189,7 +201,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "ExoticClothingShop",
       "sprite": "Shop/ExoticClothingShop"
     },
@@ -231,7 +244,7 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 1.5,
       "name": "Weapon Rack",
       "sprite": "Weaponrack"
     },
@@ -241,7 +254,7 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 1.5,
       "name": "Armor Stand",
       "sprite": "Armorstand"
     },
@@ -251,7 +264,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Workshop",
       "sprite": "Workshop"
     },
@@ -261,7 +275,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Carpenter's Workshop",
       "sprite": "Workshop/Carpenters"
     },
@@ -271,7 +286,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Farmer's Workshop",
       "sprite": "Workshop/Farmers"
     },
@@ -281,7 +297,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Mason's Workshop",
       "sprite": "Workshop/Masons"
     },
@@ -291,7 +308,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Craftsdwarf's Workshop",
       "sprite": "Workshop/Craftsdwarfs"
     },
@@ -301,7 +319,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Jeweler's Workshop",
       "sprite": "Workshop/Jewelers"
     },
@@ -311,7 +330,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Metalsmith's Forge",
       "sprite": "Workshop/MetalsmithsForge"
     },
@@ -321,7 +341,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Magma Forge",
       "sprite": "Workshop/MagmaForge"
     },
@@ -331,7 +352,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Bowyer's Workshop",
       "sprite": "Workshop/Bowyers"
     },
@@ -341,7 +363,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Mechanic's Workshop",
       "sprite": "Workshop/Mechanics"
     },
@@ -351,7 +374,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Siege Workshop",
       "sprite": "Workshop/Siege"
     },
@@ -361,7 +385,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Butcher's Shop",
       "sprite": "Workshop/Butchers"
     },
@@ -371,7 +396,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Leather Works",
       "sprite": "Workshop/Leatherworks"
     },
@@ -381,7 +407,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Tanner's Shop",
       "sprite": "Workshop/Tanners"
     },
@@ -391,7 +418,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Clothier's Shop",
       "sprite": "Workshop/Clothiers"
     },
@@ -401,7 +429,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Fishery",
       "sprite": "Workshop/Fishery"
     },
@@ -411,7 +440,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Still",
       "sprite": "Workshop/Still"
     },
@@ -421,7 +451,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Loom",
       "sprite": "Workshop/Loom"
     },
@@ -441,7 +472,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Kennels",
       "sprite": "Workshop/Kennels"
     },
@@ -451,7 +483,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Kitchen",
       "sprite": "Workshop/Kitchen"
     },
@@ -461,7 +494,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Ashery",
       "sprite": "Workshop/Ashery"
     },
@@ -471,7 +505,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Dyer's Shop",
       "sprite": "Workshop/Dyers"
     },
@@ -481,7 +516,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Millstone",
       "sprite": "Workshop/Millstone"
     },
@@ -491,7 +527,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Custom Workshop",
       "sprite": "Workshop/Custom"
     },
@@ -501,7 +538,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Soap Maker's Workshop",
       "sprite": "Workshop/SOAP_MAKER"
     },
@@ -511,7 +549,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Screw Press",
       "sprite": "Workshop/SCREW_PRESS"
     },
@@ -521,7 +560,8 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 2,
+      "width": 4,
       "name": "Tool",
       "sprite": "Workshop/Tool"
     },
@@ -573,7 +613,7 @@
   },
   {
     "placeable": {
-      "heightRatio": 1,
+      "heightRatio": 1.3,
       "name": "Well",
       "sprite": "Well"
     },

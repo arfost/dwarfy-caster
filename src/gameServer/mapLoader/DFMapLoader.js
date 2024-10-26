@@ -92,7 +92,7 @@ class DFMapLoader {
     const buildingList = await this.client.request("GetBuildingDefList");
     this.buildingList = buildingList.buildingList;
     this.preparedBuildingList = new Map();
-    for(let building of this.buildingList){
+    for (let building of this.buildingList) {
       const buildingKey = `${building.buildingType.buildingType},${building.buildingType.buildingSubtype},${building.buildingType.buildingCustom}`;
       this.preparedBuildingList.set(buildingKey, building);
     }
@@ -100,7 +100,7 @@ class DFMapLoader {
     const itemList = await this.client.request("GetItemList");
     this.itemList = itemList.materialList;
     this.preparedItemList = new Map();
-    for(let item of this.itemList){
+    for (let item of this.itemList) {
       const itemKey = `${item.matPair.matIndex},${item.matPair.matType}`;
       this.preparedItemList.set(itemKey, item);
     }
@@ -109,7 +109,7 @@ class DFMapLoader {
     const materialList = await this.client.request("GetMaterialList");
     this.materialList = materialList.materialList;
     this.preparedMaterialList = new Map();
-    this.preparedMaterialList.set("-1,-1", {name: "No material"});
+    this.preparedMaterialList.set("-1,-1", { name: "No material" });
     const tintKeys = [""];
     const tintInfos = {
       tintCorrespondances: {},
@@ -117,7 +117,7 @@ class DFMapLoader {
     };
     for (let material of this.materialList) {
       const materialKey = `${material.matPair.matIndex},${material.matPair.matType}`;
-      if(materialKey ==="37,616"){
+      if (materialKey === "37,616") {
         console.log("material", material);
       }
       this.preparedMaterialList.set(materialKey, material);
@@ -169,8 +169,20 @@ class DFMapLoader {
     }
   }
 
+  async updateCursorPosition() {
+    const cursor = await this.getCursorPosition();
+    this.mapInfos.start = cursor;
+  }
+
+  async teleportToCursor(player) {
+    await this.updateCursorPosition();
+    player.x = this.mapInfos.start.x;
+    player.y = this.mapInfos.start.y;
+    player.z = this.mapInfos.start.z;
+  }
+
   async loadBlock(x, y, z, forceReload = false) {
-    const params = { minX: x-1, minY: y-1, minZ: z-1, maxX: x + 2, maxY: y + 2, maxZ: z + 2, forceReload };
+    const params = { minX: x - 1, minY: y - 1, minZ: z - 1, maxX: x + 2, maxY: y + 2, maxZ: z + 2, forceReload };
     try {
       let res = await this.client.request("GetBlockList", params);
       // console.log("block loaded", x, y, z, res);
@@ -220,31 +232,37 @@ class DFMapLoader {
     const buildingName = this.preparedBuildingList.get(key).name;
 
     if (this.definitions.buildingCorrespondances[key]) {
-      for (let z = building.posZMin; z <= building.posZMax; z++) {
-        for (let x = building.posXMin; x <= building.posXMax; x++) {
-          for (let y = building.posYMin; y <= building.posYMax; y++) {
-            if (def.cell) {
+      
+
+      if (def.cell) {
+        for (let z = building.posZMin; z <= building.posZMax; z++) {
+          for (let x = building.posXMin; x <= building.posXMax; x++) {
+            for (let y = building.posYMin; y <= building.posYMax; y++) {
               this._cellCorrespondanceToMapInfos(def.cell, x, y, z, {
                 title: `${buildingName}`,
                 texts: [`${x},${y},${z}`, "Material : -" + materialName],
               }, matTintType);
             }
-            if (def.placeable) {
-              this._entityCorrespondanceToPlaceable(
-                def.placeable, 
-                x+0.5, 
-                y+0.5, 
-                z, 
-                "build-" + building.index,
-                {
-                  title: `${buildingName}`,
-                  texts: [`${x},${y},${z}`, "Material : -" + materialName],
-                },
-                false, 
-              )
-            }
           }
         }
+      }
+      if (def.placeable) {
+        const medianX = Math.floor((building.posXMin + building.posXMax) / 2);
+        const medianY = Math.floor((building.posYMin + building.posYMax) / 2);
+        const medianZ = Math.floor((building.posZMin + building.posZMax) / 2);
+        this._entityCorrespondanceToPlaceable(
+          def.placeable,
+          medianX + 0.5,
+          medianY + 0.5,
+          medianZ,
+          "build-" + building.index,
+          {
+            title: `${buildingName}`,
+            texts: [`${medianX},${medianY},${medianZ}`, "Material : -" + materialName],
+          },
+          false,
+        )
+
       }
     }
   }
@@ -262,22 +280,22 @@ class DFMapLoader {
     this._cellCorrespondanceToMapInfos(corres.cell, basePosition.x + x, basePosition.y + y, basePosition.z, undefined, matTintType, matTintType);
   }
 
-  _cellCorrespondanceToMapInfos(cellCorres, posX, posY, posZ, infos, wallTint, floorTint){
+  _cellCorrespondanceToMapInfos(cellCorres, posX, posY, posZ, infos, wallTint, floorTint) {
     this.changeCell(posX, posY, posZ, cellCorres, wallTint, floorTint);
-    if(infos){
+    if (infos) {
       this._infos.set(`${posX},${posY},${posZ}`, infos);
-    }else{
+    } else {
       this._infos.delete(`${posX},${posY},${posZ}`)
     }
   }
 
-  _entityCorrespondanceToPlaceable(correspondanceResult, posX, posY, posZ, placeableId, infos, toRemove){
+  _entityCorrespondanceToPlaceable(correspondanceResult, posX, posY, posZ, placeableId, infos, toRemove) {
 
-    if(!toRemove && this.permaEntity[placeableId]){
+    if (!toRemove && this.permaEntity[placeableId]) {
       this.permaEntity[placeableId].x = posX;
       this.permaEntity[placeableId].y = posY;
       this.permaEntity[placeableId].z = posZ;
-    }else{
+    } else {
       const newPlaceable = {
         id: placeableId ? placeableId : generateRandomId(),
         x: posX,
@@ -287,11 +305,11 @@ class DFMapLoader {
         toRemove: toRemove,
       };
       this.placeables.push(newPlaceable);
-      if(placeableId){
+      if (placeableId) {
         this.permaEntity[placeableId] = newPlaceable;
       }
     }
-    if(infos){
+    if (infos) {
       this._infos.set(placeableId, infos)
     }
   }
@@ -312,9 +330,9 @@ class DFMapLoader {
   _generateSimpleBlockListToLoad() {
     const blocksToLoad = [];
 
-    for (let x = 1; x < Math.ceil(this.mapInfos.size.x / this.BLOCK_SIZE); x+=3) {
-      for (let y = 1; y < Math.ceil(this.mapInfos.size.y / this.BLOCK_SIZE); y+=3) {
-        for (let z = 1; z < Math.ceil(this.mapInfos.size.z / this.BLOCK_SIZE_Z); z+=3) {
+    for (let x = 1; x < Math.ceil(this.mapInfos.size.x / this.BLOCK_SIZE); x += 3) {
+      for (let y = 1; y < Math.ceil(this.mapInfos.size.y / this.BLOCK_SIZE); y += 3) {
+        for (let z = 1; z < Math.ceil(this.mapInfos.size.z / this.BLOCK_SIZE_Z); z += 3) {
           blocksToLoad.push({ x, y, z });
         }
       }
@@ -323,7 +341,7 @@ class DFMapLoader {
     return blocksToLoad;
   }
 
-  async _togglePause(){
+  async _togglePause() {
     this._pauseState["Value"] = this._pauseState["Value"] === false ? true : false;
     await this.client.request("SetPauseState", this._pauseState);
     console.log("pause state toggled", this._pauseState["Value"]);
@@ -333,7 +351,7 @@ class DFMapLoader {
 
     const playerSprite = player.updateSpriteAndReturn();
 
-    if(!this.permaEntity[playerSprite.id]){
+    if (!this.permaEntity[playerSprite.id]) {
       this.permaEntity[playerSprite.id] = playerSprite;
       this.placeables.push(playerSprite);
       this._infos.set(playerSprite.id, {
@@ -341,7 +359,7 @@ class DFMapLoader {
         texts: [playerSprite.id],
       })
     }
-    
+
     const block = this._getBlockPositionFromPlayerPosition(player.x, player.y, player.z);
 
     this.loadBlock(block.x, block.y, block.z);
@@ -351,6 +369,9 @@ class DFMapLoader {
       console.log("order", order);
       if (order === "togglePause") {
         this._togglePause();
+      }
+      if (order === "teleportToCursor") {
+        this.teleportToCursor(player);
       }
     }
     this.preparationInterface.notifyZlevelModification(player.z);
@@ -370,9 +391,9 @@ class DFMapLoader {
       this.loadBlock(block.x, block.y, block.z, true);
       //this.blockToInit = [];
     }
-    
+
     this.loadUnit();
-    
+
   }
 
   async loadUnit() {
@@ -417,7 +438,7 @@ class DFMapLoader {
     const itemKey = `${item.type.matIndex},${item.type.matType}`;
 
     const materialName = (this.preparedMaterialList.get(materialKey) || {}).name;
-    const itemDef = this.preparedItemList.get(itemKey);
+    const itemDef = (this.preparedItemList.get(itemKey) || {});
 
     if (this.definitions.itemCorrespondances[key]) {
       this._entityCorrespondanceToPlaceable(
@@ -427,16 +448,16 @@ class DFMapLoader {
         item.pos.z,
         item.id,
         {
-          title:itemDef.name ? itemDef.name : itemDef.id,
-          texts: ["material : "+ materialName, "stack : "+ item.stackSize, "improvements : "+ !!item.improvements],
-          
+          title: itemDef.name ? itemDef.name : itemDef.id,
+          texts: ["material : " + materialName, "stack : " + item.stackSize, "improvements : " + !!item.improvements],
+
         },
       );
     }
   }
 
   flowMap(flow) {
-    
+
     if (flow.density > 66) {
       this._entityCorrespondanceToPlaceable(
         this.definitions.flowCorrespondances[flow.type + "-heavy"].placeable,
@@ -485,8 +506,8 @@ class DFMapLoader {
     if (this.definitions.creatureCorrespondances[key]) {
       this._entityCorrespondanceToPlaceable(
         this.definitions.creatureCorrespondances[key].placeable,
-        unit.posX+0.5,
-        unit.posY+0.5,
+        unit.posX + 0.5,
+        unit.posY + 0.5,
         unit.posZ,
         "crea-" + unit.id,
         {
@@ -507,7 +528,7 @@ class DFMapLoader {
     if (wallTint) {
       this.wallTint[z][y * this.mapInfos.size.x + x] = wallTint;
     }
-    if(oldVal !== value){
+    if (oldVal !== value) {
       this.preparationInterface.notifyCellModification(x, y, z);
     }
   }

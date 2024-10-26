@@ -5,7 +5,8 @@
       "EMPTY-AIR-NO_SPECIAL",
       "EMPTY-HFS-NO_SPECIAL",
       "NO_SHAPE-NO_MATERIAL-NO_SPECIAL",
-      "RAMP_TOP-AIR-NO_SPECIAL"
+      "RAMP_TOP-AIR-NO_SPECIAL",
+      "BROOK_TOP-BROOK-NO_SPECIAL"
     ]
   },
   {
@@ -306,7 +307,6 @@
           "FLOOR-RIVER-NORMAL",
           "FLOOR-RIVER-RIVER_SOURCE",
           "FLOOR-RIVER-WATERFALL",
-          "BROOK_TOP-BROOK-NO_SPECIAL",
           "FLOOR-POOL-NO_SPECIAL"
         ]
       },

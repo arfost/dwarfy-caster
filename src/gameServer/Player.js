@@ -64,6 +64,7 @@ class Player {
         datas: placeables, 
       }
     });
+    this.dirty = false;
   }
 
   sendHandshake(serverMap, placeableModel) {
@@ -102,12 +103,15 @@ class Player {
       this.stopUpdate = true;
     }
     if (message.type === "position") {
+      
       if(message.orders.length > 0){
         console.log("player orders loaded in player : ", message.orders);
       }
-      this.x = message.x;
-      this.y = message.y;
-      this.z = Math.floor(message.z);
+      if(!this.dirty){
+        this.x = message.x;
+        this.y = message.y;
+        this.z = Math.floor(message.z);
+      }
       this._orders = [...message.orders, ...this._orders];
       this.dirX = message.dirX;
       this.dirY = message.dirY;

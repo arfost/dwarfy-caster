@@ -203,71 +203,76 @@ export class GeometryFactory {
     return geometry;
   }
 
-  static getBlocGeometry(geometry, x, y, z, texIndex, tintColor, heightRatio) {
+  static getBlocGeometry(geometry, x, y, z, texIndex, tintColor, heightRatio, map) {
+    const blockNorth = !!(map.getBlock(x, y + 1, z) || {}).stopView;
+    const blockSouth = !!(map.getBlock(x, y - 1, z) || {}).stopView;
+    const blockEast = !!(map.getBlock(x + 1, y, z) || {}).stopView;
+    const blockWest = !!(map.getBlock(x - 1, y, z) || {}).stopView;
+    const blockAbove = !!(map.getBlock(x, y, z + 1) || {}).floorTexture && heightRatio === 1;
 
     const zBottom = z;
     const zTop = z + heightRatio; // Utiliser le heightRatio stocké
 
-    // Face avant (plan y + 1)
-    GeometryFactory._addFace(
-      geometry,
-      x, y + 1, zBottom, // Coin inférieur gauche
-      x + 1, y + 1, zBottom, // Coin inférieur droit
-      x + 1, y + 1, zTop,    // Coin supérieur droit
-      x, y + 1, zTop,     // Coin supérieur gauche
-      tintColor,
-      texIndex
-    );
-    // Face arrière
-    GeometryFactory._addFace(
-      geometry,
-      x, y, zBottom, // Coin inférieur gauche
-      x + 1, y, zBottom, // Coin inférieur droit
-      x + 1, y, zTop,    // Coin supérieur droit
-      x, y, zTop,     // Coin supérieur gauche
-      tintColor,
-      texIndex
-    );
-    // Face supérieure
-    GeometryFactory._addFace(
-      geometry,
-      x, y, zTop, // Coin arrière gauche
-      x + 1, y, zTop, // Coin arrière droit
-      x + 1, y + 1, zTop, // Coin avant droit
-      x, y + 1, zTop,     // Coin supérieur gauche
-      tintColor,
-      texIndex
-    );
-    // // // Face inférieure (peut être omise si non visible)
-    // GeometryFactory._addFace(
-    //   geometry,
-    //   x,     y,     zBottom, // Coin arrière gauche
-    //   x + 1, y,     zBottom, // Coin arrière droit
-    //   x + 1, y + 1, zBottom, // Coin avant droit
-    //   x,     y + 1, zBottom,     // Coin supérieur gauche
-    //   tintColor,
-    //   texIndex
-    // );
-    // Face droite
-    GeometryFactory._addFace(
-      geometry,
-      x + 1, y, zBottom, // Coin inférieur arrière
-      x + 1, y + 1, zBottom, // Coin inférieur avant
-      x + 1, y + 1, zTop,    // Coin supérieur avant
-      x + 1, y, zTop,     // Coin supérieur gauche
-      tintColor,
-      texIndex
-    );
-    // Face gauche
-    GeometryFactory._addFace(
-      geometry,
-      x, y, zBottom, // Coin inférieur arrière
-      x, y + 1, zBottom, // Coin inférieur avant
-      x, y + 1, zTop,    // Coin supérieur avant
-      x, y, zTop,     // Coin supérieur gauche
-      tintColor,
-      texIndex
-    );
+    if (!blockNorth) {
+      // Face avant (plan y + 1)
+      GeometryFactory._addFace(
+        geometry,
+        x, y + 1, zBottom, // Coin inférieur gauche
+        x + 1, y + 1, zBottom, // Coin inférieur droit
+        x + 1, y + 1, zTop,    // Coin supérieur droit
+        x, y + 1, zTop,     // Coin supérieur gauche
+        tintColor,
+        texIndex
+      );
+    }
+    if (!blockSouth) {
+      // Face arrière (plan y - 1)
+      GeometryFactory._addFace(
+        geometry,
+        x, y, zBottom, // Coin inférieur gauche
+        x + 1, y, zBottom, // Coin inférieur droit
+        x + 1, y, zTop,    // Coin supérieur droit
+        x, y, zTop,     // Coin supérieur gauche
+        tintColor,
+        texIndex
+      );
+    }
+    if (!blockEast) {
+      // Face droite (plan x + 1)
+      GeometryFactory._addFace(
+        geometry,
+        x + 1, y, zBottom, // Coin inférieur arrière
+        x + 1, y + 1, zBottom, // Coin inférieur avant
+        x + 1, y + 1, zTop,    // Coin supérieur avant
+        x + 1, y, zTop,     // Coin supérieur gauche
+        tintColor,
+        texIndex
+      );
+    }
+    if (!blockWest) {
+      // Face gauche (plan x - 1)
+      GeometryFactory._addFace(
+        geometry,
+        x, y, zBottom, // Coin inférieur arrière
+        x, y + 1, zBottom, // Coin inférieur avant
+        x, y + 1, zTop,    // Coin supérieur avant
+        x, y, zTop,     // Coin supérieur gauche
+        tintColor,
+        texIndex
+      );
+    }
+    if (!blockAbove) {
+      // Face supérieure (plan z + 1)
+      GeometryFactory._addFace(
+        geometry,
+        x, y, zTop, // Coin arrière gauche
+        x + 1, y, zTop, // Coin arrière droit
+        x + 1, y + 1, zTop, // Coin avant droit
+        x, y + 1, zTop,     // Coin supérieur gauche
+        tintColor,
+        texIndex
+      );
+    }
 
     return geometry;
   }

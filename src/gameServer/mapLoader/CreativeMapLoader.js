@@ -153,9 +153,9 @@ class CreativeMapLoader {
     }
 
     this.liquidSpots = [];
-    for(let i = 0; i < 1; i++){
+    for(let i = 0; i < 10; i++){
       for(let j = 0; j < 2; j++){
-        const ls = new LiquideSpot(40+i, 40+j, 25, 0, 7, true);
+        const ls = new LiquideSpot(44+i, 30+j, 25, 0, 7, true);
         ls.init(this);
         this.liquidSpots.push(ls);
       }
@@ -164,14 +164,25 @@ class CreativeMapLoader {
     return this.mapInfos;
   }
 
+  teleportPlayer(player) {
+    player.x = this.mapInfos.start.x;
+    player.y = this.mapInfos.start.y;
+    player.z = this.mapInfos.start.z;
+    player.dirty = true;
+    console.log("teleporting to cursor");
+  }
+
   playerUpdate(player, delta) {
     //consume orders on player
     for (let order of player.orders) {
       console.log("order", order);
-      if (order === "changeCell") {
+      if (order === "togglePause") {
         const celluleX = Math.floor(player.x - player.dirX);
         const celluleY = Math.floor(player.y - player.dirY);
         this.cycleCell(celluleX, celluleY, player.z);
+      }
+      if(order === "teleportToCursor"){
+        this.teleportPlayer(player);
       }
     }
   }
