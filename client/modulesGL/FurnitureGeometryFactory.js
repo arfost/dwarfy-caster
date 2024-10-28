@@ -16,6 +16,8 @@ export class FurnitureGeometryFactory {
         return this.getShelfGeometry(geometry);
       case "COFFIN":
         return this.getSarcophagusGeometry(geometry);
+      case "BARREL":
+        return this.getBarrelGeometry(geometry);
       default:
         return geometry;
     }
@@ -37,6 +39,151 @@ export class FurnitureGeometryFactory {
     );
     geometry.vertexCount += 4;
   };
+
+  static getBarrelGeometry(geometry) {
+    const uvMap = {
+      wood: {
+        x: 0,
+        y: 0,
+        width: 192 / 256,
+        height: 128 / 256
+      },
+      top: {
+        x: 0,
+        y: 128 / 256,
+        width: 128 / 256,
+        height: 128 / 256
+      },
+      metal: {
+        x: 192 / 256,
+        y: 0,
+        width: 64 / 256,
+        height: 256 / 256
+      }
+    };
+
+    // Dimensions du tonneau
+    const width = 0.3;          // Largeur
+    const height = 0.4;         // Hauteur
+    const bulge = 0.05;         // Renflement au milieu
+    const segments = 12;        // Nombre de segments pour la rondeur
+    const hoopWidth = 0.03;     // Largeur des cerclages métalliques
+
+    // Décalages pour centrer
+    const offsetX = -width / 2;
+    const offsetY = -width / 2;
+
+    // Fonction utilitaire pour calculer le renflement à une hauteur donnée
+    const getBulgeAt = (h) => {
+      // Formule parabolique pour le renflement
+      const normalizedHeight = (h - height / 2) / (height / 2);
+      return bulge * (1 - normalizedHeight * normalizedHeight);
+    };
+
+    // Création des douves (faces verticales)
+    for (let i = 0; i < segments; i++) {
+      const angle1 = (i / segments) * Math.PI * 2;
+      const angle2 = ((i + 1) / segments) * Math.PI * 2;
+
+      // Points pour le bas
+      const x1Bottom = Math.cos(angle1) * (width / 2);
+      const y1Bottom = Math.sin(angle1) * (width / 2);
+      const x2Bottom = Math.cos(angle2) * (width / 2);
+      const y2Bottom = Math.sin(angle2) * (width / 2);
+
+      // Points pour le milieu (avec renflement)
+      const x1Middle = Math.cos(angle1) * (width / 2 + bulge);
+      const y1Middle = Math.sin(angle1) * (width / 2 + bulge);
+      const x2Middle = Math.cos(angle2) * (width / 2 + bulge);
+      const y2Middle = Math.sin(angle2) * (width / 2 + bulge);
+
+      // Points pour le haut
+      const x1Top = Math.cos(angle1) * (width / 2);
+      const y1Top = Math.sin(angle1) * (width / 2);
+      const x2Top = Math.cos(angle2) * (width / 2);
+      const y2Top = Math.sin(angle2) * (width / 2);
+
+      // Partie basse de la douve
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX + width / 2 + x1Bottom, offsetY + width / 2 + y1Bottom, 0],
+        [offsetX + width / 2 + x2Bottom, offsetY + width / 2 + y2Bottom, 0],
+        [offsetX + width / 2 + x2Middle, offsetY + width / 2 + y2Middle, height / 2],
+        [offsetX + width / 2 + x1Middle, offsetY + width / 2 + y1Middle, height / 2],
+        uvMap.wood
+      );
+
+      // Partie haute de la douve
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX + width / 2 + x1Middle, offsetY + width / 2 + y1Middle, height / 2],
+        [offsetX + width / 2 + x2Middle, offsetY + width / 2 + y2Middle, height / 2],
+        [offsetX + width / 2 + x2Top, offsetY + width / 2 + y2Top, height],
+        [offsetX + width / 2 + x1Top, offsetY + width / 2 + y1Top, height],
+        uvMap.wood
+      );
+    }
+
+    // Création des cercles du haut et du bas
+    for (let i = 0; i < segments; i++) {
+      const angle1 = (i / segments) * Math.PI * 2;
+      const angle2 = ((i + 1) / segments) * Math.PI * 2;
+
+      // Points pour le cercle
+      const x1 = Math.cos(angle1) * (width / 2);
+      const y1 = Math.sin(angle1) * (width / 2);
+      const x2 = Math.cos(angle2) * (width / 2);
+      const y2 = Math.sin(angle2) * (width / 2);
+
+      // Cercle du bas
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX + width / 2, offsetY + width / 2, 0],
+        [offsetX + width / 2 + x1, offsetY + width / 2 + y1, 0],
+        [offsetX + width / 2 + x2, offsetY + width / 2 + y2, 0],
+        [offsetX + width / 2, offsetY + width / 2, 0],
+        uvMap.top
+      );
+
+      // Cercle du haut
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX + width / 2, offsetY + width / 2, height],
+        [offsetX + width / 2 + x1, offsetY + width / 2 + y1, height],
+        [offsetX + width / 2 + x2, offsetY + width / 2 + y2, height],
+        [offsetX + width / 2, offsetY + width / 2, height],
+        uvMap.top
+      );
+    }
+
+    // Cerclages métalliques
+    const hoopHeights = [hoopWidth, height / 4, height / 2, height * 3 / 4, height - hoopWidth];
+
+    hoopHeights.forEach(hoopHeight => {
+      const bulgeFactor = getBulgeAt(hoopHeight);
+
+      for (let i = 0; i < segments; i++) {
+        const angle1 = (i / segments) * Math.PI * 2;
+        const angle2 = ((i + 1) / segments) * Math.PI * 2;
+
+        const x1 = Math.cos(angle1) * (width / 2 + bulgeFactor);
+        const y1 = Math.sin(angle1) * (width / 2 + bulgeFactor);
+        const x2 = Math.cos(angle2) * (width / 2 + bulgeFactor);
+        const y2 = Math.sin(angle2) * (width / 2 + bulgeFactor);
+
+        FurnitureGeometryFactory._addQuad(
+          geometry,
+          [offsetX + width / 2 + x1, offsetY + width / 2 + y1, hoopHeight - hoopWidth / 2],
+          [offsetX + width / 2 + x2, offsetY + width / 2 + y2, hoopHeight - hoopWidth / 2],
+          [offsetX + width / 2 + x2, offsetY + width / 2 + y2, hoopHeight + hoopWidth / 2],
+          [offsetX + width / 2 + x1, offsetY + width / 2 + y1, hoopHeight + hoopWidth / 2],
+          uvMap.metal
+        );
+      }
+    });
+
+    return geometry;
+  }
 
   static getSarcophagusGeometry(geometry) {
     const uvMap = {
