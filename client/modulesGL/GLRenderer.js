@@ -2,8 +2,11 @@ import { UiView } from "../modules/UiView.js";
 import { GeometryFactory } from "./GeometryFactory.js";
 import { GLAssetsLoader } from "./GLAssetsLoader.js";
 import { GLConfiguration } from "./GLConfiguration.js";
+import { Model3DRenderer } from "./Model3DRenderer.js";
 
 const FPS_UPDATE_INTERVAL = 500 * 0.001; // Mise à jour toutes les 500ms
+
+const compatible3DModels = ["BED", "BOX", "TABLE", "CHAIR", "STATUE", "CABINET", "COFFIN"];
 
 export class GLRenderer {
   constructor(GLCanvas, uiCanvas, display, map) {
@@ -56,6 +59,8 @@ export class GLRenderer {
     this.facingCell = { x: 0, y: 0, z: 0 };
 
     this.liquidBufferCache = new Map();
+
+    this.model3DRenderer = new Model3DRenderer(this.gl);
   }
 
   async initAssets(assetNames, tintDefinitions) {
@@ -64,6 +69,18 @@ export class GLRenderer {
       this.spriteTexturesIndex[assetNames.sprites[i]] = i;
     }
     this.spriteTextures = await this.glAssetsLoader.loadTextures(assetNames.sprites.map(assetName => `./assets/sprites/${assetName}.png`));
+
+    this.sprite3dTexturesIndex = {};
+    let assetFound = 0;
+    for (let i = 0; i < assetNames.sprites.length; i++) {
+      if(!compatible3DModels.includes(assetNames.sprites[i])) continue;
+      this.sprite3dTexturesIndex[assetNames.sprites[i]] = assetFound;
+      assetFound++;
+    }
+    
+    const filteredAssetNames = assetNames.sprites.filter(assetName => compatible3DModels.includes(assetName));
+    this.sprite3dTextures = await this.glAssetsLoader.loadTextures(filteredAssetNames.map(assetName => `./assets/3dTextures/${assetName}.png`));
+    console.log(this.sprite3dTextures, this.sprite3dTexturesIndex);
     this.spriteBuffers = this._createSpriteBuffers(this.gl);
 
     this.textureIndex = {};
@@ -437,21 +454,40 @@ export class GLRenderer {
     gl.uniform3fv(programInfo.uniformLocations.uCameraRight, player.right);
     gl.uniform3fv(programInfo.uniformLocations.uCameraUp, player.up);
 
+
+    // Sauvegarder les matrices actuelles
+    const originalModelViewMatrix = mat4.clone(modelViewMatrix);
+    const originalProjectionMatrix = mat4.clone(projectionMatrix);
+
+    const Sprites3D = [];
+    const Sprites2D = [];
+
     // Dessiner chaque sprite
     sprites.forEach(sprite => {
+
       //check if sprite is in the view
       const dx = sprite.x - player.x;
       const dy = sprite.y - player.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       if (distance > this.CHUNK_SIZE) return;
 
+      const placeableInfos = map.getPlaceableProperties(sprite.type);
+      if (compatible3DModels.includes(placeableInfos.sprite)) {  // Convention pour identifier les modèles 3D
+        Sprites3D.push({
+          sprite,
+          placeableInfos
+        });
+      } else {
+        Sprites2D.push({
+          sprite,
+          placeableInfos
+        });
+      }
+    });
 
-
-
+    Sprites2D.forEach(({ sprite, placeableInfos }) => {
       // Passer la position du sprite
       gl.uniform3fv(programInfo.uniformLocations.uSpritePosition, [sprite.x, sprite.y, sprite.z]);
-
-      const placeableInfos = map.getPlaceableProperties(sprite.type);
 
       // Passer la taille du sprite
       gl.uniform1f(programInfo.uniformLocations.uSpriteWidth, 0.5* (placeableInfos.width || 1));
@@ -467,10 +503,29 @@ export class GLRenderer {
         programInfo.uniformLocations.uIsSelected,
         this.selectedSprite === sprite
       );
-
-      // Dessiner le sprite
       gl.drawElements(gl.TRIANGLES, buffers.count, gl.UNSIGNED_SHORT, 0);
     });
+    
+
+    Sprites3D.forEach(({ sprite, placeableInfos }) => {
+      const rotation = sprite.rotation || (90)*(Math.PI/180);
+      const scale = sprite.scale || [1, 1, 1];
+
+      const textureIndex = this.sprite3dTexturesIndex[placeableInfos.sprite];
+      this.model3DRenderer.render(
+        placeableInfos.sprite,
+        [sprite.x, sprite.y, sprite.z],
+        rotation,
+        scale,
+        this.sprite3dTextures[textureIndex],
+        this.tintColors[0],
+        this.selectedSprite === sprite,
+        originalModelViewMatrix,
+        originalProjectionMatrix
+      );
+    });
+
+    
   }
 
   _drawChunks(gl, programInfo, playerChunk) {

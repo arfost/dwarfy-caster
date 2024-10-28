@@ -1,0 +1,44 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Grille de fond -->
+  <defs>
+    <pattern id="grid" width="16" height="16" patternUnits="userSpaceOnUse">
+      <path d="M 16 0 L 0 0 0 16" fill="none" stroke="#ddd" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#grid)" />
+  
+  <!-- Zones de texture -->
+  <!-- Face supérieure (matelas) -->
+  <g>
+    <rect x="0" y="0" width="192" height="128" fill="#f2f2f2" stroke="#000" stroke-width="1"/>
+    <text x="96" y="64" text-anchor="middle" font-size="12" fill="#000">Face supérieure</text>
+    <text x="96" y="80" text-anchor="middle" font-size="10" fill="#666">192×128</text>
+  </g>
+  
+  <!-- Face avant -->
+  <g>
+    <rect x="0" y="128" width="192" height="64" fill="#e6e6e6" stroke="#000" stroke-width="1"/>
+    <text x="96" y="160" text-anchor="middle" font-size="12" fill="#000">Face avant</text>
+    <text x="96" y="176" text-anchor="middle" font-size="10" fill="#666">192×64</text>
+  </g>
+  
+  <!-- Face arrière -->
+  <g>
+    <rect x="0" y="192" width="192" height="64" fill="#e6e6e6" stroke="#000" stroke-width="1"/>
+    <text x="96" y="224" text-anchor="middle" font-size="12" fill="#000">Face arrière</text>
+    <text x="96" y="240" text-anchor="middle" font-size="10" fill="#666">192×64</text>
+  </g>
+  
+  <!-- Côtés -->
+  <g>
+    <rect x="192" y="0" width="64" height="128" fill="#d9d9d9" stroke="#000" stroke-width="1"/>
+    <text x="224" y="64" text-anchor="middle" transform="rotate(90,224,64)" font-size="12" fill="#000">Côté droit</text>
+    <text x="224" y="80" text-anchor="middle" transform="rotate(90,224,80)" font-size="10" fill="#666">128×64</text>
+  </g>
+  
+  <g>
+    <rect x="192" y="128" width="64" height="128" fill="#d9d9d9" stroke="#000" stroke-width="1"/>
+    <text x="224" y="192" text-anchor="middle" transform="rotate(90,224,192)" font-size="12" fill="#000">Côté gauche</text>
+    <text x="224" y="208" text-anchor="middle" transform="rotate(90,224,208)" font-size="10" fill="#666">128×64</text>
+  </g>
+</svg>

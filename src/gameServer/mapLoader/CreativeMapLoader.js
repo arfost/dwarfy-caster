@@ -62,16 +62,37 @@ class CreativeMapLoader {
       placeableDefinitions: [
         {
           heightRatio: 1,
-          sprite: "BARREL",
+          sprite: "DWARF_MALE",
         }, {
           heightRatio: 1,
-          sprite: "DWARF_MALE",
+          sprite: "BARREL",
         }, {
           heightRatio: 1,
           sprite: "ANVIL",
         }, {
           heightRatio: 1,
           sprite: "BAG",
+        }, {
+          heightRatio: 1,
+          sprite: "BED",
+        }, {
+          heightRatio: 1,
+          sprite: "BOX",
+        }, {
+          heightRatio: 1,
+          sprite: "TABLE",
+        }, {
+          heightRatio: 1,
+          sprite: "CHAIR",
+        }, {
+          heightRatio: 1,
+          sprite: "STATUE",
+        }, {
+          heightRatio: 1,
+          sprite: "CABINET",
+        }, {
+          heightRatio: 1,
+          sprite: "COFFIN",
         }, {
           heightRatio: 1,
           sprite: "MIST-MEDIUM",
@@ -94,7 +115,7 @@ class CreativeMapLoader {
       ],
       assetNames: {
         textures: ["WALL_STONE", "WALL_TREE", "WALL_SOIL", "FLOOR_STONE", "FLOOR_GRASS", "DOOR"],
-        sprites: ["BARREL", "DWARF_MALE", "ANVIL", "BAG", "MIST-MEDIUM"],
+        sprites: ["BARREL", "DWARF_MALE", "ANVIL", "BAG", "BED", "BOX", "TABLE", "CHAIR", "STATUE", "CABINET", "COFFIN", "MIST-MEDIUM"],
       }
     };
 
@@ -137,20 +158,31 @@ class CreativeMapLoader {
         for(let way = Math.random()*10; way>0; way--){
           entityWaypoint.push({ x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y })
         }
-        this.entities.add(1, generateRandomId(), { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, {
+        this.entities.add(0, generateRandomId(), { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, {
           waypoints:entityWaypoint,
           infos:{title: "Un truc", texts:["un truc qui bouge"]},
         });
       }
 
       for (let o = Math.random()*1000; o>0; o--){
-        this.decors.add(Math.floor(Math.random()*4), { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, generateRandomId());
+        this.decors.add(Math.floor(Math.random()*3)+1, { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, generateRandomId());
       }
+
+      
 
       for (let o = Math.random()*1000; o>0; o--){
         //this.particuleFountains.add(Math.floor(Math.random()*4), { x: Math.random()*this.mapInfos.size.x, y: Math.random()*this.mapInfos.size.y, z: i }, { xMin: -2, xMax: 2, yMin: -2, yMax: 2 }, 25);
       }
     }
+
+    this.decors.add(4, { x: 58.5, y: 58.5, z: 25 }, generateRandomId());
+    this.decors.add(5, { x: 57.5, y: 58.5, z: 25 }, generateRandomId());
+    this.decors.add(6, { x: 56.5, y: 58.5, z: 25 }, generateRandomId());
+    this.decors.add(7, { x: 55.5, y: 58.5, z: 25 }, generateRandomId());
+    this.decors.add(8, { x: 54.5, y: 58.5, z: 25 }, generateRandomId());
+    this.decors.add(9, { x: 53.5, y: 58.5, z: 25 }, generateRandomId());
+    this.decors.add(10, { x: 52.5, y: 58.5, z: 25 }, generateRandomId());
+    this.changeCell(58, 58, 25, 1, 0, 0);
 
     this.liquidSpots = [];
     for(let i = 0; i < 10; i++){
@@ -399,10 +431,13 @@ class Decors {
 
   get infoDecorCorres() {
     return [
-      "barrel",
       "dwarf",
+      "barrel",
       "anvil",
       "bag",
+      "bed",
+      "chest",
+      "mist",
     ]
   }
 }
