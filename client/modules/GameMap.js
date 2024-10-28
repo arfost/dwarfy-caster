@@ -1,101 +1,115 @@
 export class GameMap {
 
-  constructor(mapLoader, startCoord) {
-    this.mapLoader = mapLoader;
-    this.size = mapLoader.mapInfos.size;
-    this.light = 3;
+  constructor(connection) {
+    this.connection = connection;
 
-    this.currentTime = 0;
-    this.nextTick = 0;
-    this.tick = 0;
+    const initDatas = connection.initData;
 
-    const chunkCoord = this.playerCoordToMapCoord(startCoord);
-    this.ready = this.mapLoader.loadChunk(chunkCoord.x-mapLoader.CHUNK_SIZE, chunkCoord.y-mapLoader.CHUNK_SIZE, chunkCoord.z-mapLoader.CHUNK_SIZE, mapLoader.CHUNK_SIZE*2+1);
+    this.size = initDatas.mapInfos.size;
+    this.chunkSize = initDatas.chunkSize;
 
-    const chunkLength = mapLoader.BLOCK_SIZE * (mapLoader.CHUNK_SIZE);
-    const chunkLengthZ = mapLoader.BLOCK_SIZE_Z * (mapLoader.CHUNK_SIZE);
+    this._map = new Array(this.size.z).fill(0).map(() => new Uint8Array(this.size.x * this.size.y));
+    this._wallTint = new Array(this.size.z).fill(0).map(() => new Uint8Array(this.size.x * this.size.y));
+    this._floorTint = new Array(this.size.z).fill(0).map(() => new Uint8Array(this.size.x * this.size.y));
+    this._infos = new Map();
 
-    this.nextChunks = {
-      xMin: startCoord.x - chunkLength/2,
-      xMax: startCoord.x + chunkLength/2,
-      yMin: startCoord.y - chunkLength/2,
-      yMax: startCoord.y + chunkLength/2,
-      zMin: startCoord.z - chunkLengthZ/2,
-      zMax: startCoord.z + chunkLengthZ/2,
-      chunkLength,
-      chunkLengthZ
+    this._rtLayers = [];
+    for (let layer of initDatas.definitions.rtLayerDefinitions) {
+      this._rtLayers.push(new Array(this.size.z).fill(0).map(() => new Uint8Array(this.size.x * this.size.y)));
     }
-    console.log("chunks init", this.nextChunks);
+    this._placeables = new Array(this.size.z).fill(0).map(() => []);
 
-    this.cellProperties = mapLoader.definitions.cellDefinitions;
-    this.placeableProperties = mapLoader.definitions.placeableDefinitions;
+    this.cellProperties = initDatas.definitions.cellDefinitions;
+    this.placeableProperties = initDatas.definitions.placeableDefinitions;
+    this.tintDefinitions = initDatas.definitions.tintDefinitions;
+
+    this.connection.onChunk = this._chunkUpdate.bind(this);
+    this.connection.onPlaceables = this._placeableUpdate.bind(this);
+    this.connection.onRTLayers = this._rtLayersUpdate.bind(this);
+  }
+
+  _rtLayersUpdate({ layers, pos, info, dirty }) {
+    this._infos.set(info.id, info.data);
+
+    if(dirty){
+      this._newPlayerPosition = pos;
+    }
+
+    const baseZ = Math.floor(pos.z - this.chunkSize / 2);
+    const baseY = Math.floor(pos.y - this.chunkSize / 2);
+    const baseX = Math.floor(pos.x - this.chunkSize / 2);
+
+    for(let k = 0; k < this.chunkSize; k++){
+      for(let j = 0; j < this.chunkSize; j++){
+        for(let i = 0; i < this.chunkSize; i++){
+          for(let layerIndex = 0; layerIndex < this._rtLayers.length; layerIndex++){
+            if(baseZ + k < 0 || baseZ + k >= this.size.z || baseY + j < 0 || baseY + j >= this.size.y || baseX + i < 0 || baseX + i >= this.size.x) continue;
+            this._rtLayers[layerIndex][baseZ + k][(baseY + j) * this.size.x + (baseX + i)] = layers[layerIndex][k][j * this.chunkSize + i];
+          }
+        }
+      }
+    }
+  }
+
+  cleanChunkBuffer(chunkKey) {}
+
+  _chunkUpdate({ chunkX, chunkY, chunkZ, datas }) {
+
+    const baseX = chunkX * this.chunkSize;
+    const baseY = chunkY * this.chunkSize;
+    const baseZ = chunkZ * this.chunkSize;
+
+    for (let k = 0; k < this.chunkSize; k++) {
+      for (let j = 0; j < this.chunkSize; j++) {
+        for (let i = 0; i < this.chunkSize; i++) {
+          const index = j * this.chunkSize + i;
+          const x = baseX + i;
+          const y = baseY + j;
+          const z = baseZ + k
+          try {
+            this._map[z][(y) * this.size.x + (x)] = datas[k][index][0];
+            this._floorTint[z][(y) * this.size.x + (x)] = datas[k][index][1];
+            this._wallTint[z][(y) * this.size.x + (x)] = datas[k][index][2];
+          } catch (e) {
+            //console.log("out of bound : ", x, y, z);
+          }
+        }
+      }
+    }
+    const chunkKey = `${chunkX},${chunkY},${chunkZ}`;
+    this.cleanChunkBuffer(chunkKey);
+  }
+
+  _placeableUpdate({ zLevel, isPartial, datas }) {
+    if (isPartial) {
+      this._placeables[zLevel] = [...this._placeables[zLevel], ...datas];
+    } else {
+      this._placeables[zLevel] = datas;
+    }
   }
 
   get placeables() {
-    return this.mapLoader.placeables;
-  }
-  
-  get wallAdditionnalInfos() {
-    return this.mapLoader.additionnalInfos;
+    return this._placeables;
   }
 
-  get wallGrids(){
-    return this.mapLoader.map;
+  get floorTintGrids() {
+    return this._floorTint;
   }
 
-  get waterGrids(){
-    return this.mapLoader.water;
+  get wallTintGrids() {
+    return this._wallTint;
   }
 
-  get magmaGrids(){
-    return this.mapLoader.magma;
+  get wallGrids() {
+    return this._map;
   }
 
-  async teleportToCursor(player) {
-    const cursor = await this.mapLoader.getCursorPosition();
-
-    const chunkCoord = this.playerCoordToMapCoord(cursor);
-    await this.mapLoader.loadChunk(chunkCoord.x-this.mapLoader.CHUNK_SIZE, chunkCoord.y-this.mapLoader.CHUNK_SIZE, chunkCoord.z-this.mapLoader.CHUNK_SIZE, this.mapLoader.CHUNK_SIZE*2+1);
-
-    const chunkLength = this.mapLoader.BLOCK_SIZE * (this.mapLoader.CHUNK_SIZE);
-    const chunkLengthZ = this.mapLoader.BLOCK_SIZE_Z * (this.mapLoader.CHUNK_SIZE);
-
-    this.nextChunks = {
-      xMin: cursor.x - chunkLength/2,
-      xMax: cursor.x + chunkLength/2,
-      yMin: cursor.y - chunkLength/2,
-      yMax: cursor.y + chunkLength/2,
-      zMin: cursor.z - chunkLengthZ/2,
-      zMax: cursor.z + chunkLengthZ/2,
-      chunkLength,
-      chunkLengthZ
-    }
-    console.log("chunks init", this.nextChunks);
-
-    player.x = cursor.x;
-    player.y = cursor.y;
-    player.z = cursor.z;
+  get waterGrids() {
+    return this._rtLayers[0];
   }
 
-  async resetChunk(player) {
-
-    const chunkCoord = this.playerCoordToMapCoord(player);
-    await this.mapLoader.loadChunk(chunkCoord.x-this.mapLoader.CHUNK_SIZE, chunkCoord.y-this.mapLoader.CHUNK_SIZE, chunkCoord.z-this.mapLoader.CHUNK_SIZE, this.mapLoader.CHUNK_SIZE*2+1);
-
-    const chunkLength = this.mapLoader.BLOCK_SIZE * (this.mapLoader.CHUNK_SIZE);
-    const chunkLengthZ = this.mapLoader.BLOCK_SIZE_Z * (this.mapLoader.CHUNK_SIZE);
-
-    this.nextChunks = {
-      xMin: player.x - chunkLength/2,
-      xMax: player.x + chunkLength/2,
-      yMin: player.y - chunkLength/2,
-      yMax: player.y + chunkLength/2,
-      zMin: player.z - chunkLengthZ/2,
-      zMax: player.z + chunkLengthZ/2,
-      chunkLength,
-      chunkLengthZ
-    }
-    console.log("chunks init", this.nextChunks);
+  get magmaGrids() {
+    return this._rtLayers[1];
   }
 
   getCellProperties(type) {
@@ -106,13 +120,16 @@ export class GameMap {
     return this.placeableProperties[type];
   }
 
-  togglePause(){
-    this.mapLoader.passKeyboardInput({type:768, state:1, mod:4096, scancode:44, sym:32 })
+  getTintProperties(type) {
+    return this.tintProperties[type];
   }
 
-  sendDfViewToPlayerPosition(player){
-    this.mapLoader.sendDfViewToPosition(Math.floor(player.x), Math.floor(player.y), Math.floor(player.z));
-  }
+  getBlock(x, y, z) {
+    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return undefined;
+    const cell = this._map[z][y * this.size.x + x];
+    if(cell === 0) return undefined;
+    return this.getCellProperties(cell);
+  };
 
   getWall(x, y, z) {
     x = Math.floor(x);
@@ -120,6 +137,13 @@ export class GameMap {
     if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
     return this.wallGrids[z][y * this.size.x + x];
   };
+
+  getRTLayerCell(layerIndex, x, y, z) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
+    return this._rtLayers[layerIndex][z][y * this.size.x + x];
+  }
 
   getCellWater(x, y, z) {
     x = Math.floor(x);
@@ -135,92 +159,42 @@ export class GameMap {
     return this.magmaGrids[z][y * this.size.x + x];
   };
 
-  getWallAdditionnalInfos(x, y, z) {
+  getFloorTint(x, y, z) {
     x = Math.floor(x);
     y = Math.floor(y);
     if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
-    return this.wallAdditionnalInfos.get(`${x},${y},${z}`);
+    return this.floorTintGrids[z][y * this.size.x + x];
   };
 
-  playerCoordToMapCoord(player) {
-    return {
-      x: Math.floor(player.x / this.mapLoader.BLOCK_SIZE),
-      y: Math.floor(player.y / this.mapLoader.BLOCK_SIZE),
-      z: Math.floor(player.z / this.mapLoader.BLOCK_SIZE_Z)
-    }
+  getWallTint(x, y, z) {
+    x = Math.floor(x);
+    y = Math.floor(y);
+    if (x < 0 || x > this.size.x - 1 || y < 0 || y > this.size.y - 1 || this.size.z - 1 < z || z < 0) return -1;
+    return this.wallTintGrids[z][y * this.size.x + x];
+  };
+
+  getInfos(id) {
+    this.infoRequest = id;
+    return this._infos.get(id);
   }
 
-  getNextChunks(direction, player) {
-    const chunkCoord = this.playerCoordToMapCoord(player);
-    switch (direction) {
-      case "up":
-        chunkCoord.z += this.mapLoader.CHUNK_SIZE*2;
-        this.nextChunks.zMax += this.nextChunks.chunkLengthZ;
-        break;
-      case "down":
-        chunkCoord.z -= this.mapLoader.CHUNK_SIZE*2;
-        this.nextChunks.zMin -= this.nextChunks.chunkLengthZ;
-        break;
-      case "forward":
-        chunkCoord.x += this.mapLoader.CHUNK_SIZE*2;
-        this.nextChunks.xMax += this.nextChunks.chunkLength;
-        break;
-      case "backward":
-        chunkCoord.x -= this.mapLoader.CHUNK_SIZE*2;
-        this.nextChunks.xMin -= this.nextChunks.chunkLength;
-        break;
-      case "left":
-        chunkCoord.y += this.mapLoader.CHUNK_SIZE*2;
-        this.nextChunks.yMax += this.nextChunks.chunkLength;
-        break;
-      case "right":
-        chunkCoord.y -= this.mapLoader.CHUNK_SIZE*2;
-        this.nextChunks.yMin -= this.nextChunks.chunkLength;
-        break;
-    }
-    this.mapLoader.loadChunk(chunkCoord.x-this.mapLoader.CHUNK_SIZE, chunkCoord.y-this.mapLoader.CHUNK_SIZE, chunkCoord.z-this.mapLoader.CHUNK_SIZE, this.mapLoader.CHUNK_SIZE*2+1);
-    
+  getPlayerChunkCoords(player) {
+    return {
+      x: Math.floor(player.x / this.chunkSize),
+      y: Math.floor(player.y / this.chunkSize),
+      z: Math.floor(player.z / this.chunkSize)
+    };
   }
 
   update(seconds, player) {
-    this.currentTime += seconds;
-    if(this.nextTick !== -1 && this.nextTick < this.currentTime){
-      const chunkCoord = this.playerCoordToMapCoord(player);
-      this.nextTick = -1;
-      this.tick++
-      this.mapLoader.updateChunk(chunkCoord.x-this.mapLoader.CHUNK_SIZE, chunkCoord.y-this.mapLoader.CHUNK_SIZE, chunkCoord.z-this.mapLoader.CHUNK_SIZE, this.mapLoader.CHUNK_SIZE*2+1, this.tick, Math.floor(player.z)).then(() => {
-        const playerZ = Math.floor(player.z);
-        this.placeables[playerZ] = this.placeables[playerZ].filter(placeable => {
-          if(placeable.tick && placeable.tick !== this.tick){
-            placeable.release(placeable);
-            return false;
-          }
-          return true;
-        });
-        this.nextTick = this.currentTime + 0.5;
-      });
+    if(this._newPlayerPosition){
+      player.x = this._newPlayerPosition.x;
+      player.y = this._newPlayerPosition.y;
+      player.z = this._newPlayerPosition.z+0.7;
+      this._newPlayerPosition = undefined;
     }
-
-    if(this.mapLoader.CHUNK_SIZE<1) return;
-    if(player.y> this.nextChunks.yMax){
-      this.getNextChunks("left", player);
-    }
-    if(player.y< this.nextChunks.yMin){
-      this.getNextChunks("right", player);
-    }
-    if(player.x> this.nextChunks.xMax){
-      this.getNextChunks("forward", player);
-    }
-    if(player.x< this.nextChunks.xMin){
-      this.getNextChunks("backward", player);
-    }
-    if(player.z> this.nextChunks.zMax){
-      this.getNextChunks("up", player);
-    }
-    if(player.z< this.nextChunks.zMin){
-      this.getNextChunks("down", player);
+    if (this.connection.ready) {
+      this.connection.sendPosition(player.x, player.y, player.z, player.dirX, player.dirY, player.orders, this.infoRequest);
     }
   }
-
 }
-

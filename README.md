@@ -8,19 +8,24 @@ I didn't take time to work on assets and representation, still mostly working on
 
 For now it render the tile layout, buildings, and water, magma, flow (like mist and miasma), and some creatures in real time.
 
-
 ## How to test
 You can download one of the zip file in the release directory, extract it somewhere, and just run the file "server-xxx" (depending on your system) to launch it.
 
 The release was done quickly and is unsigned so antivirus and such will probably be upset. I will look into it later.
 
-Alternatively you can install nodeJS, and run the project as a node project (npm install, node ./server.js)
+Alternatively you can install nodeJS, and run the project as a node project (npm install, node ./index.js)
 
-When the server is running use DFhack to launch Dwarf Fortress and load your game then open
-http://localhost:8080/index.html?cast=10,5
-in your browser it should load your fortress.
+You first need to launch the game with DFHack
+https://store.steampowered.com/app/2346660/DFHack__Dwarf_Fortress_Modding_Engine/
+It's a modding engine for DF
+When the game is running with DFHack, simply load a fort then launch the server and follow the menus
 
-The "10,5" parameters are the rendering distance in tiles for horizontal and height view, if fps are low you can reduce them (especially the second) to reduce it and if the FPS are high you can try to increase it.
+Once the server is up, go to a browser and visit either
+http://localhost:8080/indexGL.html to see the openGL version, or
+http://localhost:8080/index.html?cast=10,5 to see the raycasting version (I will let it live as long as it stay compatible)
+it should load your fortress.
+
+The "10,5" parameters for raycasting are the rendering distance in tiles for horizontal and height view, if fps are low you can reduce them (especially the second) to reduce it and if the FPS are high you can try to increase it.
 
 Your start position will be either the center of your game view or the position of the keyboard cursor, after that if you move them in your game, you can teleport to it by pressing "x" in the viewer.
 
@@ -31,9 +36,6 @@ In game you can use ZQSD to move around, A and E to go down and up and click on 
 You can pause/unpause your DF game by pressing "space" in the viewer.
 
 The P key switch to QWERTY control scheme.
-
-Sometimes world chunk fail to load or load in the wrong place, you can reset the world around you with the 'C' key. It will also update the tiles around you if they have changed (digged or something else).
-
 
 ## Technical considerations
 

@@ -13,6 +13,8 @@ export class Player {
     this.planeX = 0;
     this.planeY = 0.66;
 
+    this._orders = [];
+
     this.upDirection = upDirection;
     this.weapon = 'rabbit';
     this.paces = 0;
@@ -87,6 +89,12 @@ export class Player {
     this.lastValidPosition.z = this.z;
   }
 
+  get orders() {
+    const oldOrders = this._orders;
+    this._orders = [];
+    return oldOrders;
+  }
+  
   update(controls, map, seconds) {
     if (controls.left) {
       this.strafe(-MOVE_SPEED*2 * seconds, map)
@@ -118,19 +126,15 @@ export class Player {
       this.walk(MOVE_SPEED * seconds, map);
     }
 
-    if(controls.teleport) {
-      controls.teleport = false;
-      map.teleportToCursor(this);
+    if (controls.togglePause) {
+      this._orders.push('togglePause');
+      controls.togglePause = false;
     }
-    if(controls.resetChunk) {
-      console.log("reset chunk");
-      controls.resetChunk = false;
-      map.resetChunk(this);
+    if(controls.teleportToCursor) {
+      this._orders.push('teleportToCursor');
+      controls.teleportToCursor = false
     }
-    if(controls.pause) {
-      map.togglePause();
-      controls.pause = false;
-    }
+
     this.physique(seconds, map);
   };
 }
