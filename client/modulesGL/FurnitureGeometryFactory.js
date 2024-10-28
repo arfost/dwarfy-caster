@@ -20,6 +20,16 @@ export class FurnitureGeometryFactory {
         return this.getBarrelGeometry(geometry);
       case "BIN":
         return this.getBinGeometry(geometry);
+      case "WEAPONRACK":
+        return this.getWeaponRackGeometry(geometry);
+      case "ARMORSTAND":
+        return this.getArmorStandGeometry(geometry);
+      case "CAGE":
+        return this.getCageGeometry(geometry);
+      case "TRAP/CAGETRAP":
+        return this.getCageTrapGeometry(geometry);
+      case "ARCHERYTARGET":
+        return this.getArcheryTargetGeometry(geometry);
       default:
         return geometry;
     }
@@ -41,6 +51,715 @@ export class FurnitureGeometryFactory {
     );
     geometry.vertexCount += 4;
   };
+
+  static getArcheryTargetGeometry(geometry) {
+    const uvMap = {
+      target: {
+        x: 0,
+        y: 0,
+        width: 192 / 256,
+        height: 192 / 256
+      },
+      wood: {
+        x: 192 / 256,
+        y: 0,
+        width: 64 / 256,
+        height: 128 / 256
+      },
+      stand: {
+        x: 0,
+        y: 192 / 256,
+        width: 192 / 256,
+        height: 64 / 256
+      }
+    };
+
+    // Dimensions de la cible
+    const width = 0.7;          // Largeur de la cible
+    const depth = 0.1;          // Épaisseur de la cible
+    const legWidth = 0.05;      // Largeur des pieds
+    const targetAngle = Math.PI/6;  // Angle d'inclinaison de la cible (30 degrés)
+    
+    // Dimensions du support
+    const standDepth = depth * 3;
+    const standHeight = 0.7;    // Hauteur des pieds arrière
+    const frontLegHeight = standHeight * 0.3;  // Hauteur des pieds avant
+
+    // La cible elle-même devrait être un peu plus petite que la largeur totale
+    const targetWidth = width * 0.8;
+    const targetHeight = targetWidth; // Pour garder la cible circulaire
+
+    // Décalages pour centrer
+    const offsetX = -width/2;
+    const offsetY = -depth/2;
+
+    // Calculs pour l'inclinaison
+    const depthTilt = Math.cos(targetAngle) * depth;
+    const heightTilt = Math.sin(targetAngle) * depth;
+
+    // Position de base de la cible : elle doit reposer sur le support
+    const targetBaseHeight = frontLegHeight; // La cible commence au niveau des pieds avant
+
+    // Surface de la cible
+    // Face avant (cible)
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, targetBaseHeight ],
+      [offsetX + width, offsetY, targetBaseHeight],
+      [offsetX + width, offsetY+standDepth, standHeight],
+      [offsetX, offsetY+standDepth, standHeight],
+      uvMap.target
+    );
+    // Face arrière (décalée vers le haut et l'arrière)
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY + 0.02, targetBaseHeight ],
+      [offsetX + width, offsetY + 0.02, targetBaseHeight],
+      [offsetX + width, offsetY+standDepth + 0.02, standHeight],
+      [offsetX, offsetY+standDepth + 0.02, standHeight],
+      uvMap.wood
+    );
+
+    // Côtés de la cible
+    // Gauche
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, targetBaseHeight],
+      [offsetX, offsetY+ 0.02, targetBaseHeight],
+      [offsetX, offsetY+standDepth, standHeight],
+      [offsetX, offsetY+standDepth+ 0.02, standHeight],
+      uvMap.wood
+    );
+
+    // Droite
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width, offsetY, targetBaseHeight],
+      [offsetX + width, offsetY+ 0.02, targetBaseHeight],
+      [offsetX + width, offsetY+standDepth, standHeight],
+      [offsetX + width, offsetY+standDepth+ 0.02, standHeight],
+      uvMap.wood
+    );
+
+    // Jambe arrière gauche
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width * 0.2, offsetY + standDepth, 0],
+      [offsetX + width * 0.2 + legWidth, offsetY + standDepth, 0],
+      [offsetX + width * 0.2 + legWidth, offsetY + standDepth, standHeight],
+      [offsetX + width * 0.2, offsetY + standDepth, standHeight],
+      uvMap.stand
+    );
+
+    // Jambe arrière droite
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width * 0.8 - legWidth, offsetY + standDepth, 0],
+      [offsetX + width * 0.8, offsetY + standDepth, 0],
+      [offsetX + width * 0.8, offsetY + standDepth, standHeight],
+      [offsetX + width * 0.8 - legWidth, offsetY + standDepth, standHeight],
+      uvMap.stand
+    );
+
+    // Support horizontal entre les jambes arrière
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width * 0.2, offsetY + standDepth, standHeight * 0.6],
+      [offsetX + width * 0.8, offsetY + standDepth, standHeight * 0.6],
+      [offsetX + width * 0.8, offsetY + standDepth, standHeight * 0.6 + legWidth],
+      [offsetX + width * 0.2, offsetY + standDepth, standHeight * 0.6 + legWidth],
+      uvMap.stand
+    );
+
+    // Jambe avant gauche
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width * 0.2, offsetY, 0],
+      [offsetX + width * 0.2 + legWidth, offsetY, 0],
+      [offsetX + width * 0.2 + legWidth, offsetY, frontLegHeight],
+      [offsetX + width * 0.2, offsetY, frontLegHeight],
+      uvMap.stand
+    );
+
+    // Jambe avant droite
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width * 0.8 - legWidth, offsetY, 0],
+      [offsetX + width * 0.8, offsetY, 0],
+      [offsetX + width * 0.8, offsetY, frontLegHeight],
+      [offsetX + width * 0.8 - legWidth, offsetY, frontLegHeight],
+      uvMap.stand
+    );
+
+    return geometry;
+  }
+
+  static getCageTrapGeometry(geometry) {
+    const uvMap = {
+      metal: {
+        x: 0,
+        y: 0,
+        width: 192 / 256,
+        height: 128 / 256
+      },
+      bars: {
+        x: 192 / 256,
+        y: 0,
+        width: 64 / 256,
+        height: 192 / 256
+      },
+      base: {
+        x: 0,
+        y: 128 / 256,
+        width: 128 / 256,
+        height: 128 / 256
+      }
+    };
+
+    // Dimensions de la cage
+    const width = 0.6;          // Largeur totale
+    const height = 0.6;         // Hauteur totale
+    const barWidth = 0.03;      // Épaisseur des barreaux
+    const baseHeight = 0.05;    // Hauteur de la base
+    const numBars = 8;          // Nombre de barreaux sur chaque côté
+
+    // Décalages pour centrer
+    const offsetX = -width / 2;
+    const offsetY = -width / 2;
+
+    // Barreaux verticaux
+    const spacing = width / (numBars - 1);
+
+    // Face avant et arrière
+    for (let i = 0; i < numBars; i++) {
+      const x = offsetX + i * spacing;
+
+      // Barreau avant
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [x - barWidth / 2, offsetY, 1 - height],
+        [x + barWidth / 2, offsetY, 1 - height],
+        [x + barWidth / 2, offsetY, 1 - baseHeight],
+        [x - barWidth / 2, offsetY, 1 - baseHeight],
+        uvMap.bars
+      );
+
+      // Barreau arrière
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [x - barWidth / 2, offsetY + width, 1 - height],
+        [x + barWidth / 2, offsetY + width, 1 - height],
+        [x + barWidth / 2, offsetY + width, 1 - baseHeight],
+        [x - barWidth / 2, offsetY + width, 1 - baseHeight],
+        uvMap.bars
+      );
+    }
+
+    // Barreaux latéraux
+    for (let i = 0; i < numBars; i++) {
+      const y = offsetY + i * spacing;
+
+      // Barreau gauche
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX, y - barWidth / 2, 1 - height],
+        [offsetX, y + barWidth / 2, 1 - height],
+        [offsetX, y + barWidth / 2, 1 - baseHeight],
+        [offsetX, y - barWidth / 2, 1 - baseHeight],
+        uvMap.bars
+      );
+
+      // Barreau droit
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX + width, y - barWidth / 2, 1 - height],
+        [offsetX + width, y + barWidth / 2, 1 - height],
+        [offsetX + width, y + barWidth / 2, 1 - baseHeight],
+        [offsetX + width, y - barWidth / 2, 1 - baseHeight],
+        uvMap.bars
+      );
+    }
+
+    // Cadre horizontal supérieur
+    // Avant
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 1 - baseHeight],
+      [offsetX + width, offsetY, 1 - baseHeight],
+      [offsetX + width, offsetY, 1],
+      [offsetX, offsetY, 1],
+      uvMap.metal
+    );
+
+    // Arrière
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY + width, 1 - baseHeight],
+      [offsetX + width, offsetY + width, 1 - baseHeight],
+      [offsetX + width, offsetY + width, 1],
+      [offsetX, offsetY + width, 1],
+      uvMap.metal
+    );
+
+    // Gauche
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 1 - baseHeight],
+      [offsetX, offsetY + width, 1 - baseHeight],
+      [offsetX, offsetY + width, 1],
+      [offsetX, offsetY, 1],
+      uvMap.metal
+    );
+
+    // Droite
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width, offsetY, 1 - baseHeight],
+      [offsetX + width, offsetY + width, 1 - baseHeight],
+      [offsetX + width, offsetY + width, 1],
+      [offsetX + width, offsetY, 1],
+      uvMap.metal
+    );
+
+    //dessous du cadre
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 1 - baseHeight],
+      [offsetX + width, offsetY, 1 - baseHeight],
+      [offsetX + width, offsetY + width, 1 - baseHeight],
+      [offsetX, offsetY + width, 1 - baseHeight],
+      uvMap.metal
+    );
+
+    return geometry;
+  }
+
+  static getCageGeometry(geometry) {
+    const uvMap = {
+      metal: {
+        x: 0,
+        y: 0,
+        width: 192 / 256,
+        height: 128 / 256
+      },
+      bars: {
+        x: 192 / 256,
+        y: 0,
+        width: 64 / 256,
+        height: 192 / 256
+      },
+      base: {
+        x: 0,
+        y: 128 / 256,
+        width: 128 / 256,
+        height: 128 / 256
+      }
+    };
+
+    // Dimensions de la cage
+    const width = 0.6;          // Largeur totale
+    const height = 0.6;         // Hauteur totale
+    const barWidth = 0.03;      // Épaisseur des barreaux
+    const baseHeight = 0.05;    // Hauteur de la base
+    const numBars = 8;          // Nombre de barreaux sur chaque côté
+
+    // Décalages pour centrer
+    const offsetX = -width / 2;
+    const offsetY = -width / 2;
+
+    // Base solide
+    // Face supérieure
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, baseHeight],
+      [offsetX + width, offsetY, baseHeight],
+      [offsetX + width, offsetY + width, baseHeight],
+      [offsetX, offsetY + width, baseHeight],
+      uvMap.base
+    );
+
+    // Face avant de la base
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 0],
+      [offsetX + width, offsetY, 0],
+      [offsetX + width, offsetY, baseHeight],
+      [offsetX, offsetY, baseHeight],
+      uvMap.base
+    );
+
+    // Face arrière de la base  
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY + width, 0],
+      [offsetX + width, offsetY + width, 0],
+      [offsetX + width, offsetY + width, baseHeight],
+      [offsetX, offsetY + width, baseHeight],
+      uvMap.base
+    );
+    // Face gauche de la base
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 0],
+      [offsetX, offsetY + width, 0],
+      [offsetX, offsetY + width, baseHeight],
+      [offsetX, offsetY, baseHeight],
+      uvMap.base
+    );
+    // Face droite de la base
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width, offsetY, 0],
+      [offsetX + width, offsetY + width, 0],
+      [offsetX + width, offsetY + width, baseHeight],
+      [offsetX + width, offsetY, baseHeight],
+      uvMap.base
+    );
+
+    // Barreaux verticaux
+    const spacing = width / (numBars - 1);
+
+    // Face avant et arrière
+    for (let i = 0; i < numBars; i++) {
+      const x = offsetX + i * spacing;
+
+      // Barreau avant
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [x - barWidth / 2, offsetY, baseHeight],
+        [x + barWidth / 2, offsetY, baseHeight],
+        [x + barWidth / 2, offsetY, height],
+        [x - barWidth / 2, offsetY, height],
+        uvMap.bars
+      );
+
+      // Barreau arrière
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [x - barWidth / 2, offsetY + width, baseHeight],
+        [x + barWidth / 2, offsetY + width, baseHeight],
+        [x + barWidth / 2, offsetY + width, height],
+        [x - barWidth / 2, offsetY + width, height],
+        uvMap.bars
+      );
+    }
+
+    // Barreaux latéraux
+    for (let i = 0; i < numBars; i++) {
+      const y = offsetY + i * spacing;
+
+      // Barreau gauche
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX, y - barWidth / 2, baseHeight],
+        [offsetX, y + barWidth / 2, baseHeight],
+        [offsetX, y + barWidth / 2, height],
+        [offsetX, y - barWidth / 2, height],
+        uvMap.bars
+      );
+
+      // Barreau droit
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX + width, y - barWidth / 2, baseHeight],
+        [offsetX + width, y + barWidth / 2, baseHeight],
+        [offsetX + width, y + barWidth / 2, height],
+        [offsetX + width, y - barWidth / 2, height],
+        uvMap.bars
+      );
+    }
+
+    // Cadre horizontal supérieur
+    // Avant
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, height - barWidth],
+      [offsetX + width, offsetY, height - barWidth],
+      [offsetX + width, offsetY, height],
+      [offsetX, offsetY, height],
+      uvMap.metal
+    );
+
+    // Arrière
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY + width, height - barWidth],
+      [offsetX + width, offsetY + width, height - barWidth],
+      [offsetX + width, offsetY + width, height],
+      [offsetX, offsetY + width, height],
+      uvMap.metal
+    );
+
+    // Gauche
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, height - barWidth],
+      [offsetX, offsetY + width, height - barWidth],
+      [offsetX, offsetY + width, height],
+      [offsetX, offsetY, height],
+      uvMap.metal
+    );
+
+    // Droite
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width, offsetY, height - barWidth],
+      [offsetX + width, offsetY + width, height - barWidth],
+      [offsetX + width, offsetY + width, height],
+      [offsetX + width, offsetY, height],
+      uvMap.metal
+    );
+
+    // Dessus du cadre
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, height],
+      [offsetX + width, offsetY, height],
+      [offsetX + width, offsetY + width, height],
+      [offsetX, offsetY + width, height],
+      uvMap.metal
+    );
+
+    return geometry;
+  }
+
+  static getArmorStandGeometry(geometry) {
+    const uvMap = {
+      wood: {
+        x: 0,
+        y: 0,
+        width: 128 / 256,
+        height: 64 / 256
+      },
+      metal: {
+        x: 128 / 256,
+        y: 0,
+        width: 64 / 256,
+        height: 128 / 256
+      },
+      armor: {
+        x: 0,
+        y: 64 / 256,
+        width: 192 / 256,
+        height: 192 / 256
+      }
+    };
+
+    // Dimensions du support
+    const width = 0.5;          // Largeur totale
+    const baseSize = 0.4;       // Taille de la base
+    const totalHeight = 0.8;    // Hauteur totale
+    const poleWidth = 0.04;     // Largeur du poteau central
+    const shoulderWidth = 0.4;  // Largeur des épaules
+
+    // Décalages pour centrer
+    const offsetX = -width / 2;
+    const offsetY = -baseSize / 2;
+
+    // Base en croix
+    // Barre horizontale de la base
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY + baseSize / 2 - poleWidth / 2, 0.01],
+      [offsetX + width, offsetY + baseSize / 2 - poleWidth / 2, 0.01],
+      [offsetX + width, offsetY + baseSize / 2 + poleWidth / 2, 0.01],
+      [offsetX, offsetY + baseSize / 2 + poleWidth / 2, 0.01],
+      uvMap.wood
+    );
+
+    // Barre verticale de la base
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width / 2 - poleWidth / 2, offsetY, 0.01],
+      [offsetX + width / 2 + poleWidth / 2, offsetY, 0.01],
+      [offsetX + width / 2 + poleWidth / 2, offsetY + baseSize, 0.01],
+      [offsetX + width / 2 - poleWidth / 2, offsetY + baseSize, 0.01],
+      uvMap.wood
+    );
+
+    // Poteau central
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width / 2 - poleWidth / 2, offsetY + baseSize / 2 - poleWidth / 2, 0],
+      [offsetX + width / 2 + poleWidth / 2, offsetY + baseSize / 2 - poleWidth / 2, 0],
+      [offsetX + width / 2 + poleWidth / 2, offsetY + baseSize / 2 - poleWidth / 2, totalHeight * 0.7],
+      [offsetX + width / 2 - poleWidth / 2, offsetY + baseSize / 2 - poleWidth / 2, totalHeight * 0.7],
+      uvMap.wood
+    );
+
+    // Support des épaules (barre horizontale)
+    const shoulderHeight = totalHeight * 0.7;
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width / 2 - shoulderWidth / 2, offsetY + baseSize / 2 - poleWidth / 2, shoulderHeight],
+      [offsetX + width / 2 + shoulderWidth / 2, offsetY + baseSize / 2 - poleWidth / 2, shoulderHeight],
+      [offsetX + width / 2 + shoulderWidth / 2, offsetY + baseSize / 2 + poleWidth / 2, shoulderHeight],
+      [offsetX + width / 2 - shoulderWidth / 2, offsetY + baseSize / 2 + poleWidth / 2, shoulderHeight],
+      uvMap.wood
+    );
+
+    return geometry;
+  }
+
+  static getWeaponRackGeometry(geometry) {
+    const uvMap = {
+      wood: {
+        x: 0,
+        y: 0,
+        width: 192 / 256,
+        height: 128 / 256
+      },
+      metal: {
+        x: 192 / 256,
+        y: 0,
+        width: 64 / 256,
+        height: 128 / 256
+      },
+      detail: {
+        x: 0,
+        y: 128 / 256,
+        width: 192 / 256,
+        height: 64 / 256
+      }
+    };
+
+    // Dimensions du râtelier
+    const width = 0.6;          // Largeur totale
+    const baseHeight = 0.1;     // Hauteur du bac
+    const totalHeight = 0.4;    // Hauteur totale
+    const depth = 0.2;          // Profondeur
+    const thickness = 0.03;     // Épaisseur des matériaux
+
+    // Décalages pour centrer horizontalement et placer contre le mur
+    const offsetX = -width / 2;
+    const offsetY = 0.5 - depth; // Placement contre le mur arrière
+
+    // Bac de réception
+    // Face avant
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 0],
+      [offsetX + width, offsetY, 0],
+      [offsetX + width, offsetY, baseHeight],
+      [offsetX, offsetY, baseHeight],
+      uvMap.wood
+    );
+
+    // Face arrière
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY + depth, 0],
+      [offsetX + width, offsetY + depth, 0],
+      [offsetX + width, offsetY + depth, baseHeight],
+      [offsetX, offsetY + depth, baseHeight],
+      uvMap.wood
+    );
+
+    // Faces latérales
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 0],
+      [offsetX, offsetY + depth, 0],
+      [offsetX, offsetY + depth, baseHeight],
+      [offsetX, offsetY, baseHeight],
+      uvMap.wood
+    );
+
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width, offsetY, 0],
+      [offsetX + width, offsetY + depth, 0],
+      [offsetX + width, offsetY + depth, baseHeight],
+      [offsetX + width, offsetY, baseHeight],
+      uvMap.wood
+    );
+
+    // Fond du bac
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 0.01],
+      [offsetX + width, offsetY, 0.01],
+      [offsetX + width, offsetY + depth, 0.01],
+      [offsetX, offsetY + depth, 0.01],
+      uvMap.wood
+    );
+
+    // Montants verticaux arrière
+    const poleWidth = 0.04;
+
+    // Montant gauche avant
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + poleWidth, offsetY + depth - poleWidth / 4, baseHeight],
+      [offsetX + poleWidth * 2, offsetY + depth - poleWidth / 4, baseHeight],
+      [offsetX + poleWidth * 2, offsetY + depth - poleWidth / 4, totalHeight],
+      [offsetX + poleWidth, offsetY + depth - poleWidth / 4, totalHeight],
+      uvMap.detail
+    );
+
+    // Montant droit avant
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width - poleWidth * 2, offsetY + depth - poleWidth / 4, baseHeight],
+      [offsetX + width - poleWidth, offsetY + depth - poleWidth / 4, baseHeight],
+      [offsetX + width - poleWidth, offsetY + depth - poleWidth / 4, totalHeight],
+      [offsetX + width - poleWidth * 2, offsetY + depth - poleWidth / 4, totalHeight],
+      uvMap.detail
+    );
+
+    // Montant gauche arrière
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + poleWidth, offsetY + depth, baseHeight],
+      [offsetX + poleWidth * 2, offsetY + depth, baseHeight],
+      [offsetX + poleWidth * 2, offsetY + depth, totalHeight],
+      [offsetX + poleWidth, offsetY + depth, totalHeight],
+      uvMap.detail
+    );
+
+    // Montant droit arrière
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width - poleWidth * 2, offsetY + depth, baseHeight],
+      [offsetX + width - poleWidth, offsetY + depth, baseHeight],
+      [offsetX + width - poleWidth, offsetY + depth, totalHeight],
+      [offsetX + width - poleWidth * 2, offsetY + depth, totalHeight],
+      uvMap.detail
+    );
+
+    // Montant gauche
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + poleWidth, offsetY, baseHeight],
+      [offsetX + poleWidth, offsetY + depth, baseHeight],
+      [offsetX + poleWidth, offsetY + depth, totalHeight],
+      [offsetX + poleWidth, offsetY, totalHeight],
+      uvMap.metal
+    );
+
+    // Montant droit
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width - poleWidth, offsetY, baseHeight],
+      [offsetX + width - poleWidth, offsetY + depth, baseHeight],
+      [offsetX + width - poleWidth, offsetY + depth, totalHeight],
+      [offsetX + width - poleWidth, offsetY, totalHeight],
+      uvMap.metal
+    );
+
+    // Barre horizontale supérieure
+    const barHeight = totalHeight - poleWidth;
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + poleWidth, offsetY + depth - poleWidth / 4, barHeight],
+      [offsetX + width - poleWidth, offsetY + depth - poleWidth / 4, barHeight],
+      [offsetX + width - poleWidth, offsetY + depth - poleWidth / 4, barHeight + poleWidth],
+      [offsetX + poleWidth, offsetY + depth - poleWidth / 4, barHeight + poleWidth],
+      uvMap.metal
+    );
+
+    return geometry;
+  }
 
   static getBinGeometry(geometry) {
     const uvMap = {
@@ -171,40 +890,40 @@ export class FurnitureGeometryFactory {
     // Avant gauche
     FurnitureGeometryFactory._addQuad(
       geometry,
-      [offsetX, offsetY- plankThickness / 10, 0],
-      [offsetX + cornerSize, offsetY- plankThickness / 10, 0],
-      [offsetX + cornerSize, offsetY- plankThickness / 10, height],
-      [offsetX, offsetY- plankThickness / 10, height],
+      [offsetX, offsetY - plankThickness / 10, 0],
+      [offsetX + cornerSize, offsetY - plankThickness / 10, 0],
+      [offsetX + cornerSize, offsetY - plankThickness / 10, height],
+      [offsetX, offsetY - plankThickness / 10, height],
       uvMap.plank
     );
 
     // Avant droit
     FurnitureGeometryFactory._addQuad(
       geometry,
-      [offsetX + width - cornerSize, offsetY- plankThickness / 10, 0],
-      [offsetX + width, offsetY- plankThickness / 10, 0],
-      [offsetX + width, offsetY- plankThickness / 10, height],
-      [offsetX + width - cornerSize, offsetY- plankThickness / 10, height],
+      [offsetX + width - cornerSize, offsetY - plankThickness / 10, 0],
+      [offsetX + width, offsetY - plankThickness / 10, 0],
+      [offsetX + width, offsetY - plankThickness / 10, height],
+      [offsetX + width - cornerSize, offsetY - plankThickness / 10, height],
       uvMap.plank
     );
 
     // Arrière gauche
     FurnitureGeometryFactory._addQuad(
       geometry,
-      [offsetX, offsetY + depth+ plankThickness / 10, 0],
-      [offsetX + cornerSize, offsetY + depth+ plankThickness / 10, 0],
-      [offsetX + cornerSize, offsetY + depth+ plankThickness / 10, height],
-      [offsetX, offsetY + depth+ plankThickness / 10, height],
+      [offsetX, offsetY + depth + plankThickness / 10, 0],
+      [offsetX + cornerSize, offsetY + depth + plankThickness / 10, 0],
+      [offsetX + cornerSize, offsetY + depth + plankThickness / 10, height],
+      [offsetX, offsetY + depth + plankThickness / 10, height],
       uvMap.plank
     );
 
     // Arrière droit
     FurnitureGeometryFactory._addQuad(
       geometry,
-      [offsetX + width - cornerSize, offsetY + depth+ plankThickness / 10, 0],
-      [offsetX + width, offsetY + depth+ plankThickness / 10, 0],
-      [offsetX + width, offsetY + depth+ plankThickness / 10, height],
-      [offsetX + width - cornerSize, offsetY + depth+ plankThickness / 10, height],
+      [offsetX + width - cornerSize, offsetY + depth + plankThickness / 10, 0],
+      [offsetX + width, offsetY + depth + plankThickness / 10, 0],
+      [offsetX + width, offsetY + depth + plankThickness / 10, height],
+      [offsetX + width - cornerSize, offsetY + depth + plankThickness / 10, height],
       uvMap.plank
     );
 

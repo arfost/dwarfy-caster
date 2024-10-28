@@ -7,7 +7,7 @@ import { Model3DRenderer } from "./Model3DRenderer.js";
 const FPS_UPDATE_INTERVAL = 500 * 0.001; // Mise à jour toutes les 500ms
 
 // const compatible3DModels = [];
-const compatible3DModels = ["BED", "BOX", "TABLE", "CHAIR", "STATUE", "CABINET", "COFFIN", "BARREL", "BIN"];
+const compatible3DModels = ["BED", "BOX", "TABLE", "CHAIR", "STATUE", "CABINET", "COFFIN", "BARREL", "BIN", "WEAPONRACK", "ARMORSTAND", "CAGE", "TRAP/CAGETRAP", "ARCHERYTARGET"];
 
 export class GLRenderer {
   constructor(GLCanvas, uiCanvas, display, map) {
