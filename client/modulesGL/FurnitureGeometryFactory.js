@@ -18,6 +18,8 @@ export class FurnitureGeometryFactory {
         return this.getSarcophagusGeometry(geometry);
       case "BARREL":
         return this.getBarrelGeometry(geometry);
+      case "BIN":
+        return this.getBinGeometry(geometry);
       default:
         return geometry;
     }
@@ -39,6 +41,175 @@ export class FurnitureGeometryFactory {
     );
     geometry.vertexCount += 4;
   };
+
+  static getBinGeometry(geometry) {
+    const uvMap = {
+      front: {
+        x: 0,
+        y: 0,
+        width: 128 / 256,
+        height: 128 / 256
+      },
+      top: {
+        x: 128 / 256,
+        y: 0,
+        width: 128 / 256,
+        height: 128 / 256
+      },
+      side: {
+        x: 0,
+        y: 128 / 256,
+        width: 128 / 256,
+        height: 128 / 256
+      },
+      plank: {
+        x: 128 / 256,
+        y: 128 / 256,
+        width: 128 / 256,
+        height: 32 / 256
+      }
+    };
+
+    // Dimensions de la caisse
+    const width = 0.6;          // Largeur totale
+    const height = 0.3;         // Hauteur totale
+    const depth = 0.6;          // Profondeur
+    const plankThickness = 0.05; // Épaisseur des planches
+    const cornerSize = 0.05;    // Taille des renforts de coin
+
+    // Décalages pour centrer
+    const offsetX = -width / 2;
+    const offsetY = -depth / 2;
+
+    // Base de la caisse
+    // Face avant
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 0],
+      [offsetX + width, offsetY, 0],
+      [offsetX + width, offsetY, height],
+      [offsetX, offsetY, height],
+      uvMap.front
+    );
+
+    // Face arrière
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY + depth, 0],
+      [offsetX + width, offsetY + depth, 0],
+      [offsetX + width, offsetY + depth, height],
+      [offsetX, offsetY + depth, height],
+      uvMap.front
+    );
+
+    // Face gauche
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 0],
+      [offsetX, offsetY + depth, 0],
+      [offsetX, offsetY + depth, height],
+      [offsetX, offsetY, height],
+      uvMap.side
+    );
+
+    // Face droite
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width, offsetY, 0],
+      [offsetX + width, offsetY + depth, 0],
+      [offsetX + width, offsetY + depth, height],
+      [offsetX + width, offsetY, height],
+      uvMap.side
+    );
+
+    // Dessus
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, height],
+      [offsetX + width, offsetY, height],
+      [offsetX + width, offsetY + depth, height],
+      [offsetX, offsetY + depth, height],
+      uvMap.top
+    );
+
+    // Dessous
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY, 0],
+      [offsetX + width, offsetY, 0],
+      [offsetX + width, offsetY + depth, 0],
+      [offsetX, offsetY + depth, 0],
+      uvMap.top
+    );
+
+    // Planches horizontales de renfort (face avant)
+    const plankPositions = [height / 4, height * 3 / 4];
+    plankPositions.forEach(y => {
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX, offsetY - plankThickness / 10, y - plankThickness / 2],
+        [offsetX + width, offsetY - plankThickness / 10, y - plankThickness / 2],
+        [offsetX + width, offsetY - plankThickness / 10, y + plankThickness / 2],
+        [offsetX, offsetY - plankThickness / 10, y + plankThickness / 2],
+        uvMap.plank
+      );
+    });
+
+    // Planches horizontales de renfort (face arrière)
+    plankPositions.forEach(y => {
+      FurnitureGeometryFactory._addQuad(
+        geometry,
+        [offsetX, offsetY + depth + plankThickness / 10, y - plankThickness / 2],
+        [offsetX + width, offsetY + depth + plankThickness / 10, y - plankThickness / 2],
+        [offsetX + width, offsetY + depth + plankThickness / 10, y + plankThickness / 2],
+        [offsetX, offsetY + depth + plankThickness / 10, y + plankThickness / 2],
+        uvMap.plank
+      );
+    });
+
+    // Renforts de coin (verticaux)
+    // Avant gauche
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY- plankThickness / 10, 0],
+      [offsetX + cornerSize, offsetY- plankThickness / 10, 0],
+      [offsetX + cornerSize, offsetY- plankThickness / 10, height],
+      [offsetX, offsetY- plankThickness / 10, height],
+      uvMap.plank
+    );
+
+    // Avant droit
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width - cornerSize, offsetY- plankThickness / 10, 0],
+      [offsetX + width, offsetY- plankThickness / 10, 0],
+      [offsetX + width, offsetY- plankThickness / 10, height],
+      [offsetX + width - cornerSize, offsetY- plankThickness / 10, height],
+      uvMap.plank
+    );
+
+    // Arrière gauche
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX, offsetY + depth+ plankThickness / 10, 0],
+      [offsetX + cornerSize, offsetY + depth+ plankThickness / 10, 0],
+      [offsetX + cornerSize, offsetY + depth+ plankThickness / 10, height],
+      [offsetX, offsetY + depth+ plankThickness / 10, height],
+      uvMap.plank
+    );
+
+    // Arrière droit
+    FurnitureGeometryFactory._addQuad(
+      geometry,
+      [offsetX + width - cornerSize, offsetY + depth+ plankThickness / 10, 0],
+      [offsetX + width, offsetY + depth+ plankThickness / 10, 0],
+      [offsetX + width, offsetY + depth+ plankThickness / 10, height],
+      [offsetX + width - cornerSize, offsetY + depth+ plankThickness / 10, height],
+      uvMap.plank
+    );
+
+    return geometry;
+  }
 
   static getBarrelGeometry(geometry) {
     const uvMap = {
