@@ -454,7 +454,7 @@ export class GLRenderer {
       const placeableInfos = map.getPlaceableProperties(sprite.type);
 
       // Passer la taille du sprite
-      gl.uniform1f(programInfo.uniformLocations.uSpriteWidth, 0.5* placeableInfos.width || 1);
+      gl.uniform1f(programInfo.uniformLocations.uSpriteWidth, 0.5* (placeableInfos.width || 1));
       gl.uniform1f(programInfo.uniformLocations.uSpriteHeight, 0.5 * placeableInfos.heightRatio);
 
       // Lier la texture du sprite
