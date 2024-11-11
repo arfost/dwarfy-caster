@@ -14,6 +14,8 @@ class DFMapStage extends Stage {
     });
     this.gameServer = new GameServer(mapLoader);
 
+    this.menuItems = ["close"];
+
     this.server = server;
     const wss = new WebSocketServer({
       server: this.server
@@ -82,7 +84,7 @@ class DFMapStage extends Stage {
     return {
       title: "creative map",
       menu: {
-        items: ["close"],
+        items: this.menuItems,
         selected: this.selected
       },
       infoBox: this.ready ? [

@@ -23,6 +23,8 @@ class CreaMapStage extends Stage {
     });
     this.lastUpdate = Date.now();
 
+    this.menuItems = ["close"];
+
     this.selected = 0;
 
     this.init();
@@ -79,7 +81,7 @@ class CreaMapStage extends Stage {
     return {
       title: "creative map",
       menu: {
-        items: ["close"],
+        items: this.menuItems,
         selected: this.selected
       },
       infoBox: [
