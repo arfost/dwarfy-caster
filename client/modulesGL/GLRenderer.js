@@ -607,11 +607,45 @@ export class GLRenderer {
           // Vérifier le magma
           const magmaLevel = map.getCellMagma(x, y, z);
           if (magmaLevel > 0) {
-            geometry = GeometryFactory.getLiquidTopGeometry(
+            const blockEast = map.getBlock(x + 1, y, z);
+            const blockWest = map.getBlock(x - 1, y, z);
+            const blockNorth = map.getBlock(x, y + 1, z);
+            const blockSouth = map.getBlock(x, y - 1, z);
+            const blockAbove = map.getBlock(x, y, z + 1);
+
+            const blockEastWater = map.getCellMagma(x + 1, y, z);
+            const blockWestWater = map.getCellMagma(x - 1, y, z);
+            const blockNorthWater = map.getCellMagma(x, y + 1, z);
+            const blockSouthWater = map.getCellMagma(x, y - 1, z);
+
+            let faceEast = true;
+            let faceWest = true;
+            let faceNorth = true;
+            let faceSouth = true;
+            let faceAbove = true;
+
+            if (blockEast && blockEast.stopView || blockEastWater === waterLevel) {
+              faceEast = false;
+            }
+            if (blockWest && blockWest.stopView || blockWestWater === waterLevel) {
+              faceWest = false;
+            }
+            if (blockNorth && blockNorth.stopView || blockNorthWater === waterLevel) {
+              faceNorth = false;
+            }
+            if (blockSouth && blockSouth.stopView || blockSouthWater === waterLevel) {
+              faceSouth = false;
+            }
+            if (waterLevel === 7 && blockAbove) {
+              faceAbove = false;
+            }
+
+            geometry = GeometryFactory.getLiquidGeometry(
               geometry,
               x, y, z,
-              [0.8, 0.2, 0.1], // Couleur rouge pour le magma
-              magmaLevel
+              [1, 0.2, 0.1], // Couleur rouge pour le magma
+              waterLevel,
+              faceEast, faceWest, faceNorth, faceSouth, faceAbove
             );
           }
         }
