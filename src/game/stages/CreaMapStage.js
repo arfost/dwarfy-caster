@@ -1,6 +1,6 @@
 const { WebSocketServer } = require("ws");
 const { GameServer } = require("../../gameServer/GameServer.js");
-const CreativeMapLoader = require("../../GameServer/mapLoader/CreativeMapLoader.js");
+const CreativeMapLoader = require("../../gameServer/mapLoader/CreativeMapLoader.js");
 const { Stage } = require("./Stage.js");
 
 class CreaMapStage extends Stage {

@@ -1,7 +1,7 @@
 const { WebSocketServer } = require("ws");
 const { GameServer } = require("../../gameServer/GameServer.js");
 const { Stage } = require("./Stage.js");
-const DFMapLoader = require("../../GameServer/mapLoader/DFMapLoader.js");
+const DFMapLoader = require("../../gameServer/mapLoader/DFMapLoader.js");
 
 class DFMapStage extends Stage {
   constructor(server) {
